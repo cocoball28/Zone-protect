@@ -1,0 +1,33 @@
+{
+  "loader": {
+    "name": "java_plain",
+    "version": "1.0"
+  },
+  "license": "GNU GPL 3.0",
+  "plugins": [
+    {
+      "id": "zones",
+      "name": "Zones",
+      "version": "${version}",
+      "entrypoint": "org.zone.Zones",
+      "description": "Protection plugin for Sponge",
+      "branding": {},
+      "links": {
+      },
+      "contributors": [
+        {
+          "name": "mosemister",
+          "description": "Author"
+        }
+      ],
+      "dependencies": [
+        {
+          "id": "spongeapi",
+          "version": "8.0.0-SNAPSHOT",
+          "load-order": "after",
+          "optional": false
+        }
+      ]
+    }
+  ]
+}
