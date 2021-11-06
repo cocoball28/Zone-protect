@@ -18,9 +18,11 @@ import org.spongepowered.plugin.builtin.jvm.Plugin;
 public class ZonePlugin {
 
     private PluginContainer container;
+    private static ZonePlugin plugin;
 
     @Listener
     public void onConstructPlugin(final ConstructPluginEvent event) {
+        plugin = this;
         this.container = event.plugin();
     }
 
@@ -31,5 +33,13 @@ public class ZonePlugin {
     @Listener
     public void onRegisterCommands(final RegisterCommandEvent<Command.Parameterized> event) {
 
+    }
+
+    public PluginContainer getContainer(){
+        return this.container;
+    }
+
+    public static ZonePlugin getInstance(){
+        return plugin;
     }
 }
