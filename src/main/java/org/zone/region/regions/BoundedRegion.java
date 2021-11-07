@@ -5,9 +5,24 @@ import org.spongepowered.math.vector.Vector3i;
 
 public interface BoundedRegion extends Region {
 
-    Vector3i getMin();
+    Vector3i getPointOne();
 
-    Vector3i getMax();
+    Vector3i getPointTwo();
 
     World<?, ?> getWorld();
+
+    default Vector3i getMin() {
+        int minX = Math.min(this.getPointOne().x(), this.getPointTwo().x());
+        int minY = Math.min(this.getPointOne().y(), this.getPointTwo().y());
+        int minZ = Math.min(this.getPointOne().z(), this.getPointTwo().z());
+        return new Vector3i(minX, minY, minZ);
+    }
+
+    default Vector3i getMax() {
+        int minX = Math.max(this.getPointOne().x(), this.getPointTwo().x());
+        int minY = Math.max(this.getPointOne().y(), this.getPointTwo().y());
+        int minZ = Math.max(this.getPointOne().z(), this.getPointTwo().z());
+        return new Vector3i(minX, minY, minZ);
+
+    }
 }

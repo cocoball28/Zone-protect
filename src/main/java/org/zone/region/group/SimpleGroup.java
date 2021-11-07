@@ -3,7 +3,10 @@ package org.zone.region.group;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.plugin.PluginContainer;
+import org.zone.ZonePlugin;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Optional;
 
 public class SimpleGroup implements Group {
@@ -42,5 +45,12 @@ public class SimpleGroup implements Group {
     @Override
     public Optional<Group> getParent() {
         return Optional.ofNullable(this.parent);
+    }
+
+    public static Collection<Group> createDefaultGroup() {
+        Group visitor = new SimpleGroup(ZonePlugin.getInstance().getContainer(), "vistor", null);
+        Group homeOwner = new SimpleGroup(ZonePlugin.getInstance().getContainer(), "home_owner", "home owner", null);
+        Group owner = new SimpleGroup(ZonePlugin.getInstance().getContainer(), "owner", null);
+        return Arrays.asList(visitor, homeOwner, owner);
     }
 }

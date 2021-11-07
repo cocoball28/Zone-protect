@@ -9,25 +9,46 @@ import org.zone.region.regions.BoundedRegion;
 
 public class ChunkRegion implements BoundedRegion {
 
-    private final WorldChunk chunk;
+    private final int chunkX;
+    private final @Nullable Integer chunkY;
+    private final int chunkZ;
+    private final @NotNull World<?, ?> world;
 
-    public ChunkRegion(WorldChunk chunk) {
-        this.chunk = chunk;
+    public ChunkRegion(@NotNull WorldChunk chunk, boolean ignoreY) {
+        this(chunk.world(), chunk.chunkPosition().x(), ignoreY ? null:chunk.chunkPosition().y(),
+                chunk.chunkPosition().z());
+    }
+
+    public ChunkRegion(@NotNull World<?, ?> world, int chunkX, @Nullable Integer chunkY, int chunkZ) {
+        this.chunkX = chunkX;
+        this.chunkY = chunkY;
+        this.chunkZ = chunkZ;
+        this.world = world;
     }
 
     @Override
     public Vector3i getMin() {
-        return this.chunk.min();
+        int y = this.chunkY==null ? 0:this.chunkY;
+        return this
+                .world
+                .loadChunk(this.chunkX, y, this.chunkZ, true)
+                .orElseThrow(() -> new RuntimeException("Could not load bottom chunk"))
+                .min();
     }
 
     @Override
     public Vector3i getMax() {
-        return this.chunk.max();
+        int y = this.chunkY==null ? 16:this.chunkY;
+        return this
+                .world
+                .loadChunk(this.chunkX, y, this.chunkZ, true)
+                .orElseThrow(() -> new RuntimeException("Could not load top chunk"))
+                .max();
     }
 
     @Override
-    public World<?, ?> getWorld() {
-        return this.chunk.world();
+    public @NotNull World<?, ?> getWorld() {
+        return this.world;
     }
 
     @Override
@@ -35,6 +56,16 @@ public class ChunkRegion implements BoundedRegion {
         if (world!=null && !world.equals(this.getWorld())) {
             return false;
         }
-        return this.chunk.contains(vector3i);
+        if (this.chunkY==null) {
+            int chunkX = this.chunkX >> 4;
+            int chunkZ = this.chunkZ >> 4;
+            return (chunkX==this.chunkX) && (chunkZ==this.chunkZ);
+        }
+
+        return this
+                .world
+                .loadChunk(this.chunkX, this.chunkY, this.chunkZ, true)
+                .orElseThrow(() -> new RuntimeException("Could not load top chunk"))
+                .contains(vector3i);
     }
 }

@@ -5,6 +5,7 @@ module Zone {
     requires spongeapi;
     requires org.spongepowered.math;
     requires org.spongepowered.plugin.metadata;
+    requires org.spongepowered.configurate.hocon;
     requires net.kyori.adventure;
 
 

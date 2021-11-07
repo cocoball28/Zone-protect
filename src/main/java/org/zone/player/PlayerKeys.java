@@ -4,15 +4,14 @@ import org.spongepowered.api.ResourceKey;
 import org.spongepowered.api.data.Key;
 import org.spongepowered.api.data.value.Value;
 import org.zone.ZonePlugin;
-import org.zone.region.regions.Region;
+import org.zone.region.ZoneBuilder;
 
-@SuppressWarnings("HardCodedStringLiteral")
 public class PlayerKeys {
 
-    Key<Value<Region>> REGION_BUILDER =
+    public static final Key<Value<ZoneBuilder>> REGION_BUILDER =
             Key
                     .builder()
-                    .elementType(Region.class)
+                    .elementType(ZoneBuilder.class)
                     .key(ResourceKey
                             .builder()
                             .namespace(ZonePlugin.getInstance().getContainer())
