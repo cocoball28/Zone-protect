@@ -25,15 +25,15 @@ public class RegionCreateEnd {
             if (!(subject instanceof Player player)) {
                 return CommandResult.error(Component.text("Player only command"));
             }
-            Optional<ZoneBuilder> opZone = ZonePlugin.getInstance().getMemoryHolder().getZoneBuilder(player.uniqueId());
+            Optional<ZoneBuilder> opZone = ZonePlugin.getZonesPlugin().getMemoryHolder().getZoneBuilder(player.uniqueId());
             if (opZone.isEmpty()) {
                 return CommandResult.error(Component.text("A region needs to be started. Use /zone create bounds " +
                         "<name...>"));
             }
             Zone zone = opZone.get().build();
-            ZonePlugin.getInstance().getZoneManager().register(zone);
+            ZonePlugin.getZonesPlugin().getZoneManager().register(zone);
             player.sendMessage(Component.text("Created a new zone of ").append(Component.text(zone.getName()).color(NamedTextColor.AQUA)));
-            ZonePlugin.getInstance().getMemoryHolder().unregisterZoneBuilder(player.uniqueId());
+            ZonePlugin.getZonesPlugin().getMemoryHolder().unregisterZoneBuilder(player.uniqueId());
             Region region = zone.getRegion();
             if (region instanceof BoundedRegion r) {
                 PlayerListener.runOnOutside(r, player.location().blockY() + 3, player::resetBlockChange,

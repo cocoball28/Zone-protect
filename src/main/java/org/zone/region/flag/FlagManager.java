@@ -12,6 +12,10 @@ public class FlagManager {
     private final Collection<FlagType<?>> flags = new TreeSet<>(Comparator.comparing(Identifiable::getId));
     private final DefaultFlagFile defaultFlags = new DefaultFlagFile();
 
+    public FlagManager() {
+        this.flags.add(FlagTypes.PREVENT_MONSTER);
+    }
+
     public Collection<FlagType<?>> getRegistered() {
         return Collections.unmodifiableCollection(this.flags);
     }

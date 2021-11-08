@@ -6,6 +6,7 @@ import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
 import org.spongepowered.plugin.PluginContainer;
 import org.zone.Identifiable;
+import org.zone.ZonePlugin;
 import org.zone.region.group.Group;
 import org.zone.region.group.SimpleGroup;
 
@@ -16,26 +17,50 @@ import java.util.stream.Collectors;
 
 public class DefaultFlagFile {
 
-    private final File file = new File("config/zones/DefaultZone.conf");
-    private final HoconConfigurationLoader loader = HoconConfigurationLoader
-            .builder()
-            .file(this.file)
-            .build();
+    public static final File FILE = new File("config/zones/DefaultZone.conf");
+    private final HoconConfigurationLoader loader;
     private final ConfigurationNode node;
 
     public DefaultFlagFile() {
+        loader = HoconConfigurationLoader
+                .builder()
+                .file(FILE)
+                .build();
+
         ConfigurationNode node1;
         try {
             node1 = this.loader.load();
         } catch (ConfigurateException e) {
             node1 = this.loader.createNode();
+            this.updateFile();
         }
         this.node = node1;
     }
 
-    public <F extends Flag, T extends FlagType<F>> F loadDefault(T type) {
+    private void updateFile() {
         try {
-            return type.load(this.node.node("flags", type.getPlugin().metadata().id(), type.getKey()));
+            if (!FILE.exists()) {
+                FILE.getParentFile().mkdirs();
+
+                FILE.createNewFile();
+            }
+            for (FlagType<? extends Flag> type : ZonePlugin.getZonesPlugin().getFlagManager().getRegistered()) {
+                Optional<? extends Flag> opFlag = this.loadDefault(type);
+                if (opFlag.isEmpty()) {
+                    this.removeDefault(type);
+                    continue;
+                }
+                this.setDefault(opFlag.get());
+            }
+            this.save();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public <F extends Flag, T extends FlagType<F>> Optional<F> loadDefault(T type) {
+        try {
+            return Optional.of(type.load(this.node.node("flags", type.getPlugin().metadata().id(), type.getKey())));
         } catch (IOException e) {
             return type.createDefaultFlag();
         }
@@ -45,6 +70,10 @@ public class DefaultFlagFile {
         T type = (T) flag.getType();
         type.save(this.node.node("flags", type.getPlugin().metadata().id(),
                 type.getKey()), flag);
+    }
+
+    public void removeDefault(FlagType<? extends Flag> type) throws IOException {
+        type.save(this.node.node("flags"), null);
     }
 
     public void save() throws ConfigurateException {
@@ -79,7 +108,11 @@ public class DefaultFlagFile {
                         continue;
                     }
                     if (parentString==null) {
-                        groups.add(new SimpleGroup(entry.getKey(), node.key().toString(), name, null));
+                        if (entry.getKey().equals(SimpleGroup.VISITOR.getKey())) {
+                            groups.add(SimpleGroup.VISITOR);
+                            continue;
+                        }
+                        groups.add(new SimpleGroup(entry.getKey(), node.key().toString(), name, SimpleGroup.VISITOR));
                         continue;
                     }
                     for (Group group : groups) {

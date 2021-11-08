@@ -24,7 +24,7 @@ public class PlayerListener {
         }
 
         Optional<ZoneBuilder> opRegionBuilder =
-                ZonePlugin.getInstance().getMemoryHolder().getZoneBuilder(player.uniqueId());
+                ZonePlugin.getZonesPlugin().getMemoryHolder().getZoneBuilder(player.uniqueId());
         if (opRegionBuilder.isEmpty()) {
             return;
         }
@@ -36,7 +36,7 @@ public class PlayerListener {
 
         runOnOutside(r, (int) (event.originalPosition().y() + 3), player::resetBlockChange,
                 regionBuilder.getParent()!=null);
-        r.setPointTwo(player.location().blockPosition());
+        r.setPointTwo(event.destinationPosition().toInt());
         runOnOutside(r, (int) (event.destinationPosition().y() + 3), vector -> player.sendBlockChange(vector,
                 BlockTypes.ORANGE_WOOL.get().defaultState()), regionBuilder.getParent()!=null);
 

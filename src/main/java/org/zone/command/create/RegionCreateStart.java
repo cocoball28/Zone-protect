@@ -36,10 +36,10 @@ public class RegionCreateStart {
 
             ZoneBuilder builder = new ZoneBuilder()
                     .setName(name)
-                    .setContainer(ZonePlugin.getInstance().getContainer())
+                    .setContainer(ZonePlugin.getZonesPlugin().getPluginContainer())
                     .setKey(name.toLowerCase().replaceAll(" ", "_"))
                     .setRegion(region);
-            ZonePlugin.getInstance().getMemoryHolder().registerZoneBuilder(player.uniqueId(), builder);
+            ZonePlugin.getZonesPlugin().getMemoryHolder().registerZoneBuilder(player.uniqueId(), builder);
             player.sendMessage(Component
                     .text("Region builder mode enabled. Run ")
                     .append(Component
@@ -53,7 +53,7 @@ public class RegionCreateStart {
     public static final Parameter.Value<String> NAME_PARAMETER =
             Parameter.string().consumeAllRemaining().key("name").completer((context, currentInput) -> {
                 String asId = currentInput.toLowerCase().replaceAll(" ", "_");
-                Optional<Zone> opZone = ZonePlugin.getInstance().getZoneManager().getZone(asId);
+                Optional<Zone> opZone = ZonePlugin.getZonesPlugin().getZoneManager().getZone(asId);
                 if (opZone.isPresent()) {
                     return Collections.singletonList(CommandCompletion.of("New " + currentInput, Component.text("That name " +
                             "has already been used").color(NamedTextColor.RED)));

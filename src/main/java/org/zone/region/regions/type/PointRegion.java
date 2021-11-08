@@ -3,6 +3,7 @@ package org.zone.region.regions.type;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.api.world.World;
+import org.spongepowered.math.vector.Vector3d;
 import org.spongepowered.math.vector.Vector3i;
 import org.zone.region.regions.BoundedModifiableRegion;
 
@@ -29,12 +30,12 @@ public class PointRegion implements BoundedModifiableRegion {
     }
 
     @Override
-    public Vector3i getPointOne() {
+    public @NotNull Vector3i getPointOne() {
         return this.pointOne;
     }
 
     @Override
-    public Vector3i getPointTwo() {
+    public @NotNull Vector3i getPointTwo() {
         return this.pointTwo;
     }
 
@@ -44,16 +45,18 @@ public class PointRegion implements BoundedModifiableRegion {
     }
 
     @Override
-    public boolean inRegion(@Nullable World<?, ?> world, @NotNull Vector3i vector3i) {
+    public boolean inRegion(@Nullable World<?, ?> world, @NotNull Vector3d vector3d, boolean ignoreY) {
         if (world!=null && !world.equals(this.world)) {
             return false;
         }
-        if (!(this.pointOne.x() <= vector3i.x() && this.pointTwo.x() >= vector3i.x())) {
+        Vector3i max = this.getMax();
+        Vector3i min = this.getMin();
+        if (!(min.x() <= vector3d.x() && max.x() >= vector3d.x())) {
             return false;
         }
-        if (!(this.pointOne.y() <= vector3i.y() && this.pointTwo.y() >= vector3i.y())) {
+        if (!ignoreY && !(min.y() <= vector3d.y() && max.y() >= vector3d.y())) {
             return false;
         }
-        return this.pointOne.z() <= vector3i.z() && this.pointTwo.z() >= vector3i.z();
+        return min.z() <= vector3d.z() && max.z() >= vector3d.z();
     }
 }

@@ -19,10 +19,10 @@ public interface BoundedRegion extends Region {
     }
 
     default Vector3i getMax() {
-        int minX = Math.max(this.getPointOne().x(), this.getPointTwo().x());
-        int minY = Math.max(this.getPointOne().y(), this.getPointTwo().y());
-        int minZ = Math.max(this.getPointOne().z(), this.getPointTwo().z());
-        return new Vector3i(minX, minY, minZ);
+        int maxX = Math.max(this.getPointOne().x(), this.getPointTwo().x());
+        int maxY = Math.max(this.getPointOne().y(), this.getPointTwo().y());
+        int maxZ = Math.max(this.getPointOne().z(), this.getPointTwo().z());
+        return new Vector3i(maxX, maxY, maxZ);
 
     }
 }
