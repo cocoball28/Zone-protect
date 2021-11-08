@@ -11,6 +11,8 @@ import org.spongepowered.plugin.PluginContainer;
 import org.spongepowered.plugin.builtin.jvm.Plugin;
 import org.zone.command.ZoneCommands;
 import org.zone.event.listener.PlayerListener;
+import org.zone.memory.MemoryHolder;
+import org.zone.region.ZoneManager;
 import org.zone.region.flag.FlagManager;
 
 /**
@@ -23,10 +25,20 @@ public class ZonePlugin {
 
     private PluginContainer container;
     private final FlagManager flagManager = new FlagManager();
+    private final ZoneManager zoneManager = new ZoneManager();
+    private final MemoryHolder memoryHolder = new MemoryHolder();
     private static ZonePlugin plugin;
 
-    public FlagManager getFlagManager(){
+    public FlagManager getFlagManager() {
         return this.flagManager;
+    }
+
+    public ZoneManager getZoneManager() {
+        return this.zoneManager;
+    }
+
+    public MemoryHolder getMemoryHolder() {
+        return this.memoryHolder;
     }
 
     @Listener

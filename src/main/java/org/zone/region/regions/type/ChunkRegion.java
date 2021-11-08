@@ -47,6 +47,16 @@ public class ChunkRegion implements BoundedRegion {
     }
 
     @Override
+    public Vector3i getPointOne() {
+        return this.getMin();
+    }
+
+    @Override
+    public Vector3i getPointTwo() {
+        return this.getMax();
+    }
+
+    @Override
     public @NotNull World<?, ?> getWorld() {
         return this.world;
     }
