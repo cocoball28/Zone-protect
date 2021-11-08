@@ -6,6 +6,7 @@ import org.zone.Identifiable;
 import org.zone.region.Zone;
 
 import java.io.IOException;
+import java.util.Optional;
 
 public interface FlagType<F extends Flag> extends Identifiable {
 
@@ -14,6 +15,6 @@ public interface FlagType<F extends Flag> extends Identifiable {
     void save(@NotNull ConfigurationNode node, @NotNull F save) throws IOException;
 
     boolean canApply(Zone zone);
-    
-    F createDefaultFlag();
+
+    Optional<F> createDefaultFlag();
 }

@@ -2,8 +2,13 @@ package org.zone.region;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.spongepowered.api.world.Locatable;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
+import org.spongepowered.math.vector.Vector3d;
 import org.spongepowered.plugin.PluginContainer;
 import org.zone.Identifiable;
+import org.zone.ZonePlugin;
 import org.zone.region.flag.Flag;
 import org.zone.region.flag.FlagType;
 import org.zone.region.group.Group;
@@ -12,6 +17,7 @@ import org.zone.region.regions.Region;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Optional;
+import java.util.TreeSet;
 
 public class Zone implements Identifiable {
 
@@ -20,7 +26,7 @@ public class Zone implements Identifiable {
     private final @NotNull String key;
     private final @NotNull String name;
     private final @NotNull Collection<Flag> flags = new HashSet<>();
-    private final @NotNull Collection<Group> groups = new HashSet<>();
+    private final @NotNull Collection<Group> groups = new TreeSet<>();
     private final @Nullable Zone parent;
 
     @Deprecated
@@ -60,13 +66,18 @@ public class Zone implements Identifiable {
         return this.region;
     }
 
-    public <F extends Flag, T extends FlagType<F>> @NotNull Optional<F> getFlag(Class<T> fClass) {
-        return this
-                .getFlags()
-                .parallelStream()
-                .filter(flag -> fClass.isInstance(flag.getType()))
-                .map(flag -> (F) flag)
-                .findFirst();
+    public <F extends Flag, T extends FlagType<F>> @NotNull Optional<F> getFlag(T type) {
+        Optional<F> opFlag =
+                this
+                        .getFlags()
+                        .parallelStream()
+                        .filter(flag -> flag.getType().equals(type))
+                        .map(flag -> (F) flag)
+                        .findFirst();
+        if (opFlag.isPresent()) {
+            return opFlag;
+        }
+        return ZonePlugin.getZonesPlugin().getFlagManager().getDefaultFlags().loadDefault(type);
     }
 
 
@@ -83,5 +94,17 @@ public class Zone implements Identifiable {
     @Override
     public @NotNull String getKey() {
         return this.key;
+    }
+
+    public boolean inRegion(@Nullable World<?, ?> world, @NotNull Vector3d vector3i) {
+        return this.getRegion().inRegion(world, vector3i, this.getParent().isEmpty());
+    }
+
+    public boolean inRegion(@NotNull Location<?, ?> location) {
+        return this.getRegion().inRegion(location, this.getParent().isEmpty());
+    }
+
+    public boolean inRegion(@NotNull Locatable locatable) {
+        return this.getRegion().inRegion(locatable, this.getParent().isEmpty());
     }
 }

@@ -1,0 +1,8 @@
+package org.zone.region.flag;
+
+import org.zone.region.flag.move.monster.PreventMonsterFlagType;
+
+public final class FlagTypes {
+
+    public static final PreventMonsterFlagType PREVENT_MONSTER = new PreventMonsterFlagType();
+}

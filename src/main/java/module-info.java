@@ -7,6 +7,8 @@ module Zone {
     requires org.spongepowered.plugin.metadata;
     requires org.spongepowered.configurate.hocon;
     requires net.kyori.adventure;
+    requires log4j.api;
+    requires com.google.guice;
 
 
 }
