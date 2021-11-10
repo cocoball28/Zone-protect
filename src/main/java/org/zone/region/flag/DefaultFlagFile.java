@@ -1,19 +1,13 @@
 package org.zone.region.flag;
 
-import org.spongepowered.api.Sponge;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
-import org.spongepowered.plugin.PluginContainer;
-import org.zone.Identifiable;
 import org.zone.ZonePlugin;
-import org.zone.region.group.Group;
-import org.zone.region.group.SimpleGroup;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 public class DefaultFlagFile {
 
@@ -78,56 +72,5 @@ public class DefaultFlagFile {
 
     public void save() throws ConfigurateException {
         this.loader.save(this.node);
-    }
-
-    public Collection<Group> loadGroups() {
-        ConfigurationNode groupNodes = this.node.node("groups");
-        Collection<PluginContainer> plugins =
-                groupNodes
-                        .childrenList()
-                        .parallelStream()
-                        .map(node -> Sponge.pluginManager().plugin(node.key().toString()))
-                        .filter(Optional::isPresent)
-                        .map(Optional::get)
-                        .collect(Collectors.toSet());
-        Map<PluginContainer, List<? extends ConfigurationNode>> map = plugins
-                .parallelStream()
-                .collect(Collectors.toMap(pluginContainer -> pluginContainer,
-                        pluginContainer -> groupNodes.node(pluginContainer.metadata().id()).childrenList()));
-        long count = map.values().parallelStream().flatMap(Collection::parallelStream).count();
-
-        Collection<Group> groups = new TreeSet<>(Comparator.comparing(Identifiable::getId));
-
-        while (map.size()!=count) {
-            for (Map.Entry<PluginContainer, List<? extends ConfigurationNode>> entry : map.entrySet()) {
-                for (ConfigurationNode node : entry.getValue()) {
-                    String name = node.node("name").getString();
-                    String parentString = node.node("parent").getString();
-                    if (name==null) {
-                        System.err.println("No name for " + entry.getKey().metadata().id() + ":" + node.key());
-                        continue;
-                    }
-                    if (parentString==null) {
-                        if (entry.getKey().equals(SimpleGroup.VISITOR.getKey())) {
-                            groups.add(SimpleGroup.VISITOR);
-                            continue;
-                        }
-                        groups.add(new SimpleGroup(entry.getKey(), node.key().toString(), name, SimpleGroup.VISITOR));
-                        continue;
-                    }
-                    for (Group group : groups) {
-                        if (group.getId().equals(parentString)) {
-                            groups.add(new SimpleGroup(entry.getKey(), node.key().toString(), name, group));
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-
-        if (groups.isEmpty()) {
-            groups.addAll(SimpleGroup.createDefaultGroup());
-        }
-        return groups;
     }
 }

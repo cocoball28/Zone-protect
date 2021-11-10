@@ -11,6 +11,7 @@ import org.zone.ZonePlugin;
 import org.zone.event.listener.PlayerListener;
 import org.zone.region.Zone;
 import org.zone.region.ZoneBuilder;
+import org.zone.region.group.SimpleGroup;
 import org.zone.region.regions.BoundedRegion;
 import org.zone.region.regions.Region;
 
@@ -31,6 +32,9 @@ public class RegionCreateEnd {
                         "<name...>"));
             }
             Zone zone = opZone.get().build();
+
+            zone.getMembers().addMember(SimpleGroup.OWNER, player.uniqueId());
+
             ZonePlugin.getZonesPlugin().getZoneManager().register(zone);
             player.sendMessage(Component.text("Created a new zone of ").append(Component.text(zone.getName()).color(NamedTextColor.AQUA)));
             ZonePlugin.getZonesPlugin().getMemoryHolder().unregisterZoneBuilder(player.uniqueId());

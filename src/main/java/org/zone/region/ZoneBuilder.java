@@ -2,7 +2,6 @@ package org.zone.region;
 
 import org.spongepowered.plugin.PluginContainer;
 import org.zone.region.flag.Flag;
-import org.zone.region.group.Group;
 import org.zone.region.regions.Region;
 
 import java.util.Arrays;
@@ -16,7 +15,6 @@ public class ZoneBuilder {
     private String key;
     private String name;
     private Collection<Flag> flags = new HashSet<>();
-    private Collection<Group> groups = new HashSet<>();
     private Zone parent;
 
     public PluginContainer getContainer() {
@@ -66,20 +64,6 @@ public class ZoneBuilder {
 
     public ZoneBuilder addFlags(Flag... flags) {
         this.flags.addAll(Arrays.asList(flags));
-        return this;
-    }
-
-    public Collection<Group> getGroups() {
-        return this.groups;
-    }
-
-    public ZoneBuilder setGroups(Collection<Group> groups) {
-        this.groups = groups;
-        return this;
-    }
-
-    public ZoneBuilder addGroups(Group... groups) {
-        this.groups.addAll(Arrays.asList(groups));
         return this;
     }
 
