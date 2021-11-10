@@ -11,13 +11,14 @@ import org.zone.Identifiable;
 import org.zone.ZonePlugin;
 import org.zone.region.flag.Flag;
 import org.zone.region.flag.FlagType;
-import org.zone.region.group.Group;
+import org.zone.region.flag.FlagTypes;
+import org.zone.region.flag.meta.MembersFlag;
 import org.zone.region.regions.Region;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Optional;
-import java.util.TreeSet;
 
 public class Zone implements Identifiable {
 
@@ -26,7 +27,6 @@ public class Zone implements Identifiable {
     private final @NotNull String key;
     private final @NotNull String name;
     private final @NotNull Collection<Flag> flags = new HashSet<>();
-    private final @NotNull Collection<Group> groups = new TreeSet<>();
     private final @Nullable Zone parent;
 
     @Deprecated
@@ -42,7 +42,6 @@ public class Zone implements Identifiable {
 
     public Zone(@NotNull ZoneBuilder builder) {
         this.parent = builder.getParent();
-        this.groups.addAll(builder.getGroups());
         this.flags.addAll(builder.getFlags());
         this.name = builder.getName();
         this.key = builder.getKey();
@@ -58,12 +57,12 @@ public class Zone implements Identifiable {
         return this.flags;
     }
 
-    public @NotNull Collection<Group> getGroups() {
-        return this.groups;
-    }
-
     public @NotNull Region getRegion() {
         return this.region;
+    }
+
+    public void save() throws IOException {
+        
     }
 
     public <F extends Flag, T extends FlagType<F>> @NotNull Optional<F> getFlag(T type) {
@@ -78,6 +77,11 @@ public class Zone implements Identifiable {
             return opFlag;
         }
         return ZonePlugin.getZonesPlugin().getFlagManager().getDefaultFlags().loadDefault(type);
+    }
+
+    public MembersFlag getMembers() {
+        return this.getFlag(FlagTypes.MEMBERS).orElseThrow(() -> new IllegalStateException("MembersFlag is missing " +
+                "in zone: " + this.getId()));
     }
 
 
