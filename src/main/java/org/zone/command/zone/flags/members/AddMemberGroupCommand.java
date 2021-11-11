@@ -108,10 +108,10 @@ public final class AddMemberGroupCommand {
                 if (context.hasPermission(Permissions.REGION_ADMIN_INFO.getPermission()) && zone.getParent().isEmpty()) {
                     return true;
                 }
-                return zone
-                        .getMembers()
-                        .getGroup(p.uniqueId())
-                        .equals(SimpleGroup.OWNER);
+
+                Group group = zone.getMembers().getGroup(p.uniqueId());
+
+                return group.equals(SimpleGroup.OWNER);
             })).key("zone").build();
 
     public static final Parameter.Value<Group> GROUP =

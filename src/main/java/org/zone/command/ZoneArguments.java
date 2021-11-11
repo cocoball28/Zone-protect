@@ -37,7 +37,6 @@ public final class ZoneArguments {
                             .getZoneManager()
                             .getZones()
                             .parallelStream()
-                            .filter(zone -> zone.getParent().isEmpty())
                             .filter(zone -> zone.getId().toLowerCase().contains(currentInput.toLowerCase()) || zone.getName().toLowerCase().contains(currentInput.toLowerCase()));
                     List<Zone> zones = streamFunc
                             .apply(zonesStream, context)

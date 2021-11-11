@@ -1,10 +1,12 @@
 package org.zone.event.listener;
 
-import org.spongepowered.api.block.BlockTypes;
+import org.spongepowered.api.effect.particle.ParticleEffect;
+import org.spongepowered.api.effect.particle.ParticleTypes;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.entity.MoveEntityEvent;
 import org.spongepowered.api.event.filter.Getter;
+import org.spongepowered.math.vector.Vector3d;
 import org.spongepowered.math.vector.Vector3i;
 import org.zone.ZonePlugin;
 import org.zone.region.ZoneBuilder;
@@ -34,11 +36,18 @@ public class PlayerListener {
             return;
         }
 
-        runOnOutside(r, (int) (event.originalPosition().y() + 3), player::resetBlockChange,
-                regionBuilder.getParentId()!=null);
+        //runOnOutside(r, (int) (event.originalPosition().y() + 3), player::resetBlockChange,
+        //regionBuilder.getParentId()!=null);
         r.setPointTwo(event.destinationPosition().toInt());
-        runOnOutside(r, (int) (event.destinationPosition().y() + 3), vector -> player.sendBlockChange(vector,
-                BlockTypes.ORANGE_WOOL.get().defaultState()), regionBuilder.getParentId()!=null);
+        runOnOutside(r, (int) (event.destinationPosition().y() + 3), vector ->
+                        player.spawnParticles(ParticleEffect
+                                        .builder()
+                                        .velocity(new Vector3d(0, 0, 0))
+                                        .type(ParticleTypes.SMOKE)
+                                        .scale(1.2)
+                                        .build(),
+                                vector.toDouble()),
+                regionBuilder.getParentId()!=null);
 
     }
 
@@ -62,10 +71,10 @@ public class PlayerListener {
                 }
                 if (showHeight) {
                     for (int usingY = min.y(); usingY <= max.y(); usingY++) {
-                        if (min.y()==usingY) {
+                        if (min.y()==usingY && (min.x()==x || min.z()==z)) {
                             consumer.accept(new Vector3i(x, usingY, z));
                         }
-                        if (max.y()==usingY) {
+                        if (max.y()==usingY && (max.x()==x || max.z()==z)) {
                             consumer.accept(new Vector3i(x, usingY, z));
                         }
                     }

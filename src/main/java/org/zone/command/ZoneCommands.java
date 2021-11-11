@@ -4,19 +4,35 @@ import org.spongepowered.api.command.Command;
 import org.zone.Permissions;
 import org.zone.command.create.RegionCreateEnd;
 import org.zone.command.create.RegionCreateStart;
+import org.zone.command.create.sub.SubRegionCreateStart;
 import org.zone.command.zone.flags.members.AddMemberGroupCommand;
 import org.zone.command.zone.flags.members.ViewMemberGroupCommand;
+import org.zone.command.zone.info.ShowCommand;
 
 @SuppressWarnings("NonThreadSafeLazyInitialization")
 public final class ZoneCommands {
 
     private static Command.Parameterized createRegionBounds;
+    private static Command.Parameterized createSubRegionBounds;
     private static Command.Parameterized endRegionBounds;
     private static Command.Parameterized viewMemberGroup;
     private static Command.Parameterized addMemberGroup;
+    private static Command.Parameterized showZone;
 
     private ZoneCommands() {
         throw new RuntimeException("Should not init");
+    }
+
+    public static Command.Parameterized getShowZone() {
+        if (showZone==null) {
+            showZone =
+                    Command
+                            .builder()
+                            .addParameter(ShowCommand.ZONE)
+                            .executor(new ShowCommand.Executor())
+                            .build();
+        }
+        return showZone;
     }
 
     public static Command.Parameterized getAddMemberGroup() {
@@ -28,7 +44,8 @@ public final class ZoneCommands {
                                     AddMemberGroupCommand.ZONE,
                                     AddMemberGroupCommand.GROUP,
                                     AddMemberGroupCommand.USER)
-                            .executor(new AddMemberGroupCommand.Executor()).build();
+                            .executor(new AddMemberGroupCommand.Executor())
+                            .build();
         }
         return addMemberGroup;
     }
@@ -43,6 +60,18 @@ public final class ZoneCommands {
                     .build();
         }
         return createRegionBounds;
+    }
+
+    public static Command.Parameterized getCreateSubRegionBounds() {
+        if (createSubRegionBounds==null) {
+            createSubRegionBounds = Command
+                    .builder()
+                    .permission(Permissions.REGION_CREATE_BOUNDS.getPermission())
+                    .addParameters(SubRegionCreateStart.ZONE, SubRegionCreateStart.NAME)
+                    .executor(new SubRegionCreateStart.Executor())
+                    .build();
+        }
+        return createSubRegionBounds;
     }
 
     public static Command.Parameterized getEndRegionBounds() {
@@ -67,11 +96,18 @@ public final class ZoneCommands {
     }
 
     public static Command.Parameterized createZoneCommand() {
+        Command.Parameterized createSubCommand =
+                Command
+                        .builder()
+                        .addChild(getCreateSubRegionBounds(), "bounds")
+                        .build();
+
         Command.Parameterized createCommand =
                 Command
                         .builder()
                         .addChild(getCreateRegionBounds(), "bounds")
                         .addChild(getEndRegionBounds(), "end")
+                        .addChild(createSubCommand, "sub", "house")
                         .build();
 
         Command.Parameterized viewCommand =
@@ -79,10 +115,16 @@ public final class ZoneCommands {
 
         Command.Parameterized addCommand = Command.builder().addChild(getAddMemberGroup(), "member").build();
 
+        Command.Parameterized zoneSpecificCommand = Command
+                .builder()
+                .addChild(addCommand, "add")
+                .addChild(viewCommand, "view")
+                .addChild(getShowZone(), "show")
+                .build();
+
         return Command.builder()
                 .addChild(createCommand, "create")
-                .addChild(viewCommand, "view")
-                .addChild(addCommand, "add")
+                .addChild(zoneSpecificCommand, "zone")
                 .build();
     }
 
