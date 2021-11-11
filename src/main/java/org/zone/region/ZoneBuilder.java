@@ -14,8 +14,8 @@ public class ZoneBuilder {
     private Region region;
     private String key;
     private String name;
-    private Collection<Flag> flags = new HashSet<>();
-    private Zone parent;
+    private Collection<Flag<?, ?>> flags = new HashSet<>();
+    private String parentId;
 
     public PluginContainer getContainer() {
         return this.container;
@@ -53,26 +53,31 @@ public class ZoneBuilder {
         return this;
     }
 
-    public Collection<Flag> getFlags() {
+    public Collection<Flag<?, ?>> getFlags() {
         return this.flags;
     }
 
-    public ZoneBuilder setFlags(Collection<Flag> flags) {
+    public ZoneBuilder setFlags(Collection<Flag<?, ?>> flags) {
         this.flags = flags;
         return this;
     }
 
-    public ZoneBuilder addFlags(Flag... flags) {
+    public ZoneBuilder addFlags(Flag<?, ?>... flags) {
         this.flags.addAll(Arrays.asList(flags));
         return this;
     }
 
-    public Zone getParent() {
-        return this.parent;
+    public String getParentId() {
+        return this.parentId;
     }
 
-    public ZoneBuilder setParent(Zone parent) {
-        this.parent = parent;
+    public ZoneBuilder setParent(@SuppressWarnings("TypeMayBeWeakened") Zone parent) {
+        this.parentId = parent.getId();
+        return this;
+    }
+
+    public ZoneBuilder setParentId(String id) {
+        this.parentId = id;
         return this;
     }
 

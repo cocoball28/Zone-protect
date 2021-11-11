@@ -17,7 +17,8 @@ public class SimpleGroup implements Group {
     private @Nullable Group parent;
     private final boolean canBeRemoved;
 
-    public static final Group VISITOR = new SimpleGroup(ZonePlugin.getZonesPlugin().getPluginContainer(), "vistor", "visitor",
+    public static final Group VISITOR = new SimpleGroup(ZonePlugin.getZonesPlugin().getPluginContainer(), "visitor",
+            "visitor",
             null, false);
     public static final Group HOME_OWNER = new SimpleGroup(ZonePlugin.getZonesPlugin().getPluginContainer(), "home_owner",
             "home owner", VISITOR,
@@ -29,7 +30,7 @@ public class SimpleGroup implements Group {
         this(plugin, key, key, parent);
     }
 
-    public SimpleGroup(@NotNull PluginContainer plugin, @NotNull String key, @NotNull String name, @SuppressWarnings("NullableProblems") @NotNull Group parent) {
+    public SimpleGroup(@NotNull PluginContainer plugin, @NotNull String key, @NotNull String name, @NotNull Group parent) {
         this(plugin, key, name, parent, true);
     }
 

@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Nullable;
 import org.spongepowered.api.world.Locatable;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
+import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.math.vector.Vector3d;
 import org.spongepowered.plugin.PluginContainer;
 import org.zone.Identifiable;
@@ -15,10 +16,7 @@ import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.meta.MembersFlag;
 import org.zone.region.regions.Region;
 
-import java.io.IOException;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Optional;
+import java.util.*;
 
 public class Zone implements Identifiable {
 
@@ -26,22 +24,12 @@ public class Zone implements Identifiable {
     private final @NotNull Region region;
     private final @NotNull String key;
     private final @NotNull String name;
-    private final @NotNull Collection<Flag> flags = new HashSet<>();
-    private final @Nullable Zone parent;
-
-    @Deprecated
-    public Zone(@Nullable Zone parent, @NotNull Region region, @NotNull PluginContainer pluginContainer,
-                @NotNull String key,
-                @NotNull String name) {
-        this.container = pluginContainer;
-        this.region = region;
-        this.key = key;
-        this.name = name;
-        this.parent = parent;
-    }
+    private final @NotNull Collection<Flag<?, ?>> flags =
+            new TreeSet<>(Comparator.comparing(flag -> flag.getType().getId()));
+    private final @Nullable String parentId;
 
     public Zone(@NotNull ZoneBuilder builder) {
-        this.parent = builder.getParent();
+        this.parentId = builder.getParentId();
         this.flags.addAll(builder.getFlags());
         this.name = builder.getName();
         this.key = builder.getKey();
@@ -50,22 +38,36 @@ public class Zone implements Identifiable {
     }
 
     public @NotNull Optional<Zone> getParent() {
-        return Optional.ofNullable(this.parent);
+        return ZonePlugin.getZonesPlugin().getZoneManager().getZone(this.parentId);
     }
 
-    public @NotNull Collection<Flag> getFlags() {
-        return this.flags;
+    public @NotNull Collection<Flag<?, ?>> getFlags() {
+        return Collections.unmodifiableCollection(this.flags);
+    }
+
+    public boolean removeFlag(Identifiable type) {
+        Optional<Flag<?, ?>> opFlag =
+                this.flags.parallelStream().filter(flag -> type.getId().equals(flag.getType().getId())).findFirst();
+
+        if (opFlag.isEmpty()) {
+            return false;
+        }
+        return this.flags.remove(opFlag.get());
+    }
+
+    public boolean addFlag(Flag<?, ?> flag) {
+        return this.flags.add(flag);
     }
 
     public @NotNull Region getRegion() {
         return this.region;
     }
 
-    public void save() throws IOException {
-        
+    public void save() throws ConfigurateException {
+        ZonePlugin.getZonesPlugin().getZoneManager().save(this);
     }
 
-    public <F extends Flag, T extends FlagType<F>> @NotNull Optional<F> getFlag(T type) {
+    public <F extends Flag<?, ?>, T extends FlagType<F>> @NotNull Optional<F> getFlag(T type) {
         Optional<F> opFlag =
                 this
                         .getFlags()

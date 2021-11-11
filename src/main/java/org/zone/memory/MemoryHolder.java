@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public class MemoryHolder {
 
-    private Map<UUID, ZoneBuilder> zoneBuilders = new HashMap<>();
+    private final Map<UUID, ZoneBuilder> zoneBuilders = new HashMap<>();
 
 
     public Optional<ZoneBuilder> getZoneBuilder(UUID uuid) {

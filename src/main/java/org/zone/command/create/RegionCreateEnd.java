@@ -7,10 +7,12 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.parameter.CommandContext;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.service.permission.Subject;
+import org.spongepowered.configurate.ConfigurateException;
 import org.zone.ZonePlugin;
 import org.zone.event.listener.PlayerListener;
 import org.zone.region.Zone;
 import org.zone.region.ZoneBuilder;
+import org.zone.region.flag.meta.MembersFlag;
 import org.zone.region.group.SimpleGroup;
 import org.zone.region.regions.BoundedRegion;
 import org.zone.region.regions.Region;
@@ -32,8 +34,9 @@ public class RegionCreateEnd {
                         "<name...>"));
             }
             Zone zone = opZone.get().build();
-
-            zone.getMembers().addMember(SimpleGroup.OWNER, player.uniqueId());
+            MembersFlag membersFlag = zone.getMembers();
+            membersFlag.addMember(SimpleGroup.OWNER, player.uniqueId());
+            zone.addFlag(membersFlag);
 
             ZonePlugin.getZonesPlugin().getZoneManager().register(zone);
             player.sendMessage(Component.text("Created a new zone of ").append(Component.text(zone.getName()).color(NamedTextColor.AQUA)));
@@ -42,6 +45,13 @@ public class RegionCreateEnd {
             if (region instanceof BoundedRegion r) {
                 PlayerListener.runOnOutside(r, player.location().blockY() + 3, player::resetBlockChange,
                         zone.getParent().isPresent());
+            }
+
+            try {
+                zone.save();
+            } catch (ConfigurateException e) {
+                e.printStackTrace();
+                return CommandResult.error(Component.text("Error when saving: " + e.getMessage()));
             }
 
             return CommandResult.success();
