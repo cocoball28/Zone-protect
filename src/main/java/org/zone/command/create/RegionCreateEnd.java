@@ -8,6 +8,7 @@ import org.spongepowered.api.command.parameter.CommandContext;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.configurate.ConfigurateException;
+import org.spongepowered.math.vector.Vector3i;
 import org.zone.ZonePlugin;
 import org.zone.event.listener.PlayerListener;
 import org.zone.region.Zone;
@@ -33,10 +34,30 @@ public class RegionCreateEnd {
                 return CommandResult.error(Component.text("A region needs to be started. Use /zone create bounds " +
                         "<name...>"));
             }
+
             Zone zone = opZone.get().build();
             MembersFlag membersFlag = zone.getMembers();
             membersFlag.addMember(SimpleGroup.OWNER, player.uniqueId());
             zone.addFlag(membersFlag);
+
+            if (zone.getParentId().isPresent()) {
+                Optional<Zone> opParent = zone.getParent();
+                if (opParent.isEmpty()) {
+                    return CommandResult.error(Component.text("Could not find parent zone of " + zone.getParentId().get()));
+                }
+                Region region = zone.getRegion();
+                if (region instanceof BoundedRegion bounded) {
+                    Vector3i min = bounded.getMin();
+                    if (!opParent.get().inRegion(null, min.toDouble())) {
+                        return CommandResult.error(Component.text("Region must be within " + opParent.get().getId()));
+                    }
+
+                    Vector3i max = bounded.getMax();
+                    if (!opParent.get().inRegion(null, max.toDouble())) {
+                        return CommandResult.error(Component.text("Region must be within " + opParent.get().getId()));
+                    }
+                }
+            }
 
             ZonePlugin.getZonesPlugin().getZoneManager().register(zone);
             player.sendMessage(Component.text("Created a new zone of ").append(Component.text(zone.getName()).color(NamedTextColor.AQUA)));
@@ -56,7 +77,6 @@ public class RegionCreateEnd {
 
             return CommandResult.success();
         }
-
     }
 
 

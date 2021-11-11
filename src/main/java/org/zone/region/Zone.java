@@ -41,6 +41,10 @@ public class Zone implements Identifiable {
         return ZonePlugin.getZonesPlugin().getZoneManager().getZone(this.parentId);
     }
 
+    public @NotNull Optional<String> getParentId() {
+        return Optional.ofNullable(this.parentId);
+    }
+
     public @NotNull Collection<Flag<?, ?>> getFlags() {
         return Collections.unmodifiableCollection(this.flags);
     }

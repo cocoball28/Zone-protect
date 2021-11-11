@@ -73,6 +73,19 @@ public class SimpleGroup implements Group {
         return this.canBeRemoved;
     }
 
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Group group)) {
+            return false;
+        }
+        return group.getId().equals(this.getId());
+    }
+
     public static Collection<Group> createDefaultGroup() {
         return Arrays.asList(VISITOR, HOME_OWNER, OWNER);
     }

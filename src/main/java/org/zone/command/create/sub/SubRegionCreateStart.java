@@ -1,44 +1,40 @@
-package org.zone.command.create;
+package org.zone.command.create.sub;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.spongepowered.api.command.CommandCompletion;
 import org.spongepowered.api.command.CommandExecutor;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.parameter.CommandContext;
 import org.spongepowered.api.command.parameter.Parameter;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.server.ServerPlayer;
 import org.spongepowered.api.service.permission.Subject;
-import org.spongepowered.math.vector.Vector3i;
 import org.zone.ZonePlugin;
+import org.zone.command.ZoneArguments;
 import org.zone.region.Zone;
 import org.zone.region.ZoneBuilder;
 import org.zone.region.regions.Region;
 import org.zone.region.regions.type.PointRegion;
 
-import java.util.Collections;
-import java.util.Optional;
+public class SubRegionCreateStart {
 
-public final class RegionCreateStart {
-
-    public static class Executor implements CommandExecutor {
+    public static final class Executor implements CommandExecutor {
         @Override
         public CommandResult execute(CommandContext context) {
             Subject subject = context.subject();
             if (!(subject instanceof ServerPlayer player)) {
                 return CommandResult.error(Component.text("Player only command"));
             }
-
-            String name = String.join(" ", context.all(NAME_PARAMETER));
-            Vector3i vector3i = player.location().blockPosition();
-            Region region = new PointRegion(player.world().key(), new Vector3i(vector3i.x(), 0, vector3i.z()),
-                    new Vector3i(vector3i.x(), 256, vector3i.z()));
-
+            Zone zone = context.requireOne(ZONE);
+            String name = context.requireOne(NAME);
+            Region region = new PointRegion(player.world().key(), player.blockPosition().add(0, -1, 0),
+                    player.blockPosition());
             ZoneBuilder builder = new ZoneBuilder()
+                    .setParent(zone)
+                    .setKey(zone.getKey() + "_" + name.toLowerCase().replaceAll(" ", "_"))
                     .setName(name)
-                    .setContainer(ZonePlugin.getZonesPlugin().getPluginContainer())
-                    .setKey(name.toLowerCase().replaceAll(" ", "_"))
-                    .setRegion(region);
+                    .setRegion(region)
+                    .setContainer(ZonePlugin.getZonesPlugin().getPluginContainer());
             if (ZonePlugin.getZonesPlugin().getZoneManager().getZone(builder.getContainer(), builder.getKey()).isPresent()) {
                 return CommandResult.error(Component.text("Cannot use that name").color(NamedTextColor.RED));
             }
@@ -50,22 +46,20 @@ public final class RegionCreateStart {
                             .color(NamedTextColor.AQUA)));
             return CommandResult.success();
         }
-
     }
 
-    public static final Parameter.Value<String> NAME_PARAMETER =
-            Parameter.string().consumeAllRemaining().key("name").completer((context, currentInput) -> {
-                String asId = currentInput.toLowerCase().replaceAll(" ", "_");
-                Optional<Zone> opZone = ZonePlugin.getZonesPlugin().getZoneManager().getZone(asId);
-                if (opZone.isPresent()) {
-                    return Collections.singletonList(CommandCompletion.of("New " + currentInput, Component.text("That name " +
-                            "has already been used").color(NamedTextColor.RED)));
-                }
+    public static final Parameter.Value<Zone> ZONE =
+            ZoneArguments.createZoneArgument((stream, context) -> stream
+                            .filter(zone -> zone.getParentId().isEmpty())
+                            .filter(zone -> {
+                                Subject subject = context.subject();
+                                if (!(subject instanceof Player player)) {
+                                    return false;
+                                }
+                                return zone.getRegion().inRegion(player, zone.getParentId().isEmpty());
+                            }))
+                    .key("zone")
+                    .build();
+    public static final Parameter.Value<String> NAME = Parameter.remainingJoinedStrings().key("name").build();
 
-                return Collections.emptyList();
-            }).build();
-
-    private RegionCreateStart() {
-        throw new RuntimeException("Should not init");
-    }
 }

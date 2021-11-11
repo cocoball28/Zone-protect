@@ -2,8 +2,8 @@ package org.zone.region.flag.meta;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.Flag;
+import org.zone.region.flag.FlagTypes;
 import org.zone.region.group.Group;
 import org.zone.region.group.SimpleGroup;
 
@@ -69,7 +69,25 @@ public class MembersFlag implements Flag.Map<Group, Collection<UUID>> {
     }
 
     public Group getGroup(UUID uuid) {
-        return this.groups.entrySet().parallelStream().filter(entry -> entry.getValue().contains(uuid)).findFirst().map(java.util.Map.Entry::getKey).orElse(SimpleGroup.VISITOR);
+        for(java.util.Map.Entry<Group, Collection<UUID>> entry : this.groups.entrySet()){
+            for(UUID user : entry.getValue()){
+                if(user.equals(uuid)){
+                    return entry.getKey();
+                }
+            }
+        }
+        return SimpleGroup.VISITOR;
+
+        /*return this
+                .groups
+                .entrySet()
+                .parallelStream()
+                .filter(entry -> {
+                    return entry.getValue().parallelStream().anyMatch(uuid2 -> uuid2.toString().equals(uuid.toString()));
+                })
+                .findFirst()
+                .map(java.util.Map.Entry::getKey)
+                .orElse(SimpleGroup.VISITOR);*/
     }
 
     public void removeMember(UUID uuid) {

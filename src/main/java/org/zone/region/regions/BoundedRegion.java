@@ -11,6 +11,34 @@ public interface BoundedRegion extends Region {
 
     ResourceKey getWorldKey();
 
+    @Override
+    default Vector3i getNearestPosition(Vector3i vector3i) {
+        Vector3i min = this.getMin();
+        Vector3i max = this.getMax();
+        int x = vector3i.x();
+        int y = vector3i.y();
+        int z = vector3i.z();
+        if (vector3i.x() < min.x()) {
+            x = min.x();
+        }
+        if (vector3i.x() > max.x()) {
+            x = max.x();
+        }
+        if (vector3i.y() < min.y()) {
+            y = min.y();
+        }
+        if (vector3i.y() > max.y()) {
+            y = max.y();
+        }
+        if (vector3i.z() < min.z()) {
+            z = min.z();
+        }
+        if (vector3i.z() > max.z()) {
+            z = max.z();
+        }
+        return new Vector3i(x, y, z);
+    }
+
     default Vector3i getMin() {
         int minX = Math.min(this.getPointOne().x(), this.getPointTwo().x());
         int minY = Math.min(this.getPointOne().y(), this.getPointTwo().y());
