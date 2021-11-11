@@ -4,7 +4,7 @@ import org.zone.region.group.Group;
 
 import java.util.Optional;
 
-public interface GroupBoundFlag extends Flag {
+public interface GroupBoundFlag<T, F> extends Flag<T, F> {
 
     Group getGroup();
 

@@ -3,14 +3,14 @@ package org.zone.region.flag.meta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.ValueFlag;
+import org.zone.region.flag.Flag;
 import org.zone.region.group.Group;
 import org.zone.region.group.SimpleGroup;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class MembersFlag implements ValueFlag.Map<Group, Collection<UUID>> {
+public class MembersFlag implements Flag.Map<Group, Collection<UUID>> {
 
     public static final MembersFlag DEFAULT = new MembersFlag(SimpleGroup.VISITOR, SimpleGroup.HOME_OWNER,
             SimpleGroup.OWNER);

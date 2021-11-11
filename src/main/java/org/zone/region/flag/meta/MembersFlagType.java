@@ -1,6 +1,7 @@
 package org.zone.region.flag.meta;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.plugin.PluginContainer;
@@ -38,30 +39,44 @@ public class MembersFlagType implements FlagType<MembersFlag> {
     public @NotNull MembersFlag load(@NotNull ConfigurationNode node) throws IOException {
         Set<PluginContainer> plugins =
                 node
-                        .childrenList()
+                        .childrenMap()
+                        .keySet()
                         .parallelStream()
-                        .map(node2 -> node2.key().toString())
-                        .map(key -> Sponge.pluginManager().plugin(key))
+                        .map(key -> Sponge.pluginManager().plugin(key.toString()))
                         .filter(Optional::isPresent)
                         .map(Optional::get)
                         .collect(Collectors.toSet());
         Map<PluginContainer, Collection<? extends ConfigurationNode>> keys = new HashMap<>();
         for (PluginContainer container : plugins) {
-            keys.put(container, node.node(container.metadata().id()).childrenList());
+            keys.put(container, node.node(container.metadata().id()).childrenMap().values());
         }
 
         int totalSize = (int) keys.values().parallelStream().flatMap(Collection::parallelStream).count();
+        if (totalSize==0) {
+            throw new IOException("No groups found");
+        }
         Map<Group, Collection<UUID>> groups = new HashMap<>();
+        groups.put(SimpleGroup.VISITOR, Collections.emptyList());
+        Integer added = null;
 
-        while (groups.size()!=totalSize) {
+        while (groups.size()!=totalSize && (added==null || added!=0)) {
+            added = 0;
             for (Map.Entry<PluginContainer, Collection<? extends ConfigurationNode>> entry : keys.entrySet()) {
                 for (ConfigurationNode groupNode : entry.getValue()) {
                     String name = groupNode.node("name").getString();
                     String parentString = groupNode.node("parent").getString();
+                    String id = entry.getKey().metadata().id() + ":" + groupNode.key().toString();
+                    if (groups.keySet().parallelStream().anyMatch(g -> g.getId().equals(id))) {
+                        continue;
+                    }
+                    List<String> ids = groupNode
+                            .node("users")
+                            .getList(String.class);
+                    if (ids==null) {
+                        continue;
+                    }
                     Set<UUID> users =
-                            groupNode
-                                    .node("users")
-                                    .getList(String.class)
+                            ids
                                     .parallelStream()
                                     .map(UUID::fromString)
                                     .collect(Collectors.toSet());
@@ -69,10 +84,6 @@ public class MembersFlagType implements FlagType<MembersFlag> {
                         continue;
                     }
                     if (parentString==null) {
-                        if (name.equals(SimpleGroup.VISITOR.getName()) &&
-                                groupNode.key().toString().equals(SimpleGroup.VISITOR.getKey())) {
-                            groups.put(SimpleGroup.VISITOR, users);
-                        }
                         continue;
                     }
                     Optional<Group> opParent = groups
@@ -80,14 +91,7 @@ public class MembersFlagType implements FlagType<MembersFlag> {
                             .parallelStream()
                             .filter(g -> g
                                     .getId()
-                                    .equals(entry
-                                            .getKey()
-                                            .metadata()
-                                            .id()
-                                            + ":"
-                                            + groupNode
-                                            .key()
-                                            .toString()))
+                                    .equals(parentString))
                             .findFirst();
                     if (opParent.isEmpty()) {
                         continue;
@@ -99,17 +103,25 @@ public class MembersFlagType implements FlagType<MembersFlag> {
                                     name,
                                     opParent.get()),
                             users);
+                    added++;
                 }
             }
         }
-        if (groups.isEmpty()) {
+        if (groups.size()==1) {
             throw new IOException("Could not find groups");
+        }
+        if (added==0) {
+            ZonePlugin.getZonesPlugin().getLogger().warn("Could not load some groups for a zone.");
         }
         return new MembersFlag(groups);
     }
 
     @Override
-    public void save(@NotNull ConfigurationNode node, @NotNull MembersFlag save) throws IOException {
+    public void save(@NotNull ConfigurationNode node, @Nullable MembersFlag save) throws IOException {
+        if (save==null) {
+            node.set(null);
+            return;
+        }
         for (Map.Entry<Group, Collection<UUID>> entry : save.getValue().entrySet()) {
             ConfigurationNode groupNode = node
                     .node(entry
@@ -120,7 +132,7 @@ public class MembersFlagType implements FlagType<MembersFlag> {
                             .getKey()
                             .getKey());
             groupNode.node("name").set(entry.getKey().getName());
-            groupNode.node("users").set(entry.getValue());
+            groupNode.node("users").set(entry.getValue().stream().map(UUID::toString).sorted().collect(Collectors.toList()));
             Optional<Group> opParent = entry.getKey().getParent();
             if (opParent.isPresent()) {
                 groupNode.node("parent").set(opParent.get().getId());

@@ -32,17 +32,20 @@ public class PreventMonsterFlagType implements FlagType<PreventMonsterFlag> {
 
     @Override
     public @NotNull PreventMonsterFlag load(@NotNull ConfigurationNode node) throws IOException {
-        boolean enabled = node.node("Enabled").getBoolean();
-        if (enabled) {
-            return new PreventMonsterFlag();
+        ConfigurationNode enabledNode = node.node("Enabled");
+        if (enabledNode.isNull()) {
+            throw new IOException("Cannot find value 'Enabled'");
         }
-        throw new IOException("Flag has not been enabled or is missing. - Found flag in file however found it was not" +
-                " enabled or missing");
+        return new PreventMonsterFlag(enabledNode.getBoolean());
     }
 
     @Override
     public void save(@NotNull ConfigurationNode node, @NotNull PreventMonsterFlag save) throws IOException {
-        node.node("Enabled").set(true);
+        if (save.getValue().isEmpty()) {
+            node.set(null);
+            return;
+        }
+        node.node("Enabled").set(save.getValue().get());
     }
 
     @Override

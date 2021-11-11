@@ -14,6 +14,7 @@ public class FlagManager {
 
     public FlagManager() {
         this.flags.add(FlagTypes.PREVENT_MONSTER);
+        this.flags.add(FlagTypes.MEMBERS);
     }
 
     public Collection<FlagType<?>> getRegistered() {

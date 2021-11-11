@@ -9,14 +9,18 @@ import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.lifecycle.ConstructPluginEvent;
 import org.spongepowered.api.event.lifecycle.RegisterCommandEvent;
 import org.spongepowered.api.event.lifecycle.StartingEngineEvent;
+import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.plugin.PluginContainer;
 import org.spongepowered.plugin.builtin.jvm.Plugin;
 import org.zone.command.ZoneCommands;
 import org.zone.event.listener.EntityListener;
 import org.zone.event.listener.PlayerListener;
 import org.zone.memory.MemoryHolder;
+import org.zone.region.Zone;
 import org.zone.region.ZoneManager;
 import org.zone.region.flag.FlagManager;
+
+import java.io.File;
 
 /**
  * The main class of your Sponge plugin.
@@ -45,6 +49,10 @@ public class ZonePlugin {
         return this.memoryHolder;
     }
 
+    public Logger getLogger() {
+        return this.logger;
+    }
+
     @Inject
     public ZonePlugin(final PluginContainer plugin, final Logger logger) {
         zonePlugin = this;
@@ -63,10 +71,28 @@ public class ZonePlugin {
     public void onServerStarting(final StartingEngineEvent<Server> event) {
         Sponge.eventManager().registerListeners(this.plugin, new PlayerListener());
         Sponge.eventManager().registerListeners(this.plugin, new EntityListener());
+
+        ZoneManager manager = this.getZoneManager();
+        File zonesFolder = new File("config/zone/zones/");
+        for (PluginContainer container : Sponge.pluginManager().plugins()) {
+            File keyFolder = new File(zonesFolder, container.metadata().id());
+            File[] keyFiles = keyFolder.listFiles();
+            if (keyFiles==null) {
+                continue;
+            }
+            for (File file : keyFiles) {
+                try {
+                    Zone zone = manager.load(file);
+                    manager.register(zone);
+                } catch (ConfigurateException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     @Listener
-    public void onRegisterCommands(final RegisterCommandEvent<Command.Parameterized> event) {
+    public void onRegisterCommands(@SuppressWarnings("BoundedWildcard") final RegisterCommandEvent<Command.Parameterized> event) {
         event.register(this.plugin, ZoneCommands.createZoneCommand(), "zone", "region", "claim", "protect");
     }
 

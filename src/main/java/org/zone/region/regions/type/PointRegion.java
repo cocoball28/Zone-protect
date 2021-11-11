@@ -2,7 +2,9 @@ package org.zone.region.regions.type;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.spongepowered.api.ResourceKey;
 import org.spongepowered.api.world.World;
+import org.spongepowered.api.world.server.ServerWorld;
 import org.spongepowered.math.vector.Vector3d;
 import org.spongepowered.math.vector.Vector3i;
 import org.zone.region.regions.BoundedModifiableRegion;
@@ -11,9 +13,9 @@ public class PointRegion implements BoundedModifiableRegion {
 
     private @NotNull Vector3i pointOne;
     private @NotNull Vector3i pointTwo;
-    private final @NotNull World<?, ?> world;
+    private final @NotNull ResourceKey world;
 
-    public PointRegion(@NotNull World<?, ?> world, @NotNull Vector3i pointOne, @NotNull Vector3i pointTwo) {
+    public PointRegion(@NotNull ResourceKey world, @NotNull Vector3i pointOne, @NotNull Vector3i pointTwo) {
         this.pointOne = pointOne;
         this.pointTwo = pointTwo;
         this.world = world;
@@ -40,13 +42,16 @@ public class PointRegion implements BoundedModifiableRegion {
     }
 
     @Override
-    public @NotNull World<?, ?> getWorld() {
+    public @NotNull ResourceKey getWorldKey() {
         return this.world;
     }
 
     @Override
     public boolean inRegion(@Nullable World<?, ?> world, @NotNull Vector3d vector3d, boolean ignoreY) {
-        if (world!=null && !world.equals(this.world)) {
+        if (world!=null && (!(world instanceof ServerWorld))) {
+            return false;
+        }
+        if (world!=null && !((ServerWorld) world).key().equals(this.world)) {
             return false;
         }
         Vector3i max = this.getMax();

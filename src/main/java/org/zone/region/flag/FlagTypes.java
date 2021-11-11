@@ -7,4 +7,8 @@ public final class FlagTypes {
 
     public static final PreventMonsterFlagType PREVENT_MONSTER = new PreventMonsterFlagType();
     public static final MembersFlagType MEMBERS = new MembersFlagType();
+
+    private FlagTypes() {
+        throw new RuntimeException("Should not init");
+    }
 }

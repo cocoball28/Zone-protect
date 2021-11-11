@@ -51,11 +51,11 @@ public final class AddMemberGroupCommand {
             context.sendMessage(Identity.nil(),
                     Component.text("Moved " + user.name() + " from " + previous.getName() + " to " + group.getName()));
             if (user.isOnline()) {
-                user.player().ifPresent(player -> {
-                    player.sendMessage(Identity.nil(),
-                            Component.text("You have been moved in '" + zone.getName() + "' from '" + previous.getName() + "' to '" + group.getName() +
-                                    "'"));
-                });
+                user.player().ifPresent(player ->
+                        player.sendMessage(Identity.nil(),
+                                Component.text("You have been moved in '" + zone.getName() + "' from '" + previous.getName() + "' to '" + group.getName() +
+                                        "'"))
+                );
             }
 
             zone.getMembers().addMember(group, user.uniqueId());
@@ -158,4 +158,8 @@ public final class AddMemberGroupCommand {
                     .build();
 
     public static final Parameter.Value<UUID> USER = Parameter.user().key("player").build();
+
+    private AddMemberGroupCommand() {
+        throw new RuntimeException("Should not init");
+    }
 }

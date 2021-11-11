@@ -7,7 +7,7 @@ import org.spongepowered.api.command.CommandExecutor;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.parameter.CommandContext;
 import org.spongepowered.api.command.parameter.Parameter;
-import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.entity.living.player.server.ServerPlayer;
 import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.math.vector.Vector3i;
 import org.zone.ZonePlugin;
@@ -19,19 +19,19 @@ import org.zone.region.regions.type.PointRegion;
 import java.util.Collections;
 import java.util.Optional;
 
-public class RegionCreateStart {
+public final class RegionCreateStart {
 
     public static class Executor implements CommandExecutor {
         @Override
         public CommandResult execute(CommandContext context) {
             Subject subject = context.subject();
-            if (!(subject instanceof Player player)) {
+            if (!(subject instanceof ServerPlayer player)) {
                 return CommandResult.error(Component.text("Player only command"));
             }
 
             String name = String.join(" ", context.all(NAME_PARAMETER));
             Vector3i vector3i = player.location().blockPosition();
-            Region region = new PointRegion(player.world(), new Vector3i(vector3i.x(), 0, vector3i.z()),
+            Region region = new PointRegion(player.world().key(), new Vector3i(vector3i.x(), 0, vector3i.z()),
                     new Vector3i(vector3i.x(), 256, vector3i.z()));
 
             ZoneBuilder builder = new ZoneBuilder()
@@ -61,4 +61,8 @@ public class RegionCreateStart {
 
                 return Collections.emptyList();
             }).build();
+
+    private RegionCreateStart() {
+        throw new RuntimeException("Should not init");
+    }
 }
