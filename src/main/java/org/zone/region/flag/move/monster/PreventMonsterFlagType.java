@@ -54,7 +54,7 @@ public class PreventMonsterFlagType implements FlagType<PreventMonsterFlag> {
     }
 
     @Override
-    public Optional<PreventMonsterFlag> createDefaultFlag() {
-        return Optional.of(PreventMonsterFlag.DEFAULT);
+    public Optional<PreventMonsterFlag> createCopyOfDefaultFlag() {
+        return Optional.of(new PreventMonsterFlag(PreventMonsterFlag.DEFAULT.getValue().orElse(false)));
     }
 }

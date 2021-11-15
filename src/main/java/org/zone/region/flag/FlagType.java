@@ -9,7 +9,7 @@ import org.zone.region.Zone;
 import java.io.IOException;
 import java.util.Optional;
 
-public interface FlagType<F extends Flag<?, ?>> extends Identifiable {
+public interface FlagType<F extends Flag<?, ?>> extends Identifiable, Comparable<FlagType<?>> {
 
     @NotNull F load(@NotNull ConfigurationNode node) throws IOException;
 
@@ -17,5 +17,10 @@ public interface FlagType<F extends Flag<?, ?>> extends Identifiable {
 
     boolean canApply(Zone zone);
 
-    Optional<F> createDefaultFlag();
+    Optional<F> createCopyOfDefaultFlag();
+
+    @Override
+    default int compareTo(@NotNull FlagType<?> o) {
+        return this.getId().compareTo(o.getId());
+    }
 }

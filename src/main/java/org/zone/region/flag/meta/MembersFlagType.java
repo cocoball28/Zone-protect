@@ -146,7 +146,7 @@ public class MembersFlagType implements FlagType<MembersFlag> {
     }
 
     @Override
-    public Optional<MembersFlag> createDefaultFlag() {
-        return Optional.of(MembersFlag.DEFAULT);
+    public Optional<MembersFlag> createCopyOfDefaultFlag() {
+        return Optional.of(new MembersFlag(MembersFlag.DEFAULT));
     }
 }

@@ -56,7 +56,7 @@ public class DefaultFlagFile {
         try {
             return Optional.of(type.load(this.node.node("flags", type.getPlugin().metadata().id(), type.getKey())));
         } catch (IOException e) {
-            return type.createDefaultFlag();
+            return type.createCopyOfDefaultFlag();
         }
     }
 
