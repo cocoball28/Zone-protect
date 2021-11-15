@@ -117,6 +117,7 @@ public class ZoneManager {
             builder.setRegion(region);
         }
         Map<Object, ? extends ConfigurationNode> flagPlugins = node.node(FLAGS).childrenMap();
+        Map<FlagType<?>, ConfigurationNode> types = new TreeMap<>();
         for (Map.Entry<Object, ? extends ConfigurationNode> flagPluginNode : flagPlugins.entrySet()) {
             for (Map.Entry<Object, ? extends ConfigurationNode> keyNode : flagPluginNode.getValue().childrenMap().entrySet()) {
                 Optional<FlagType<?>> opFlag = ZonePlugin
@@ -131,13 +132,20 @@ public class ZoneManager {
                     ZonePlugin.getZonesPlugin().getLogger().error("Could not load flag: Unknown plugin of " + flagPluginNode.getKey().toString());
                     continue;
                 }
-                try {
-                    Flag<?, ?> flag = opFlag.get().load(keyNode.getValue());
-                    builder.getFlags().add(flag);
-                } catch (IOException e) {
-                    ZonePlugin.getZonesPlugin().getLogger().error("Could not load flag: " + e.getMessage());
+                if (types.containsKey(opFlag.get())) {
+                    throw new IllegalStateException("Two or more flag keys found to be the same: " + opFlag.get());
                 }
+                types.put(opFlag.get(), keyNode.getValue());
             }
+        }
+        for (Map.Entry<FlagType<?>, ConfigurationNode> entry : types.entrySet()) {
+            try {
+                Flag<?, ?> flag = entry.getKey().load(entry.getValue());
+                builder.addFlags(flag);
+            } catch (IOException e) {
+                ZonePlugin.getZonesPlugin().getLogger().error("Could not load flag: " + e.getMessage());
+            }
+
         }
         return builder.build();
     }
