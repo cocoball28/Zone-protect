@@ -12,7 +12,7 @@ import org.spongepowered.api.event.lifecycle.StartingEngineEvent;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.plugin.PluginContainer;
 import org.spongepowered.plugin.builtin.jvm.Plugin;
-import org.zone.command.ZoneCommands;
+import org.zone.commands.structure.ZoneCommands;
 import org.zone.event.listener.EntityListener;
 import org.zone.event.listener.PlayerListener;
 import org.zone.memory.MemoryHolder;
@@ -92,8 +92,8 @@ public class ZonePlugin {
     }
 
     @Listener
-    public void onRegisterCommands(@SuppressWarnings("BoundedWildcard") final RegisterCommandEvent<Command.Parameterized> event) {
-        event.register(this.plugin, ZoneCommands.createZoneCommand(), "zone", "region", "claim", "protect");
+    public void onRegisterCommands(@SuppressWarnings("BoundedWildcard") final RegisterCommandEvent<Command.Raw> event) {
+        event.register(this.plugin, ZoneCommands.createCommand(), "zone", "region", "claim", "protect");
     }
 
     public PluginContainer getPluginContainer() {
