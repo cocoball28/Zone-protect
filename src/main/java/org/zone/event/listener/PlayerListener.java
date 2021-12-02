@@ -2,16 +2,20 @@ package org.zone.event.listener;
 
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.block.transaction.BlockTransaction;
+import org.spongepowered.api.block.transaction.Operations;
 import org.spongepowered.api.effect.particle.ParticleEffect;
 import org.spongepowered.api.effect.particle.ParticleTypes;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.server.ServerPlayer;
 import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.block.ChangeBlockEvent;
 import org.spongepowered.api.event.block.InteractBlockEvent;
 import org.spongepowered.api.event.entity.MoveEntityEvent;
 import org.spongepowered.api.event.filter.Getter;
 import org.spongepowered.api.event.filter.cause.Root;
 import org.spongepowered.api.tag.BlockTypeTags;
+import org.spongepowered.api.world.server.ServerLocation;
 import org.spongepowered.math.vector.Vector3d;
 import org.spongepowered.math.vector.Vector3i;
 import org.zone.Permissions;
@@ -19,6 +23,7 @@ import org.zone.ZonePlugin;
 import org.zone.region.Zone;
 import org.zone.region.ZoneBuilder;
 import org.zone.region.flag.FlagTypes;
+import org.zone.region.flag.interact.block.destroy.BlockBreakFlag;
 import org.zone.region.flag.interact.door.DoorInteractionFlag;
 import org.zone.region.group.Group;
 import org.zone.region.group.SimpleGroup;
@@ -26,10 +31,64 @@ import org.zone.region.regions.BoundedRegion;
 import org.zone.region.regions.Region;
 import org.zone.region.regions.type.PointRegion;
 
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class PlayerListener {
+
+    @Listener
+    public void onPlayerBlockChangeEvent(ChangeBlockEvent.All event, @Root Player player) {
+        Map<BlockTransaction, Zone> inZone =
+                event
+                        .transactions()
+                        .stream()
+                        .filter(t -> t.original().location().isPresent())
+                        .map(t -> {
+                            ServerLocation loc = t.original().location().orElseThrow(() -> new RuntimeException("Broke logic"));
+                            @NotNull Optional<Zone> zone = ZonePlugin.getZonesPlugin().getZoneManager().getPriorityZone(loc);
+                            return new AbstractMap.SimpleEntry<>(t, zone.orElse(null));
+                        })
+                        .filter(map -> map.getValue()!=null)
+                        .collect(Collectors.toMap(AbstractMap.SimpleEntry::getKey,
+                                AbstractMap.SimpleEntry::getValue));
+
+        Stream<Map.Entry<BlockTransaction, Zone>> blockBreaks =
+                inZone.entrySet().stream().filter(entry -> entry.getKey().operation()==Operations.BREAK.get());
+
+        Set<BlockTransaction> unbrokenBlocks = blockBreaks
+                .filter(entry -> entry.getValue().getFlag(FlagTypes.BLOCK_BREAK).isPresent())
+                .map(entry -> {
+                    Group group = entry.getValue().getMembers().getGroup(player.uniqueId());
+                    BlockBreakFlag blockBreakFlag =
+                            entry
+                                    .getValue()
+                                    .getFlag(FlagTypes.BLOCK_BREAK)
+                                    .orElseThrow(() -> new RuntimeException("Broke logic"));
+                    Group flagGroup = blockBreakFlag.getGroup(entry.getValue().getMembers()).orElse(null);
+                    if (flagGroup==null) {
+                        //noinspection ReturnOfNull
+                        return null;
+                    }
+                    if (group.inherits(flagGroup)) {
+                        //noinspection ReturnOfNull
+                        return null;
+                    }
+                    return entry.getKey();
+                })
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
+
+        inZone = inZone
+                .entrySet()
+                .stream()
+                .filter(entry -> unbrokenBlocks.contains(entry.getKey()))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
+
+        inZone.forEach((block, zone) -> block.invalidate());
+    }
 
     @Listener
     public void onPlayerInteractSecondary(InteractBlockEvent.Secondary event, @Root Player player) {

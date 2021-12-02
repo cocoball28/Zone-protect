@@ -3,6 +3,9 @@ package org.zone.commands.structure;
 import org.zone.commands.structure.create.ZoneCreateEndCommand;
 import org.zone.commands.structure.create.ZoneCreateStartCommand;
 import org.zone.commands.structure.create.ZoneCreateSubStartCommand;
+import org.zone.commands.structure.zone.flags.interact.destroy.ZoneFlagBlockBreakSetEnabledCommand;
+import org.zone.commands.structure.zone.flags.interact.destroy.ZoneFlagBlockBreakSetGroupCommand;
+import org.zone.commands.structure.zone.flags.interact.destroy.ZoneFlagBlockBreakViewCommand;
 import org.zone.commands.structure.zone.flags.interact.door.ZoneFlagInteractDoorEnabledCommand;
 import org.zone.commands.structure.zone.flags.interact.door.ZoneFlagInteractDoorGroupCommand;
 import org.zone.commands.structure.zone.flags.interact.door.ZoneFlagInteractDoorViewCommand;
@@ -28,6 +31,9 @@ public interface ZoneCommands {
     ZoneFlagInteractDoorViewCommand ZONE_FLAG_INTERACT_DOOR_VIEW_COMMAND = new ZoneFlagInteractDoorViewCommand();
     ZoneFlagMemberGroupAddCommand ZONE_FLAG_MEMBER_GROUP_ADD_COMMAND = new ZoneFlagMemberGroupAddCommand();
     ZoneFlagMemberGroupViewCommand ZONE_FLAG_MEMBER_GROUP_VIEW_COMMAND = new ZoneFlagMemberGroupViewCommand();
+    ZoneFlagBlockBreakSetEnabledCommand ZONE_FLAG_BLOCK_BREAK_SET_ENABLED_COMMAND = new ZoneFlagBlockBreakSetEnabledCommand();
+    ZoneFlagBlockBreakViewCommand ZONE_FLAG_BLOCK_BREAK_VIEW_COMMAND = new ZoneFlagBlockBreakViewCommand();
+    ZoneFlagBlockBreakSetGroupCommand ZONE_FLAG_BLOCK_BREAK_SET_GROUP_COMMAND = new ZoneFlagBlockBreakSetGroupCommand();
 
     static ZoneSpongeCommand createCommand() {
         Collection<ArgumentCommand> collection = Arrays
