@@ -42,6 +42,10 @@ public class MembersFlag implements Flag.Map<Group, Collection<UUID>> {
     }
 
     public void addMember(Group group, UUID uuid) {
+        this.removeMember(uuid);
+        if (group.equals(SimpleGroup.VISITOR)) {
+            return;
+        }
         Collection<UUID> set = this.groups.getOrDefault(group, new HashSet<>());
         set.add(uuid);
         if (this.groups.containsKey(group)) {
@@ -69,9 +73,9 @@ public class MembersFlag implements Flag.Map<Group, Collection<UUID>> {
     }
 
     public Group getGroup(UUID uuid) {
-        for(java.util.Map.Entry<Group, Collection<UUID>> entry : this.groups.entrySet()){
-            for(UUID user : entry.getValue()){
-                if(user.equals(uuid)){
+        for (java.util.Map.Entry<Group, Collection<UUID>> entry : this.groups.entrySet()) {
+            for (UUID user : entry.getValue()) {
+                if (user.equals(uuid)) {
                     return entry.getKey();
                 }
             }

@@ -134,7 +134,7 @@ public class ZoneManager {
                         .filter(type -> type.getKey().equalsIgnoreCase(keyNode.getKey().toString()))
                         .findFirst();
                 if (opFlag.isEmpty()) {
-                    ZonePlugin.getZonesPlugin().getLogger().error("Could not load flag: Unknown plugin of " + flagPluginNode.getKey().toString());
+                    ZonePlugin.getZonesPlugin().getLogger().error("Could not load flag: Unknown flag Id of '" + flagPluginNode.getKey().toString() + ":" + keyNode.getValue().key().toString() + "'");
                     continue;
                 }
                 if (types.containsKey(opFlag.get())) {
