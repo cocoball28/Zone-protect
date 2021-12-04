@@ -2,41 +2,40 @@ package org.zone.region.flag.interact.block.destroy;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.zone.region.flag.Flag;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.GroupBoundFlag;
-import org.zone.region.group.Group;
-import org.zone.region.group.SimpleGroup;
+import org.zone.region.group.key.GroupKey;
+import org.zone.region.group.key.GroupKeys;
 
 import java.util.Optional;
 
-public class BlockBreakFlag implements GroupBoundFlag.Single<Boolean> {
+public class BlockBreakFlag implements Flag.Enabled, Flag.GroupKeyed {
 
     private @Nullable Boolean enabled;
-    private @NotNull String groupId;
 
-    public static final BlockBreakFlag ELSE = new BlockBreakFlag(SimpleGroup.VISITOR, false);
+    public static final BlockBreakFlag ELSE = new BlockBreakFlag(false);
 
-    public BlockBreakFlag(@NotNull BlockBreakFlag flag) {
-        this(flag.getGroupId(), flag.getValue().orElse(null));
+    public BlockBreakFlag(@SuppressWarnings("TypeMayBeWeakened") @NotNull BlockBreakFlag flag) {
+        this(flag.getEnabled().orElse(null));
     }
 
-    public BlockBreakFlag(@SuppressWarnings("TypeMayBeWeakened") @NotNull Group group, @Nullable Boolean enabled) {
-        this(group.getId(), enabled);
-    }
-
-    public BlockBreakFlag(@NotNull String groupId, @Nullable Boolean enabled) {
-        this.groupId = groupId;
+    public BlockBreakFlag(@Nullable Boolean enabled) {
         this.enabled = enabled;
     }
 
 
     @Override
-    public @NotNull Optional<Boolean> getValue() {
+    public @NotNull Optional<Boolean> getEnabled() {
         return Optional.ofNullable(this.enabled);
     }
 
     @Override
-    public void setValue(@Nullable Boolean flag) {
+    public boolean isEnabled() {
+        return this.getEnabled().orElse(ELSE.getEnabled().orElse(false));
+    }
+
+    @Override
+    public void setEnabled(@Nullable Boolean flag) {
         this.enabled = flag;
     }
 
@@ -46,12 +45,7 @@ public class BlockBreakFlag implements GroupBoundFlag.Single<Boolean> {
     }
 
     @Override
-    public @NotNull String getGroupId() {
-        return this.groupId;
-    }
-
-    @Override
-    public void setGroupId(@NotNull String groupId) {
-        this.groupId = groupId;
+    public @NotNull GroupKey getRequiredKey() {
+        return GroupKeys.BLOCK_BREAK;
     }
 }

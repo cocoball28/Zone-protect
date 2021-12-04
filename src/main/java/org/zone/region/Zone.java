@@ -24,7 +24,7 @@ public class Zone implements Identifiable {
     private final @NotNull Region region;
     private final @NotNull String key;
     private final @NotNull String name;
-    private final @NotNull Collection<Flag<?, ?>> flags =
+    private final @NotNull Collection<Flag> flags =
             new TreeSet<>(Comparator.comparing(flag -> flag.getType().getId()));
     private final @Nullable String parentId;
 
@@ -45,12 +45,12 @@ public class Zone implements Identifiable {
         return Optional.ofNullable(this.parentId);
     }
 
-    public @NotNull Collection<Flag<?, ?>> getFlags() {
+    public @NotNull Collection<Flag> getFlags() {
         return Collections.unmodifiableCollection(this.flags);
     }
 
     public boolean removeFlag(Identifiable type) {
-        Optional<Flag<?, ?>> opFlag =
+        Optional<Flag> opFlag =
                 this.flags.parallelStream().filter(flag -> type.getId().equals(flag.getType().getId())).findFirst();
 
         if (opFlag.isEmpty()) {
@@ -59,7 +59,7 @@ public class Zone implements Identifiable {
         return this.flags.remove(opFlag.get());
     }
 
-    public boolean addFlag(Flag<?, ?> flag) {
+    public boolean addFlag(Flag flag) {
         return this.flags.add(flag);
     }
 
@@ -71,7 +71,7 @@ public class Zone implements Identifiable {
         ZonePlugin.getZonesPlugin().getZoneManager().save(this);
     }
 
-    public <F extends Flag<?, ?>, T extends FlagType<F>> @NotNull Optional<F> getFlag(T type) {
+    public <F extends Flag, T extends FlagType<F>> @NotNull Optional<F> getFlag(T type) {
         Optional<F> opFlag =
                 this
                         .getFlags()

@@ -7,23 +7,28 @@ import org.zone.region.flag.FlagTypes;
 
 import java.util.Optional;
 
-public class PreventMonsterFlag implements Flag.Single<Boolean> {
+public class PreventMonsterFlag implements Flag.Enabled {
 
     private Boolean enabled;
 
     public static final PreventMonsterFlag DEFAULT = new PreventMonsterFlag(true);
 
-    public PreventMonsterFlag(boolean enabled) {
+    public PreventMonsterFlag(@Nullable Boolean enabled) {
         this.enabled = enabled;
     }
 
     @Override
-    public @NotNull Optional<Boolean> getValue() {
+    public @NotNull Optional<Boolean> getEnabled() {
         return Optional.ofNullable(this.enabled);
     }
 
     @Override
-    public void setValue(@Nullable Boolean flag) {
+    public boolean isEnabled() {
+        return this.getEnabled().orElse(DEFAULT.getEnabled().orElse(false));
+    }
+
+    @Override
+    public void setEnabled(@Nullable Boolean flag) {
         this.enabled = flag;
     }
 

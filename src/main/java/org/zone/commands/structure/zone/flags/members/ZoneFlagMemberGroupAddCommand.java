@@ -16,8 +16,9 @@ import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.arguments.zone.ZoneGroupArgument;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.region.Zone;
+import org.zone.region.group.DefaultGroups;
 import org.zone.region.group.Group;
-import org.zone.region.group.SimpleGroup;
+import org.zone.region.group.key.GroupKeys;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -27,7 +28,7 @@ import java.util.Optional;
 public class ZoneFlagMemberGroupAddCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
-            new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(SimpleGroup.OWNER));
+            new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(GroupKeys.OWNER));
     public static final ZoneGroupArgument GROUP = new ZoneGroupArgument("groupId", ZONE);
     public static final UserArgument USER = new UserArgument("user");
 
@@ -64,7 +65,7 @@ public class ZoneFlagMemberGroupAddCommand implements ArgumentCommand {
 
     private void addToGroup(CommandContext context, Zone zone, Group group, GameProfile profile) {
         Group previous = zone.getMembers().getGroup(profile.uniqueId());
-        if (!previous.equals(SimpleGroup.VISITOR)) {
+        if (!previous.equals(DefaultGroups.VISITOR)) {
             zone.getMembers().removeMember(profile.uniqueId());
         }
         context.getCause().sendMessage(Identity.nil(),

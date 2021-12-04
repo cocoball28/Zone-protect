@@ -34,24 +34,18 @@ public class BlockBreakFlagType implements FlagType<BlockBreakFlag> {
             throw new IOException("Cannot load flag");
         }
         boolean enabled = node.node("Enabled").getBoolean();
-        String groupId = node.node("Group").getString();
-        if (groupId==null) {
-            throw new IOException("No group could be found");
-        }
-        return new BlockBreakFlag(groupId, enabled);
+        return new BlockBreakFlag(enabled);
     }
 
     @Override
     public void save(@NotNull ConfigurationNode node, @Nullable BlockBreakFlag save) throws IOException {
-        if (save==null || save.getValue().isEmpty()) {
+        if (save==null || save.getEnabled().isEmpty()) {
             node.set(null);
             return;
         }
-        Boolean value = save.getValue().get();
-        String groupId = save.getGroupId();
+        boolean value = save.isEnabled();
 
         node.node("Enabled").set(value);
-        node.node("Group").set(groupId);
     }
 
     @Override

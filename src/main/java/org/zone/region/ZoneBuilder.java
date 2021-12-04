@@ -14,7 +14,7 @@ public class ZoneBuilder {
     private Region region;
     private String key;
     private String name;
-    private Collection<Flag<?, ?>> flags = new HashSet<>();
+    private Collection<Flag> flags = new HashSet<>();
     private String parentId;
 
     public PluginContainer getContainer() {
@@ -53,16 +53,16 @@ public class ZoneBuilder {
         return this;
     }
 
-    public Collection<Flag<?, ?>> getFlags() {
+    public Collection<Flag> getFlags() {
         return this.flags;
     }
 
-    public ZoneBuilder setFlags(Collection<Flag<?, ?>> flags) {
+    public ZoneBuilder setFlags(Collection<Flag> flags) {
         this.flags = flags;
         return this;
     }
 
-    public ZoneBuilder addFlags(Flag<?, ?>... flags) {
+    public ZoneBuilder addFlags(Flag... flags) {
         this.flags.addAll(Arrays.asList(flags));
         return this;
     }

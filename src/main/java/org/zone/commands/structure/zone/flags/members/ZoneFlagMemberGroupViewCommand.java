@@ -21,7 +21,7 @@ import org.zone.commands.system.arguments.zone.ZoneGroupArgument;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.region.Zone;
 import org.zone.region.group.Group;
-import org.zone.region.group.SimpleGroup;
+import org.zone.region.group.key.GroupKeys;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -29,7 +29,7 @@ import java.util.concurrent.CompletableFuture;
 public class ZoneFlagMemberGroupViewCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
-            new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(SimpleGroup.OWNER));
+            new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(GroupKeys.OWNER));
 
     public static final ZoneGroupArgument GROUP = new ZoneGroupArgument("groupId", ZONE);
 

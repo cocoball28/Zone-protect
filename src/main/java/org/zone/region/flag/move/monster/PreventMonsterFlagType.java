@@ -41,11 +41,11 @@ public class PreventMonsterFlagType implements FlagType<PreventMonsterFlag> {
 
     @Override
     public void save(@NotNull ConfigurationNode node, @NotNull PreventMonsterFlag save) throws IOException {
-        if (save.getValue().isEmpty()) {
+        if (save.getEnabled().isEmpty()) {
             node.set(null);
             return;
         }
-        node.node("Enabled").set(save.getValue().get());
+        node.node("Enabled").set(save.isEnabled());
     }
 
     @Override
@@ -55,6 +55,6 @@ public class PreventMonsterFlagType implements FlagType<PreventMonsterFlag> {
 
     @Override
     public Optional<PreventMonsterFlag> createCopyOfDefaultFlag() {
-        return Optional.of(new PreventMonsterFlag(PreventMonsterFlag.DEFAULT.getValue().orElse(false)));
+        return Optional.of(new PreventMonsterFlag(PreventMonsterFlag.DEFAULT.getEnabled().orElse(null)));
     }
 }

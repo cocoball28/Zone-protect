@@ -3,10 +3,10 @@ package org.zone.region.group;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.plugin.PluginContainer;
-import org.zone.ZonePlugin;
+import org.zone.region.group.key.GroupKey;
 
-import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Optional;
 
 public class SimpleGroup implements Group {
@@ -16,15 +16,7 @@ public class SimpleGroup implements Group {
     private final @NotNull PluginContainer plugin;
     private @Nullable Group parent;
     private final boolean canBeRemoved;
-
-    public static final Group VISITOR = new SimpleGroup(ZonePlugin.getZonesPlugin().getPluginContainer(), "visitor",
-            "visitor",
-            null, false);
-    public static final Group HOME_OWNER = new SimpleGroup(ZonePlugin.getZonesPlugin().getPluginContainer(), "home_owner",
-            "home owner", VISITOR,
-            false);
-    public static final Group OWNER = new SimpleGroup(ZonePlugin.getZonesPlugin().getPluginContainer(), "owner", "owner",
-            HOME_OWNER, false);
+    private final Collection<GroupKey> keys = new HashSet<>();
 
     public SimpleGroup(@NotNull PluginContainer plugin, @NotNull String key, @NotNull Group parent) {
         this(plugin, key, key, parent);
@@ -34,8 +26,8 @@ public class SimpleGroup implements Group {
         this(plugin, key, name, parent, true);
     }
 
-    private SimpleGroup(@NotNull PluginContainer plugin, @NotNull String key, @NotNull String name,
-                        @Nullable Group parent, boolean canRemove) {
+    SimpleGroup(@NotNull PluginContainer plugin, @NotNull String key, @NotNull String name,
+                @Nullable Group parent, boolean canRemove) {
         this.key = key;
         this.plugin = plugin;
         this.name = name;
@@ -74,6 +66,11 @@ public class SimpleGroup implements Group {
     }
 
     @Override
+    public Collection<GroupKey> getKeys() {
+        return this.keys;
+    }
+
+    @Override
     public int hashCode() {
         return super.hashCode();
     }
@@ -86,7 +83,4 @@ public class SimpleGroup implements Group {
         return group.getId().equals(this.getId());
     }
 
-    public static Collection<Group> createDefaultGroup() {
-        return Arrays.asList(VISITOR, HOME_OWNER, OWNER);
-    }
 }

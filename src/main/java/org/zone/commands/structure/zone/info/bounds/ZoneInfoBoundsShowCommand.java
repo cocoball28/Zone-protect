@@ -18,7 +18,8 @@ import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.event.listener.PlayerListener;
 import org.zone.region.Zone;
-import org.zone.region.group.SimpleGroup;
+import org.zone.region.group.DefaultGroups;
+import org.zone.region.group.key.GroupKeys;
 import org.zone.region.regions.BoundedRegion;
 
 import java.util.Arrays;
@@ -30,7 +31,7 @@ public class ZoneInfoBoundsShowCommand implements ArgumentCommand {
 
     ZoneArgument ZONE = new ZoneArgument("zoneId", new ZoneArgument
             .ZoneArgumentPropertiesBuilder()
-            .setLevel(SimpleGroup.OWNER));
+            .setLevel(GroupKeys.OWNER));
 
     @Override
     public List<CommandArgument<?>> getArguments() {
