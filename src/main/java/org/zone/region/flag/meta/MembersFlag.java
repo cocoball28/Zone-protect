@@ -1,19 +1,18 @@
 package org.zone.region.flag.meta;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.zone.region.flag.Flag;
 import org.zone.region.flag.FlagTypes;
+import org.zone.region.group.DefaultGroups;
 import org.zone.region.group.Group;
-import org.zone.region.group.SimpleGroup;
+import org.zone.region.group.key.GroupKey;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class MembersFlag implements Flag.Map<Group, Collection<UUID>> {
+public class MembersFlag implements Flag {
 
-    public static final MembersFlag DEFAULT = new MembersFlag(SimpleGroup.VISITOR, SimpleGroup.HOME_OWNER,
-            SimpleGroup.OWNER);
+    public static final MembersFlag DEFAULT = new MembersFlag(DefaultGroups.createDefaultGroups());
 
     private final java.util.Map<Group, Collection<UUID>> groups = new HashMap<>();
 
@@ -41,9 +40,28 @@ public class MembersFlag implements Flag.Map<Group, Collection<UUID>> {
         this.groups.putAll(map);
     }
 
+    public Optional<Group> getGroup(GroupKey key) {
+        return this
+                .groups
+                .entrySet()
+                .parallelStream()
+                .map(Map.Entry::getKey)
+                .filter(group -> group.getKeys().contains(key))
+                .findAny();
+    }
+
+    public void removeKey(GroupKey key) {
+        this.groups.keySet().forEach(group -> group.remove(key));
+    }
+
+    public void addKey(Group group, GroupKey key) {
+        this.removeKey(key);
+        group.add(key);
+    }
+
     public void addMember(Group group, UUID uuid) {
         this.removeMember(uuid);
-        if (group.equals(SimpleGroup.VISITOR)) {
+        if (group.equals(DefaultGroups.VISITOR)) {
             return;
         }
         Collection<UUID> set = this.groups.getOrDefault(group, new HashSet<>());
@@ -80,18 +98,7 @@ public class MembersFlag implements Flag.Map<Group, Collection<UUID>> {
                 }
             }
         }
-        return SimpleGroup.VISITOR;
-
-        /*return this
-                .groups
-                .entrySet()
-                .parallelStream()
-                .filter(entry -> {
-                    return entry.getValue().parallelStream().anyMatch(uuid2 -> uuid2.toString().equals(uuid.toString()));
-                })
-                .findFirst()
-                .map(java.util.Map.Entry::getKey)
-                .orElse(SimpleGroup.VISITOR);*/
+        return DefaultGroups.VISITOR;
     }
 
     public void removeMember(UUID uuid) {
@@ -109,21 +116,7 @@ public class MembersFlag implements Flag.Map<Group, Collection<UUID>> {
         return FlagTypes.MEMBERS;
     }
 
-    @Override
-    public @NotNull java.util.Map<Group, Collection<UUID>> getValue() {
+    public @NotNull java.util.Map<Group, Collection<UUID>> getGroupMapping() {
         return this.groups;
-    }
-
-    @Override
-    public void setValue(@Nullable java.util.Map<Group, Collection<UUID>> flag) {
-        this.groups.clear();
-        if (flag!=null) {
-            this.groups.putAll(flag);
-        }
-    }
-
-    @Override
-    public void removeValue() {
-        this.groups.clear();
     }
 }

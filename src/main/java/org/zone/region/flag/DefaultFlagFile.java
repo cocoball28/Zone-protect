@@ -38,8 +38,8 @@ public class DefaultFlagFile {
 
                 FILE.createNewFile();
             }
-            for (FlagType<? extends Flag<?, ?>> type : ZonePlugin.getZonesPlugin().getFlagManager().getRegistered()) {
-                Optional<? extends Flag<?, ?>> opFlag = this.loadDefault(type);
+            for (FlagType<? extends Flag> type : ZonePlugin.getZonesPlugin().getFlagManager().getRegistered()) {
+                Optional<? extends Flag> opFlag = this.loadDefault(type);
                 if (opFlag.isEmpty()) {
                     this.removeDefault(type);
                     continue;
@@ -52,7 +52,7 @@ public class DefaultFlagFile {
         }
     }
 
-    public <F extends Flag<?, ?>, T extends FlagType<F>> Optional<F> loadDefault(T type) {
+    public <F extends Flag, T extends FlagType<F>> Optional<F> loadDefault(T type) {
         try {
             return Optional.of(type.load(this.node.node("flags", type.getPlugin().metadata().id(), type.getKey())));
         } catch (IOException e) {
@@ -60,13 +60,13 @@ public class DefaultFlagFile {
         }
     }
 
-    public <F extends Flag<?, ?>, T extends FlagType<F>> void setDefault(F flag) throws IOException {
+    public <F extends Flag, T extends FlagType<F>> void setDefault(F flag) throws IOException {
         T type = (T) flag.getType();
         type.save(this.node.node("flags", type.getPlugin().metadata().id(),
                 type.getKey()), flag);
     }
 
-    public void removeDefault(FlagType<? extends Flag<?, ?>> type) throws IOException {
+    public void removeDefault(FlagType<? extends Flag> type) throws IOException {
         type.save(this.node.node("flags"), null);
     }
 

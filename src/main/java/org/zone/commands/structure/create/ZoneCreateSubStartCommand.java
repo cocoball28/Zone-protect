@@ -17,7 +17,7 @@ import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.region.Zone;
 import org.zone.region.ZoneBuilder;
-import org.zone.region.group.SimpleGroup;
+import org.zone.region.group.key.GroupKeys;
 import org.zone.region.regions.Region;
 import org.zone.region.regions.type.PointRegion;
 
@@ -30,7 +30,7 @@ public class ZoneCreateSubStartCommand implements ArgumentCommand {
     private static final ZoneArgument ZONE =
             new ZoneArgument("zone", new ZoneArgument
                     .ZoneArgumentPropertiesBuilder()
-                    .setLevel(SimpleGroup.OWNER)
+                    .setLevel(GroupKeys.OWNER)
                     .setOnlyMainZones(true));
 
     private static final RemainingArgument<String> NAME = new RemainingArgument<>(new StringArgument("name"));

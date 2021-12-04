@@ -2,6 +2,7 @@ package org.zone.commands.system.arguments.zone;
 
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.api.command.CommandCompletion;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.service.permission.Subject;
@@ -13,7 +14,7 @@ import org.zone.commands.system.context.CommandArgumentContext;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.region.Zone;
 import org.zone.region.group.Group;
-import org.zone.region.group.SimpleGroup;
+import org.zone.region.group.key.GroupKey;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -27,7 +28,7 @@ public class ZoneArgument implements CommandArgument<Zone> {
         private ParseCommandArgument<Zone> subZoneTo;
         private boolean onlyMainZones = true;
         private String bypassSuggestionPermission;
-        private Group level = SimpleGroup.OWNER;
+        private GroupKey level;
 
         public String getBypassSuggestionPermission() {
             return this.bypassSuggestionPermission;
@@ -56,11 +57,11 @@ public class ZoneArgument implements CommandArgument<Zone> {
             return this;
         }
 
-        public Group getLevel() {
+        public GroupKey getLevel() {
             return this.level;
         }
 
-        public ZoneArgumentPropertiesBuilder setLevel(Group level) {
+        public ZoneArgumentPropertiesBuilder setLevel(@Nullable GroupKey level) {
             this.level = level;
             return this;
         }
@@ -92,7 +93,10 @@ public class ZoneArgument implements CommandArgument<Zone> {
                 if (subject instanceof Player player) {
                     zones = zones.filter(zone -> {
                         Group group = zone.getMembers().getGroup(player.uniqueId());
-                        return group.inherits(this.builder.getLevel());
+                        if (this.builder.getLevel()==null) {
+                            return true;
+                        }
+                        return group.getAllKeys().contains(this.builder.getLevel());
                     });
                 }
             }
@@ -117,7 +121,10 @@ public class ZoneArgument implements CommandArgument<Zone> {
                 if (subject instanceof Player player) {
                     zones = zones.filter(zone -> {
                         Group group = zone.getMembers().getGroup(player.uniqueId());
-                        return group.inherits(this.builder.getLevel());
+                        if (this.builder.getLevel()==null) {
+                            return true;
+                        }
+                        return group.getAllKeys().contains(this.builder.getLevel());
                     });
                 }
             }

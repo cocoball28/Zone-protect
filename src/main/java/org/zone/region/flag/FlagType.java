@@ -9,7 +9,7 @@ import org.zone.region.Zone;
 import java.io.IOException;
 import java.util.Optional;
 
-public interface FlagType<F extends Flag<?, ?>> extends Identifiable, Comparable<FlagType<?>> {
+public interface FlagType<F extends Flag> extends Identifiable, Comparable<FlagType<?>> {
 
     @NotNull F load(@NotNull ConfigurationNode node) throws IOException;
 

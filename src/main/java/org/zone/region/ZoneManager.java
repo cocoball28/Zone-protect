@@ -57,7 +57,7 @@ public class ZoneManager {
         return this.getZones().stream().filter(zone -> zone.inRegion(world, worldPos)).collect(Collectors.toSet());
     }
 
-    public @NotNull Optional<Zone> getPriorityZone(Location<? extends World<?, ?>, ?> loc){
+    public @NotNull Optional<Zone> getPriorityZone(Location<? extends World<?, ?>, ?> loc) {
         return this.getPriorityZone(loc.world(), loc.position());
     }
 
@@ -145,7 +145,7 @@ public class ZoneManager {
         }
         for (Map.Entry<FlagType<?>, ConfigurationNode> entry : types.entrySet()) {
             try {
-                Flag<?, ?> flag = entry.getKey().load(entry.getValue());
+                Flag flag = entry.getKey().load(entry.getValue());
                 builder.addFlags(flag);
             } catch (IOException e) {
                 ZonePlugin.getZonesPlugin().getLogger().error("Could not load flag: " + e.getMessage());
@@ -164,7 +164,7 @@ public class ZoneManager {
         if (zone.getParent().isPresent()) {
             node.node(PARENT).set(zone.getParent().get().getId());
         }
-        for (Flag<?, ?> flag : zone.getFlags()) {
+        for (Flag flag : zone.getFlags()) {
             ConfigurationNode flagNode = node
                     .node(FLAGS)
                     .node(flag.getType().getPlugin().metadata().id())

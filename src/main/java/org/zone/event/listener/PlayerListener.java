@@ -26,7 +26,7 @@ import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.interact.block.destroy.BlockBreakFlag;
 import org.zone.region.flag.interact.door.DoorInteractionFlag;
 import org.zone.region.group.Group;
-import org.zone.region.group.SimpleGroup;
+import org.zone.region.group.key.GroupKeys;
 import org.zone.region.regions.BoundedRegion;
 import org.zone.region.regions.Region;
 import org.zone.region.regions.type.PointRegion;
@@ -66,7 +66,12 @@ public class PlayerListener {
                                     .getValue()
                                     .getFlag(FlagTypes.BLOCK_BREAK)
                                     .orElseThrow(() -> new RuntimeException("Broke logic"));
-                    Group flagGroup = blockBreakFlag.getGroup(entry.getValue().getMembers()).orElse(null);
+                    Group flagGroup =
+                            entry
+                                    .getValue()
+                                    .getMembers()
+                                    .getGroup(blockBreakFlag.getRequiredKey())
+                                    .orElse(null);
                     if (flagGroup==null) {
                         //noinspection ReturnOfNull
                         return null;
@@ -102,7 +107,7 @@ public class PlayerListener {
         Group playerGroup = zone.getMembers().getGroup(player.uniqueId());
         if (BlockTypeTags.DOORS.get().contains(snapshot.state().type())) {
             DoorInteractionFlag flag = zone.getFlag(FlagTypes.DOOR_INTERACTION).orElse(DoorInteractionFlag.ELSE);
-            if (!flag.getValue().orElse(false)) {
+            if (!flag.isEnabled()) {
                 return;
             }
             if (player instanceof ServerPlayer sPlayer && sPlayer.hasPermission(Permissions.BYPASS_DOOR_INTERACTION.getPermission())) {
@@ -115,12 +120,11 @@ public class PlayerListener {
                     .getParent()
                     .map(parent -> parent
                             .getMembers()
-                            .getGroup(player.uniqueId())
-                            .equals(SimpleGroup.OWNER))
+                            .getGroup(player.uniqueId()).getAllKeys().contains(GroupKeys.INTERACT_DOOR))
                     .orElse(false)) {
                 return;
             }
-            if (!flag.hasPermission(zone.getMembers(), playerGroup)) {
+            if (!flag.hasPermission(zone, player.uniqueId())) {
                 event.setCancelled(true);
             }
             return;

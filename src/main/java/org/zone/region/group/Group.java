@@ -2,8 +2,15 @@ package org.zone.region.group;
 
 import org.jetbrains.annotations.NotNull;
 import org.zone.Identifiable;
+import org.zone.region.group.key.GroupKey;
 
+import java.util.Collection;
 import java.util.Optional;
+import java.util.Spliterator;
+import java.util.Spliterators;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 public interface Group extends Identifiable, Comparable<Group> {
 
@@ -13,18 +20,35 @@ public interface Group extends Identifiable, Comparable<Group> {
 
     boolean canBeRemoved();
 
+    Collection<GroupKey> getKeys();
+
+    default boolean add(GroupKey key) {
+        return this.getKeys().add(key);
+    }
+
+    default boolean remove(GroupKey key) {
+        return this.getKeys().remove(key);
+    }
+
+    default Stream<Group> getImplements() {
+        return StreamSupport
+                .stream(Spliterators
+                                .spliteratorUnknownSize(
+                                        new ImplementedGroupIterator(this),
+                                        Spliterator.ORDERED),
+                        false);
+    }
+
+
+    default Collection<GroupKey> getAllKeys() {
+        return this
+                .getImplements()
+                .flatMap(g -> g.getKeys().stream())
+                .collect(Collectors.toUnmodifiableSet());
+    }
+
     default boolean inherits(Group group) {
-        if (group.equals(this)) {
-            return true;
-        }
-        Optional<Group> opParent = this.getParent();
-        while (opParent.isPresent()) {
-            if (opParent.get().equals(this)) {
-                return true;
-            }
-            opParent = opParent.get().getParent();
-        }
-        return false;
+        return this.getImplements().anyMatch(g -> g.equals(group));
     }
 
     @Override

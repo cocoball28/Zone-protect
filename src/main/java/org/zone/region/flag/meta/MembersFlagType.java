@@ -8,6 +8,7 @@ import org.spongepowered.plugin.PluginContainer;
 import org.zone.ZonePlugin;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagType;
+import org.zone.region.group.DefaultGroups;
 import org.zone.region.group.Group;
 import org.zone.region.group.SimpleGroup;
 
@@ -56,7 +57,7 @@ public class MembersFlagType implements FlagType<MembersFlag> {
             throw new IOException("No groups found");
         }
         Map<Group, Collection<UUID>> groups = new HashMap<>();
-        groups.put(SimpleGroup.VISITOR, Collections.emptyList());
+        groups.put(DefaultGroups.VISITOR, Collections.emptyList());
         Integer added = null;
 
         while (groups.size()!=totalSize && (added==null || added!=0)) {
@@ -122,7 +123,7 @@ public class MembersFlagType implements FlagType<MembersFlag> {
             node.set(null);
             return;
         }
-        for (Map.Entry<Group, Collection<UUID>> entry : save.getValue().entrySet()) {
+        for (Map.Entry<Group, Collection<UUID>> entry : save.getGroupMapping().entrySet()) {
             ConfigurationNode groupNode = node
                     .node(entry
                             .getKey()

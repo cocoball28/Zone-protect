@@ -2,40 +2,39 @@ package org.zone.region.flag.interact.door;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.zone.region.flag.Flag;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.GroupBoundFlag;
-import org.zone.region.group.Group;
-import org.zone.region.group.SimpleGroup;
+import org.zone.region.group.key.GroupKey;
+import org.zone.region.group.key.GroupKeys;
 
 import java.util.Optional;
 
-public class DoorInteractionFlag implements GroupBoundFlag.Single<Boolean> {
+public class DoorInteractionFlag implements Flag.Enabled, Flag.GroupKeyed {
 
     private @Nullable Boolean enabled;
-    private @NotNull String groupId;
 
-    public static final DoorInteractionFlag ELSE = new DoorInteractionFlag(SimpleGroup.VISITOR, false);
+    public static final DoorInteractionFlag ELSE = new DoorInteractionFlag(false);
 
-    public DoorInteractionFlag(DoorInteractionFlag flag) {
-        this(flag.groupId, flag.enabled!=null && flag.enabled);
+    public DoorInteractionFlag(@SuppressWarnings("TypeMayBeWeakened") @NotNull DoorInteractionFlag flag) {
+        this(flag.getEnabled().orElse(null));
     }
 
-    public DoorInteractionFlag(@SuppressWarnings("TypeMayBeWeakened") @NotNull Group group, boolean enabled) {
-        this(group.getId(), enabled);
-    }
-
-    public DoorInteractionFlag(@NotNull String groupId, boolean enabled) {
+    public DoorInteractionFlag(@Nullable Boolean enabled) {
         this.enabled = enabled;
-        this.groupId = groupId;
     }
 
     @Override
-    public @NotNull Optional<Boolean> getValue() {
+    public @NotNull Optional<Boolean> getEnabled() {
         return Optional.ofNullable(this.enabled);
     }
 
     @Override
-    public void setValue(@Nullable Boolean flag) {
+    public boolean isEnabled() {
+        return this.getEnabled().orElse(ELSE.getEnabled().orElse(false));
+    }
+
+    @Override
+    public void setEnabled(@Nullable Boolean flag) {
         this.enabled = flag;
     }
 
@@ -45,12 +44,7 @@ public class DoorInteractionFlag implements GroupBoundFlag.Single<Boolean> {
     }
 
     @Override
-    public @NotNull String getGroupId() {
-        return this.groupId;
-    }
-
-    @Override
-    public void setGroupId(@NotNull String groupId) {
-        this.groupId = groupId;
+    public @NotNull GroupKey getRequiredKey() {
+        return GroupKeys.INTERACT_DOOR;
     }
 }

@@ -16,7 +16,8 @@ import org.zone.commands.system.context.CommandContext;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.interact.door.DoorInteractionFlag;
-import org.zone.region.group.SimpleGroup;
+import org.zone.region.group.DefaultGroups;
+import org.zone.region.group.key.GroupKeys;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +27,7 @@ public class ZoneFlagInteractDoorViewCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE = new ZoneArgument("zoneId", new ZoneArgument
             .ZoneArgumentPropertiesBuilder()
-            .setLevel(SimpleGroup.OWNER)
+            .setLevel(GroupKeys.OWNER)
     );
 
     @Override
@@ -57,14 +58,15 @@ public class ZoneFlagInteractDoorViewCommand implements ArgumentCommand {
                 .getFlag(FlagTypes.DOOR_INTERACTION)
                 .orElse(new DoorInteractionFlag(DoorInteractionFlag.ELSE));
         commandContext.getCause().sendMessage(Identity.nil(), Component
-                .text("Enabled: " + flag.getValue().orElse(false)));
+                .text("Enabled: " + flag.isEnabled()));
         commandContext
                 .getCause()
                 .sendMessage(Identity.nil(), Component
-                        .text("Group: " + flag
-                                .getGroup(zone.getMembers())
+                        .text("Group: " + zone
+                                .getMembers()
+                                .getGroup(GroupKeys.INTERACT_DOOR)
                                 .map(Identifiable::getName)
-                                .orElse(flag.getGroupId())));
+                                .orElse("None")));
         return CommandResult.success();
     }
 }
