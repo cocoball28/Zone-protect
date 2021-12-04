@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.api.ResourceKey;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
@@ -54,6 +55,10 @@ public class ZoneManager {
 
     public @NotNull Collection<Zone> getZone(@Nullable World<?, ?> world, @NotNull Vector3d worldPos) {
         return this.getZones().stream().filter(zone -> zone.inRegion(world, worldPos)).collect(Collectors.toSet());
+    }
+
+    public @NotNull Optional<Zone> getPriorityZone(Location<? extends World<?, ?>, ?> loc){
+        return this.getPriorityZone(loc.world(), loc.position());
     }
 
     public @NotNull Optional<Zone> getPriorityZone(@Nullable World<?, ?> world, @NotNull Vector3d worldPos) {
@@ -129,7 +134,7 @@ public class ZoneManager {
                         .filter(type -> type.getKey().equalsIgnoreCase(keyNode.getKey().toString()))
                         .findFirst();
                 if (opFlag.isEmpty()) {
-                    ZonePlugin.getZonesPlugin().getLogger().error("Could not load flag: Unknown plugin of " + flagPluginNode.getKey().toString());
+                    ZonePlugin.getZonesPlugin().getLogger().error("Could not load flag: Unknown flag Id of '" + flagPluginNode.getKey().toString() + ":" + keyNode.getValue().key().toString() + "'");
                     continue;
                 }
                 if (types.containsKey(opFlag.get())) {

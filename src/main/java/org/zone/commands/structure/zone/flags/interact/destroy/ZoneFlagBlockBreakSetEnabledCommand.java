@@ -1,4 +1,4 @@
-package org.zone.commands.structure.zone.flags.interact.door;
+package org.zone.commands.structure.zone.flags.interact.destroy;
 
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
@@ -10,27 +10,25 @@ import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.NotEnoughArgumentsException;
 import org.zone.commands.system.arguments.operation.ExactArgument;
-import org.zone.commands.system.arguments.operation.OptionalArgument;
 import org.zone.commands.system.arguments.simple.BooleanArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.interact.door.DoorInteractionFlag;
+import org.zone.region.flag.interact.block.destroy.BlockBreakFlag;
 import org.zone.region.group.SimpleGroup;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class ZoneFlagInteractDoorEnabledCommand implements ArgumentCommand {
+public class ZoneFlagBlockBreakSetEnabledCommand implements ArgumentCommand {
+
+    public static final BooleanArgument VALUE = new BooleanArgument("enabledValue");
     public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
             new ZoneArgument
                     .ZoneArgumentPropertiesBuilder()
                     .setLevel(SimpleGroup.OWNER));
-
-    public static final OptionalArgument<Boolean> VALUE = new OptionalArgument<>(new BooleanArgument("enabledValue"),
-            (Boolean) null);
 
     @Override
     public List<CommandArgument<?>> getArguments() {
@@ -39,15 +37,17 @@ public class ZoneFlagInteractDoorEnabledCommand implements ArgumentCommand {
                 new ExactArgument("flag"),
                 ZONE,
                 new ExactArgument("interact"),
-                new ExactArgument("door"),
+                new ExactArgument("block"),
+                new ExactArgument("break"),
                 new ExactArgument("set"),
                 new ExactArgument("enabled"),
-                VALUE);
+                VALUE
+        );
     }
 
     @Override
     public Component getDescription() {
-        return Component.text("sets if interaction with door should be enabled");
+        return Component.text("Sets if the prevention to break blocks is enabled");
     }
 
     @Override
@@ -58,11 +58,12 @@ public class ZoneFlagInteractDoorEnabledCommand implements ArgumentCommand {
     @Override
     public CommandResult run(CommandContext commandContext, String... args) throws NotEnoughArgumentsException {
         Zone zone = commandContext.getArgument(this, ZONE);
-        @NotNull DoorInteractionFlag flag =
-                zone.getFlag(FlagTypes.DOOR_INTERACTION).orElseGet(() -> new DoorInteractionFlag(DoorInteractionFlag.ELSE));
+        @NotNull BlockBreakFlag flag = zone
+                .getFlag(FlagTypes.BLOCK_BREAK)
+                .orElseGet(() -> new BlockBreakFlag(BlockBreakFlag.ELSE));
         @Nullable Boolean value = commandContext.getArgument(this, VALUE);
         if (value==null) {
-            zone.removeFlag(FlagTypes.DOOR_INTERACTION);
+            zone.removeFlag(FlagTypes.BLOCK_BREAK);
             try {
                 zone.save();
                 commandContext.getCause().sendMessage(Identity.nil(), Component.text("Removed flag. Using default " +
@@ -78,7 +79,7 @@ public class ZoneFlagInteractDoorEnabledCommand implements ArgumentCommand {
         zone.addFlag(flag);
         try {
             zone.save();
-            commandContext.getCause().sendMessage(Identity.nil(), Component.text("Updated Block Break"));
+            commandContext.getCause().sendMessage(Identity.nil(), Component.text("Updated Door Interaction"));
         } catch (ConfigurateException e) {
             e.printStackTrace();
             return CommandResult.error(Component.text("Could not save: " + e.getMessage()));

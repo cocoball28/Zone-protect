@@ -86,7 +86,12 @@ public class ZoneSpongeCommand implements Command.Raw {
         try {
             return opCommand.get().run(commandContext, arguments.remaining().split(" "));
         } catch (Exception e) {
-            throw new CommandException(Component.text(e.getMessage()), e);
+            e.printStackTrace();
+            String message = e.getMessage();
+            if (message==null) {
+                message = "Unknown error";
+            }
+            throw new CommandException(Component.text(message), e);
         }
     }
 
