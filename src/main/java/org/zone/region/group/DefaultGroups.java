@@ -14,7 +14,8 @@ public final class DefaultGroups {
 
     static {
         VISITOR = new SimpleGroup(ZonePlugin.getZonesPlugin().getPluginContainer(), "visitor", "Visitor", null, false);
-        HOME_OWNER = new SimpleGroup(ZonePlugin.getZonesPlugin().getPluginContainer(), "home_owner", "Owner", VISITOR);
+        HOME_OWNER = new SimpleGroup(ZonePlugin.getZonesPlugin().getPluginContainer(), "home_owner", "Home owner",
+                VISITOR);
         OWNER = new SimpleGroup(ZonePlugin.getZonesPlugin().getPluginContainer(), "owner", "Owner", HOME_OWNER);
 
         HOME_OWNER.add(GroupKeys.HOME_OWNER);
