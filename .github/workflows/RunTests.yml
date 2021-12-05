@@ -23,4 +23,4 @@ jobs:
         distribution: 'adopt'
         cache: maven
     - name: Tests
-      run: mvn clean tests
+      run: mvn clean test
