@@ -13,12 +13,14 @@ import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.plugin.PluginContainer;
 import org.spongepowered.plugin.builtin.jvm.Plugin;
 import org.zone.commands.structure.ZoneCommands;
-import org.zone.event.listener.EntityListener;
 import org.zone.event.listener.PlayerListener;
 import org.zone.memory.MemoryHolder;
 import org.zone.region.Zone;
 import org.zone.region.ZoneManager;
 import org.zone.region.flag.FlagManager;
+import org.zone.region.flag.interact.block.destroy.BlockBreakListener;
+import org.zone.region.flag.interact.door.DoorInteractListener;
+import org.zone.region.flag.move.monster.MonsterPreventionListener;
 
 import java.io.File;
 
@@ -67,17 +69,22 @@ public class ZonePlugin {
         this.memoryHolder = new MemoryHolder();
     }
 
+    private void registerListeners() {
+        Sponge.eventManager().registerListeners(this.plugin, new PlayerListener());
+        Sponge.eventManager().registerListeners(this.plugin, new MonsterPreventionListener());
+        Sponge.eventManager().registerListeners(this.plugin, new DoorInteractListener());
+        Sponge.eventManager().registerListeners(this.plugin, new BlockBreakListener());
+    }
+
     @Listener
     public void onServerStarting(final StartingEngineEvent<Server> event) {
-        Sponge.eventManager().registerListeners(this.plugin, new PlayerListener());
-        Sponge.eventManager().registerListeners(this.plugin, new EntityListener());
-
+        this.registerListeners();
         ZoneManager manager = this.getZoneManager();
         File zonesFolder = new File("config/zone/zones/");
         for (PluginContainer container : Sponge.pluginManager().plugins()) {
             File keyFolder = new File(zonesFolder, container.metadata().id());
             File[] keyFiles = keyFolder.listFiles();
-            if (keyFiles==null) {
+            if (keyFiles == null) {
                 continue;
             }
             for (File file : keyFiles) {

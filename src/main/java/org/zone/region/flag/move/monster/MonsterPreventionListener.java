@@ -1,4 +1,4 @@
-package org.zone.event.listener;
+package org.zone.region.flag.move.monster;
 
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.entity.living.Monster;
@@ -8,11 +8,10 @@ import org.spongepowered.api.event.filter.Getter;
 import org.zone.ZonePlugin;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.move.monster.PreventMonsterFlag;
 
 import java.util.Optional;
 
-public class EntityListener {
+public class MonsterPreventionListener {
 
     @Listener
     public void onMonsterMoveForMonsterPrevention(MoveEntityEvent event, @Getter("entity") Monster monster) {
