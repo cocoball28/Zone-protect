@@ -13,7 +13,6 @@ import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.plugin.PluginContainer;
 import org.spongepowered.plugin.builtin.jvm.Plugin;
 import org.zone.commands.structure.ZoneCommands;
-import org.zone.event.listener.EntityListener;
 import org.zone.event.listener.PlayerListener;
 import org.zone.memory.MemoryHolder;
 import org.zone.region.Zone;
@@ -21,6 +20,7 @@ import org.zone.region.ZoneManager;
 import org.zone.region.flag.FlagManager;
 import org.zone.region.flag.interact.block.destroy.BlockBreakListener;
 import org.zone.region.flag.interact.door.DoorInteractListener;
+import org.zone.region.flag.move.monster.MonsterPreventionListener;
 
 import java.io.File;
 
@@ -71,7 +71,7 @@ public class ZonePlugin {
 
     private void registerListeners() {
         Sponge.eventManager().registerListeners(this.plugin, new PlayerListener());
-        Sponge.eventManager().registerListeners(this.plugin, new EntityListener());
+        Sponge.eventManager().registerListeners(this.plugin, new MonsterPreventionListener());
         Sponge.eventManager().registerListeners(this.plugin, new DoorInteractListener());
         Sponge.eventManager().registerListeners(this.plugin, new BlockBreakListener());
     }
