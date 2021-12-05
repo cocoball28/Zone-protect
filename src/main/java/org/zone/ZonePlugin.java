@@ -19,6 +19,8 @@ import org.zone.memory.MemoryHolder;
 import org.zone.region.Zone;
 import org.zone.region.ZoneManager;
 import org.zone.region.flag.FlagManager;
+import org.zone.region.flag.interact.block.destroy.BlockBreakListener;
+import org.zone.region.flag.interact.door.DoorInteractListener;
 
 import java.io.File;
 
@@ -67,17 +69,22 @@ public class ZonePlugin {
         this.memoryHolder = new MemoryHolder();
     }
 
-    @Listener
-    public void onServerStarting(final StartingEngineEvent<Server> event) {
+    private void registerListeners() {
         Sponge.eventManager().registerListeners(this.plugin, new PlayerListener());
         Sponge.eventManager().registerListeners(this.plugin, new EntityListener());
+        Sponge.eventManager().registerListeners(this.plugin, new DoorInteractListener());
+        Sponge.eventManager().registerListeners(this.plugin, new BlockBreakListener());
+    }
 
+    @Listener
+    public void onServerStarting(final StartingEngineEvent<Server> event) {
+        this.registerListeners();
         ZoneManager manager = this.getZoneManager();
         File zonesFolder = new File("config/zone/zones/");
         for (PluginContainer container : Sponge.pluginManager().plugins()) {
             File keyFolder = new File(zonesFolder, container.metadata().id());
             File[] keyFiles = keyFolder.listFiles();
-            if (keyFiles==null) {
+            if (keyFiles == null) {
                 continue;
             }
             for (File file : keyFiles) {
