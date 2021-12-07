@@ -23,7 +23,7 @@ import java.util.Optional;
 public class SetGreetingsMessageCommand implements ArgumentCommand {
     public static final ExactArgument ZONE = new ExactArgument("zone");
     public static final ExactArgument FLAGS = new ExactArgument("flags");
-    ZoneArgument ZONE_VALUE = new ZoneArgument("zone_value", new ZoneArgument.ZoneArgumentPropertiesBuilder());
+    public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zone_value", new ZoneArgument.ZoneArgumentPropertiesBuilder());
     public static final ExactArgument GREETINGS = new ExactArgument("greetings");
     public static final ExactArgument MESSAGE = new ExactArgument("message");
     public static final ExactArgument SET = new ExactArgument("set");
@@ -31,7 +31,6 @@ public class SetGreetingsMessageCommand implements ArgumentCommand {
 
     @Override
     public List<CommandArgument<?>> getArguments() {
-        Arrays.asList(ZONE, FLAGS, ZONE_VALUE, GREETINGS, MESSAGE, SET, MESSAGE_VALUE);
         return Arrays.asList(ZONE, FLAGS, ZONE_VALUE, GREETINGS, MESSAGE, SET, MESSAGE_VALUE);
     }
 
@@ -63,8 +62,4 @@ public class SetGreetingsMessageCommand implements ArgumentCommand {
         return CommandResult.success();
     }
 
-    @Override
-    public boolean hasPermission(CommandCause source) {
-        return ArgumentCommand.super.hasPermission(source);
-    }
 }
