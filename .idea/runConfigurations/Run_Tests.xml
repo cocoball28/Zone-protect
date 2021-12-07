@@ -11,6 +11,7 @@
           <option name="goals">
             <list>
               <option value="test" />
+              <option value="-e" />
             </list>
           </option>
           <option name="pomFileName" />

@@ -23,6 +23,9 @@ public class ComponentColourParser implements ComponentPartParser {
 
     @Override
     public @NotNull Component withTag(String tag, @NotNull Component component) {
+        if (!this.hasTag(tag)) {
+            throw new IllegalArgumentException("No colour tag");
+        }
         if (tag.toLowerCase().contains("name=")) {
             Optional<NamedTextColor> opColor = Arrays
                     .stream(NamedTextColor.class.getDeclaredFields())
@@ -37,7 +40,7 @@ public class ComponentColourParser implements ComponentPartParser {
                         }
                     })
                     .filter(Objects::nonNull)
-                    .filter(textColor -> tag.toLowerCase().contains(textColor.examinableName().toLowerCase()))
+                    .filter(textColor -> tag.toLowerCase().contains(textColor.toString().toLowerCase()))
                     .findFirst();
 
             if (opColor.isPresent()) {
