@@ -32,7 +32,7 @@ public class SetGreetingsMessageCommand implements ArgumentCommand {
     @Override
     public List<CommandArgument<?>> getArguments() {
         Arrays.asList(ZONE, FLAGS, ZONE_VALUE, GREETINGS, MESSAGE, SET, MESSAGE_VALUE);
-        return Arrays.asList();
+        return Arrays.asList(ZONE, FLAGS, ZONE_VALUE, GREETINGS, MESSAGE, SET, MESSAGE_VALUE);
     }
 
     @Override
@@ -47,13 +47,11 @@ public class SetGreetingsMessageCommand implements ArgumentCommand {
 
     @Override
     public CommandResult run(CommandContext commandContext, String[] args) throws NotEnoughArgumentsException {
-        commandContext.getArgument(this, ZONE_VALUE);
         Zone zone = commandContext.getArgument(this, ZONE_VALUE);
-        commandContext.getArgument(this, MESSAGE_VALUE);
         List<String> message_value = commandContext.getArgument(this, MESSAGE_VALUE);
         String message = String.join(" ", message_value);
         GreetingsFlag greetingsflag = zone.getFlag(FlagTypes.GREETINGS_FLAG_TYPE).orElse(new GreetingsFlag());
-        Component.text(message);
+        greetingsflag.setMessage(Component.text(message));
         zone.removeFlag(FlagTypes.GREETINGS_FLAG_TYPE);
         zone.addFlag(greetingsflag);
         try {
