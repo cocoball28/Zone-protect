@@ -9,6 +9,6 @@ module Zone {
     requires net.kyori.adventure;
     requires log4j.api;
     requires com.google.guice;
-
+    requires net.kyori.adventure.text.serializer.gson;
 
 }
