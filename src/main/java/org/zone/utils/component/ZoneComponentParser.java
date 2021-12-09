@@ -7,17 +7,25 @@ import org.zone.utils.component.parsers.ComponentPartParser;
 import org.zone.utils.component.parsers.colour.ComponentColourParser;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ZoneComponentParser {
 
     public static final Set<ComponentPartParser> PARTS = new HashSet<>(Arrays.asList(new ComponentColourParser()));
 
-    public static @NotNull String toString(Component component) {
+    public static @NotNull Collection<String> getSuggestion(@NotNull String peek) {
+        return PARTS
+                .parallelStream()
+                .flatMap(part -> part.getSuggestions(peek).parallelStream())
+                .collect(Collectors.toSet());
+    }
+
+    public static @NotNull String toString(@NotNull Component component) {
         String message = PlainTextComponentSerializer.plainText().serialize(component);
         StringBuilder builder = new StringBuilder();
         for (ComponentPartParser part : PARTS) {
             if (part.hasTag(component)) {
-                builder.append(part.withTag(component, message));
+                builder.append(part.withTag(component, builder.toString()));
                 break;
             }
         }
@@ -28,7 +36,7 @@ public class ZoneComponentParser {
         return builder.toString();
     }
 
-    public static @NotNull Component fromString(String string) {
+    public static @NotNull Component fromString(@NotNull String string) {
         Integer tagStart = null;
         StringBuilder buffer = new StringBuilder();
         Component component = null;
@@ -56,10 +64,15 @@ public class ZoneComponentParser {
             }
             if (character == '>' && tagStart != null) {
                 String tag = string.substring(tagStart, current);
+                boolean check = true;
                 for (ComponentPartParser part : PARTS) {
                     if (part.hasTag(tag)) {
+                        check = false;
                         applyTo.put(part, tag);
                     }
+                }
+                if (check) {
+                    throw new IllegalArgumentException("Unknown tag of " + tag);
                 }
                 tagStart = null;
                 continue;
@@ -68,6 +81,20 @@ public class ZoneComponentParser {
                 buffer.append(character);
             }
         }
+
+        String previous = buffer.toString();
+        if (!previous.isEmpty()) {
+            Component toAdd = Component.text(previous);
+            for (Map.Entry<ComponentPartParser, String> entry : applyTo.entrySet()) {
+                toAdd = entry.getKey().withTag(entry.getValue(), toAdd);
+            }
+            if (component == null) {
+                component = toAdd;
+            } else {
+                component.append(toAdd);
+            }
+        }
+
         if (component == null) {
             throw new IllegalArgumentException("Failed to understand the text of " + string);
         }

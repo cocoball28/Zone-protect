@@ -2,7 +2,6 @@ package org.zone.utils.component.parsers;
 
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
-import org.spongepowered.api.command.CommandCompletion;
 
 import java.util.Collection;
 
@@ -16,5 +15,5 @@ public interface ComponentPartParser {
 
     @NotNull String withTag(@NotNull Component component, @NotNull String message);
 
-    @NotNull Collection<CommandCompletion> getSuggestions(@NotNull String peek);
+    @NotNull Collection<String> getSuggestions(@NotNull String peek);
 }

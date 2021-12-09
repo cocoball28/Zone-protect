@@ -5,20 +5,20 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.zone.utils.component.parsers.colour.ComponentColourParser;
+import org.zone.utils.component.ZoneComponentParser;
+import utils.CollectionAssert;
 
 import java.util.*;
 
-public class ColourParserTest {
+public class GeneralColourParserTest {
 
     @Test
     public void onClearTest() {
         //SETUP
         String testAgainst = "";
-        Component plainComponent = Component.text(testAgainst);
 
         //ACT
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new ComponentColourParser().withTag(testAgainst, plainComponent));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> ZoneComponentParser.fromString(testAgainst));
 
         //ASSERT
     }
@@ -27,10 +27,9 @@ public class ColourParserTest {
     public void onWithTagTest() {
         //SETUP
         String testAgainst = "<color name=RED>Test";
-        Component plainComponent = Component.text("Test");
 
         //ACT
-        Component result = new ComponentColourParser().withTag(testAgainst, plainComponent);
+        Component result = ZoneComponentParser.fromString(testAgainst);
 
         //ASSERT
         Assertions.assertNotNull(result.color());
@@ -41,10 +40,9 @@ public class ColourParserTest {
     public void onWithTagEngTest() {
         //SETUP
         String testAgainst = "<colour name=RED>Test";
-        Component plainComponent = Component.text("Test");
 
         //ACT
-        Component result = new ComponentColourParser().withTag(testAgainst, plainComponent);
+        Component result = ZoneComponentParser.fromString(testAgainst);
 
         //ASSERT
         Assertions.assertNotNull(result.color());
@@ -55,10 +53,9 @@ public class ColourParserTest {
     public void onWithInvalidTest() {
         //SETUP
         String testAgainst = "<invalid name=RED>Test";
-        Component plainComponent = Component.text("Test");
 
         //ACT
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new ComponentColourParser().withTag(testAgainst, plainComponent));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> ZoneComponentParser.fromString(testAgainst));
     }
 
     @Test
@@ -67,11 +64,11 @@ public class ColourParserTest {
         Component toTest = Component.text("Test").color(NamedTextColor.RED);
 
         //ACT
-        String result = new ComponentColourParser().withTag(toTest, "");
+        String result = ZoneComponentParser.toString(toTest);
 
         //ASSERT
         Assertions.assertNotNull(result);
-        Assertions.assertEquals("<colour 255,85,85>", result);
+        Assertions.assertEquals("<colour 255,85,85>Test", result);
     }
 
     @Test
@@ -80,11 +77,11 @@ public class ColourParserTest {
         Component toTest = Component.text("Test");
 
         //ACT
-        String result = new ComponentColourParser().withTag(toTest, "");
+        String result = ZoneComponentParser.toString(toTest);
 
         //ASSERT
         Assertions.assertNotNull(result);
-        Assertions.assertEquals("", result);
+        Assertions.assertEquals("Test", result);
     }
 
     @Test
@@ -93,7 +90,7 @@ public class ColourParserTest {
         String toTest = "";
 
         //ACT
-        @NotNull Collection<String> results = new ComponentColourParser().getSuggestions(toTest);
+        @NotNull Collection<String> results = ZoneComponentParser.getSuggestion(toTest);
 
         //ASSERT
         Assertions.assertFalse(results.isEmpty());
@@ -107,7 +104,7 @@ public class ColourParserTest {
         String toTest = "<colo";
 
         //ACT
-        @NotNull Collection<String> results = new ComponentColourParser().getSuggestions(toTest);
+        @NotNull Collection<String> results = ZoneComponentParser.getSuggestion(toTest);
 
         //ASSERT
         Assertions.assertFalse(results.isEmpty());
@@ -122,12 +119,11 @@ public class ColourParserTest {
         List<String> expected = Arrays.asList("name=", "255,", "0,");
 
         //ACT
-        @NotNull Collection<String> results = new ComponentColourParser().getSuggestions(toTest);
+        @NotNull Collection<String> results = ZoneComponentParser.getSuggestion(toTest);
 
         //ASSERT
         Assertions.assertFalse(results.isEmpty());
-        Assertions.assertEquals(3, results.size());
-        Assertions.assertEquals(expected, results);
+        CollectionAssert.collectionEquals(expected, results);
     }
 
     @Test
@@ -137,12 +133,11 @@ public class ColourParserTest {
         List<String> expected = Arrays.asList("name=", "255,", "0,");
 
         //ACT
-        @NotNull Collection<String> results = new ComponentColourParser().getSuggestions(toTest);
+        @NotNull Collection<String> results = ZoneComponentParser.getSuggestion(toTest);
 
         //ASSERT
         Assertions.assertFalse(results.isEmpty());
-        Assertions.assertEquals(3, results.size());
-        Assertions.assertEquals(expected, results);
+        CollectionAssert.collectionEquals(expected, results);
     }
 
     @Test
@@ -152,12 +147,11 @@ public class ColourParserTest {
         Collection<String> expected = Collections.singleton("name=");
 
         //ACT
-        @NotNull Collection<String> results = new ComponentColourParser().getSuggestions(toTest);
+        @NotNull Collection<String> results = ZoneComponentParser.getSuggestion(toTest);
 
         //ASSERT
         Assertions.assertFalse(results.isEmpty());
-        Assertions.assertEquals(1, results.size());
-        Assertions.assertEquals(expected, results);
+        CollectionAssert.collectionEquals(expected, results);
     }
 
     @Test
@@ -167,7 +161,7 @@ public class ColourParserTest {
         Collection<String> expected = new HashSet<>(Collections.singleton("red"));
 
         //ACT
-        @NotNull Collection<String> results = new ComponentColourParser().getSuggestions(toTest);
+        @NotNull Collection<String> results = ZoneComponentParser.getSuggestion(toTest);
 
         //ASSERT
         Assertions.assertFalse(results.isEmpty());
@@ -181,12 +175,10 @@ public class ColourParserTest {
         String toTest = "<colour name=RED";
 
         //ACT
-        @NotNull Collection<String> results = new ComponentColourParser().getSuggestions(toTest);
+        @NotNull Collection<String> results = ZoneComponentParser.getSuggestion(toTest);
 
         //ASSERT
         Assertions.assertFalse(results.isEmpty());
         Assertions.assertTrue(results.parallelStream().anyMatch(t -> t.endsWith(">")));
     }
-
-
 }
