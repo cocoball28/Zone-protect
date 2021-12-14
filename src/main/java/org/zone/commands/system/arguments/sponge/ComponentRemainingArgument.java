@@ -1,4 +1,4 @@
-package org.zone.commands.system.arguments.message;
+package org.zone.commands.system.arguments.sponge;
 
 import net.kyori.adventure.text.Component;
 import org.spongepowered.api.command.CommandCompletion;

@@ -2,7 +2,8 @@ package org.zone.region.flag;
 
 import org.zone.region.flag.interact.block.destroy.BlockBreakFlagType;
 import org.zone.region.flag.interact.door.DoorInteractionFlagType;
-import org.zone.region.flag.meta.MembersFlagType;
+import org.zone.region.flag.meta.eco.EcoFlagType;
+import org.zone.region.flag.meta.member.MembersFlagType;
 import org.zone.region.flag.move.monster.PreventMonsterFlagType;
 
 public final class FlagTypes {
@@ -11,6 +12,7 @@ public final class FlagTypes {
     public static final MembersFlagType MEMBERS = new MembersFlagType();
     public static final DoorInteractionFlagType DOOR_INTERACTION = new DoorInteractionFlagType();
     public static final BlockBreakFlagType BLOCK_BREAK = new BlockBreakFlagType();
+    public static final EcoFlagType ECO = new EcoFlagType();
 
     private FlagTypes() {
         throw new RuntimeException("Should not init");

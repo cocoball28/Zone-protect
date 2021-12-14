@@ -35,7 +35,7 @@ public class DoorInteractListener {
                 return;
             }
             if (player instanceof ServerPlayer sPlayer &&
-                    sPlayer.hasPermission(Permissions.BYPASS_DOOR_INTERACTION.getPermission())) {
+                    sPlayer.hasPermission(Permissions.BYPASS_INTERACTION_DOOR.getPermission())) {
                 return;
             }
             if (zone.getParentId().isPresent() &&

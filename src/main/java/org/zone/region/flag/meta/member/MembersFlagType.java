@@ -1,4 +1,4 @@
-package org.zone.region.flag.meta;
+package org.zone.region.flag.meta.member;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -11,6 +11,7 @@ import org.zone.region.flag.FlagType;
 import org.zone.region.group.DefaultGroups;
 import org.zone.region.group.Group;
 import org.zone.region.group.SimpleGroup;
+import org.zone.region.group.key.GroupKey;
 
 import java.io.IOException;
 import java.util.*;
@@ -38,29 +39,28 @@ public class MembersFlagType implements FlagType<MembersFlag> {
 
     @Override
     public @NotNull MembersFlag load(@NotNull ConfigurationNode node) throws IOException {
-        Set<PluginContainer> plugins =
-                node
-                        .childrenMap()
-                        .keySet()
-                        .parallelStream()
-                        .map(key -> Sponge.pluginManager().plugin(key.toString()))
-                        .filter(Optional::isPresent)
-                        .map(Optional::get)
-                        .collect(Collectors.toSet());
+        Set<PluginContainer> plugins = node
+                .childrenMap()
+                .keySet()
+                .parallelStream()
+                .map(key -> Sponge.pluginManager().plugin(key.toString()))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toSet());
         Map<PluginContainer, Collection<? extends ConfigurationNode>> keys = new HashMap<>();
         for (PluginContainer container : plugins) {
             keys.put(container, node.node(container.metadata().id()).childrenMap().values());
         }
 
         int totalSize = (int) keys.values().parallelStream().flatMap(Collection::parallelStream).count();
-        if (totalSize==0) {
+        if (totalSize == 0) {
             throw new IOException("No groups found");
         }
         Map<Group, Collection<UUID>> groups = new HashMap<>();
         groups.put(DefaultGroups.VISITOR, Collections.emptyList());
         Integer added = null;
 
-        while (groups.size()!=totalSize && (added==null || added!=0)) {
+        while (groups.size() != totalSize && (added == null || added != 0)) {
             added = 0;
             for (Map.Entry<PluginContainer, Collection<? extends ConfigurationNode>> entry : keys.entrySet()) {
                 for (ConfigurationNode groupNode : entry.getValue()) {
@@ -70,48 +70,52 @@ public class MembersFlagType implements FlagType<MembersFlag> {
                     if (groups.keySet().parallelStream().anyMatch(g -> g.getId().equals(id))) {
                         continue;
                     }
-                    List<String> ids = groupNode
-                            .node("users")
-                            .getList(String.class);
-                    if (ids==null) {
+                    List<String> userIds = groupNode.node("users").getList(String.class);
+                    if (userIds == null) {
                         continue;
                     }
-                    Set<UUID> users =
-                            ids
-                                    .parallelStream()
-                                    .map(UUID::fromString)
-                                    .collect(Collectors.toSet());
-                    if (name==null) {
+                    Set<UUID> users = userIds.parallelStream().map(UUID::fromString).collect(Collectors.toSet());
+                    if (name == null) {
                         continue;
                     }
-                    if (parentString==null) {
+                    if (parentString == null) {
                         continue;
                     }
+
                     Optional<Group> opParent = groups
                             .keySet()
                             .parallelStream()
-                            .filter(g -> g
-                                    .getId()
-                                    .equals(parentString))
+                            .filter(g -> g.getId().equals(parentString))
                             .findFirst();
                     if (opParent.isEmpty()) {
                         continue;
                     }
-                    groups.put(
-                            new SimpleGroup(
-                                    entry.getKey(),
-                                    groupNode.key().toString(),
-                                    name,
-                                    opParent.get()),
-                            users);
+                    Group newGroup = new SimpleGroup(entry.getKey(), groupNode.key().toString(), name, opParent.get());
+                    List<String> keyIds = groupNode.node("keys").getList(String.class);
+                    if (keyIds != null) {
+                        Collection<GroupKey> groupKeys = keyIds
+                                .parallelStream()
+                                .map(keyId -> ZonePlugin
+                                        .getZonesPlugin()
+                                        .getGroupKeyManager()
+                                        .getKeys()
+                                        .parallelStream()
+                                        .filter(groupKey -> groupKey.getId().asString().equals(keyId))
+                                        .findFirst())
+                                .filter(Optional::isPresent)
+                                .map(Optional::get)
+                                .collect(Collectors.toSet());
+                        newGroup.addAll(groupKeys);
+                    }
+                    groups.put(newGroup, users);
                     added++;
                 }
             }
         }
-        if (groups.size()==1) {
+        if (groups.size() == 1) {
             throw new IOException("Could not find groups");
         }
-        if (added==0) {
+        if (added == 0) {
             ZonePlugin.getZonesPlugin().getLogger().warn("Could not load some groups for a zone.");
         }
         return new MembersFlag(groups);
@@ -119,21 +123,26 @@ public class MembersFlagType implements FlagType<MembersFlag> {
 
     @Override
     public void save(@NotNull ConfigurationNode node, @Nullable MembersFlag save) throws IOException {
-        if (save==null) {
+        if (save == null) {
             node.set(null);
             return;
         }
         for (Map.Entry<Group, Collection<UUID>> entry : save.getGroupMapping().entrySet()) {
-            ConfigurationNode groupNode = node
-                    .node(entry
-                            .getKey()
-                            .getPlugin()
-                            .metadata()
-                            .id(), entry
-                            .getKey()
-                            .getKey());
+            ConfigurationNode groupNode = node.node(entry.getKey().getPlugin().metadata().id(), entry
+                    .getKey()
+                    .getKey());
             groupNode.node("name").set(entry.getKey().getName());
-            groupNode.node("users").set(entry.getValue().stream().map(UUID::toString).sorted().collect(Collectors.toList()));
+            groupNode
+                    .node("keys")
+                    .set(entry
+                            .getKey()
+                            .getKeys()
+                            .parallelStream()
+                            .map(key -> key.getId().asString())
+                            .collect(Collectors.toSet()));
+            groupNode
+                    .node("users")
+                    .set(entry.getValue().stream().map(UUID::toString).sorted().collect(Collectors.toList()));
             Optional<Group> opParent = entry.getKey().getParent();
             if (opParent.isPresent()) {
                 groupNode.node("parent").set(opParent.get().getId());
