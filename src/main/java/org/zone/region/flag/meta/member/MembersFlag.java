@@ -1,4 +1,4 @@
-package org.zone.region.flag.meta;
+package org.zone.region.flag.meta.member;
 
 import org.jetbrains.annotations.NotNull;
 import org.zone.region.flag.Flag;

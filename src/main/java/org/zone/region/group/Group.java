@@ -4,10 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.zone.Identifiable;
 import org.zone.region.group.key.GroupKey;
 
-import java.util.Collection;
-import java.util.Optional;
-import java.util.Spliterator;
-import java.util.Spliterators;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -26,25 +23,28 @@ public interface Group extends Identifiable, Comparable<Group> {
         return this.getKeys().add(key);
     }
 
+    default boolean addAll(Collection<? extends GroupKey> keys){
+        return this.getKeys().addAll(keys);
+    }
+
     default boolean remove(GroupKey key) {
         return this.getKeys().remove(key);
     }
 
+    default boolean contains(GroupKey key) {
+        if (this.getKeys().contains(key)) {
+            return true;
+        }
+        return this.getParent().map(parent -> parent.contains(key)).orElse(false);
+    }
+
     default Stream<Group> getImplements() {
-        return StreamSupport
-                .stream(Spliterators
-                                .spliteratorUnknownSize(
-                                        new ImplementedGroupIterator(this),
-                                        Spliterator.ORDERED),
-                        false);
+        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(new ImplementedGroupIterator(this), Spliterator.ORDERED), false);
     }
 
 
     default Collection<GroupKey> getAllKeys() {
-        return this
-                .getImplements()
-                .flatMap(g -> g.getKeys().stream())
-                .collect(Collectors.toUnmodifiableSet());
+        return this.getImplements().flatMap(g -> g.getKeys().stream()).collect(Collectors.toUnmodifiableSet());
     }
 
     default boolean inherits(Group group) {
@@ -56,6 +56,6 @@ public interface Group extends Identifiable, Comparable<Group> {
         if (o.equals(this)) {
             return 0;
         }
-        return this.inherits(o) ? -1:this.getId().compareTo(o.getId());
+        return this.inherits(o) ? -1 : this.getId().compareTo(o.getId());
     }
 }

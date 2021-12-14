@@ -13,7 +13,8 @@ import org.zone.ZonePlugin;
 import org.zone.region.flag.Flag;
 import org.zone.region.flag.FlagType;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.meta.MembersFlag;
+import org.zone.region.flag.meta.eco.EcoFlag;
+import org.zone.region.flag.meta.member.MembersFlag;
 import org.zone.region.regions.Region;
 
 import java.util.*;
@@ -24,8 +25,7 @@ public class Zone implements Identifiable {
     private final @NotNull Region region;
     private final @NotNull String key;
     private final @NotNull String name;
-    private final @NotNull Collection<Flag> flags =
-            new TreeSet<>(Comparator.comparing(flag -> flag.getType().getId()));
+    private final @NotNull Collection<Flag> flags = new TreeSet<>(Comparator.comparing(flag -> flag.getType().getId()));
     private final @Nullable String parentId;
 
     public Zone(@NotNull ZoneBuilder builder) {
@@ -49,9 +49,11 @@ public class Zone implements Identifiable {
         return Collections.unmodifiableCollection(this.flags);
     }
 
-    public boolean removeFlag(Identifiable type) {
-        Optional<Flag> opFlag =
-                this.flags.parallelStream().filter(flag -> type.getId().equals(flag.getType().getId())).findFirst();
+    public boolean removeFlag(@NotNull Identifiable type) {
+        Optional<Flag> opFlag = this.flags
+                .parallelStream()
+                .filter(flag -> type.getId().equals(flag.getType().getId()))
+                .findFirst();
 
         if (opFlag.isEmpty()) {
             return false;
@@ -59,8 +61,13 @@ public class Zone implements Identifiable {
         return this.flags.remove(opFlag.get());
     }
 
-    public boolean addFlag(Flag flag) {
+    public boolean addFlag(@NotNull Flag flag) {
         return this.flags.add(flag);
+    }
+
+    public boolean setFlag(@NotNull Flag flag) {
+        this.removeFlag(flag.getType());
+        return this.addFlag(flag);
     }
 
     public @NotNull Region getRegion() {
@@ -71,14 +78,13 @@ public class Zone implements Identifiable {
         ZonePlugin.getZonesPlugin().getZoneManager().save(this);
     }
 
-    public <F extends Flag, T extends FlagType<F>> @NotNull Optional<F> getFlag(T type) {
-        Optional<F> opFlag =
-                this
-                        .getFlags()
-                        .parallelStream()
-                        .filter(flag -> flag.getType().equals(type))
-                        .map(flag -> (F) flag)
-                        .findFirst();
+    public <F extends Flag, T extends FlagType<F>> @NotNull Optional<F> getFlag(@NotNull T type) {
+        Optional<F> opFlag = this
+                .getFlags()
+                .parallelStream()
+                .filter(flag -> flag.getType().equals(type))
+                .map(flag -> (F) flag)
+                .findFirst();
         if (opFlag.isPresent()) {
             return opFlag;
         }
@@ -86,8 +92,15 @@ public class Zone implements Identifiable {
     }
 
     public MembersFlag getMembers() {
-        return this.getFlag(FlagTypes.MEMBERS).orElseThrow(() -> new IllegalStateException("MembersFlag is missing " +
-                "in zone: " + this.getId()));
+        return this
+                .getFlag(FlagTypes.MEMBERS)
+                .orElseThrow(() -> new IllegalStateException("MembersFlag is missing in zone: " + this.getId()));
+    }
+
+    public EcoFlag getEconomy() {
+        return this
+                .getFlag(FlagTypes.ECO)
+                .orElseThrow(() -> new IllegalStateException("EcoFlag is missing in zone " + this.getId()));
     }
 
 

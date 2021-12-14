@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.zone.region.Zone;
-import org.zone.region.flag.meta.MembersFlag;
+import org.zone.region.flag.meta.member.MembersFlag;
 import org.zone.region.group.Group;
 import org.zone.region.group.key.GroupKey;
 

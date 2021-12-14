@@ -4,10 +4,12 @@ import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.block.transaction.BlockTransaction;
 import org.spongepowered.api.block.transaction.Operations;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.entity.living.player.server.ServerPlayer;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.block.ChangeBlockEvent;
 import org.spongepowered.api.event.filter.cause.Root;
 import org.spongepowered.api.world.server.ServerLocation;
+import org.zone.Permissions;
 import org.zone.ZonePlugin;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
@@ -22,6 +24,10 @@ public class BlockBreakListener {
 
     @Listener
     public void onPlayerBlockChangeEvent(ChangeBlockEvent.All event, @Root Player player) {
+        if (player instanceof ServerPlayer sPlayer &&
+                sPlayer.hasPermission(Permissions.BYPASS_INTERACTION_BLOCK.getPermission())) {
+            return;
+        }
         Map<BlockTransaction, Zone> inZone = event
                 .transactions()
                 .stream()

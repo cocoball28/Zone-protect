@@ -2,7 +2,6 @@ package org.zone.commands.structure.create;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.spongepowered.api.command.Command;
 import org.spongepowered.api.command.CommandCause;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.entity.living.player.Player;
@@ -19,9 +18,8 @@ import org.zone.commands.system.context.CommandContext;
 import org.zone.event.listener.PlayerListener;
 import org.zone.region.Zone;
 import org.zone.region.ZoneBuilder;
-import org.zone.region.flag.meta.MembersFlag;
+import org.zone.region.flag.meta.member.MembersFlag;
 import org.zone.region.group.DefaultGroups;
-import org.zone.region.group.SimpleGroup;
 import org.zone.region.regions.BoundedRegion;
 import org.zone.region.regions.Region;
 

@@ -1,6 +1,8 @@
 package org.zone;
 
 import com.google.inject.Inject;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.apache.logging.log4j.Logger;
 import org.spongepowered.api.Server;
 import org.spongepowered.api.Sponge;
@@ -8,6 +10,7 @@ import org.spongepowered.api.command.Command;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.lifecycle.ConstructPluginEvent;
 import org.spongepowered.api.event.lifecycle.RegisterCommandEvent;
+import org.spongepowered.api.event.lifecycle.StartedEngineEvent;
 import org.spongepowered.api.event.lifecycle.StartingEngineEvent;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.plugin.PluginContainer;
@@ -21,6 +24,7 @@ import org.zone.region.flag.FlagManager;
 import org.zone.region.flag.interact.block.destroy.BlockBreakListener;
 import org.zone.region.flag.interact.door.DoorInteractListener;
 import org.zone.region.flag.move.monster.MonsterPreventionListener;
+import org.zone.region.group.key.GroupKeyManager;
 
 import java.io.File;
 
@@ -36,6 +40,7 @@ public class ZonePlugin {
     private final Logger logger;
     private FlagManager flagManager;
     private ZoneManager zoneManager;
+    private GroupKeyManager groupKeyManager;
     private MemoryHolder memoryHolder;
     private static ZonePlugin zonePlugin;
 
@@ -49,6 +54,10 @@ public class ZonePlugin {
 
     public MemoryHolder getMemoryHolder() {
         return this.memoryHolder;
+    }
+
+    public GroupKeyManager getGroupKeyManager() {
+        return this.groupKeyManager;
     }
 
     public Logger getLogger() {
@@ -66,6 +75,7 @@ public class ZonePlugin {
     public void onConstructor(ConstructPluginEvent event) {
         this.flagManager = new FlagManager();
         this.zoneManager = new ZoneManager();
+        this.groupKeyManager = new GroupKeyManager();
         this.memoryHolder = new MemoryHolder();
     }
 
@@ -79,8 +89,14 @@ public class ZonePlugin {
     @Listener
     public void onServerStarting(final StartingEngineEvent<Server> event) {
         this.registerListeners();
-        ZoneManager manager = this.getZoneManager();
+    }
+
+    @Listener
+    public void onServerStarted(final StartedEngineEvent<Server> event) {
+        Sponge.systemSubject().sendMessage(Component.text("|---|Loading Zones|---|").color(NamedTextColor.AQUA));
         File zonesFolder = new File("config/zone/zones/");
+        Sponge.systemSubject().sendMessage(Component.text("|- Loading from '" + zonesFolder.getPath() + "'"));
+
         for (PluginContainer container : Sponge.pluginManager().plugins()) {
             File keyFolder = new File(zonesFolder, container.metadata().id());
             File[] keyFiles = keyFolder.listFiles();
@@ -89,13 +105,25 @@ public class ZonePlugin {
             }
             for (File file : keyFiles) {
                 try {
-                    Zone zone = manager.load(file);
-                    manager.register(zone);
+                    Zone zone = this.zoneManager.load(file);
+                    this.zoneManager.register(zone);
                 } catch (ConfigurateException e) {
+                    Sponge
+                            .systemSubject()
+                            .sendMessage(Component
+                                    .text("Could not load zone of '" +
+                                            file.getPath() +
+                                            "'. Below is details on why (this is not a crash)")
+                                    .color(NamedTextColor.RED));
                     e.printStackTrace();
                 }
             }
         }
+        Sponge
+                .systemSubject()
+                .sendMessage(Component
+                        .text("|---|Loaded " + this.zoneManager.getZones().size() + " Zones|---|")
+                        .color(NamedTextColor.AQUA));
     }
 
     @Listener

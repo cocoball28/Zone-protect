@@ -1,5 +1,9 @@
 package org.zone.region.flag;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
@@ -16,10 +20,7 @@ public class DefaultFlagFile {
     private final ConfigurationNode node;
 
     public DefaultFlagFile() {
-        this.loader = HoconConfigurationLoader
-                .builder()
-                .file(FILE)
-                .build();
+        this.loader = HoconConfigurationLoader.builder().file(FILE).build();
 
         ConfigurationNode node1;
         try {
@@ -57,13 +58,21 @@ public class DefaultFlagFile {
             return Optional.of(type.load(this.node.node("flags", type.getPlugin().metadata().id(), type.getKey())));
         } catch (IOException e) {
             return type.createCopyOfDefaultFlag();
+        } catch (Throwable e) {
+            Sponge
+                    .systemSubject()
+                    .sendMessage(Component
+                            .text("Failed to load flag of " + type.getId())
+                            .color(NamedTextColor.RED)
+                            .decorate(TextDecoration.BOLD));
+            e.printStackTrace();
+            return Optional.empty();
         }
     }
 
     public <F extends Flag, T extends FlagType<F>> void setDefault(F flag) throws IOException {
         T type = (T) flag.getType();
-        type.save(this.node.node("flags", type.getPlugin().metadata().id(),
-                type.getKey()), flag);
+        type.save(this.node.node("flags", type.getPlugin().metadata().id(), type.getKey()), flag);
     }
 
     public void removeDefault(FlagType<? extends Flag> type) throws IOException {
