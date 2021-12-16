@@ -15,10 +15,11 @@ import org.spongepowered.math.vector.Vector3i;
 import org.spongepowered.plugin.PluginContainer;
 import org.zone.Identifiable;
 import org.zone.ZonePlugin;
+import org.zone.region.bounds.BoundedRegion;
+import org.zone.region.bounds.ChildRegion;
+import org.zone.region.bounds.Region;
 import org.zone.region.flag.Flag;
 import org.zone.region.flag.FlagType;
-import org.zone.region.regions.Region;
-import org.zone.region.regions.type.PointRegion;
 
 import java.io.File;
 import java.io.IOException;
@@ -71,7 +72,7 @@ public class ZoneManager {
                 zones.remove(zone.getParent().get());
             }
         }
-        if (zones.size()==1) {
+        if (zones.size() == 1) {
             return Optional.of(zones.iterator().next());
         }
         Collection<Zone> sortedZone = new TreeSet<>(Comparator.comparing(Identifiable::getId));
@@ -87,7 +88,7 @@ public class ZoneManager {
         HoconConfigurationLoader loader = HoconConfigurationLoader.builder().file(file).build();
         ConfigurationNode node = loader.load();
         String name = node.node(NAME).getString();
-        if (name==null) {
+        if (name == null) {
             throw new ConfigurateException("Name of zone is missing in " + file.getPath());
         }
         String parentId = node.node(PARENT).getString();
@@ -97,7 +98,7 @@ public class ZoneManager {
                 .setKey(fileName.substring(0, fileName.length() - 5))
                 .setParentId(parentId);
         String worldId = node.node(REGION_WORLD).getString();
-        if (worldId==null) {
+        if (worldId == null) {
             throw new ConfigurateException("World of zone is missing in " + file.getPath());
         }
         ResourceKey worldKey = ResourceKey.resolve(worldId);
@@ -107,34 +108,56 @@ public class ZoneManager {
             throw new ConfigurateException("Plugin cannot be found: " + pluginStr);
         }
         builder.setContainer(opPlugin.get());
-        if (!node.node(REGION_PART_TWO_Z).isNull()
-                && !node.node(REGION_PART_TWO_Y).isNull()
-                && !node.node(REGION_PART_TWO_X).isNull()
-                && !node.node(REGION_PART_ONE_Z).isNull()
-                && !node.node(REGION_PART_ONE_Y).isNull()
-                && !node.node(REGION_PART_ONE_X).isNull()) {
+        if (!node.node(REGION_PART_TWO_Z).isNull() &&
+                !node.node(REGION_PART_TWO_Y).isNull() &&
+                !node.node(REGION_PART_TWO_X).isNull() &&
+                !node.node(REGION_PART_ONE_Z).isNull() &&
+                !node.node(REGION_PART_ONE_Y).isNull() &&
+                !node.node(REGION_PART_ONE_X).isNull()) {
             //region PointRegion
-            Vector3i one = new Vector3i(node.node(REGION_PART_ONE_X).getInt(), node.node(REGION_PART_ONE_Y).getInt(),
-                    node.node(REGION_PART_ONE_Z).getInt());
-            Vector3i two = new Vector3i(node.node(REGION_PART_TWO_X).getInt(), node.node(REGION_PART_TWO_Y).getInt(),
-                    node.node(REGION_PART_TWO_Z).getInt());
-            Region region = new PointRegion(worldKey, one, two);
-            builder.setRegion(region);
+            Vector3i one = new Vector3i(node.node(REGION_PART_ONE_X).getInt(), node
+                    .node(REGION_PART_ONE_Y)
+                    .getInt(), node.node(REGION_PART_ONE_Z).getInt());
+            Vector3i two = new Vector3i(node.node(REGION_PART_TWO_X).getInt(), node
+                    .node(REGION_PART_TWO_Y)
+                    .getInt(), node.node(REGION_PART_TWO_Z).getInt());
+            Region region = new BoundedRegion(one, two, worldKey);
+
+            ChildRegion child = builder.getRegion();
+            if (child == null) {
+                child = new ChildRegion();
+            }
+            child.add(region);
+            builder.setRegion(child);
         }
         Map<Object, ? extends ConfigurationNode> flagPlugins = node.node(FLAGS).childrenMap();
         Map<FlagType<?>, ConfigurationNode> types = new TreeMap<>();
         for (Map.Entry<Object, ? extends ConfigurationNode> flagPluginNode : flagPlugins.entrySet()) {
-            for (Map.Entry<Object, ? extends ConfigurationNode> keyNode : flagPluginNode.getValue().childrenMap().entrySet()) {
+            for (Map.Entry<Object, ? extends ConfigurationNode> keyNode : flagPluginNode
+                    .getValue()
+                    .childrenMap()
+                    .entrySet()) {
                 Optional<FlagType<?>> opFlag = ZonePlugin
                         .getZonesPlugin()
                         .getFlagManager()
                         .getRegistered()
                         .parallelStream()
-                        .filter(type -> type.getPlugin().metadata().id().equalsIgnoreCase(flagPluginNode.getKey().toString()))
+                        .filter(type -> type
+                                .getPlugin()
+                                .metadata()
+                                .id()
+                                .equalsIgnoreCase(flagPluginNode.getKey().toString()))
                         .filter(type -> type.getKey().equalsIgnoreCase(keyNode.getKey().toString()))
                         .findFirst();
                 if (opFlag.isEmpty()) {
-                    ZonePlugin.getZonesPlugin().getLogger().error("Could not load flag: Unknown flag Id of '" + flagPluginNode.getKey().toString() + ":" + keyNode.getValue().key().toString() + "'");
+                    ZonePlugin
+                            .getZonesPlugin()
+                            .getLogger()
+                            .error("Could not load flag: Unknown flag Id of '" +
+                                    flagPluginNode.getKey().toString() +
+                                    ":" +
+                                    keyNode.getValue().key().toString() +
+                                    "'");
                     continue;
                 }
                 if (types.containsKey(opFlag.get())) {
@@ -176,19 +199,7 @@ public class ZoneManager {
             }
         }
         Region region = zone.getRegion();
-        if (region instanceof PointRegion pointRegion) {
-            Vector3i one = pointRegion.getPointOne();
-            Vector3i two = pointRegion.getPointTwo();
-            node.node(REGION_PART_ONE_X).set(one.x());
-            node.node(REGION_PART_ONE_Y).set(one.y());
-            node.node(REGION_PART_ONE_Z).set(one.z());
-            node.node(REGION_PART_TWO_X).set(two.x());
-            node.node(REGION_PART_TWO_Y).set(two.y());
-            node.node(REGION_PART_TWO_Z).set(two.z());
-            node.node(REGION_WORLD).set(pointRegion.getWorldKey().asString());
-        } else {
-            throw new SerializationException("Unknown region type of " + region.getClass().getName());
-        }
+        region.save(node);
         loader.save(node);
         return file;
     }

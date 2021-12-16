@@ -1,8 +1,12 @@
 package org.zone.region;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.plugin.PluginContainer;
+import org.zone.region.bounds.ChildRegion;
+import org.zone.region.bounds.mode.BoundMode;
+import org.zone.region.bounds.mode.BoundModes;
 import org.zone.region.flag.Flag;
-import org.zone.region.regions.Region;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -11,11 +15,23 @@ import java.util.HashSet;
 public class ZoneBuilder {
 
     private PluginContainer container;
-    private Region region;
+    private ChildRegion region;
     private String key;
     private String name;
     private Collection<Flag> flags = new HashSet<>();
     private String parentId;
+    private BoundMode boundMode;
+
+    public void setBoundMode(@Nullable BoundMode mode) {
+        this.boundMode = mode;
+    }
+
+    public @NotNull BoundMode getBoundMode() {
+        if (this.boundMode == null) {
+            return BoundModes.BLOCK;
+        }
+        return this.boundMode;
+    }
 
     public PluginContainer getContainer() {
         return this.container;
@@ -26,11 +42,11 @@ public class ZoneBuilder {
         return this;
     }
 
-    public Region getRegion() {
+    public ChildRegion getRegion() {
         return this.region;
     }
 
-    public ZoneBuilder setRegion(Region region) {
+    public ZoneBuilder setRegion(ChildRegion region) {
         this.region = region;
         return this;
     }

@@ -7,7 +7,6 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.configurate.ConfigurateException;
-import org.spongepowered.math.vector.Vector3i;
 import org.zone.Permissions;
 import org.zone.ZonePlugin;
 import org.zone.commands.system.ArgumentCommand;
@@ -18,12 +17,14 @@ import org.zone.commands.system.context.CommandContext;
 import org.zone.event.listener.PlayerListener;
 import org.zone.region.Zone;
 import org.zone.region.ZoneBuilder;
+import org.zone.region.bounds.BoundedRegion;
+import org.zone.region.bounds.ChildRegion;
+import org.zone.region.bounds.Region;
 import org.zone.region.flag.meta.member.MembersFlag;
 import org.zone.region.group.DefaultGroups;
-import org.zone.region.regions.BoundedRegion;
-import org.zone.region.regions.Region;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,7 +46,7 @@ public class ZoneCreateEndCommand implements ArgumentCommand {
 
     @Override
     public boolean hasPermission(CommandCause source) {
-        if(!(source.subject() instanceof Player)){
+        if (!(source.subject() instanceof Player)) {
             return false;
         }
         return ArgumentCommand.super.hasPermission(source);
@@ -73,28 +74,34 @@ public class ZoneCreateEndCommand implements ArgumentCommand {
             if (opParent.isEmpty()) {
                 return CommandResult.error(Component.text("Could not find parent zone of " + zone.getParentId().get()));
             }
-            Region region = zone.getRegion();
-            if (region instanceof BoundedRegion bounded) {
-                Vector3i min = bounded.getMin();
-                if (!opParent.get().inRegion(null, min.toDouble())) {
-                    return CommandResult.error(Component.text("Region must be within " + opParent.get().getId()));
-                }
 
-                Vector3i max = bounded.getMax();
-                if (!opParent.get().inRegion(null, max.toDouble())) {
-                    return CommandResult.error(Component.text("Region must be within " + opParent.get().getId()));
-                }
+            Region region = zone.getRegion();
+            Collection<BoundedRegion> children = region.getTrueChildren();
+            if (children
+                    .stream()
+                    .anyMatch(boundedRegion -> !opParent.get().inRegion(null, boundedRegion.getMin().toDouble()))) {
+                return CommandResult.error(Component.text("Region must be within " + opParent.get().getId()));
+            }
+
+            if (children
+                    .stream()
+                    .anyMatch(boundedRegion -> !opParent.get().inRegion(null, boundedRegion.getMax().toDouble()))) {
+                return CommandResult.error(Component.text("Region must be within " + opParent.get().getId()));
             }
         }
 
         ZonePlugin.getZonesPlugin().getZoneManager().register(zone);
-        player.sendMessage(Component.text("Created a new zone of ").append(Component.text(zone.getName()).color(NamedTextColor.AQUA)));
+        player.sendMessage(Component
+                .text("Created a new zone of ")
+                .append(Component.text(zone.getName()).color(NamedTextColor.AQUA)));
         ZonePlugin.getZonesPlugin().getMemoryHolder().unregisterZoneBuilder(player.uniqueId());
-        Region region = zone.getRegion();
-        if (region instanceof BoundedRegion r) {
-            PlayerListener.runOnOutside(r, player.location().blockY() + 3, player::resetBlockChange,
-                    zone.getParent().isPresent());
-        }
+        ChildRegion region = zone.getRegion();
+        Collection<BoundedRegion> children = region.getTrueChildren();
+        children.forEach(boundedRegion -> {
+            PlayerListener.runOnOutside(boundedRegion, player.location().blockY() + 3, player::resetBlockChange, zone
+                    .getParent()
+                    .isPresent());
+        });
 
         try {
             zone.save();
