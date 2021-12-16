@@ -17,10 +17,11 @@ import org.zone.commands.system.arguments.operation.RemainingArgument;
 import org.zone.commands.system.arguments.simple.StringArgument;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.region.ZoneBuilder;
-import org.zone.region.regions.Region;
-import org.zone.region.regions.type.PointRegion;
+import org.zone.region.bounds.BoundedRegion;
+import org.zone.region.bounds.ChildRegion;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,8 +31,7 @@ public class ZoneCreateStartCommand implements ArgumentCommand {
 
     @Override
     public List<CommandArgument<?>> getArguments() {
-        return Arrays.asList(new ExactArgument("create"), new ExactArgument("bounds"), new ExactArgument("start"),
-                NAME);
+        return Arrays.asList(new ExactArgument("create"), new ExactArgument("bounds"), new ExactArgument("start"), NAME);
     }
 
     @Override
@@ -61,23 +61,28 @@ public class ZoneCreateStartCommand implements ArgumentCommand {
 
         String name = String.join(" ", context.getArgument(this, NAME));
         Vector3i vector3i = player.location().blockPosition();
-        Region region = new PointRegion(player.world().key(), new Vector3i(vector3i.x(), 0, vector3i.z()),
-                new Vector3i(vector3i.x(), 256, vector3i.z()));
+        BoundedRegion region = new BoundedRegion(new Vector3i(vector3i.x(), 0, vector3i.z()), new Vector3i(vector3i.x(), 256, vector3i.z()), player
+                .world()
+                .key());
+
+        ChildRegion childRegion = new ChildRegion(Collections.singleton(region));
 
         ZoneBuilder builder = new ZoneBuilder()
                 .setName(name)
                 .setContainer(ZonePlugin.getZonesPlugin().getPluginContainer())
                 .setKey(name.toLowerCase().replaceAll(" ", "_"))
-                .setRegion(region);
-        if (ZonePlugin.getZonesPlugin().getZoneManager().getZone(builder.getContainer(), builder.getKey()).isPresent()) {
+                .setRegion(childRegion);
+        if (ZonePlugin
+                .getZonesPlugin()
+                .getZoneManager()
+                .getZone(builder.getContainer(), builder.getKey())
+                .isPresent()) {
             return CommandResult.error(Component.text("Cannot use that name").color(NamedTextColor.RED));
         }
         ZonePlugin.getZonesPlugin().getMemoryHolder().registerZoneBuilder(player.uniqueId(), builder);
         player.sendMessage(Component
                 .text("Region builder mode enabled. Run ")
-                .append(Component
-                        .text("'/zone create end'")
-                        .color(NamedTextColor.AQUA)));
+                .append(Component.text("'/zone create end'").color(NamedTextColor.AQUA)));
         return CommandResult.success();
     }
 }

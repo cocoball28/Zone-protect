@@ -10,19 +10,19 @@ import org.spongepowered.math.vector.Vector3d;
 import org.spongepowered.plugin.PluginContainer;
 import org.zone.Identifiable;
 import org.zone.ZonePlugin;
+import org.zone.region.bounds.ChildRegion;
 import org.zone.region.flag.Flag;
 import org.zone.region.flag.FlagType;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.meta.eco.EcoFlag;
 import org.zone.region.flag.meta.member.MembersFlag;
-import org.zone.region.regions.Region;
 
 import java.util.*;
 
 public class Zone implements Identifiable {
 
     private final @NotNull PluginContainer container;
-    private final @NotNull Region region;
+    private final @NotNull ChildRegion region;
     private final @NotNull String key;
     private final @NotNull String name;
     private final @NotNull Collection<Flag> flags = new TreeSet<>(Comparator.comparing(flag -> flag.getType().getId()));
@@ -70,7 +70,7 @@ public class Zone implements Identifiable {
         return this.addFlag(flag);
     }
 
-    public @NotNull Region getRegion() {
+    public @NotNull ChildRegion getRegion() {
         return this.region;
     }
 
@@ -120,14 +120,14 @@ public class Zone implements Identifiable {
     }
 
     public boolean inRegion(@Nullable World<?, ?> world, @NotNull Vector3d vector3i) {
-        return this.getRegion().inRegion(world, vector3i, this.getParent().isEmpty());
+        return this.getRegion().contains(world, vector3i, this.getParent().isEmpty());
     }
 
     public boolean inRegion(@NotNull Location<?, ?> location) {
-        return this.getRegion().inRegion(location, this.getParent().isEmpty());
+        return this.getRegion().contains(location, this.getParent().isEmpty());
     }
 
     public boolean inRegion(@NotNull Locatable locatable) {
-        return this.getRegion().inRegion(locatable, this.getParent().isEmpty());
+        return this.getRegion().contains(locatable.location(), this.getParent().isEmpty());
     }
 }

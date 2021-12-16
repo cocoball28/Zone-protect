@@ -10,9 +10,9 @@ import org.spongepowered.math.vector.Vector3d;
 import org.spongepowered.math.vector.Vector3i;
 import org.zone.ZonePlugin;
 import org.zone.region.ZoneBuilder;
-import org.zone.region.regions.BoundedRegion;
-import org.zone.region.regions.Region;
-import org.zone.region.regions.type.PointRegion;
+import org.zone.region.bounds.BoundedRegion;
+import org.zone.region.bounds.ChildRegion;
+import org.zone.region.bounds.PositionType;
 
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -33,12 +33,14 @@ public class PlayerListener {
             return;
         }
         ZoneBuilder regionBuilder = opRegionBuilder.get();
-        Region region = regionBuilder.getRegion();
-        if (!(region instanceof PointRegion r)) {
-            return;
-        }
+        ChildRegion region = regionBuilder.getRegion();
+        BoundedRegion r = region.getTrueChildren().iterator().next();
 
-        r.setPointTwo(event.destinationPosition().toInt());
+
+        r.setPosition(PositionType.TWO, regionBuilder
+                .getBoundMode()
+                .shift(player.world().location(event.destinationPosition()), r.getPosition(PositionType.ONE))
+                .blockPosition());
         runOnOutside(r, (int) (event.destinationPosition().y() + 3), vector -> player.spawnParticles(ParticleEffect
                 .builder()
                 .velocity(new Vector3d(0, 0, 0))
