@@ -60,4 +60,8 @@ public interface ArgumentCommand {
         return opNode.map(source::hasPermission).orElse(true);
     }
 
+    default boolean canApply(CommandContext context) {
+        return this.getArguments().stream().allMatch(arg -> arg.canApply(context));
+    }
+
 }

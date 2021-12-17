@@ -36,7 +36,6 @@ public class DefaultFlagFile {
         try {
             if (!FILE.exists()) {
                 FILE.getParentFile().mkdirs();
-
                 FILE.createNewFile();
             }
             for (FlagType<? extends Flag> type : ZonePlugin.getZonesPlugin().getFlagManager().getRegistered()) {

@@ -1,4 +1,4 @@
-package org.zone.region.flag.interact.block.destroy;
+package org.zone.region.flag.interact.block.place;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -11,10 +11,14 @@ import org.zone.region.flag.FlagType;
 import java.io.IOException;
 import java.util.Optional;
 
-public class BlockBreakFlagType implements FlagType<BlockBreakFlag> {
+public class BlockPlaceFlagType implements FlagType<BlockPlaceFlag> {
+
+    public static final String NAME = "Placement";
+    public static final String KEY = "placement";
+
     @Override
     public @NotNull String getName() {
-        return "Block Break";
+        return NAME;
     }
 
     @Override
@@ -24,22 +28,22 @@ public class BlockBreakFlagType implements FlagType<BlockBreakFlag> {
 
     @Override
     public @NotNull String getKey() {
-        return "block_break";
+        return KEY;
     }
 
     @Override
-    public @NotNull BlockBreakFlag load(@NotNull ConfigurationNode node) throws IOException {
+    public @NotNull BlockPlaceFlag load(@NotNull ConfigurationNode node) throws IOException {
         boolean isEmpty = node.node("Enabled").isNull();
         if (isEmpty) {
             throw new IOException("Cannot load flag");
         }
         boolean enabled = node.node("Enabled").getBoolean();
-        return new BlockBreakFlag(enabled);
+        return new BlockPlaceFlag(enabled);
     }
 
     @Override
-    public void save(@NotNull ConfigurationNode node, @Nullable BlockBreakFlag save) throws IOException {
-        if (save==null || save.getEnabled().isEmpty()) {
+    public void save(@NotNull ConfigurationNode node, @Nullable BlockPlaceFlag save) throws IOException {
+        if (save == null || save.getEnabled().isEmpty()) {
             node.set(null);
             return;
         }
@@ -53,7 +57,7 @@ public class BlockBreakFlagType implements FlagType<BlockBreakFlag> {
     }
 
     @Override
-    public Optional<BlockBreakFlag> createCopyOfDefaultFlag() {
+    public Optional<BlockPlaceFlag> createCopyOfDefaultFlag() {
         return Optional.empty();
     }
 }

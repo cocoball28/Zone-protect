@@ -53,6 +53,22 @@ public class ZoneCreateEndCommand implements ArgumentCommand {
     }
 
     @Override
+    public boolean canApply(CommandContext context) {
+        Subject subject = context.getSource();
+        if (!(subject instanceof Player player)) {
+            return false;
+        }
+        Optional<ZoneBuilder> opBuilder = ZonePlugin
+                .getZonesPlugin()
+                .getMemoryHolder()
+                .getZoneBuilder(player.uniqueId());
+        if (opBuilder.isEmpty()) {
+            return false;
+        }
+        return ArgumentCommand.super.canApply(context);
+    }
+
+    @Override
     public CommandResult run(CommandContext context, String... args) throws NotEnoughArgumentsException {
         Subject subject = context.getSource();
         if (!(subject instanceof Player player)) {

@@ -2,6 +2,8 @@ package org.zone.region;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.spongepowered.api.ResourceKey;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.world.Locatable;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
@@ -27,6 +29,7 @@ public class Zone implements Identifiable {
     private final @NotNull String name;
     private final @NotNull Collection<Flag> flags = new TreeSet<>(Comparator.comparing(flag -> flag.getType().getId()));
     private final @Nullable String parentId;
+    private final @Nullable ResourceKey world;
 
     public Zone(@NotNull ZoneBuilder builder) {
         this.parentId = builder.getParentId();
@@ -35,6 +38,24 @@ public class Zone implements Identifiable {
         this.key = builder.getKey();
         this.region = builder.getRegion();
         this.container = builder.getContainer();
+        this.world = builder.getWorldKey();
+        if (this.world == null && !Sponge.isClientAvailable()) {
+            throw new IllegalArgumentException("World is needed to be set when in server mode");
+        }
+    }
+
+    public Optional<ResourceKey> getWorldKey() {
+        return Optional.ofNullable(this.world);
+    }
+
+    public Optional<? extends World<?, ?>> getWorld() {
+        if (this.world == null) {
+            if (Sponge.isServerAvailable()) {
+                return Optional.of(Sponge.server().worldManager().defaultWorld());
+            }
+            return Sponge.client().world();
+        }
+        return Sponge.server().worldManager().world(this.world);
     }
 
     public @NotNull Optional<Zone> getParent() {
@@ -120,14 +141,20 @@ public class Zone implements Identifiable {
     }
 
     public boolean inRegion(@Nullable World<?, ?> world, @NotNull Vector3d vector3i) {
-        return this.getRegion().contains(world, vector3i, this.getParent().isEmpty());
+        if (world != null) {
+            Optional<? extends World<?, ?>> opWorld = this.getWorld();
+            if (opWorld.isPresent() && !opWorld.get().equals(world)) {
+                return false;
+            }
+        }
+        return this.getRegion().contains(vector3i, this.getParent().isEmpty());
     }
 
     public boolean inRegion(@NotNull Location<?, ?> location) {
-        return this.getRegion().contains(location, this.getParent().isEmpty());
+        return this.inRegion(location.world(), location.position());
     }
 
     public boolean inRegion(@NotNull Locatable locatable) {
-        return this.getRegion().contains(locatable.location(), this.getParent().isEmpty());
+        return this.inRegion(locatable.location());
     }
 }

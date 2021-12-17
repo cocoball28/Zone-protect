@@ -2,6 +2,8 @@ package org.zone.region;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.spongepowered.api.ResourceKey;
+import org.spongepowered.api.world.server.ServerWorld;
 import org.spongepowered.plugin.PluginContainer;
 import org.zone.region.bounds.ChildRegion;
 import org.zone.region.bounds.mode.BoundMode;
@@ -21,9 +23,24 @@ public class ZoneBuilder {
     private Collection<Flag> flags = new HashSet<>();
     private String parentId;
     private BoundMode boundMode;
+    private ResourceKey world;
 
     public void setBoundMode(@Nullable BoundMode mode) {
         this.boundMode = mode;
+    }
+
+    public ResourceKey getWorldKey() {
+        return this.world;
+    }
+
+    public ZoneBuilder setWorld(ResourceKey world) {
+        this.world = world;
+        return this;
+    }
+
+    public ZoneBuilder setWorld(ServerWorld world) {
+        this.world = world.key();
+        return this;
     }
 
     public @NotNull BoundMode getBoundMode() {
