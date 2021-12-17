@@ -1,8 +1,6 @@
 package org.zone.region.bounds;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.spongepowered.api.world.World;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.math.vector.Vector3d;
@@ -32,8 +30,8 @@ public class ChildRegion implements Region {
     }
 
     @Override
-    public boolean contains(@Nullable World<?, ?> world, @NotNull Vector3d location, boolean ignoreY) {
-        return this.bounds.stream().anyMatch(bound -> bound.contains(world, location, ignoreY));
+    public boolean contains(@NotNull Vector3d location, boolean ignoreY) {
+        return this.bounds.stream().anyMatch(bound -> bound.contains(location, ignoreY));
     }
 
     @Override
@@ -85,7 +83,7 @@ public class ChildRegion implements Region {
 
     public static void save(ConfigurationNode node, ChildRegion region) throws SerializationException {
         for (Region child : region.getChildren()) {
-            child.save(node.node(child.hashCode()));
+            child.save(node.node("" + child.hashCode()));
         }
     }
 }

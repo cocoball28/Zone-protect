@@ -1,4 +1,4 @@
-package org.zone.commands.structure.zone.flags.interact.destroy;
+package org.zone.commands.structure.zone.flags.interact.place;
 
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
@@ -15,21 +15,21 @@ import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.interact.block.destroy.BlockBreakFlag;
+import org.zone.region.flag.interact.block.place.BlockPlaceFlag;
 import org.zone.region.group.key.GroupKeys;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class ZoneFlagBlockBreakSetEnabledCommand implements ArgumentCommand {
+public class ZoneFlagBlockPlaceSetEnabledCommand implements ArgumentCommand {
 
     public static final BooleanArgument VALUE = new BooleanArgument("enabledValue");
     public static final ZoneArgument ZONE = new ZoneArgument("zoneId", new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(GroupKeys.OWNER));
 
     @Override
     public List<CommandArgument<?>> getArguments() {
-        return Arrays.asList(new ExactArgument("zone"), new ExactArgument("flag"), ZONE, new ExactArgument("interact"), new ExactArgument("block"), new ExactArgument("break"), new ExactArgument("set"), new ExactArgument("enabled"), VALUE);
+        return Arrays.asList(new ExactArgument("zone"), new ExactArgument("flag"), ZONE, new ExactArgument("interact"), new ExactArgument("block"), new ExactArgument("place"), new ExactArgument("set"), new ExactArgument("enabled"), VALUE);
     }
 
     @Override
@@ -45,12 +45,12 @@ public class ZoneFlagBlockBreakSetEnabledCommand implements ArgumentCommand {
     @Override
     public CommandResult run(CommandContext commandContext, String... args) throws NotEnoughArgumentsException {
         Zone zone = commandContext.getArgument(this, ZONE);
-        @NotNull BlockBreakFlag flag = zone
-                .getFlag(FlagTypes.BLOCK_BREAK)
-                .orElseGet(() -> new BlockBreakFlag(BlockBreakFlag.ELSE));
+        @NotNull BlockPlaceFlag flag = zone
+                .getFlag(FlagTypes.BLOCK_PLACE)
+                .orElseGet(() -> new BlockPlaceFlag(BlockPlaceFlag.DEFAULT));
         @Nullable Boolean value = commandContext.getArgument(this, VALUE);
         if (value == null) {
-            zone.removeFlag(FlagTypes.BLOCK_BREAK);
+            zone.removeFlag(FlagTypes.BLOCK_PLACE);
             try {
                 zone.save();
                 commandContext
@@ -68,7 +68,7 @@ public class ZoneFlagBlockBreakSetEnabledCommand implements ArgumentCommand {
         zone.addFlag(flag);
         try {
             zone.save();
-            commandContext.getCause().sendMessage(Identity.nil(), Component.text("Updated Block break"));
+            commandContext.getCause().sendMessage(Identity.nil(), Component.text("Updated Block placement"));
         } catch (ConfigurateException e) {
             e.printStackTrace();
             return CommandResult.error(Component.text("Could not save: " + e.getMessage()));

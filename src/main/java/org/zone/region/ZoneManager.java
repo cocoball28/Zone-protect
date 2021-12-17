@@ -11,11 +11,9 @@ import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
 import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.math.vector.Vector3d;
-import org.spongepowered.math.vector.Vector3i;
 import org.spongepowered.plugin.PluginContainer;
 import org.zone.Identifiable;
 import org.zone.ZonePlugin;
-import org.zone.region.bounds.BoundedRegion;
 import org.zone.region.bounds.ChildRegion;
 import org.zone.region.bounds.Region;
 import org.zone.region.flag.Flag;
@@ -33,13 +31,8 @@ public class ZoneManager {
     private static final Object[] NAME = {"Name"};
     private static final Object[] FLAGS = {"Flags"};
     private static final Object[] PARENT = {"Parent"};
-    private static final Object[] REGION_PART_ONE_X = {"Region", "One", "X"};
-    private static final Object[] REGION_PART_ONE_Y = {"Region", "One", "Y"};
-    private static final Object[] REGION_PART_ONE_Z = {"Region", "One", "Z"};
-    private static final Object[] REGION_PART_TWO_X = {"Region", "Two", "X"};
-    private static final Object[] REGION_PART_TWO_Y = {"Region", "Two", "Y"};
-    private static final Object[] REGION_PART_TWO_Z = {"Region", "Two", "Z"};
-    private static final Object[] REGION_WORLD = {"Region", "World"};
+    private static final Object[] REGION = {"Region"};
+    private static final Object[] WORLD = {"Region", "World"};
 
 
     public @NotNull Collection<Zone> getZones() {
@@ -97,39 +90,21 @@ public class ZoneManager {
                 .setName(name)
                 .setKey(fileName.substring(0, fileName.length() - 5))
                 .setParentId(parentId);
-        String worldId = node.node(REGION_WORLD).getString();
+        String worldId = node.node(WORLD).getString();
         if (worldId == null) {
             throw new ConfigurateException("World of zone is missing in " + file.getPath());
         }
         ResourceKey worldKey = ResourceKey.resolve(worldId);
+        builder.setWorld(worldKey);
+
         String pluginStr = file.getParentFile().getName();
         Optional<PluginContainer> opPlugin = Sponge.pluginManager().plugin(pluginStr);
         if (opPlugin.isEmpty()) {
             throw new ConfigurateException("Plugin cannot be found: " + pluginStr);
         }
         builder.setContainer(opPlugin.get());
-        if (!node.node(REGION_PART_TWO_Z).isNull() &&
-                !node.node(REGION_PART_TWO_Y).isNull() &&
-                !node.node(REGION_PART_TWO_X).isNull() &&
-                !node.node(REGION_PART_ONE_Z).isNull() &&
-                !node.node(REGION_PART_ONE_Y).isNull() &&
-                !node.node(REGION_PART_ONE_X).isNull()) {
-            //region PointRegion
-            Vector3i one = new Vector3i(node.node(REGION_PART_ONE_X).getInt(), node
-                    .node(REGION_PART_ONE_Y)
-                    .getInt(), node.node(REGION_PART_ONE_Z).getInt());
-            Vector3i two = new Vector3i(node.node(REGION_PART_TWO_X).getInt(), node
-                    .node(REGION_PART_TWO_Y)
-                    .getInt(), node.node(REGION_PART_TWO_Z).getInt());
-            Region region = new BoundedRegion(one, two, worldKey);
-
-            ChildRegion child = builder.getRegion();
-            if (child == null) {
-                child = new ChildRegion();
-            }
-            child.add(region);
-            builder.setRegion(child);
-        }
+        ChildRegion region = ChildRegion.load(node.node(REGION));
+        builder.setRegion(region);
         Map<Object, ? extends ConfigurationNode> flagPlugins = node.node(FLAGS).childrenMap();
         Map<FlagType<?>, ConfigurationNode> types = new TreeMap<>();
         for (Map.Entry<Object, ? extends ConfigurationNode> flagPluginNode : flagPlugins.entrySet()) {
@@ -198,8 +173,12 @@ public class ZoneManager {
                 throw new SerializationException(e);
             }
         }
+        Optional<ResourceKey> opWorld = zone.getWorldKey();
+        if (opWorld.isPresent()) {
+            node.node(WORLD).set(opWorld.get().asString());
+        }
         Region region = zone.getRegion();
-        region.save(node);
+        region.save(node.node(REGION));
         loader.save(node);
         return file;
     }

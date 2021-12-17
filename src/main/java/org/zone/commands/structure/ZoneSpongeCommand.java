@@ -64,23 +64,24 @@ public class ZoneSpongeCommand implements Command.Raw {
             Set<ErrorContext> errors = commandContext.getErrors();
             if (!errors.isEmpty()) {
                 ErrorContext error = errors.iterator().next();
-                cause.sendMessage(Identity.nil(),
-                        Component.text(error.error()).color(NamedTextColor.RED));
+                cause.sendMessage(Identity.nil(), Component.text(error.error()).color(NamedTextColor.RED));
                 errors
                         .parallelStream()
                         .map(e -> e.argument().getUsage())
                         .collect(Collectors.toSet())
-                        .forEach(e -> cause.sendMessage(Identity.nil(),
-                                Component.text(e).color(NamedTextColor.RED)));
+                        .forEach(e -> cause.sendMessage(Identity.nil(), Component.text(e).color(NamedTextColor.RED)));
             } else {
                 cause.sendMessage(Identity.nil(), Component.text("Unknown error").color(NamedTextColor.RED));
             }
             return CommandResult.success();
         }
         if (!opCommand.get().hasPermission(cause)) {
-            cause.sendMessage(Identity.nil(), Component.text(" You do not have permission for that command" +
-                    ". You" +
-                    " require " + opCommand.get().getPermissionNode()).color(NamedTextColor.RED));
+            cause.sendMessage(Identity.nil(), Component
+                    .text(" You do not have permission for that command" +
+                            ". You" +
+                            " require " +
+                            opCommand.get().getPermissionNode())
+                    .color(NamedTextColor.RED));
             return CommandResult.success();
         }
         try {
@@ -88,7 +89,7 @@ public class ZoneSpongeCommand implements Command.Raw {
         } catch (Exception e) {
             e.printStackTrace();
             String message = e.getMessage();
-            if (message==null) {
+            if (message == null) {
                 message = "Unknown error";
             }
             throw new CommandException(Component.text(message), e);
@@ -110,6 +111,9 @@ public class ZoneSpongeCommand implements Command.Raw {
         TreeSet<CommandCompletion> tab = new TreeSet<>(Comparator.comparing(CommandCompletion::completion));
         commands.forEach(c -> {
             if (!c.hasPermission(cause)) {
+                return;
+            }
+            if(!c.canApply(commandContext)){
                 return;
             }
             tab.addAll(commandContext.getSuggestions(c));

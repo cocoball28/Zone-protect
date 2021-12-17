@@ -61,9 +61,7 @@ public class ZoneCreateStartCommand implements ArgumentCommand {
 
         String name = String.join(" ", context.getArgument(this, NAME));
         Vector3i vector3i = player.location().blockPosition();
-        BoundedRegion region = new BoundedRegion(new Vector3i(vector3i.x(), 0, vector3i.z()), new Vector3i(vector3i.x(), 256, vector3i.z()), player
-                .world()
-                .key());
+        BoundedRegion region = new BoundedRegion(new Vector3i(vector3i.x(), 0, vector3i.z()), new Vector3i(vector3i.x(), 256, vector3i.z()));
 
         ChildRegion childRegion = new ChildRegion(Collections.singleton(region));
 
@@ -71,6 +69,7 @@ public class ZoneCreateStartCommand implements ArgumentCommand {
                 .setName(name)
                 .setContainer(ZonePlugin.getZonesPlugin().getPluginContainer())
                 .setKey(name.toLowerCase().replaceAll(" ", "_"))
+                .setWorld(player.world())
                 .setRegion(childRegion);
         if (ZonePlugin
                 .getZonesPlugin()

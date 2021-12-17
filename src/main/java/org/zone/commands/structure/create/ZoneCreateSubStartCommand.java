@@ -58,9 +58,7 @@ public class ZoneCreateSubStartCommand implements ArgumentCommand {
         Zone zone = context.getArgument(this, ZONE);
         String name = String.join(" ", context.getArgument(this, NAME));
 
-        BoundedRegion region = new BoundedRegion(player.blockPosition().add(0, -1, 0), player.blockPosition(), player
-                .world()
-                .key());
+        BoundedRegion region = new BoundedRegion(player.blockPosition().add(0, -1, 0), player.blockPosition());
 
         ChildRegion childRegion = new ChildRegion(Collections.singleton(region));
 

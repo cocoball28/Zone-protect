@@ -1,10 +1,6 @@
 package org.zone.region.bounds;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.spongepowered.api.ResourceKey;
-import org.spongepowered.api.world.World;
-import org.spongepowered.api.world.server.ServerWorld;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.math.vector.Vector3d;
@@ -18,10 +14,8 @@ public class BoundedRegion implements Region {
 
     private @NotNull Vector3i position1;
     private @NotNull Vector3i position2;
-    private final @Nullable ResourceKey key;
 
-    public BoundedRegion(@NotNull Vector3i position1, @NotNull Vector3i position2, @Nullable ResourceKey world) {
-        this.key = world;
+    public BoundedRegion(@NotNull Vector3i position1, @NotNull Vector3i position2) {
         this.position1 = position1;
         this.position2 = position2;
     }
@@ -55,13 +49,7 @@ public class BoundedRegion implements Region {
     }
 
     @Override
-    public boolean contains(@Nullable World<?, ?> world, @NotNull Vector3d vector3d, boolean ignoreY) {
-        if (world != null && (!(world instanceof ServerWorld))) {
-            return false;
-        }
-        if (world != null && !((ServerWorld) world).key().equals(this.key)) {
-            return false;
-        }
+    public boolean contains(@NotNull Vector3d vector3d, boolean ignoreY) {
         Vector3i max = this.getMax();
         Vector3i min = this.getMin();
         if (!(min.x() <= vector3d.x() && max.x() >= vector3d.x())) {
@@ -112,26 +100,16 @@ public class BoundedRegion implements Region {
     }
 
     public static BoundedRegion load(@NotNull ConfigurationNode node) {
-        String worldKeyString = node.node("world").getString();
-        ResourceKey worldKey = null;
-        if (worldKeyString != null) {
-            worldKey = ResourceKey.resolve(worldKeyString);
-        }
-
         int p1x = node.node("pos1", "x").getInt();
         int p2x = node.node("pos2", "x").getInt();
         int p1y = node.node("pos1", "y").getInt();
         int p2y = node.node("pos2", "y").getInt();
         int p1z = node.node("pos1", "z").getInt();
         int p2z = node.node("pos2", "z").getInt();
-
-        return new BoundedRegion(new Vector3i(p1x, p1y, p1z), new Vector3i(p2x, p2y, p2z), worldKey);
+        return new BoundedRegion(new Vector3i(p1x, p1y, p1z), new Vector3i(p2x, p2y, p2z));
     }
 
     public static void save(@NotNull ConfigurationNode node, @NotNull BoundedRegion region) throws SerializationException {
-        if (region.key != null) {
-            node.node("world").set(region.key.asString());
-        }
         node.node("pos1", "x").set(region.position1.x());
         node.node("pos1", "y").set(region.position1.y());
         node.node("pos1", "z").set(region.position1.z());

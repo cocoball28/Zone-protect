@@ -111,6 +111,10 @@ public class ZoneArgument implements CommandArgument<Zone> {
 
     @Override
     public Collection<CommandCompletion> suggest(CommandContext context, CommandArgumentContext<Zone> argument) {
+        return this.suggest(context, argument.getFocusArgument());
+    }
+
+    private Collection<CommandCompletion> suggest(CommandContext context, String focus) {
         Collection<Zone> collection = ZonePlugin.getZonesPlugin().getZoneManager().getZones();
         Stream<Zone> zones = collection.stream();
         if (this.builder.isOnlyMainZones()) {
@@ -127,16 +131,19 @@ public class ZoneArgument implements CommandArgument<Zone> {
                         if (this.builder.getLevel() == null) {
                             return true;
                         }
-                        boolean contains = group.contains(this.builder.getLevel());
-                        return contains;
+                        return group.contains(this.builder.getLevel());
                     });
                 }
             }
         }
-        String focus = argument.getFocusArgument();
         return zones
                 .filter(zone -> zone.getId().toLowerCase().startsWith(focus.toLowerCase()))
                 .map(zone -> CommandCompletion.of(zone.getId(), Component.text(zone.getName())))
                 .collect(Collectors.toSet());
+    }
+
+    @Override
+    public boolean canApply(CommandContext context) {
+        return !this.suggest(context, "").isEmpty();
     }
 }

@@ -1,7 +1,6 @@
 package org.zone.region.bounds;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 import org.spongepowered.configurate.ConfigurationNode;
@@ -15,7 +14,7 @@ import java.util.stream.Collectors;
 
 public interface Region {
 
-    boolean contains(@Nullable World<?, ?> world, @NotNull Vector3d location, boolean ignoreY);
+    boolean contains(@NotNull Vector3d location, boolean ignoreY);
 
     Optional<Vector3i> getNearestPosition(@NotNull Vector3i vector3i);
 
@@ -39,16 +38,12 @@ public interface Region {
         return trueChildren;
     }
 
-    default boolean contains(@NotNull Vector3d vector3d, boolean ignoreY) {
-        return this.contains(null, vector3d, ignoreY);
-    }
-
     default boolean contains(@NotNull Vector3i vector3i, boolean ignoreY) {
-        return this.contains(null, vector3i.toDouble(), ignoreY);
+        return this.contains(vector3i.toDouble(), ignoreY);
     }
 
     default boolean contains(@NotNull Location<? extends World<?, ?>, ?> location, boolean ignoreY) {
-        return this.contains(location.world(), location.position(), ignoreY);
+        return this.contains(location.position(), ignoreY);
     }
 
 

@@ -10,6 +10,9 @@ import org.zone.commands.structure.zone.flags.interact.destroy.ZoneFlagBlockBrea
 import org.zone.commands.structure.zone.flags.interact.door.ZoneFlagInteractDoorEnabledCommand;
 import org.zone.commands.structure.zone.flags.interact.door.ZoneFlagInteractDoorGroupCommand;
 import org.zone.commands.structure.zone.flags.interact.door.ZoneFlagInteractDoorViewCommand;
+import org.zone.commands.structure.zone.flags.interact.place.ZoneFlagBlockPlaceSetEnabledCommand;
+import org.zone.commands.structure.zone.flags.interact.place.ZoneFlagBlockPlaceSetGroupCommand;
+import org.zone.commands.structure.zone.flags.interact.place.ZoneFlagBlockPlaceViewCommand;
 import org.zone.commands.structure.zone.flags.members.ZoneFlagMemberGroupAddCommand;
 import org.zone.commands.structure.zone.flags.members.ZoneFlagMemberGroupViewCommand;
 import org.zone.commands.structure.zone.info.bounds.ZoneInfoBoundsShowCommand;
@@ -20,6 +23,7 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("unused")
 public interface ZoneCommands {
 
     ZoneCreateEndCommand ZONE_CREATE_END = new ZoneCreateEndCommand();
@@ -34,6 +38,9 @@ public interface ZoneCommands {
     ZoneFlagBlockBreakSetEnabledCommand ZONE_FLAG_BLOCK_BREAK_SET_ENABLED_COMMAND = new ZoneFlagBlockBreakSetEnabledCommand();
     ZoneFlagBlockBreakViewCommand ZONE_FLAG_BLOCK_BREAK_VIEW_COMMAND = new ZoneFlagBlockBreakViewCommand();
     ZoneFlagBlockBreakSetGroupCommand ZONE_FLAG_BLOCK_BREAK_SET_GROUP_COMMAND = new ZoneFlagBlockBreakSetGroupCommand();
+    ZoneFlagBlockPlaceSetEnabledCommand ZONE_FLAG_BLOCK_PLACE_SET_ENABLED_COMMAND = new ZoneFlagBlockPlaceSetEnabledCommand();
+    ZoneFlagBlockPlaceViewCommand ZONE_FLAG_BLOCK_PLACE_VIEW_COMMAND = new ZoneFlagBlockPlaceViewCommand();
+    ZoneFlagBlockPlaceSetGroupCommand ZONE_FLAG_BLOCK_PLACE_SET_GROUP_COMMAND = new ZoneFlagBlockPlaceSetGroupCommand();
     ZoneViewBalanceCommand ZONE_FLAG_VIEW_BALANCE_COMMAND = new ZoneViewBalanceCommand();
 
     static ZoneSpongeCommand createCommand() {
