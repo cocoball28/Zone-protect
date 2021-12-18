@@ -23,4 +23,6 @@ Currently there is no download, however when one appears, we will have a downloa
 
 Take a look at our Wiki
 
+(Javadoc)[https://mosemister.github.io/Zone-protect/allclasses-index.html]
+
 
