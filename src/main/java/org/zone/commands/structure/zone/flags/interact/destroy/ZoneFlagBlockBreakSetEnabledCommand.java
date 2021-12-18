@@ -22,6 +22,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Used for changing the enabled status of the {@link BlockBreakFlag}
+ */
 public class ZoneFlagBlockBreakSetEnabledCommand implements ArgumentCommand {
 
     public static final BooleanArgument VALUE = new BooleanArgument("enabledValue");

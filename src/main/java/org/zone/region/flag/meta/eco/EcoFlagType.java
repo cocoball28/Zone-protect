@@ -19,6 +19,10 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+
+/**
+ * Flag used to hold the zones balance
+ */
 public class EcoFlagType implements FlagType<EcoFlag> {
 
     public static final String NAME = "Eco";
@@ -44,7 +48,7 @@ public class EcoFlagType implements FlagType<EcoFlag> {
         if (Sponge.serviceProvider().provide(EconomyService.class).isEmpty()) {
             throw new IOException("No Eco service found");
         }
-        
+
         Map<Currency, Double> map = Sponge
                 .server()
                 .registry(RegistryTypes.CURRENCY)

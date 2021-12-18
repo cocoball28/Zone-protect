@@ -11,10 +11,14 @@ import org.zone.region.flag.FlagType;
 import java.io.IOException;
 import java.util.Optional;
 
+/**
+ * Flag used to state that a zone is being modified
+ */
 public class EditingFlagType implements FlagType<EditingFlag> {
 
     public static final String NAME = "Editing";
     public static final String KEY = "edit";
+
     @Override
     public @NotNull String getName() {
         return NAME;

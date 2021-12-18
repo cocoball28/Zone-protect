@@ -8,6 +8,9 @@ import org.zone.region.flag.meta.edit.EditingFlagType;
 import org.zone.region.flag.meta.member.MembersFlagType;
 import org.zone.region.flag.move.monster.PreventMonsterFlagType;
 
+/**
+ * All known default flag types found within the zones plugin
+ */
 public final class FlagTypes {
 
     public static final PreventMonsterFlagType PREVENT_MONSTER = new PreventMonsterFlagType();

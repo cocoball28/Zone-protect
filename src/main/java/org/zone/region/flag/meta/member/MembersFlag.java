@@ -10,6 +10,9 @@ import org.zone.region.group.key.GroupKey;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Flag used to hold all members
+ */
 public class MembersFlag implements Flag {
 
     public static final MembersFlag DEFAULT = new MembersFlag(DefaultGroups.createDefaultGroups());
@@ -20,19 +23,19 @@ public class MembersFlag implements Flag {
         this(DEFAULT);
     }
 
-    public MembersFlag(Group... groups) {
+    public MembersFlag(@NotNull Group... groups) {
         this(Arrays.asList(groups));
     }
 
-    public MembersFlag(Collection<? extends Group> groups) {
+    public MembersFlag(@NotNull Collection<? extends Group> groups) {
         this(groups.stream().collect(Collectors.toMap(g -> g, g -> new HashSet<>())));
     }
 
-    public MembersFlag(MembersFlag flag) {
+    public MembersFlag(@NotNull MembersFlag flag) {
         this(flag.groups);
     }
 
-    public MembersFlag(java.util.Map<? extends Group, ? extends Collection<UUID>> map) {
+    public MembersFlag(@NotNull java.util.Map<? extends Group, ? extends Collection<UUID>> map) {
         if (map.isEmpty()) {
             throw new IllegalArgumentException("Cannot have no groups");
         }
@@ -40,7 +43,12 @@ public class MembersFlag implements Flag {
         this.groups.putAll(map);
     }
 
-    public Optional<Group> getGroup(GroupKey key) {
+    /**
+     * Gets a group by a specified GroupKey, {@link Optional#empty()} if no group holds that key
+     * @param key The key to check
+     * @return The group holding the key, {@link Optional#empty()} if no group holds the specified key
+     */
+    public Optional<Group> getGroup(@NotNull GroupKey key) {
         return this
                 .groups
                 .entrySet()
@@ -50,16 +58,30 @@ public class MembersFlag implements Flag {
                 .findAny();
     }
 
-    public void removeKey(GroupKey key) {
+    /**
+     * Removes the key from all groups
+     * @param key The key to remove
+     */
+    public void removeKey(@NotNull GroupKey key) {
         this.groups.keySet().forEach(group -> group.remove(key));
     }
 
-    public void addKey(Group group, GroupKey key) {
+    /**
+     * Adds a groupkey to a group
+     * @param group the group to have the key
+     * @param key the key to use
+     */
+    public void addKey(@NotNull Group group, @NotNull GroupKey key) {
         this.removeKey(key);
         group.add(key);
     }
 
-    public void addMember(Group group, UUID uuid) {
+    /**
+     * Adds a member to the group
+     * @param group The group to use
+     * @param uuid the UUID of the player
+     */
+    public void addMember(@NotNull Group group, @NotNull UUID uuid) {
         this.removeMember(uuid);
         if (group.equals(DefaultGroups.VISITOR)) {
             return;
@@ -73,7 +95,11 @@ public class MembersFlag implements Flag {
         this.groups.put(group, set);
     }
 
-    public Collection<UUID> getMembers() {
+    /**
+     * Gets all members found within this flag
+     * @return A collection of members
+     */
+    public @NotNull Collection<UUID> getMembers() {
         return this
                 .groups
                 .entrySet()
@@ -82,15 +108,29 @@ public class MembersFlag implements Flag {
                 .collect(Collectors.toUnmodifiableSet());
     }
 
-    public Collection<UUID> getMembers(Group group) {
+    /**
+     * gets all the members of a specific group
+     * @param group the group to check
+     * @return A collection of members for that group
+     */
+    public @NotNull Collection<UUID> getMembers(@NotNull Group group) {
         return this.groups.getOrDefault(group, Collections.emptyList());
     }
 
-    public Set<Group> getGroups() {
+    /**
+     * Gets the groups found in this flag
+     * @return a set of groups
+     */
+    public @NotNull Set<Group> getGroups() {
         return this.groups.keySet();
     }
 
-    public Group getGroup(UUID uuid) {
+    /**
+     * gets the group a player belongs to
+     * @param uuid UUID of the player
+     * @return The group the player belongs to
+     */
+    public @NotNull Group getGroup(@NotNull UUID uuid) {
         for (java.util.Map.Entry<Group, Collection<UUID>> entry : this.groups.entrySet()) {
             for (UUID user : entry.getValue()) {
                 if (user.equals(uuid)) {
@@ -101,7 +141,11 @@ public class MembersFlag implements Flag {
         return DefaultGroups.VISITOR;
     }
 
-    public void removeMember(UUID uuid) {
+    /**
+     * sets a player into the visitor group
+     * @param uuid the UUID of the player
+     */
+    public void removeMember(@NotNull UUID uuid) {
         for (Collection<UUID> uuids : this.groups.values()) {
             if (!uuids.contains(uuid)) {
                 continue;

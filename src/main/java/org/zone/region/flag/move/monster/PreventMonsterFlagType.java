@@ -10,6 +10,9 @@ import org.zone.region.flag.FlagType;
 import java.io.IOException;
 import java.util.Optional;
 
+/**
+ * A flag designed to block monsters from walking into the zone
+ */
 public class PreventMonsterFlagType implements FlagType<PreventMonsterFlag> {
 
     public static final String NAME = "Prevent Monsters";

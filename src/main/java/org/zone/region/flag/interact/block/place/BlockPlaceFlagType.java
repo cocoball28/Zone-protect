@@ -11,6 +11,11 @@ import org.zone.region.flag.FlagType;
 import java.io.IOException;
 import java.util.Optional;
 
+/**
+ * A flag to check if a player can place a block found within a region.
+ * <p>
+ * If the player is within a group that has the specified GroupKey then they can place blocks even with the flag enabled
+ */
 public class BlockPlaceFlagType implements FlagType<BlockPlaceFlag> {
 
     public static final String NAME = "Placement";

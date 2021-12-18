@@ -17,6 +17,9 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Flag used to hold all members
+ */
 public class MembersFlagType implements FlagType<MembersFlag> {
 
     public static final String NAME = "Members";

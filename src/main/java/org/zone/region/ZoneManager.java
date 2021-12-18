@@ -24,6 +24,9 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Gets the manager for zones
+ */
 public class ZoneManager {
 
     private final @NotNull Collection<Zone> zones = new TreeSet<>(Comparator.comparing(Identifiable::getId));
@@ -35,27 +38,79 @@ public class ZoneManager {
     private static final Object[] WORLD = {"Region", "World"};
 
 
+    /**
+     * gets all the zones
+     *
+     * @return A collection of the zones
+     */
     public @NotNull Collection<Zone> getZones() {
         return Collections.unmodifiableCollection(this.zones);
     }
 
+    /**
+     * Gets a zone that was created by the provided plugin with the key name of the provided
+     *
+     * @param container The plugin that created the zone
+     * @param key       the key name of the zone
+     *
+     * @return The zone that matches the provided information
+     */
     public @NotNull Optional<Zone> getZone(PluginContainer container, String key) {
         return this.getZone(container.metadata().id() + ":" + key);
     }
 
+    /**
+     * Gets a zone that has the provided id
+     *
+     * @param id the id to get
+     *
+     * @return The zone that has the provided id
+     */
     public @NotNull Optional<Zone> getZone(String id) {
         return this.getZones().parallelStream().filter(zone -> zone.getId().equals(id)).findAny();
     }
 
-    public @NotNull Collection<Zone> getZone(@Nullable World<?, ?> world, @NotNull Vector3d worldPos) {
-        return this.getZones().stream().filter(zone -> zone.inRegion(world, worldPos)).collect(Collectors.toSet());
+    /**
+     * Gets the zones that are found at a location within a world. Note that zones can cross one
+     * and another such as sub zones being instead a parent zone, therefore it returns a collection
+     *
+     * @param world    The world to check
+     * @param worldPos The location to check
+     *
+     * @return A collection of all the zones found that contain that location
+     */
+    public @NotNull Collection<Zone> getZone(@Nullable World<?, ?> world,
+                                             @NotNull Vector3d worldPos) {
+        return this
+                .getZones()
+                .stream()
+                .filter(zone -> zone.inRegion(world, worldPos))
+                .collect(Collectors.toSet());
     }
 
+    /**
+     * Gets the zone that should be used with interactions at the provided location, such as
+     * using the sub zone rather then the parent
+     *
+     * @param loc The location to compare
+     *
+     * @return The zone to use. {@link Optional#empty()} when no zone was found at the position
+     */
     public @NotNull Optional<Zone> getPriorityZone(Location<? extends World<?, ?>, ?> loc) {
         return this.getPriorityZone(loc.world(), loc.position());
     }
 
-    public @NotNull Optional<Zone> getPriorityZone(@Nullable World<?, ?> world, @NotNull Vector3d worldPos) {
+    /**
+     * Gets the zone that should be used with interactions at the provided location, such as
+     * using the sub zone rather then the parent
+     *
+     * @param world    The world to compare
+     * @param worldPos The location to compare
+     *
+     * @return The zone to use. {@link Optional#empty()} when no zone was found at the position
+     */
+    public @NotNull Optional<Zone> getPriorityZone(@Nullable World<?, ?> world,
+                                                   @NotNull Vector3d worldPos) {
         Collection<Zone> zones = this.getZone(world, worldPos);
         if (zones.isEmpty()) {
             return Optional.empty();
@@ -73,11 +128,25 @@ public class ZoneManager {
         return Optional.of(sortedZone.iterator().next());
     }
 
-    public void register(Zone zone) {
+    /**
+     * Registers a new zone
+     *
+     * @param zone The zone to add
+     */
+    public void register(@NotNull Zone zone) {
         this.zones.add(zone);
     }
 
-    public Zone load(File file) throws ConfigurateException {
+    /**
+     * Loads a zone from a file
+     *
+     * @param file The file to load from
+     *
+     * @return The zone
+     *
+     * @throws ConfigurateException If you couldn't load
+     */
+    public @NotNull Zone load(File file) throws ConfigurateException {
         HoconConfigurationLoader loader = HoconConfigurationLoader.builder().file(file).build();
         ConfigurationNode node = loader.load();
         String name = node.node(NAME).getString();
@@ -129,14 +198,15 @@ public class ZoneManager {
                             .getZonesPlugin()
                             .getLogger()
                             .error("Could not load flag: Unknown flag Id of '" +
-                                    flagPluginNode.getKey().toString() +
-                                    ":" +
-                                    keyNode.getValue().key().toString() +
-                                    "'");
+                                           flagPluginNode.getKey().toString() +
+                                           ":" +
+                                           keyNode.getValue().key().toString() +
+                                           "'");
                     continue;
                 }
                 if (types.containsKey(opFlag.get())) {
-                    throw new IllegalStateException("Two or more flag keys found to be the same: " + opFlag.get());
+                    throw new IllegalStateException("Two or more flag keys found to be the same: " +
+                                                            opFlag.get());
                 }
                 types.put(opFlag.get(), keyNode.getValue());
             }
@@ -146,15 +216,31 @@ public class ZoneManager {
                 Flag flag = entry.getKey().load(entry.getValue());
                 builder.addFlags(flag);
             } catch (IOException e) {
-                ZonePlugin.getZonesPlugin().getLogger().error("Could not load flag: " + e.getMessage());
+                ZonePlugin
+                        .getZonesPlugin()
+                        .getLogger()
+                        .error("Could not load flag: " + e.getMessage());
             }
 
         }
         return builder.build();
     }
 
+    /**
+     * saves the zone into the correct file
+     *
+     * @param zone The zone to save
+     *
+     * @return The file that was saved to
+     *
+     * @throws ConfigurateException if fails to save
+     */
     public File save(Zone zone) throws ConfigurateException {
-        File file = new File("config/zone/zones/" + zone.getPlugin().metadata().id() + "/" + zone.getKey() + ".conf");
+        File file = new File("config/zone/zones/" +
+                                     zone.getPlugin().metadata().id() +
+                                     "/" +
+                                     zone.getKey() +
+                                     ".conf");
         HoconConfigurationLoader loader = HoconConfigurationLoader.builder().file(file).build();
         ConfigurationNode node = loader.createNode();
 

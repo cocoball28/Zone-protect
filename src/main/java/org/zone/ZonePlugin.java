@@ -29,9 +29,8 @@ import org.zone.region.group.key.GroupKeyManager;
 import java.io.File;
 
 /**
- * The main class of your Sponge plugin.
- *
- * <p>All methods are optional -- some common event registrations are included as a jumping-off point.</p>
+ * The zone plugin's boot and main class, use {@link ZonePlugin#getZonesPlugin()} to gain a
+ * instance of this class
  */
 @Plugin("zones")
 public class ZonePlugin {
@@ -44,22 +43,47 @@ public class ZonePlugin {
     private MemoryHolder memoryHolder;
     private static ZonePlugin zonePlugin;
 
+    /**
+     * Gets the flag manager
+     *
+     * @return The instance of the flag manager
+     */
     public FlagManager getFlagManager() {
         return this.flagManager;
     }
 
+    /**
+     * Gets the zone manager
+     *
+     * @return The instance of the zone manager
+     */
     public ZoneManager getZoneManager() {
         return this.zoneManager;
     }
 
+    /**
+     * Gets the Memory holder
+     *
+     * @return the instance of the memory holder
+     */
     public MemoryHolder getMemoryHolder() {
         return this.memoryHolder;
     }
 
+    /**
+     * Gets the Group key manager
+     *
+     * @return The instance of the group key manager
+     */
     public GroupKeyManager getGroupKeyManager() {
         return this.groupKeyManager;
     }
 
+    /**
+     * Gets the logger for this plugin (Oh no! log4j!)
+     *
+     * @return The logger for this plugin
+     */
     public Logger getLogger() {
         return this.logger;
     }
@@ -93,9 +117,13 @@ public class ZonePlugin {
 
     @Listener
     public void onServerStarted(final StartedEngineEvent<Server> event) {
-        Sponge.systemSubject().sendMessage(Component.text("|---|Loading Zones|---|").color(NamedTextColor.AQUA));
+        Sponge
+                .systemSubject()
+                .sendMessage(Component.text("|---|Loading Zones|---|").color(NamedTextColor.AQUA));
         File zonesFolder = new File("config/zone/zones/");
-        Sponge.systemSubject().sendMessage(Component.text("|- Loading from '" + zonesFolder.getPath() + "'"));
+        Sponge
+                .systemSubject()
+                .sendMessage(Component.text("|- Loading from '" + zonesFolder.getPath() + "'"));
 
         for (PluginContainer container : Sponge.pluginManager().plugins()) {
             File keyFolder = new File(zonesFolder, container.metadata().id());
@@ -111,10 +139,10 @@ public class ZonePlugin {
                     Sponge
                             .systemSubject()
                             .sendMessage(Component
-                                    .text("Could not load zone of '" +
-                                            file.getPath() +
-                                            "'. Below is details on why (this is not a crash)")
-                                    .color(NamedTextColor.RED));
+                                                 .text("Could not load zone of '" +
+                                                               file.getPath() +
+                                                               "'. Below is details on why (this is not a crash)")
+                                                 .color(NamedTextColor.RED));
                     e.printStackTrace();
                 }
             }
@@ -122,19 +150,36 @@ public class ZonePlugin {
         Sponge
                 .systemSubject()
                 .sendMessage(Component
-                        .text("|---|Loaded " + this.zoneManager.getZones().size() + " Zones|---|")
-                        .color(NamedTextColor.AQUA));
+                                     .text("|---|Loaded " +
+                                                   this.zoneManager.getZones().size() +
+                                                   " Zones|---|")
+                                     .color(NamedTextColor.AQUA));
     }
 
     @Listener
     public void onRegisterCommands(@SuppressWarnings("BoundedWildcard") final RegisterCommandEvent<Command.Raw> event) {
-        event.register(this.plugin, ZoneCommands.createCommand(), "zone", "region", "claim", "protect");
+        event.register(this.plugin,
+                       ZoneCommands.createCommand(),
+                       "zone",
+                       "region",
+                       "claim",
+                       "protect");
     }
 
+    /**
+     * Gets the PluginContainer for this plugin
+     *
+     * @return The plugin container for this plugin
+     */
     public PluginContainer getPluginContainer() {
         return this.plugin;
     }
 
+    /**
+     * Gets the instance of this class
+     *
+     * @return The instance of this class
+     */
     public static ZonePlugin getZonesPlugin() {
         return zonePlugin;
     }

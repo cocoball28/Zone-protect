@@ -28,6 +28,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The command for zone bound creation ending. This command can only be activated when the "start" command is active.
+ * <p>Command: "/zone create bounds end"</p>
+ */
 public class ZoneCreateEndCommand implements ArgumentCommand {
     @Override
     public List<CommandArgument<?>> getArguments() {

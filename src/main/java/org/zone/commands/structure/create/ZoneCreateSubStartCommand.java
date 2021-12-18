@@ -26,6 +26,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The command for zone bound creation start of sub regions. This command activates when in a valid zone.
+ * <p>Command: "/zone create bounds start 'name'"</p>
+ */
 public class ZoneCreateSubStartCommand implements ArgumentCommand {
 
     private static final ZoneArgument ZONE = new ZoneArgument("zone", new ZoneArgument.ZoneArgumentPropertiesBuilder()

@@ -12,6 +12,11 @@ import org.zone.region.flag.FlagTypes;
 import java.io.IOException;
 import java.util.Optional;
 
+/**
+ * A flag to check if a player can open/close a door found within a region.
+ * <p>
+ * If the player is within a group that has the specified GroupKey then they can open/close blocks even with the flag enabled
+ */
 public class DoorInteractionFlagType implements FlagType<DoorInteractionFlag> {
 
     public static final String NAME = "Door Interaction";
@@ -44,7 +49,7 @@ public class DoorInteractionFlagType implements FlagType<DoorInteractionFlag> {
 
     @Override
     public void save(@NotNull ConfigurationNode node, @Nullable DoorInteractionFlag save) throws IOException {
-        if (save==null || save.getEnabled().isEmpty()) {
+        if (save == null || save.getEnabled().isEmpty()) {
             node.set(null);
             return;
         }

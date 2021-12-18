@@ -23,6 +23,9 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * A list of all known commands within the Zones plugin
+ */
 @SuppressWarnings("unused")
 public interface ZoneCommands {
 

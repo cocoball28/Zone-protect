@@ -10,6 +10,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
 
+/**
+ * A actual region that is between two points
+ */
 public class BoundedRegion implements Region {
 
     private @NotNull Vector3i position1;
@@ -95,8 +98,15 @@ public class BoundedRegion implements Region {
     }
 
     @Override
+    @Deprecated
     public Collection<Region> getChildren() {
         return Collections.emptyList();
+    }
+
+    @Override
+    @Deprecated
+    public Collection<BoundedRegion> getTrueChildren() {
+        return Collections.singleton(this);
     }
 
     public static BoundedRegion load(@NotNull ConfigurationNode node) {
@@ -109,7 +119,8 @@ public class BoundedRegion implements Region {
         return new BoundedRegion(new Vector3i(p1x, p1y, p1z), new Vector3i(p2x, p2y, p2z));
     }
 
-    public static void save(@NotNull ConfigurationNode node, @NotNull BoundedRegion region) throws SerializationException {
+    public static void save(@NotNull ConfigurationNode node, @NotNull BoundedRegion region) throws
+            SerializationException {
         node.node("pos1", "x").set(region.position1.x());
         node.node("pos1", "y").set(region.position1.y());
         node.node("pos1", "z").set(region.position1.z());

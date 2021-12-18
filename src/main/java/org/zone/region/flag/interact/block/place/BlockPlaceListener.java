@@ -20,6 +20,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * The listener for checking the BlockPlaceFlag
+ */
 public class BlockPlaceListener {
 
     @Listener

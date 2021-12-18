@@ -16,6 +16,9 @@ import org.zone.commands.system.context.ErrorContext;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * The wrapper that converts a Sponge {@link Command.Raw} into the executor for the ZoneCommand.
+ */
 public class ZoneSpongeCommand implements Command.Raw {
 
     public final Set<ArgumentCommand> commands = new HashSet<>();
@@ -46,6 +49,24 @@ public class ZoneSpongeCommand implements Command.Raw {
      */
     public ZoneSpongeCommand(Collection<? extends ArgumentCommand> commands) {
         this.commands.addAll(commands);
+    }
+
+    /**
+     * Adds the command into the /zone command
+     * @param command The command to add
+     * @return if the command was added
+     */
+    public boolean add(ArgumentCommand command){
+        return this.commands.add(command);
+    }
+
+    /**
+     * Removes the command from /zone
+     * @param command The command to remove
+     * @return if the command was removed
+     */
+    public boolean remove(ArgumentCommand command){
+        return this.commands.remove(command);
     }
 
     @Override

@@ -25,6 +25,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The command for zone bound creation start.
+ * <p>Command: "/zone create bounds start 'name'"</p>
+ */
 public class ZoneCreateStartCommand implements ArgumentCommand {
 
     private static final RemainingArgument<String> NAME = new RemainingArgument<>(new StringArgument("key"));
