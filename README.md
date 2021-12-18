@@ -7,8 +7,8 @@ Zone-Protect is a free and open source plugin for anyone to use and even contrib
 
 Currently we support the following
 
-- Sponge Vanilla API 8 (1.16)
-- Sponge Forge API 8 (1.16)
+- [Sponge Vanilla](https://www.spongepowered.org/downloads/spongevanilla?minecraft=1.16.5&offset=0) API 8 (1.16)
+- [Sponge Forge](https://www.spongepowered.org/downloads/spongeforge?minecraft=1.16.5&offset=0) API 8 (1.16)
 
 And we plan on supporting more in the future. 
 
@@ -21,8 +21,8 @@ Currently there is no download, however when one appears, we will have a downloa
 
 ## Development
 
-Take a look at our Wiki
+Take a look at our [Wiki](https://github.com/mosemister/Zone-protect/wiki)
 
-[Javadoc](https://mosemister.github.io/Zone-protect/allclasses-index.html)
+[Javadocs](https://mosemister.github.io/Zone-protect/allclasses-index.html)
 
 
