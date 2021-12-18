@@ -14,6 +14,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 
+/**
+ * A Builder for the {@link Zone} class
+ */
 public class ZoneBuilder {
 
     private PluginContainer container;

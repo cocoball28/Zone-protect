@@ -25,6 +25,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Used to view the balance found for the zone. This command only activates when a valid economy plugin is activate on the server
+ */
 public class ZoneViewBalanceCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE = new ZoneArgument("zone_value", new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(GroupKeys.OWNER));

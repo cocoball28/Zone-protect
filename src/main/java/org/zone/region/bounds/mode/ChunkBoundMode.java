@@ -6,6 +6,9 @@ import org.spongepowered.api.world.World;
 import org.spongepowered.api.world.chunk.WorldChunk;
 import org.spongepowered.math.vector.Vector3i;
 
+/**
+ * Shifts the position to the closest edge of a chunk
+ */
 public class ChunkBoundMode implements BoundMode {
     @Override
     public @NotNull Location<? extends World<?, ?>, ?> shift(@NotNull Location<? extends World<?, ?>, ?> current, @NotNull Vector3i other) {

@@ -7,6 +7,9 @@ import org.zone.region.flag.FlagTypes;
 
 import java.util.Optional;
 
+/**
+ * A flag designed to block monsters from walking into the zone
+ */
 public class PreventMonsterFlag implements Flag.Enabled {
 
     private Boolean enabled;

@@ -4,6 +4,9 @@ import org.zone.region.flag.meta.eco.EcoFlag;
 
 import java.math.BigDecimal;
 
+/**
+ * Builder used for building Transactions
+ */
 public class TransactionBuilder {
 
     private BigDecimal original;

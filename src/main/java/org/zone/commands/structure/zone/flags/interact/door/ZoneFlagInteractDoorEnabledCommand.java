@@ -23,6 +23,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Used for changing the status of the {@link DoorInteractionFlag}
+ */
 public class ZoneFlagInteractDoorEnabledCommand implements ArgumentCommand {
     public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
             new ZoneArgument

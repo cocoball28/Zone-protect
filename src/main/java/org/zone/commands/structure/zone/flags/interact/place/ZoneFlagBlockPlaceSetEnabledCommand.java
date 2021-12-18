@@ -22,6 +22,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Used to set the enabled status in {@link BlockPlaceFlag}
+ */
 public class ZoneFlagBlockPlaceSetEnabledCommand implements ArgumentCommand {
 
     public static final BooleanArgument VALUE = new BooleanArgument("enabledValue");

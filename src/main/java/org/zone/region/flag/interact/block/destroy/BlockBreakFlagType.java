@@ -11,6 +11,11 @@ import org.zone.region.flag.FlagType;
 import java.io.IOException;
 import java.util.Optional;
 
+/**
+ * A flag to check if a player can break a block found within a region.
+ * <p>
+ * If the player is within a group that has the specified GroupKey then they can break blocks even with the flag enabled
+ */
 public class BlockBreakFlagType implements FlagType<BlockBreakFlag> {
     @Override
     public @NotNull String getName() {
@@ -39,7 +44,7 @@ public class BlockBreakFlagType implements FlagType<BlockBreakFlag> {
 
     @Override
     public void save(@NotNull ConfigurationNode node, @Nullable BlockBreakFlag save) throws IOException {
-        if (save==null || save.getEnabled().isEmpty()) {
+        if (save == null || save.getEnabled().isEmpty()) {
             node.set(null);
             return;
         }

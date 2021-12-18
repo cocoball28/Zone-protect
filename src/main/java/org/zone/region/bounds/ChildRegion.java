@@ -9,6 +9,9 @@ import org.spongepowered.math.vector.Vector3i;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * A region that holds only other regions, the other regions can be any type of region such as another child or a real region
+ */
 public class ChildRegion implements Region {
 
     private final Collection<Region> bounds = new HashSet<>();
@@ -21,10 +24,20 @@ public class ChildRegion implements Region {
         this.bounds.addAll(bounds);
     }
 
+    /**
+     * Adds a region to this region
+     *
+     * @param region The region to add
+     */
     public void add(Region region) {
         this.bounds.add(region);
     }
 
+    /**
+     * Removes a region from this region
+     *
+     * @param region The region to remove
+     */
     public void remove(Region region) {
         this.bounds.remove(region);
     }
@@ -81,7 +94,8 @@ public class ChildRegion implements Region {
         return new ChildRegion(regions);
     }
 
-    public static void save(ConfigurationNode node, ChildRegion region) throws SerializationException {
+    public static void save(ConfigurationNode node, ChildRegion region) throws
+            SerializationException {
         for (Region child : region.getChildren()) {
             child.save(node.node("" + child.hashCode()));
         }

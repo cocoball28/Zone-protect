@@ -17,6 +17,9 @@ import org.zone.region.bounds.PositionType;
 import java.util.Optional;
 import java.util.function.Consumer;
 
+/**
+ * The listener for all none flag related sponge listeners
+ */
 public class PlayerListener {
 
     @Listener

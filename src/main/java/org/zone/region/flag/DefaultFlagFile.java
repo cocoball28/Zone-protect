@@ -13,6 +13,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
 
+/**
+ * All defaults will be saved and loaded in here.
+ */
 public class DefaultFlagFile {
 
     public static final File FILE = new File("config/zones/DefaultZone.conf");
@@ -52,6 +55,14 @@ public class DefaultFlagFile {
         }
     }
 
+    /**
+     * Loads the default flag for the specified type
+     *
+     * @param type The flag type
+     * @param <F>  The flag class
+     * @param <T>  The flag type class
+     * @return The loaded flag, if it fails to load then the default from the type will be used.
+     */
     public <F extends Flag, T extends FlagType<F>> Optional<F> loadDefault(T type) {
         try {
             return Optional.of(type.load(this.node.node("flags", type.getPlugin().metadata().id(), type.getKey())));
@@ -69,15 +80,34 @@ public class DefaultFlagFile {
         }
     }
 
+    /**
+     * Sets the default values for the flag
+     *
+     * @param flag The new defaults
+     * @param <F>  The flag class
+     * @param <T>  The flag type class
+     * @throws IOException If fails to save
+     */
     public <F extends Flag, T extends FlagType<F>> void setDefault(F flag) throws IOException {
         T type = (T) flag.getType();
         type.save(this.node.node("flags", type.getPlugin().metadata().id(), type.getKey()), flag);
     }
 
+    /**
+     * removes the default values for a flag
+     *
+     * @param type The type to remove
+     * @throws IOException if fails to save
+     */
     public void removeDefault(FlagType<? extends Flag> type) throws IOException {
         type.save(this.node.node("flags"), null);
     }
 
+    /**
+     * Saves the file
+     *
+     * @throws ConfigurateException If fails to save
+     */
     public void save() throws ConfigurateException {
         this.loader.save(this.node);
     }

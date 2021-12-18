@@ -16,6 +16,9 @@ import org.zone.region.group.key.GroupKeys;
 
 import java.util.Optional;
 
+/**
+ * The listener for checking the DoorInteractionFlag
+ */
 public class DoorInteractListener {
 
     @Listener

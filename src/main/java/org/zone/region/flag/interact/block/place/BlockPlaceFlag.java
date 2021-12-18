@@ -10,6 +10,11 @@ import org.zone.region.group.key.GroupKeys;
 
 import java.util.Optional;
 
+/**
+ * A flag to check if a player can place a block found within a region.
+ * <p>
+ * If the player is within a group that has the specified GroupKey then they can place blocks even with the flag enabled
+ */
 public class BlockPlaceFlag implements Flag.Enabled, Flag.GroupKeyed {
 
     private Boolean enabled;
