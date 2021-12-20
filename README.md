@@ -19,6 +19,12 @@ Due to this we have a Java version requirement of Java 16 at minimum and this wi
 
 Currently there is no download, however when one appears, we will have a download link
 
+## Support
+
+You can gain support via the following means:
+
+- [Discord group](https://discord.gg/mt7T4GVj)
+
 ## Development
 
 Take a look at our [Wiki](https://github.com/mosemister/Zone-protect/wiki)
