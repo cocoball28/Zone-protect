@@ -22,9 +22,12 @@ jobs:
         distribution: 'adopt'
         server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
         settings-path: ${{ github.workspace }} # location for the settings.xml file
+        
+    - name: remove module file
+      run: mv src/main/java/module-info.java src/main/java/module-info.java.bak 
 
     - name: Create Javadocs
-      run: mvn javadoc:aggregate
+      run: mvn javadoc:javadoc
 
     - name: Deploy to GitHub Pages
       uses: crazy-max/ghaction-github-pages@v2.5.0

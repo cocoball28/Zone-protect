@@ -1,5 +1,6 @@
 package org.zone.region.flag;
 
+import org.zone.region.flag.greetings.GreetingsFlagType;
 import org.zone.region.flag.interact.block.destroy.BlockBreakFlagType;
 import org.zone.region.flag.interact.block.place.BlockPlaceFlagType;
 import org.zone.region.flag.interact.door.DoorInteractionFlagType;
@@ -20,6 +21,7 @@ public final class FlagTypes {
     public static final EcoFlagType ECO = new EcoFlagType();
     public static final EditingFlagType EDITING = new EditingFlagType();
     public static final BlockPlaceFlagType BLOCK_PLACE = new BlockPlaceFlagType();
+    public static final GreetingsFlagType GREETINGS_FLAG_TYPE = new GreetingsFlagType();
 
     private FlagTypes() {
         throw new RuntimeException("Should not init");
