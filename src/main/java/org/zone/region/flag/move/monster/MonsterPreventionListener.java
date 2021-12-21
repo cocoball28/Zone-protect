@@ -11,6 +11,9 @@ import org.zone.region.flag.FlagTypes;
 
 import java.util.Optional;
 
+/**
+ * The listener for the {@link PreventMonsterFlag}
+ */
 public class MonsterPreventionListener {
 
     @Listener

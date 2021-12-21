@@ -7,7 +7,8 @@ public enum Permissions {
 
     REGION_CREATE_BOUNDS("zone.region.create.bounds"),
     REGION_ADMIN_INFO("zone.region.admin.info"),
-    BYPASS_DOOR_INTERACTION("zone.bypass.interaction.door");
+    BYPASS_INTERACTION_DOOR("zone.bypass.interaction.door"),
+    BYPASS_INTERACTION_BLOCK("zone.bypass.interaction.block");
 
     private final @NotNull String permission;
 

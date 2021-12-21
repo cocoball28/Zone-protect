@@ -1,4 +1,4 @@
-package org.zone.commands.system.arguments.source;
+package org.zone.commands.system.arguments.sponge;
 
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandCompletion;

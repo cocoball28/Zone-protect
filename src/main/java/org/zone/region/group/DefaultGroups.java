@@ -6,6 +6,9 @@ import org.zone.region.group.key.GroupKeys;
 import java.util.Arrays;
 import java.util.TreeSet;
 
+/**
+ * Gets the default groups for the zone plugin
+ */
 public final class DefaultGroups {
 
     public static final SimpleGroup OWNER;
@@ -13,10 +16,19 @@ public final class DefaultGroups {
     public static final SimpleGroup VISITOR;
 
     static {
-        VISITOR = new SimpleGroup(ZonePlugin.getZonesPlugin().getPluginContainer(), "visitor", "Visitor", null, false);
-        HOME_OWNER = new SimpleGroup(ZonePlugin.getZonesPlugin().getPluginContainer(), "home_owner", "Home owner",
-                VISITOR);
-        OWNER = new SimpleGroup(ZonePlugin.getZonesPlugin().getPluginContainer(), "owner", "Owner", HOME_OWNER);
+        VISITOR = new SimpleGroup(ZonePlugin.getZonesPlugin().getPluginContainer(),
+                                  "visitor",
+                                  "Visitor",
+                                  null,
+                                  false);
+        HOME_OWNER = new SimpleGroup(ZonePlugin.getZonesPlugin().getPluginContainer(),
+                                     "home_owner",
+                                     "Home owner",
+                                     VISITOR);
+        OWNER = new SimpleGroup(ZonePlugin.getZonesPlugin().getPluginContainer(),
+                                "owner",
+                                "Owner",
+                                HOME_OWNER);
 
         HOME_OWNER.add(GroupKeys.HOME_OWNER);
         HOME_OWNER.add(GroupKeys.INTERACT_DOOR);
@@ -28,6 +40,11 @@ public final class DefaultGroups {
     private DefaultGroups() {
     }
 
+    /**
+     * Creates the default groups
+     *
+     * @return A TreeSet of the default groups
+     */
     public static TreeSet<SimpleGroup> createDefaultGroups() {
         return new TreeSet<>(Arrays.asList(OWNER, HOME_OWNER, VISITOR));
     }

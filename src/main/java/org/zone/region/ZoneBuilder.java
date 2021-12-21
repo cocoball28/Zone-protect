@@ -1,21 +1,57 @@
 package org.zone.region;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.spongepowered.api.ResourceKey;
+import org.spongepowered.api.world.server.ServerWorld;
 import org.spongepowered.plugin.PluginContainer;
+import org.zone.region.bounds.ChildRegion;
+import org.zone.region.bounds.mode.BoundMode;
+import org.zone.region.bounds.mode.BoundModes;
 import org.zone.region.flag.Flag;
-import org.zone.region.regions.Region;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 
+/**
+ * A Builder for the {@link Zone} class
+ */
 public class ZoneBuilder {
 
     private PluginContainer container;
-    private Region region;
+    private ChildRegion region;
     private String key;
     private String name;
     private Collection<Flag> flags = new HashSet<>();
     private String parentId;
+    private BoundMode boundMode;
+    private ResourceKey world;
+
+    public void setBoundMode(@Nullable BoundMode mode) {
+        this.boundMode = mode;
+    }
+
+    public ResourceKey getWorldKey() {
+        return this.world;
+    }
+
+    public ZoneBuilder setWorld(ResourceKey world) {
+        this.world = world;
+        return this;
+    }
+
+    public ZoneBuilder setWorld(ServerWorld world) {
+        this.world = world.key();
+        return this;
+    }
+
+    public @NotNull BoundMode getBoundMode() {
+        if (this.boundMode == null) {
+            return BoundModes.BLOCK;
+        }
+        return this.boundMode;
+    }
 
     public PluginContainer getContainer() {
         return this.container;
@@ -26,11 +62,11 @@ public class ZoneBuilder {
         return this;
     }
 
-    public Region getRegion() {
+    public ChildRegion getRegion() {
         return this.region;
     }
 
-    public ZoneBuilder setRegion(Region region) {
+    public ZoneBuilder setRegion(ChildRegion region) {
         this.region = region;
         return this;
     }

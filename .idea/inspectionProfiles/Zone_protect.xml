@@ -1,8 +1,9 @@
 <component name="InspectionProjectProfileManager">
   <profile version="1.0">
     <option name="myName" value="Zone-protect" />
-    <inspection_tool class="36b6fa11-aca4-3647-a715-37cb2ba60515" enabled="true" level="ERROR" enabled_by_default="true" />
-    <inspection_tool class="7dfe33f4-3fd5-33e5-a095-ab62f5f3d565" enabled="true" level="ERROR" enabled_by_default="true" />
+    <inspection_tool class="091614a1-8db5-3961-a80b-3fbdac9b018c" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
+    <inspection_tool class="25736eba-2721-3f08-9b29-144f0faa1b79" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
+    <inspection_tool class="98f58be0-94b4-386b-baba-f30acc38cefb" enabled="true" level="ERROR" enabled_by_default="true" />
     <inspection_tool class="AbstractClassWithoutAbstractMethods" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
     <inspection_tool class="ArrayEquality" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="AssertStatement" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -109,24 +110,33 @@
     <inspection_tool class="RuntimeExec" enabled="true" level="ERROR" enabled_by_default="true" />
     <inspection_tool class="RuntimeExecWithNonConstantString" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="SSBasedInspection" enabled="true" level="WARNING" enabled_by_default="true">
-      <searchConfiguration name="Missing Event" suppressId="missing-event" problemDescriptor="Missing Event" text="@HEvent&#10;$ReturnType$ $Method$();" recursive="false" caseInsensitive="false" type="JAVA" pattern_context="member">
+      <replaceConfiguration name="get Eco flag by method" suppressId="no-eco-method" problemDescriptor="Economy flag is always present" text="$zone$.getFlag(org.zone.region.flag.FlagTypes.ECO)" recursive="false" caseInsensitive="false" type="JAVA" pattern_context="default" reformatAccordingToStyle="false" shortenFQN="false" replacement="$zone$.getEconomy()">
         <constraint name="__context__" within="" contains="" />
-        <constraint name="ReturnType" within="" contains="" />
-        <constraint name="Method" target="true" within="" contains="" />
-      </searchConfiguration>
-      <searchConfiguration name="Multi Parameter Event" suppressId="multi-parameter-event" problemDescriptor="Cannot have multiple events in a single event handler" text="@HEvent&#10;$ReturnType$ $Method$($ParameterType$ $Parameter$);" recursive="false" caseInsensitive="false" type="JAVA" pattern_context="member">
+        <constraint name="zone" nameOfExprType="Zone" exprTypeWithinHierarchy="true" within="" contains="" />
+      </replaceConfiguration>
+      <replaceConfiguration name="get Member flag by method" suppressId="no-member-method" problemDescriptor="Members is always valid" text="$zone$.getFlag(org.zone.region.flag.FlagTypes.MEMBERS)" recursive="false" caseInsensitive="false" type="JAVA" pattern_context="default" reformatAccordingToStyle="false" shortenFQN="false" replacement="$zone$.getMembers()">
         <constraint name="__context__" within="" contains="" />
-        <constraint name="ReturnType" within="" contains="" />
-        <constraint name="Method" within="" contains="" />
-        <constraint name="ParameterType" within="" contains="" />
-        <constraint name="Parameter" minCount="2" maxCount="2147483647" within="" contains="" />
+        <constraint name="zone" nameOfExprType="Zone" exprTypeWithinHierarchy="true" within="" contains="" />
+      </replaceConfiguration>
+      <searchConfiguration name="useless-children-in-bounded-region" problemDescriptor="A bounded region cannot have children" text="$region$.getChildren()" recursive="false" caseInsensitive="false" type="JAVA" pattern_context="default">
+        <constraint name="__context__" within="" contains="" />
+        <constraint name="region" nameOfExprType="BoundedRegion" exprTypeWithinHierarchy="true" within="" contains="" />
       </searchConfiguration>
-      <replaceConfiguration name="Old clone ShipType getter" suppressId="old-clone-shiptype" text="org.ships.plugin.ShipsPlugin.getPlugin().getAll(org.ships.vessel.common.assits.shiptype.CloneableShipType.class)" recursive="false" caseInsensitive="false" type="JAVA" pattern_context="default" reformatAccordingToStyle="false" shortenFQN="false" replacement="ShipsPlugin.getPlugin.getAllCloneableShipTypes()">
+      <searchConfiguration name="usless-true-children-in-bounded-region" problemDescriptor="Bounded Region cannot have children" text="$region$.getTrueChildren()" recursive="false" caseInsensitive="false" type="JAVA" pattern_context="default">
+        <constraint name="__context__" within="" contains="" />
+        <constraint name="region" nameOfExprType="BoundedRegion" exprTypeWithinHierarchy="true" within="" contains="" />
+      </searchConfiguration>
+      <replaceConfiguration name="Zone-group-keys-vs-all-group-keys" suppressId="vanilla-only" problemDescriptor="GroupKeys.values does not get keys that were registered using another source. Use the following to get all known groupkeys" text="org.zone.region.group.key.GroupKeys.values()" recursive="false" caseInsensitive="false" type="JAVA" pattern_context="default" reformatAccordingToStyle="false" shortenFQN="false" replacement="org.zone.ZonePlugin.getZonesPlugin().getGroupKeyManager().getKeys()">
         <constraint name="__context__" within="" contains="" />
       </replaceConfiguration>
-      <replaceConfiguration name="Old ShipType getter" suppressId="old-ship-type" problemDescriptor="Replace for correctly formatted ShipType" text="org.ships.plugin.ShipsPlugin.getPlugin().getAll(ShipType.class)" recursive="false" caseInsensitive="false" type="JAVA" pattern_context="default" reformatAccordingToStyle="false" shortenFQN="false" replacement="org.ships.plugin.ShipsPlugin.getPlugin().getAllShipTypes()">
+      <searchConfiguration name="Zone remove eco flag" problemDescriptor="Cannot remove the economy flag" text="$zone$.removeFlag(org.zone.region.flag.FlagTypes.ECO)" recursive="false" caseInsensitive="false" type="JAVA" pattern_context="default">
         <constraint name="__context__" within="" contains="" />
-      </replaceConfiguration>
+        <constraint name="zone" nameOfExprType="Zone" exprTypeWithinHierarchy="true" within="" contains="" />
+      </searchConfiguration>
+      <searchConfiguration name="Zone remove members flag" problemDescriptor="Should not be removing the members flag" text="$zone$.removeFlag(org.zone.region.flag.FlagTypes.MEMBERS)" recursive="false" caseInsensitive="false" type="JAVA" pattern_context="default">
+        <constraint name="__context__" within="" contains="" />
+        <constraint name="zone" nameOfExprType="Zone" exprTypeWithinHierarchy="true" within="" contains="" />
+      </searchConfiguration>
     </inspection_tool>
     <inspection_tool class="SamePackageImport" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
     <inspection_tool class="SerializableDeserializableClassInSecureContext" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -186,6 +196,10 @@
       </option>
       <option name="ignoreClassesWithOnlyMain" value="false" />
     </inspection_tool>
+    <inspection_tool class="d94dfbc5-0c9d-391b-9048-ad2ec035eb66" enabled="true" level="ERROR" enabled_by_default="true" />
+    <inspection_tool class="dcfebccd-121b-320f-ac1f-b8c3d0cc9f4b" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
+    <inspection_tool class="e1f887a4-f22d-30d9-95b2-ad0da96fa838" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="f262b04b-fb80-3a9b-a176-1853c36e9b4b" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
     <inspection_tool class="unused" enabled="true" level="WARNING" enabled_by_default="true" klass="packageLocal" inner_class="packageLocal" method="packageLocal">
       <option name="LOCAL_VARIABLE" value="true" />
       <option name="FIELD" value="true" />

@@ -10,5 +10,7 @@ module Zone {
     requires log4j.api;
     requires com.google.guice;
     requires net.kyori.adventure.text.serializer.gson;
-
+    requires net.kyori.adventure.text.serializer.plain;
+    requires net.kyori.examination.api;
+    requires com.google.errorprone.annotations;
 }
