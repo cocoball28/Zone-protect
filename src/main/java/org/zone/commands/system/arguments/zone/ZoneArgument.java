@@ -86,14 +86,15 @@ public class ZoneArgument implements CommandArgument<Zone> {
         if (this.builder.isOnlyMainZones()) {
             zones = zones.filter(zone -> zone.getParent().isEmpty());
         }
-        if (this.builder.getLevel()!=null) {
+        if (this.builder.getLevel() != null) {
             Subject subject = context.getSource();
-            if (this.builder.getBypassSuggestionPermission()==null || this.builder.getBypassSuggestionPermission()!=null &&
-                    !subject.hasPermission(this.builder.getBypassSuggestionPermission())) {
+            if (this.builder.getBypassSuggestionPermission() == null ||
+                    this.builder.getBypassSuggestionPermission() != null &&
+                            !subject.hasPermission(this.builder.getBypassSuggestionPermission())) {
                 if (subject instanceof Player player) {
                     zones = zones.filter(zone -> {
                         Group group = zone.getMembers().getGroup(player.uniqueId());
-                        if (this.builder.getLevel()==null) {
+                        if (this.builder.getLevel() == null) {
                             return true;
                         }
                         return group.getAllKeys().contains(this.builder.getLevel());
@@ -110,28 +111,39 @@ public class ZoneArgument implements CommandArgument<Zone> {
 
     @Override
     public Collection<CommandCompletion> suggest(CommandContext context, CommandArgumentContext<Zone> argument) {
-        Stream<Zone> zones = ZonePlugin.getZonesPlugin().getZoneManager().getZones().stream();
+        return this.suggest(context, argument.getFocusArgument());
+    }
+
+    private Collection<CommandCompletion> suggest(CommandContext context, String focus) {
+        Collection<Zone> collection = ZonePlugin.getZonesPlugin().getZoneManager().getZones();
+        Stream<Zone> zones = collection.stream();
         if (this.builder.isOnlyMainZones()) {
             zones = zones.filter(zone -> zone.getParent().isEmpty());
         }
-        if (this.builder.getLevel()!=null) {
+        if (this.builder.getLevel() != null) {
             Subject subject = context.getSource();
-            if (this.builder.getBypassSuggestionPermission()==null || this.builder.getBypassSuggestionPermission()!=null &&
-                    !subject.hasPermission(this.builder.getBypassSuggestionPermission())) {
+            if (this.builder.getBypassSuggestionPermission() == null ||
+                    this.builder.getBypassSuggestionPermission() != null &&
+                            !subject.hasPermission(this.builder.getBypassSuggestionPermission())) {
                 if (subject instanceof Player player) {
                     zones = zones.filter(zone -> {
                         Group group = zone.getMembers().getGroup(player.uniqueId());
-                        if (this.builder.getLevel()==null) {
+                        if (this.builder.getLevel() == null) {
                             return true;
                         }
-                        return group.getAllKeys().contains(this.builder.getLevel());
+                        return group.contains(this.builder.getLevel());
                     });
                 }
             }
         }
         return zones
-                .filter(zone -> zone.getId().toLowerCase().startsWith(argument.getFocusArgument().toLowerCase()))
+                .filter(zone -> zone.getId().toLowerCase().startsWith(focus.toLowerCase()))
                 .map(zone -> CommandCompletion.of(zone.getId(), Component.text(zone.getName())))
                 .collect(Collectors.toSet());
+    }
+
+    @Override
+    public boolean canApply(CommandContext context) {
+        return !this.suggest(context, "").isEmpty();
     }
 }

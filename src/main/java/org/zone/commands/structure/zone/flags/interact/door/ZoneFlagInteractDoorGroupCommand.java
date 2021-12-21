@@ -23,6 +23,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Used to modify the group for {@link DoorInteractionFlag}
+ */
 public class ZoneFlagInteractDoorGroupCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE = new ZoneArgument("zoneId",

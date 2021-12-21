@@ -26,15 +26,16 @@ import org.zone.region.group.key.GroupKeys;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
+/**
+ * Used to view the member of a zone in {@link org.zone.region.flag.meta.member.MembersFlag}
+ */
 public class ZoneFlagMemberGroupViewCommand implements ArgumentCommand {
 
-    public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
-            new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(GroupKeys.OWNER));
+    public static final ZoneArgument ZONE = new ZoneArgument("zoneId", new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(GroupKeys.OWNER));
 
     public static final ZoneGroupArgument GROUP = new ZoneGroupArgument("groupId", ZONE);
 
-    public final OptionalArgument<Integer> PAGE = new OptionalArgument<>(new RangeArgument<>(new IntegerArgument(
-            "page"), (c, a) -> CommandArgumentResult.from(a, 1), (c, a) -> {
+    public final OptionalArgument<Integer> PAGE = new OptionalArgument<>(new RangeArgument<>(new IntegerArgument("page"), (c, a) -> CommandArgumentResult.from(a, 1), (c, a) -> {
         Zone zone = c.getArgument(this, ZONE);
         Group group = c.getArgument(this, GROUP);
         int pages = zone.getMembers().getMembers(group).size() / 10;
@@ -45,8 +46,7 @@ public class ZoneFlagMemberGroupViewCommand implements ArgumentCommand {
 
     @Override
     public List<CommandArgument<?>> getArguments() {
-        return Arrays.asList(new ExactArgument("zone"), new ExactArgument("members"), ZONE, new ExactArgument("view")
-                , GROUP, this.PAGE);
+        return Arrays.asList(new ExactArgument("zone"), new ExactArgument("members"), ZONE, new ExactArgument("view"), GROUP, this.PAGE);
     }
 
     @Override
@@ -70,14 +70,33 @@ public class ZoneFlagMemberGroupViewCommand implements ArgumentCommand {
 
         Collection<UUID> memberIds = zone.getMembers().getMembers(group);
         UserManager userManager = Sponge.server().userManager();
-        commandContext.getCause().sendMessage(Identity.nil(),
-                Component.text("----====[").color(NamedTextColor.RED).append(Component.text(zone.getName()).color(NamedTextColor.AQUA).append(Component.text("]====----").color(NamedTextColor.RED))));
-        commandContext.getCause().sendMessage(Identity.nil(),
-                Component.text("Group: ").color(NamedTextColor.GOLD).append(Component.text(group.getName()).color(NamedTextColor.AQUA)));
-        commandContext.getCause().sendMessage(Identity.nil(),
-                Component.text("Total: ").color(NamedTextColor.GOLD).append(Component.text(memberIds.size()).color(NamedTextColor.AQUA)));
-        commandContext.getCause().sendMessage(Identity.nil(),
-                Component.text("Page: ").color(NamedTextColor.GOLD).append(Component.text(page).color(NamedTextColor.AQUA)));
+        commandContext
+                .getCause()
+                .sendMessage(Identity.nil(), Component
+                        .text("----====[")
+                        .color(NamedTextColor.RED)
+                        .append(Component
+                                .text(zone.getName())
+                                .color(NamedTextColor.AQUA)
+                                .append(Component.text("]====----").color(NamedTextColor.RED))));
+        commandContext
+                .getCause()
+                .sendMessage(Identity.nil(), Component
+                        .text("Group: ")
+                        .color(NamedTextColor.GOLD)
+                        .append(Component.text(group.getName()).color(NamedTextColor.AQUA)));
+        commandContext
+                .getCause()
+                .sendMessage(Identity.nil(), Component
+                        .text("Total: ")
+                        .color(NamedTextColor.GOLD)
+                        .append(Component.text(memberIds.size()).color(NamedTextColor.AQUA)));
+        commandContext
+                .getCause()
+                .sendMessage(Identity.nil(), Component
+                        .text("Page: ")
+                        .color(NamedTextColor.GOLD)
+                        .append(Component.text(page).color(NamedTextColor.AQUA)));
         int count = 0;
         int pageStart = (page - 1) * 10;
         int pageEnd = (page) * 10;
@@ -90,8 +109,9 @@ public class ZoneFlagMemberGroupViewCommand implements ArgumentCommand {
                 break;
             }
             CompletableFuture<Optional<User>> loader = userManager.load(uuid);
-            loader.thenAccept(opUser -> opUser.ifPresent(user -> commandContext.getCause().sendMessage(Identity.nil(),
-                    Component.text("- " + user.name()).color(NamedTextColor.AQUA))));
+            loader.thenAccept(opUser -> opUser.ifPresent(user -> commandContext
+                    .getCause()
+                    .sendMessage(Identity.nil(), Component.text("- " + user.name()).color(NamedTextColor.AQUA))));
         }
         return CommandResult.success();
     }

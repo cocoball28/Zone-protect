@@ -15,33 +15,24 @@ import org.zone.commands.system.context.CommandContext;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.interact.block.destroy.BlockBreakFlag;
-import org.zone.region.group.DefaultGroups;
 import org.zone.region.group.Group;
-import org.zone.region.group.SimpleGroup;
 import org.zone.region.group.key.GroupKeys;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Used for changing the group status of {@link BlockBreakFlag}
+ */
 public class ZoneFlagBlockBreakSetGroupCommand implements ArgumentCommand {
 
-    public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
-            new ZoneArgument
-                    .ZoneArgumentPropertiesBuilder()
-                    .setLevel(GroupKeys.OWNER));
+    public static final ZoneArgument ZONE = new ZoneArgument("zoneId", new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(GroupKeys.OWNER));
     public static final ZoneGroupArgument GROUP = new ZoneGroupArgument("groupid", ZONE);
 
     @Override
     public List<CommandArgument<?>> getArguments() {
-        return Arrays.asList(new ExactArgument("zone"),
-                new ExactArgument("flag"),
-                ZONE,
-                new ExactArgument("interact"),
-                new ExactArgument("block"),
-                new ExactArgument("break"),
-                new ExactArgument("group"),
-                GROUP);
+        return Arrays.asList(new ExactArgument("zone"), new ExactArgument("flag"), ZONE, new ExactArgument("interact"), new ExactArgument("block"), new ExactArgument("break"), new ExactArgument("group"), GROUP);
     }
 
     @Override

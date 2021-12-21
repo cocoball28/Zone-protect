@@ -11,7 +11,7 @@ import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.NotEnoughArgumentsException;
 import org.zone.commands.system.arguments.operation.ExactArgument;
-import org.zone.commands.system.arguments.source.UserArgument;
+import org.zone.commands.system.arguments.sponge.UserArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.arguments.zone.ZoneGroupArgument;
 import org.zone.commands.system.context.CommandContext;
@@ -25,22 +25,18 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Used to set the member of a zone in {@link org.zone.region.flag.meta.member.MembersFlag}
+ */
 public class ZoneFlagMemberGroupAddCommand implements ArgumentCommand {
 
-    public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
-            new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(GroupKeys.OWNER));
+    public static final ZoneArgument ZONE = new ZoneArgument("zoneId", new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(GroupKeys.OWNER));
     public static final ZoneGroupArgument GROUP = new ZoneGroupArgument("groupId", ZONE);
     public static final UserArgument USER = new UserArgument("user");
 
     @Override
     public List<CommandArgument<?>> getArguments() {
-        return Arrays.asList(
-                new ExactArgument("zone"),
-                new ExactArgument("member"),
-                ZONE,
-                new ExactArgument("set", false, "set", "change", "apply", "add"),
-                USER,
-                GROUP);
+        return Arrays.asList(new ExactArgument("zone"), new ExactArgument("member"), ZONE, new ExactArgument("set", false, "set", "change", "apply", "add"), USER, GROUP);
     }
 
     @Override
@@ -68,30 +64,39 @@ public class ZoneFlagMemberGroupAddCommand implements ArgumentCommand {
         if (!previous.equals(DefaultGroups.VISITOR)) {
             zone.getMembers().removeMember(profile.uniqueId());
         }
-        context.getCause().sendMessage(Identity.nil(),
-                Component.text("Moved " + profile.name() + " from " + previous.getName() + " to " + group.getName()));
+        context
+                .getCause()
+                .sendMessage(Identity.nil(), Component.text("Moved " +
+                        profile.name() +
+                        " from " +
+                        previous.getName() +
+                        " to " +
+                        group.getName()));
         if (Sponge.isServerAvailable()) {
-            Optional<ServerPlayer> opPlayer =
-                    Sponge
-                            .server()
-                            .onlinePlayers()
-                            .stream()
-                            .filter(p -> p.uniqueId().equals(profile.uuid()))
-                            .findAny();
-            opPlayer.ifPresent(player ->
-                    player.sendMessage(Identity.nil(),
-                            Component.text("You have been moved in '" + zone.getName() + "' from '" + previous.getName() + "' to '" + group.getName() +
-                                    "'")));
+            Optional<ServerPlayer> opPlayer = Sponge
+                    .server()
+                    .onlinePlayers()
+                    .stream()
+                    .filter(p -> p.uniqueId().equals(profile.uuid()))
+                    .findAny();
+            opPlayer.ifPresent(player -> player.sendMessage(Identity.nil(), Component.text("You have been moved in '" +
+                    zone.getName() +
+                    "' from '" +
+                    previous.getName() +
+                    "' to '" +
+                    group.getName() +
+                    "'")));
         }
 
         zone.getMembers().addMember(group, profile.uniqueId());
         try {
             zone.save();
         } catch (IOException e) {
-            context.getCause().sendMessage(Identity.nil(), Component.text("Could not save zone. Console log will show" +
-                    " more " +
-                    "info on " +
-                    "why").color(NamedTextColor.RED));
+            context
+                    .getCause()
+                    .sendMessage(Identity.nil(), Component
+                            .text("Could not save zone. Console log will show" + " more " + "info on " + "why")
+                            .color(NamedTextColor.RED));
         }
     }
 }

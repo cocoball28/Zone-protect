@@ -3,16 +3,20 @@ package org.zone.region.group.key;
 import org.spongepowered.plugin.PluginContainer;
 import org.zone.ZonePlugin;
 
+/**
+ * All known group keys found within the zones plugin
+ */
 public enum GroupKeys implements GroupKey {
     OWNER("owner", "Owner"),
     HOME_OWNER("home_owner", "Home Owner"),
     BLOCK_BREAK("block_break", "Block Break"),
+    BLOCK_PLACE("block_place", "Block Place"),
     INTERACT_DOOR("interact_door", "Interact with Door");
 
     private final String name;
     private final String key;
 
-    private GroupKeys(String key, String name){
+    private GroupKeys(String key, String name) {
         this.name = name;
         this.key = key;
     }

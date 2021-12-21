@@ -22,27 +22,17 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Used for changing the enabled status of the {@link BlockBreakFlag}
+ */
 public class ZoneFlagBlockBreakSetEnabledCommand implements ArgumentCommand {
 
     public static final BooleanArgument VALUE = new BooleanArgument("enabledValue");
-    public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
-            new ZoneArgument
-                    .ZoneArgumentPropertiesBuilder()
-                    .setLevel(GroupKeys.OWNER));
+    public static final ZoneArgument ZONE = new ZoneArgument("zoneId", new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(GroupKeys.OWNER));
 
     @Override
     public List<CommandArgument<?>> getArguments() {
-        return Arrays.asList(
-                new ExactArgument("zone"),
-                new ExactArgument("flag"),
-                ZONE,
-                new ExactArgument("interact"),
-                new ExactArgument("block"),
-                new ExactArgument("break"),
-                new ExactArgument("set"),
-                new ExactArgument("enabled"),
-                VALUE
-        );
+        return Arrays.asList(new ExactArgument("zone"), new ExactArgument("flag"), ZONE, new ExactArgument("interact"), new ExactArgument("block"), new ExactArgument("break"), new ExactArgument("set"), new ExactArgument("enabled"), VALUE);
     }
 
     @Override
@@ -62,13 +52,15 @@ public class ZoneFlagBlockBreakSetEnabledCommand implements ArgumentCommand {
                 .getFlag(FlagTypes.BLOCK_BREAK)
                 .orElseGet(() -> new BlockBreakFlag(BlockBreakFlag.ELSE));
         @Nullable Boolean value = commandContext.getArgument(this, VALUE);
-        if (value==null) {
+        if (value == null) {
             zone.removeFlag(FlagTypes.BLOCK_BREAK);
             try {
                 zone.save();
-                commandContext.getCause().sendMessage(Identity.nil(), Component.text("Removed flag. Using default " +
-                        "or parent " +
-                        "flag value"));
+                commandContext
+                        .getCause()
+                        .sendMessage(Identity.nil(), Component.text("Removed flag. Using default " +
+                                "or parent " +
+                                "flag value"));
             } catch (ConfigurateException e) {
                 e.printStackTrace();
                 return CommandResult.error(Component.text("Unable to save"));
@@ -79,7 +71,7 @@ public class ZoneFlagBlockBreakSetEnabledCommand implements ArgumentCommand {
         zone.addFlag(flag);
         try {
             zone.save();
-            commandContext.getCause().sendMessage(Identity.nil(), Component.text("Updated Door Interaction"));
+            commandContext.getCause().sendMessage(Identity.nil(), Component.text("Updated Block break"));
         } catch (ConfigurateException e) {
             e.printStackTrace();
             return CommandResult.error(Component.text("Could not save: " + e.getMessage()));

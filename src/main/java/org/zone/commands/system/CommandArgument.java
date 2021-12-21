@@ -1,5 +1,7 @@
 package org.zone.commands.system;
 
+import org.zone.commands.system.context.CommandContext;
+
 public interface CommandArgument<T> extends ParseCommandArgument<T>, SuggestCommandArgument<T> {
 
     /**
@@ -18,6 +20,10 @@ public interface CommandArgument<T> extends ParseCommandArgument<T>, SuggestComm
      */
     default String getUsage() {
         return "<" + this.getId() + ">";
+    }
+
+    default boolean canApply(CommandContext context) {
+        return true;
     }
 
 

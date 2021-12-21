@@ -1,5 +1,7 @@
 package org.zone.commands.system.context;
 
+import net.kyori.adventure.identity.Identity;
+import net.kyori.adventure.text.Component;
 import org.spongepowered.api.command.CommandCause;
 import org.spongepowered.api.command.CommandCompletion;
 import org.spongepowered.api.service.permission.Subject;
@@ -28,10 +30,11 @@ public class CommandContext {
             return argIds.parallelStream().anyMatch(arg -> Collections.frequency(argIds, arg) > 1);
         }).collect(Collectors.toSet());
         if (!duped.isEmpty()) {
-            throw new IllegalStateException("Duped argument ids found in " + duped
-                    .parallelStream()
-                    .map(argCmd -> "\t- " + argCmd.getClass().getName())
-                    .collect(Collectors.joining("\n")));
+            throw new IllegalStateException("Duped argument ids found in " +
+                    duped
+                            .parallelStream()
+                            .map(argCmd -> "\t- " + argCmd.getClass().getName())
+                            .collect(Collectors.joining("\n")));
         }
         this.commands = command;
         this.potentialCommands.addAll(commands);
@@ -60,6 +63,10 @@ public class CommandContext {
         return this.cause;
     }
 
+    public void sendMessage(Component component) {
+        this.cause.sendMessage(Identity.nil(), component);
+    }
+
     /**
      * Gets the suggestions for the next argument in the command.
      * This is based upon the argument command provided as well as the raw
@@ -73,7 +80,7 @@ public class CommandContext {
         int commandArgument = 0;
         Collection<OptionalArgument<?>> optionalArguments = new ArrayList<>();
         for (CommandArgument<?> arg : arguments) {
-            if (this.commands.length==commandArgument) {
+            if (this.commands.length == commandArgument) {
                 if (arg instanceof OptionalArgument) {
                     optionalArguments.add((OptionalArgument<?>) arg);
                     continue;
@@ -85,7 +92,7 @@ public class CommandContext {
             }
             try {
                 CommandArgumentResult<?> entry = this.parse(command, arg, commandArgument);
-                if (commandArgument==entry.position() && arg instanceof OptionalArgument) {
+                if (commandArgument == entry.position() && arg instanceof OptionalArgument) {
                     optionalArguments.add((OptionalArgument<?>) arg);
                 } else {
                     optionalArguments.clear();
@@ -136,7 +143,7 @@ public class CommandContext {
         }
         int commandArgument = 0;
         for (CommandArgument<?> arg : arguments) {
-            if (this.commands.length==commandArgument && arg instanceof OptionalArgument) {
+            if (this.commands.length == commandArgument && arg instanceof OptionalArgument) {
                 if (arg.getId().equals(id)) {
                     try {
                         return (T) this.parse(command, arg, commandArgument).value();
@@ -173,7 +180,7 @@ public class CommandContext {
             List<CommandArgument<?>> arguments = command.getArguments();
             int commandArgument = 0;
             for (CommandArgument<?> arg : arguments) {
-                if (this.commands.length==commandArgument && arg instanceof OptionalArgument) {
+                if (this.commands.length == commandArgument && arg instanceof OptionalArgument) {
                     continue;
                 }
                 if (this.commands.length <= commandArgument) {
@@ -190,7 +197,6 @@ public class CommandContext {
                     break;
                 }
             }
-
         }
 
         //get best
@@ -198,12 +204,12 @@ public class CommandContext {
         Integer best = null;
         for (ErrorContext value1 : map) {
             Integer current = value1.argumentFailedAt();
-            if (best==null) {
+            if (best == null) {
                 value.add(value1);
                 best = current;
                 continue;
             }
-            if (best > current) {
+            if (best < current) {
                 value.clear();
                 value.add(value1);
                 best = current;
@@ -224,7 +230,7 @@ public class CommandContext {
             List<CommandArgument<?>> arguments = command.getArguments();
             int commandArgument = 0;
             for (CommandArgument<?> arg : arguments) {
-                if (this.commands.length==commandArgument && arg instanceof OptionalArgument) {
+                if (this.commands.length == commandArgument && arg instanceof OptionalArgument) {
                     continue;
                 }
                 if (this.commands.length <= commandArgument) {
@@ -237,7 +243,7 @@ public class CommandContext {
                     return false;
                 }
             }
-            return this.commands.length==commandArgument;
+            return this.commands.length == commandArgument;
         }).findAny();
 
     }
@@ -254,7 +260,7 @@ public class CommandContext {
             int commandArgument = 0;
             int completeArguments = 0;
             for (CommandArgument<?> arg : arguments) {
-                if (this.commands.length==commandArgument && arg instanceof OptionalArgument) {
+                if (this.commands.length == commandArgument && arg instanceof OptionalArgument) {
                     continue;
                 }
                 if (this.commands.length <= commandArgument) {
@@ -263,7 +269,7 @@ public class CommandContext {
                 }
                 try {
                     CommandArgumentResult<?> entry = this.parse(c, arg, commandArgument);
-                    if (commandArgument!=entry.position()) {
+                    if (commandArgument != entry.position()) {
                         commandArgument = entry.position();
                         completeArguments++;
                     }
@@ -282,22 +288,19 @@ public class CommandContext {
                 current = entry.getValue();
                 set.clear();
             }
-            if (entry.getValue()==current) {
+            if (entry.getValue() == current) {
                 set.add(entry.getKey());
             }
         }
         return set;
     }
 
-    private <T> CommandArgumentResult<T> parse(ArgumentCommand launcher, CommandArgument<T> arg,
-                                               int commandArgument) throws IOException {
-        CommandArgumentContext<T> argContext = new CommandArgumentContext<>(launcher, arg, commandArgument,
-                this.commands);
+    private <T> CommandArgumentResult<T> parse(ArgumentCommand launcher, CommandArgument<T> arg, int commandArgument) throws IOException {
+        CommandArgumentContext<T> argContext = new CommandArgumentContext<>(launcher, arg, commandArgument, this.commands);
         return arg.parse(this, argContext);
     }
 
-    private <T> Collection<CommandCompletion> suggest(ArgumentCommand launcher, CommandArgument<T> arg,
-                                                      int commandArgument) {
+    private <T> Collection<CommandCompletion> suggest(ArgumentCommand launcher, CommandArgument<T> arg, int commandArgument) {
         if (this.commands.length <= commandArgument) {
             return Collections.emptySet();
         }

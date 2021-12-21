@@ -9,10 +9,18 @@ import org.zone.region.group.key.GroupKeys;
 
 import java.util.Optional;
 
+/**
+ * A flag to check if a player can break a block found within a region.
+ *
+ * If the player is within a group that has the specified GroupKey then they can break blocks even with the flag enabled
+ */
 public class BlockBreakFlag implements Flag.Enabled, Flag.GroupKeyed {
 
     private @Nullable Boolean enabled;
 
+    /**
+     * The default flag values
+     */
     public static final BlockBreakFlag ELSE = new BlockBreakFlag(false);
 
     public BlockBreakFlag(@SuppressWarnings("TypeMayBeWeakened") @NotNull BlockBreakFlag flag) {
@@ -22,7 +30,6 @@ public class BlockBreakFlag implements Flag.Enabled, Flag.GroupKeyed {
     public BlockBreakFlag(@Nullable Boolean enabled) {
         this.enabled = enabled;
     }
-
 
     @Override
     public @NotNull Optional<Boolean> getEnabled() {
