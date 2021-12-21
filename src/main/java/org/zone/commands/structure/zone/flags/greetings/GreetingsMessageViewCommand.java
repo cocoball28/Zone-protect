@@ -45,12 +45,12 @@ public class GreetingsMessageViewCommand implements ArgumentCommand {
         GreetingsFlag greetingsFlag = zone.getFlag(FlagTypes.GREETINGS_FLAG_TYPE).orElse(new GreetingsFlag());
         Optional<Component> opMessage = greetingsFlag.getMessage();
         if (opMessage.isEmpty()) {
-            Component.text("Message: ").append(Component.text("No text"));
+            commandContext.sendMessage(Component.text("Message: ").append(Component.text("No text")));
         }
         else {
-            Component.text("Message: ").append(opMessage.get());
+            commandContext.sendMessage(Component.text("Message: ").append(opMessage.get()));
         }
-        return null;
+        return CommandResult.success();
     }
 
 }
