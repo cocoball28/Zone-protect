@@ -4,6 +4,7 @@ import org.zone.commands.structure.create.ZoneCreateEndCommand;
 import org.zone.commands.structure.create.ZoneCreateStartCommand;
 import org.zone.commands.structure.create.ZoneCreateSubStartCommand;
 import org.zone.commands.structure.zone.flags.eco.ZoneViewBalanceCommand;
+import org.zone.commands.structure.zone.flags.greetings.GreetingsMessageViewCommand;
 import org.zone.commands.structure.zone.flags.greetings.SetGreetingsMessageCommand;
 import org.zone.commands.structure.zone.flags.interact.destroy.ZoneFlagBlockBreakSetEnabledCommand;
 import org.zone.commands.structure.zone.flags.interact.destroy.ZoneFlagBlockBreakSetGroupCommand;
@@ -47,7 +48,7 @@ public interface ZoneCommands {
     ZoneFlagBlockPlaceSetGroupCommand ZONE_FLAG_BLOCK_PLACE_SET_GROUP_COMMAND = new ZoneFlagBlockPlaceSetGroupCommand();
     ZoneViewBalanceCommand ZONE_FLAG_VIEW_BALANCE_COMMAND = new ZoneViewBalanceCommand();
     SetGreetingsMessageCommand SET_GREETINGS_MESSAGE_COMMAND = new SetGreetingsMessageCommand();
-
+    GreetingsMessageViewCommand GREETINGS_MESSAGE_VIEW_COMMAND = new GreetingsMessageViewCommand();
     static ZoneSpongeCommand createCommand() {
         Collection<ArgumentCommand> collection = Arrays
                 .stream(ZoneCommands.class.getDeclaredFields())
