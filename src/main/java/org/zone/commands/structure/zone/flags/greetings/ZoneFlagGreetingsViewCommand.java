@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class ZoneFlagGreetingsViewCommand implements ArgumentCommand {
-    public static final ExactArgument ZONE = new ExactArgument("zone");
+    public static final ExactArgument REGION = new ExactArgument("region");
     public static final ExactArgument FLAGS = new ExactArgument("flag");
     public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zone_value", new ZoneArgument.ZoneArgumentPropertiesBuilder());
     public static final ExactArgument GREETINGS = new ExactArgument("greetings");
@@ -25,7 +25,7 @@ public class ZoneFlagGreetingsViewCommand implements ArgumentCommand {
 
     @Override
     public List<CommandArgument<?>> getArguments() {
-        return Arrays.asList(ZONE, FLAGS, ZONE_VALUE, GREETINGS, VIEW);
+        return Arrays.asList(REGION, FLAGS, ZONE_VALUE, GREETINGS, VIEW);
     }
 
     @Override

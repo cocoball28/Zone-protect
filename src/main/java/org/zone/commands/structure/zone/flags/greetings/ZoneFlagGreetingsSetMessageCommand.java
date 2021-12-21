@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class ZoneFlagGreetingsSetMessageCommand implements ArgumentCommand {
-    public static final ExactArgument ZONE = new ExactArgument("zone");
+    public static final ExactArgument REGION = new ExactArgument("region");
     public static final ExactArgument FLAGS = new ExactArgument("flag");
     public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zone_value", new ZoneArgument.ZoneArgumentPropertiesBuilder());
     public static final ExactArgument GREETINGS = new ExactArgument("greetings");
@@ -30,7 +30,7 @@ public class ZoneFlagGreetingsSetMessageCommand implements ArgumentCommand {
 
     @Override
     public List<CommandArgument<?>> getArguments() {
-        return Arrays.asList(ZONE, FLAGS, ZONE_VALUE, GREETINGS, MESSAGE, SET, MESSAGE_VALUE);
+        return Arrays.asList(REGION, FLAGS, ZONE_VALUE, GREETINGS, MESSAGE, SET, MESSAGE_VALUE);
     }
 
     @Override
@@ -54,6 +54,7 @@ public class ZoneFlagGreetingsSetMessageCommand implements ArgumentCommand {
         zone.addFlag(greetingsflag);
         try {
             zone.save();
+            commandContext.sendMessage(Component.text("Zone greetings message set to: " + message));
         } catch (ConfigurateException e) {
             e.printStackTrace();
             return CommandResult.error(Component.text("Failed to save:" + e.getMessage()));
