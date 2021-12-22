@@ -14,11 +14,62 @@ public class ZoneComponentParser {
     public static final Set<ComponentPartParser> PARTS = new HashSet<>(Arrays.asList(new ComponentColourParser()));
 
     public static @NotNull Collection<String> getSuggestion(@NotNull String peek) {
+        Integer tagStart = null;
+        StringBuilder buffer = new StringBuilder();
+        Component component = null;
+        Map<ComponentPartParser, String> applyTo = new HashMap<>();
+
+        for (int current = 0; current < peek.length(); current++) {
+            char character = peek.charAt(current);
+            if (character == '<' && tagStart == null) {
+                String previous = buffer.toString();
+                if (!previous.isEmpty()) {
+                    Component toAdd = Component.text(previous);
+                    for (Map.Entry<ComponentPartParser, String> entry : applyTo.entrySet()) {
+                        toAdd = entry.getKey().withTag(entry.getValue(), toAdd);
+                    }
+                    if (component == null) {
+                        component = toAdd;
+                    } else {
+                        component.append(toAdd);
+                    }
+                }
+                applyTo.clear();
+                buffer = new StringBuilder();
+                tagStart = current;
+                continue;
+            }
+            if (character == '>' && tagStart != null) {
+                String tag = peek.substring(tagStart, current);
+                boolean check = true;
+                for (ComponentPartParser part : PARTS) {
+                    if (part.hasTag(tag)) {
+                        check = false;
+                        applyTo.put(part, tag);
+                    }
+                }
+                if (check) {
+                    throw new IllegalArgumentException("Unknown tag of " + tag);
+                }
+                tagStart = null;
+                continue;
+            }
+            if (tagStart == null) {
+                buffer.append(character);
+            }
+        }
+
+        String previous = buffer.toString();
+        if(previous.isEmpty() && tagStart != null){
+            previous = peek.substring(tagStart);
+        }
+        final String finalPrevious = previous;
         return PARTS
                 .parallelStream()
-                .flatMap(part -> part.getSuggestions(peek).parallelStream())
+                .flatMap(part -> part.getSuggestions(finalPrevious).parallelStream())
                 .collect(Collectors.toSet());
     }
+
 
     public static @NotNull String toString(@NotNull Component component) {
         String message = PlainTextComponentSerializer.plainText().serialize(component);
@@ -98,7 +149,6 @@ public class ZoneComponentParser {
         if (component == null) {
             throw new IllegalArgumentException("Failed to understand the text of " + string);
         }
-
         return component;
     }
 }

@@ -43,7 +43,8 @@ public class PreventMonsterFlagType implements FlagType<PreventMonsterFlag> {
     }
 
     @Override
-    public void save(@NotNull ConfigurationNode node, @NotNull PreventMonsterFlag save) throws IOException {
+    public void save(@NotNull ConfigurationNode node, @NotNull PreventMonsterFlag save) throws
+            IOException {
         if (save.getEnabled().isEmpty()) {
             node.set(null);
             return;
@@ -58,6 +59,8 @@ public class PreventMonsterFlagType implements FlagType<PreventMonsterFlag> {
 
     @Override
     public Optional<PreventMonsterFlag> createCopyOfDefaultFlag() {
-        return Optional.of(new PreventMonsterFlag(PreventMonsterFlag.DEFAULT.getEnabled().orElse(null)));
+        return Optional.of(new PreventMonsterFlag(PreventMonsterFlag.DEFAULT
+                                                          .getEnabled()
+                                                          .orElse(null)));
     }
 }

@@ -32,15 +32,21 @@ import java.util.Optional;
  */
 public class ZoneCreateSubStartCommand implements ArgumentCommand {
 
-    private static final ZoneArgument ZONE = new ZoneArgument("zone", new ZoneArgument.ZoneArgumentPropertiesBuilder()
-            .setLevel(GroupKeys.OWNER)
-            .setOnlyMainZones(true));
+    private static final ZoneArgument ZONE = new ZoneArgument("zone",
+                                                              new ZoneArgument.ZoneArgumentPropertiesBuilder()
+                                                                      .setLevel(GroupKeys.OWNER)
+                                                                      .setOnlyMainZones(true));
 
-    private static final RemainingArgument<String> NAME = new RemainingArgument<>(new StringArgument("name"));
+    private static final RemainingArgument<String> NAME = new RemainingArgument<>(new StringArgument(
+            "name"));
 
     @Override
     public List<CommandArgument<?>> getArguments() {
-        return Arrays.asList(new ExactArgument("create"), new ExactArgument("sub"), new ExactArgument("region"), ZONE, NAME);
+        return Arrays.asList(new ExactArgument("create"),
+                             new ExactArgument("sub"),
+                             new ExactArgument("region"),
+                             ZONE,
+                             NAME);
     }
 
     @Override
@@ -54,7 +60,8 @@ public class ZoneCreateSubStartCommand implements ArgumentCommand {
     }
 
     @Override
-    public CommandResult run(CommandContext context, String... args) throws NotEnoughArgumentsException {
+    public CommandResult run(CommandContext context, String... args) throws
+            NotEnoughArgumentsException {
         Subject subject = context.getSource();
         if (!(subject instanceof ServerPlayer player)) {
             return CommandResult.error(Component.text("Player only command"));
@@ -62,7 +69,8 @@ public class ZoneCreateSubStartCommand implements ArgumentCommand {
         Zone zone = context.getArgument(this, ZONE);
         String name = String.join(" ", context.getArgument(this, NAME));
 
-        BoundedRegion region = new BoundedRegion(player.blockPosition().add(0, -1, 0), player.blockPosition());
+        BoundedRegion region = new BoundedRegion(player.blockPosition().add(0, -1, 0),
+                                                 player.blockPosition());
 
         ChildRegion childRegion = new ChildRegion(Collections.singleton(region));
 
@@ -77,12 +85,19 @@ public class ZoneCreateSubStartCommand implements ArgumentCommand {
                 .getZoneManager()
                 .getZone(builder.getContainer(), builder.getKey())
                 .isPresent()) {
-            return CommandResult.error(Component.text("Cannot use that name").color(NamedTextColor.RED));
+            return CommandResult.error(Component
+                                               .text("Cannot use that name")
+                                               .color(NamedTextColor.RED));
         }
-        ZonePlugin.getZonesPlugin().getMemoryHolder().registerZoneBuilder(player.uniqueId(), builder);
+        ZonePlugin
+                .getZonesPlugin()
+                .getMemoryHolder()
+                .registerZoneBuilder(player.uniqueId(), builder);
         player.sendMessage(Component
-                .text("Region builder mode enabled. Run ")
-                .append(Component.text("'/zone create end'").color(NamedTextColor.AQUA)));
+                                   .text("Region builder mode enabled. Run ")
+                                   .append(Component
+                                                   .text("'/zone create end'")
+                                                   .color(NamedTextColor.AQUA)));
         return CommandResult.success();
     }
 }

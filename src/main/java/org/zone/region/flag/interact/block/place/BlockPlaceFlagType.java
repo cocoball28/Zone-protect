@@ -47,7 +47,8 @@ public class BlockPlaceFlagType implements FlagType<BlockPlaceFlag> {
     }
 
     @Override
-    public void save(@NotNull ConfigurationNode node, @Nullable BlockPlaceFlag save) throws IOException {
+    public void save(@NotNull ConfigurationNode node, @Nullable BlockPlaceFlag save) throws
+            IOException {
         if (save == null || save.getEnabled().isEmpty()) {
             node.set(null);
             return;

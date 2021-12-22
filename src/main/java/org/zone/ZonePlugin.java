@@ -25,6 +25,7 @@ import org.zone.region.flag.greetings.GreetingsFlagListener;
 import org.zone.region.flag.interact.block.destroy.BlockBreakListener;
 import org.zone.region.flag.interact.door.DoorInteractListener;
 import org.zone.region.flag.move.monster.MonsterPreventionListener;
+import org.zone.region.flag.move.player.leaving.LeavingFlagListener;
 import org.zone.region.group.key.GroupKeyManager;
 
 import java.io.File;
@@ -43,6 +44,14 @@ public class ZonePlugin {
     private GroupKeyManager groupKeyManager;
     private MemoryHolder memoryHolder;
     private static ZonePlugin zonePlugin;
+
+    @SuppressWarnings("SpongeInjection")
+    @Inject
+    public ZonePlugin(final PluginContainer plugin, final Logger logger) {
+        zonePlugin = this;
+        this.plugin = plugin;
+        this.logger = logger;
+    }
 
     /**
      * Gets the flag manager
@@ -89,13 +98,6 @@ public class ZonePlugin {
         return this.logger;
     }
 
-    @Inject
-    public ZonePlugin(final PluginContainer plugin, final Logger logger) {
-        zonePlugin = this;
-        this.plugin = plugin;
-        this.logger = logger;
-    }
-
     @Listener
     public void onConstructor(ConstructPluginEvent event) {
         this.flagManager = new FlagManager();
@@ -110,6 +112,7 @@ public class ZonePlugin {
         Sponge.eventManager().registerListeners(this.plugin, new DoorInteractListener());
         Sponge.eventManager().registerListeners(this.plugin, new BlockBreakListener());
         Sponge.eventManager().registerListeners(this.plugin, new GreetingsFlagListener());
+        Sponge.eventManager().registerListeners(this.plugin, new LeavingFlagListener());
     }
 
     @Listener

@@ -29,11 +29,17 @@ public class DoorInteractionFlag implements Flag.Enabled, Flag.GroupKeyed {
     }
 
     @Override
+    public @NotNull DoorInteractionFlagType getType() {
+        return FlagTypes.DOOR_INTERACTION;
+    }    @Override
     public @NotNull Optional<Boolean> getEnabled() {
         return Optional.ofNullable(this.enabled);
     }
 
     @Override
+    public @NotNull GroupKey getRequiredKey() {
+        return GroupKeys.INTERACT_DOOR;
+    }    @Override
     public boolean isEnabled() {
         return this.getEnabled().orElse(ELSE.getEnabled().orElse(false));
     }
@@ -43,13 +49,7 @@ public class DoorInteractionFlag implements Flag.Enabled, Flag.GroupKeyed {
         this.enabled = flag;
     }
 
-    @Override
-    public @NotNull DoorInteractionFlagType getType() {
-        return FlagTypes.DOOR_INTERACTION;
-    }
 
-    @Override
-    public @NotNull GroupKey getRequiredKey() {
-        return GroupKeys.INTERACT_DOOR;
-    }
+
+
 }

@@ -31,22 +31,27 @@ import java.util.concurrent.CompletableFuture;
  */
 public class ZoneFlagMemberGroupViewCommand implements ArgumentCommand {
 
-    public static final ZoneArgument ZONE = new ZoneArgument("zoneId", new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(GroupKeys.OWNER));
-
-    public static final ZoneGroupArgument GROUP = new ZoneGroupArgument("groupId", ZONE);
-
-    public final OptionalArgument<Integer> PAGE = new OptionalArgument<>(new RangeArgument<>(new IntegerArgument("page"), (c, a) -> CommandArgumentResult.from(a, 1), (c, a) -> {
+    public final OptionalArgument<Integer> PAGE = new OptionalArgument<>(new RangeArgument<>(new IntegerArgument(
+            "page"), (c, a) -> CommandArgumentResult.from(a, 1), (c, a) -> {
         Zone zone = c.getArgument(this, ZONE);
         Group group = c.getArgument(this, GROUP);
         int pages = zone.getMembers().getMembers(group).size() / 10;
         return CommandArgumentResult.from(a, pages);
 
     }), 1);
-
+    public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
+                                                             new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(
+                                                                     GroupKeys.OWNER));
+    public static final ZoneGroupArgument GROUP = new ZoneGroupArgument("groupId", ZONE);
 
     @Override
     public List<CommandArgument<?>> getArguments() {
-        return Arrays.asList(new ExactArgument("zone"), new ExactArgument("members"), ZONE, new ExactArgument("view"), GROUP, this.PAGE);
+        return Arrays.asList(new ExactArgument("zone"),
+                             new ExactArgument("members"),
+                             ZONE,
+                             new ExactArgument("view"),
+                             GROUP,
+                             this.PAGE);
     }
 
     @Override
@@ -60,7 +65,8 @@ public class ZoneFlagMemberGroupViewCommand implements ArgumentCommand {
     }
 
     @Override
-    public CommandResult run(CommandContext commandContext, String... args) throws NotEnoughArgumentsException {
+    public CommandResult run(CommandContext commandContext, String... args) throws
+            NotEnoughArgumentsException {
         Zone zone = commandContext.getArgument(this, ZONE);
         Group group = commandContext.getArgument(this, GROUP);
         int page = commandContext.getArgument(this, this.PAGE);
@@ -72,31 +78,41 @@ public class ZoneFlagMemberGroupViewCommand implements ArgumentCommand {
         UserManager userManager = Sponge.server().userManager();
         commandContext
                 .getCause()
-                .sendMessage(Identity.nil(), Component
-                        .text("----====[")
-                        .color(NamedTextColor.RED)
-                        .append(Component
-                                .text(zone.getName())
-                                .color(NamedTextColor.AQUA)
-                                .append(Component.text("]====----").color(NamedTextColor.RED))));
+                .sendMessage(Identity.nil(),
+                             Component
+                                     .text("----====[")
+                                     .color(NamedTextColor.RED)
+                                     .append(Component
+                                                     .text(zone.getName())
+                                                     .color(NamedTextColor.AQUA)
+                                                     .append(Component
+                                                                     .text("]====----")
+                                                                     .color(NamedTextColor.RED))));
         commandContext
                 .getCause()
-                .sendMessage(Identity.nil(), Component
-                        .text("Group: ")
-                        .color(NamedTextColor.GOLD)
-                        .append(Component.text(group.getName()).color(NamedTextColor.AQUA)));
+                .sendMessage(Identity.nil(),
+                             Component
+                                     .text("Group: ")
+                                     .color(NamedTextColor.GOLD)
+                                     .append(Component
+                                                     .text(group.getName())
+                                                     .color(NamedTextColor.AQUA)));
         commandContext
                 .getCause()
-                .sendMessage(Identity.nil(), Component
-                        .text("Total: ")
-                        .color(NamedTextColor.GOLD)
-                        .append(Component.text(memberIds.size()).color(NamedTextColor.AQUA)));
+                .sendMessage(Identity.nil(),
+                             Component
+                                     .text("Total: ")
+                                     .color(NamedTextColor.GOLD)
+                                     .append(Component
+                                                     .text(memberIds.size())
+                                                     .color(NamedTextColor.AQUA)));
         commandContext
                 .getCause()
-                .sendMessage(Identity.nil(), Component
-                        .text("Page: ")
-                        .color(NamedTextColor.GOLD)
-                        .append(Component.text(page).color(NamedTextColor.AQUA)));
+                .sendMessage(Identity.nil(),
+                             Component
+                                     .text("Page: ")
+                                     .color(NamedTextColor.GOLD)
+                                     .append(Component.text(page).color(NamedTextColor.AQUA)));
         int count = 0;
         int pageStart = (page - 1) * 10;
         int pageEnd = (page) * 10;
@@ -111,7 +127,8 @@ public class ZoneFlagMemberGroupViewCommand implements ArgumentCommand {
             CompletableFuture<Optional<User>> loader = userManager.load(uuid);
             loader.thenAccept(opUser -> opUser.ifPresent(user -> commandContext
                     .getCause()
-                    .sendMessage(Identity.nil(), Component.text("- " + user.name()).color(NamedTextColor.AQUA))));
+                    .sendMessage(Identity.nil(),
+                                 Component.text("- " + user.name()).color(NamedTextColor.AQUA))));
         }
         return CommandResult.success();
     }

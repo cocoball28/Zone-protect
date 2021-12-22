@@ -27,11 +27,19 @@ import java.util.Optional;
  */
 public class ZoneFlagBlockPlaceViewCommand implements ArgumentCommand {
 
-    public static final ZoneArgument ZONE = new ZoneArgument("zoneId", new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(GroupKeys.OWNER));
+    public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
+                                                             new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(
+                                                                     GroupKeys.OWNER));
 
     @Override
     public List<CommandArgument<?>> getArguments() {
-        return Arrays.asList(new ExactArgument("zone"), new ExactArgument("flag"), ZONE, new ExactArgument("interact"), new ExactArgument("block"), new ExactArgument("place"), new OptionalArgument<>(new ExactArgument("view"), (String) null));
+        return Arrays.asList(new ExactArgument("zone"),
+                             new ExactArgument("flag"),
+                             ZONE,
+                             new ExactArgument("interact"),
+                             new ExactArgument("block"),
+                             new ExactArgument("place"),
+                             new OptionalArgument<>(new ExactArgument("view"), (String) null));
     }
 
     @Override
@@ -45,16 +53,24 @@ public class ZoneFlagBlockPlaceViewCommand implements ArgumentCommand {
     }
 
     @Override
-    public CommandResult run(CommandContext commandContext, String... args) throws NotEnoughArgumentsException {
+    public CommandResult run(CommandContext commandContext, String... args) throws
+            NotEnoughArgumentsException {
         Zone zone = commandContext.getArgument(this, ZONE);
         @NotNull BlockPlaceFlag flag = zone
                 .getFlag(FlagTypes.BLOCK_PLACE)
                 .orElse(new BlockPlaceFlag(BlockPlaceFlag.DEFAULT));
-        commandContext.getCause().sendMessage(Identity.nil(), Component.text("Enabled: " + flag.isEnabled()));
         commandContext
                 .getCause()
-                .sendMessage(Identity.nil(), Component.text("Group: " +
-                        zone.getMembers().getGroup(flag.getRequiredKey()).map(Identifiable::getName).orElse("None")));
+                .sendMessage(Identity.nil(), Component.text("Enabled: " + flag.isEnabled()));
+        commandContext
+                .getCause()
+                .sendMessage(Identity.nil(),
+                             Component.text("Group: " +
+                                                    zone
+                                                            .getMembers()
+                                                            .getGroup(flag.getRequiredKey())
+                                                            .map(Identifiable::getName)
+                                                            .orElse("None")));
         return CommandResult.success();
     }
 }

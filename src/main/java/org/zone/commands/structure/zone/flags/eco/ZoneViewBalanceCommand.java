@@ -30,18 +30,37 @@ import java.util.Optional;
  */
 public class ZoneViewBalanceCommand implements ArgumentCommand {
 
-    public static final ZoneArgument ZONE = new ZoneArgument("zone_value", new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(GroupKeys.OWNER));
+    public static final ZoneArgument ZONE = new ZoneArgument("zone_value",
+                                                             new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(
+                                                                     GroupKeys.OWNER));
 
-    public static final CurrencyArgument CURRENCY = new CurrencyArgument("currency_value", (context, argument) -> {
-        CommandArgumentContext<Collection<Currency>> zoneArgument = new CommandArgumentContext<>(argument.getArgumentCommand(), null, argument.getFirstArgument(), context.getCommand());
-        Zone zone = context.getArgument(argument.getArgumentCommand(), ZONE);
+    public static final CurrencyArgument CURRENCY = new CurrencyArgument("currency_value",
+                                                                         (context, argument) -> {
+                                                                             CommandArgumentContext<Collection<Currency>> zoneArgument = new CommandArgumentContext<>(
+                                                                                     argument.getArgumentCommand(),
+                                                                                     null,
+                                                                                     argument.getFirstArgument(),
+                                                                                     context.getCommand());
+                                                                             Zone zone = context.getArgument(
+                                                                                     argument.getArgumentCommand(),
+                                                                                     ZONE);
 
-        return CommandArgumentResult.from(zoneArgument, zone.getEconomy().getMoney().keySet());
-    });
+                                                                             return CommandArgumentResult.from(
+                                                                                     zoneArgument,
+                                                                                     zone
+                                                                                             .getEconomy()
+                                                                                             .getMoney()
+                                                                                             .keySet());
+                                                                         });
 
     @Override
     public List<CommandArgument<?>> getArguments() {
-        return Arrays.asList(new ExactArgument("zone"), new ExactArgument("flag"), ZONE, new ExactArgument("balance"), new ExactArgument("view"), CURRENCY);
+        return Arrays.asList(new ExactArgument("zone"),
+                             new ExactArgument("flag"),
+                             ZONE,
+                             new ExactArgument("balance"),
+                             new ExactArgument("view"),
+                             CURRENCY);
     }
 
     @Override
@@ -50,31 +69,34 @@ public class ZoneViewBalanceCommand implements ArgumentCommand {
     }
 
     @Override
-    public boolean hasPermission(CommandCause source) {
-        if (Sponge.serviceProvider().provide(EconomyService.class).isEmpty()) {
-            return false;
-        }
-        return ArgumentCommand.super.hasPermission(source);
-    }
-
-    @Override
     public Optional<String> getPermissionNode() {
         return Optional.empty();
     }
 
     @Override
-    public CommandResult run(CommandContext commandContext, String... args) throws NotEnoughArgumentsException {
+    public CommandResult run(CommandContext commandContext, String... args) throws
+            NotEnoughArgumentsException {
         Zone zone = commandContext.getArgument(this, ZONE);
         Currency currency = commandContext.getArgument(this, CURRENCY);
         BigDecimal decimal = zone.getEconomy().getMoney(currency);
 
         commandContext.sendMessage(Component
-                .text(zone.getName())
-                .color(NamedTextColor.AQUA)
-                .append(Component
-                        .text(" balance: ")
-                        .color(NamedTextColor.AQUA)
-                        .append(Component.text(decimal.toString()).color(NamedTextColor.GOLD))));
+                                           .text(zone.getName())
+                                           .color(NamedTextColor.AQUA)
+                                           .append(Component
+                                                           .text(" balance: ")
+                                                           .color(NamedTextColor.AQUA)
+                                                           .append(Component
+                                                                           .text(decimal.toString())
+                                                                           .color(NamedTextColor.GOLD))));
         return CommandResult.success();
+    }
+
+    @Override
+    public boolean hasPermission(CommandCause source) {
+        if (Sponge.serviceProvider().provide(EconomyService.class).isEmpty()) {
+            return false;
+        }
+        return ArgumentCommand.super.hasPermission(source);
     }
 }

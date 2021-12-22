@@ -43,7 +43,8 @@ public class BlockBreakFlagType implements FlagType<BlockBreakFlag> {
     }
 
     @Override
-    public void save(@NotNull ConfigurationNode node, @Nullable BlockBreakFlag save) throws IOException {
+    public void save(@NotNull ConfigurationNode node, @Nullable BlockBreakFlag save) throws
+            IOException {
         if (save == null || save.getEnabled().isEmpty()) {
             node.set(null);
             return;

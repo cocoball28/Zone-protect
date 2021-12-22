@@ -24,7 +24,9 @@ public class BooleanArgument implements CommandArgument<Boolean> {
     }
 
     @Override
-    public CommandArgumentResult<Boolean> parse(CommandContext context, CommandArgumentContext<Boolean> argument) throws IOException {
+    public CommandArgumentResult<Boolean> parse(CommandContext context,
+                                                CommandArgumentContext<Boolean> argument) throws
+            IOException {
         String arg = context.getCommand()[argument.getFirstArgument()];
         if (arg.equals("true")) {
             return CommandArgumentResult.from(argument, true);
@@ -36,7 +38,8 @@ public class BooleanArgument implements CommandArgument<Boolean> {
     }
 
     @Override
-    public Set<CommandCompletion> suggest(CommandContext commandContext, CommandArgumentContext<Boolean> argument) {
+    public Set<CommandCompletion> suggest(CommandContext commandContext,
+                                          CommandArgumentContext<Boolean> argument) {
         String peek = commandContext.getCommand()[argument.getFirstArgument()];
         Set<CommandCompletion> list = new HashSet<>();
         if ("true".startsWith(peek.toLowerCase())) {

@@ -28,24 +28,22 @@ import java.util.Optional;
  */
 public class ZoneFlagInteractDoorEnabledCommand implements ArgumentCommand {
     public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
-            new ZoneArgument
-                    .ZoneArgumentPropertiesBuilder()
-                    .setLevel(GroupKeys.INTERACT_DOOR));
+                                                             new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(
+                                                                     GroupKeys.INTERACT_DOOR));
 
-    public static final OptionalArgument<Boolean> VALUE = new OptionalArgument<>(new BooleanArgument("enabledValue"),
-            (Boolean) null);
+    public static final OptionalArgument<Boolean> VALUE = new OptionalArgument<>(new BooleanArgument(
+            "enabledValue"), (Boolean) null);
 
     @Override
     public List<CommandArgument<?>> getArguments() {
-        return Arrays.asList(
-                new ExactArgument("zone"),
-                new ExactArgument("flag"),
-                ZONE,
-                new ExactArgument("interact"),
-                new ExactArgument("door"),
-                new ExactArgument("set"),
-                new ExactArgument("enabled"),
-                VALUE);
+        return Arrays.asList(new ExactArgument("zone"),
+                             new ExactArgument("flag"),
+                             ZONE,
+                             new ExactArgument("interact"),
+                             new ExactArgument("door"),
+                             new ExactArgument("set"),
+                             new ExactArgument("enabled"),
+                             VALUE);
     }
 
     @Override
@@ -59,18 +57,23 @@ public class ZoneFlagInteractDoorEnabledCommand implements ArgumentCommand {
     }
 
     @Override
-    public CommandResult run(CommandContext commandContext, String... args) throws NotEnoughArgumentsException {
+    public CommandResult run(CommandContext commandContext, String... args) throws
+            NotEnoughArgumentsException {
         Zone zone = commandContext.getArgument(this, ZONE);
-        @NotNull DoorInteractionFlag flag =
-                zone.getFlag(FlagTypes.DOOR_INTERACTION).orElseGet(() -> new DoorInteractionFlag(DoorInteractionFlag.ELSE));
+        @NotNull DoorInteractionFlag flag = zone
+                .getFlag(FlagTypes.DOOR_INTERACTION)
+                .orElseGet(() -> new DoorInteractionFlag(DoorInteractionFlag.ELSE));
         @Nullable Boolean value = commandContext.getArgument(this, VALUE);
-        if (value==null) {
+        if (value == null) {
             zone.removeFlag(FlagTypes.DOOR_INTERACTION);
             try {
                 zone.save();
-                commandContext.getCause().sendMessage(Identity.nil(), Component.text("Removed flag. Using default " +
-                        "or parent " +
-                        "flag value"));
+                commandContext
+                        .getCause()
+                        .sendMessage(Identity.nil(),
+                                     Component.text("Removed flag. Using default " +
+                                                            "or parent " +
+                                                            "flag value"));
             } catch (ConfigurateException e) {
                 e.printStackTrace();
                 return CommandResult.error(Component.text("Unable to save"));
@@ -78,10 +81,12 @@ public class ZoneFlagInteractDoorEnabledCommand implements ArgumentCommand {
             return CommandResult.success();
         }
         flag.setEnabled(value);
-        zone.addFlag(flag);
+        zone.setFlag(flag);
         try {
             zone.save();
-            commandContext.getCause().sendMessage(Identity.nil(), Component.text("Updated Block Break"));
+            commandContext
+                    .getCause()
+                    .sendMessage(Identity.nil(), Component.text("Updated Block Break"));
         } catch (ConfigurateException e) {
             e.printStackTrace();
             return CommandResult.error(Component.text("Could not save: " + e.getMessage()));

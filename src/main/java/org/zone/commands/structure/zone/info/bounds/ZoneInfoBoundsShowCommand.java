@@ -30,11 +30,17 @@ import java.util.concurrent.TimeUnit;
  */
 public class ZoneInfoBoundsShowCommand implements ArgumentCommand {
 
-    public static final ZoneArgument ZONE = new ZoneArgument("zoneId", new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(GroupKeys.OWNER));
+    public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
+                                                             new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(
+                                                                     GroupKeys.OWNER));
 
     @Override
     public List<CommandArgument<?>> getArguments() {
-        return Arrays.asList(new ExactArgument("zone"), new ExactArgument("info"), new ExactArgument("bounds"), new ExactArgument("show"), ZONE);
+        return Arrays.asList(new ExactArgument("zone"),
+                             new ExactArgument("info"),
+                             new ExactArgument("bounds"),
+                             new ExactArgument("show"),
+                             ZONE);
     }
 
     @Override
@@ -48,7 +54,8 @@ public class ZoneInfoBoundsShowCommand implements ArgumentCommand {
     }
 
     @Override
-    public CommandResult run(CommandContext context, String... args) throws NotEnoughArgumentsException {
+    public CommandResult run(CommandContext context, String... args) throws
+            NotEnoughArgumentsException {
         Subject subject = context.getSource();
         if (!(subject instanceof Viewer viewer && subject instanceof Locatable locatable)) {
             return CommandResult.error(Component.text("Player only command"));
@@ -56,20 +63,29 @@ public class ZoneInfoBoundsShowCommand implements ArgumentCommand {
 
         Zone zone = context.getArgument(this, ZONE);
         zone.getRegion().getTrueChildren().forEach(region -> {
-            PlayerListener.runOnOutside(region, locatable.blockPosition().y() -
-                    1, vector3i -> viewer.sendBlockChange(vector3i, BlockTypes.ORANGE_WOOL.get().defaultState()), zone
-                    .getParentId()
-                    .isPresent());
+            PlayerListener.runOnOutside(region,
+                                        locatable.blockPosition().y() - 1,
+                                        vector3i -> viewer.sendBlockChange(vector3i,
+                                                                           BlockTypes.ORANGE_WOOL
+                                                                                   .get()
+                                                                                   .defaultState()),
+                                        zone.getParentId().isPresent());
             Sponge
                     .server()
                     .scheduler()
                     .submit(Task
-                            .builder()
-                            .plugin(ZonePlugin.getZonesPlugin().getPluginContainer())
-                            .delay(10, TimeUnit.SECONDS)
-                            .execute(() -> PlayerListener.runOnOutside(region, locatable.blockPosition().y() -
-                                    1, viewer::resetBlockChange, zone.getParentId().isPresent()))
-                            .build());
+                                    .builder()
+                                    .plugin(ZonePlugin.getZonesPlugin().getPluginContainer())
+                                    .delay(10, TimeUnit.SECONDS)
+                                    .execute(() -> PlayerListener.runOnOutside(region,
+                                                                               locatable
+                                                                                       .blockPosition()
+                                                                                       .y() - 1,
+                                                                               viewer::resetBlockChange,
+                                                                               zone
+                                                                                       .getParentId()
+                                                                                       .isPresent()))
+                                    .build());
         });
         return CommandResult.success();
     }

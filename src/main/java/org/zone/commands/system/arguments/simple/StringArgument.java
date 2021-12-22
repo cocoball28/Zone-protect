@@ -23,14 +23,16 @@ public class StringArgument implements CommandArgument<String> {
     }
 
     @Override
-    public CommandArgumentResult<String> parse(CommandContext context, CommandArgumentContext<String> argument) {
+    public CommandArgumentResult<String> parse(CommandContext context,
+                                               CommandArgumentContext<String> argument) {
         String text = context.getCommand()[argument.getFirstArgument()];
         return CommandArgumentResult.from(argument, text);
 
     }
 
     @Override
-    public Set<CommandCompletion> suggest(CommandContext commandContext, CommandArgumentContext<String> argument) {
+    public Set<CommandCompletion> suggest(CommandContext commandContext,
+                                          CommandArgumentContext<String> argument) {
         return Collections.emptySet();
     }
 }

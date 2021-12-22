@@ -44,15 +44,19 @@ public interface ArgumentCommand {
      *
      * @param commandContext The command context for this command
      * @param args           The arguments for the command
+     *
      * @return if the command should show the usage (false to show)
+     *
      * @throws NotEnoughArgumentsException If the arguments provided are not enough for the command, this will throw
      */
-    CommandResult run(CommandContext commandContext, String... args) throws NotEnoughArgumentsException;
+    CommandResult run(CommandContext commandContext, String... args) throws
+            NotEnoughArgumentsException;
 
     /**
      * If the command source has permission to run this command
      *
      * @param source The command source to compare
+     *
      * @return If the source has permission to run the command
      */
     default boolean hasPermission(CommandCause source) {

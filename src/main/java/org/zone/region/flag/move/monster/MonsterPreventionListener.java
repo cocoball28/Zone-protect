@@ -17,7 +17,8 @@ import java.util.Optional;
 public class MonsterPreventionListener {
 
     @Listener
-    public void onMonsterMoveForMonsterPrevention(MoveEntityEvent event, @Getter("entity") Monster monster) {
+    public void onMonsterMoveForMonsterPrevention(MoveEntityEvent event,
+                                                  @Getter("entity") Monster monster) {
         if (event.originalPosition().toInt().equals(event.destinationPosition().toInt())) {
             return;
         }

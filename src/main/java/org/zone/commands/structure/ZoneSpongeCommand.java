@@ -53,24 +53,29 @@ public class ZoneSpongeCommand implements Command.Raw {
 
     /**
      * Adds the command into the /zone command
+     *
      * @param command The command to add
+     *
      * @return if the command was added
      */
-    public boolean add(ArgumentCommand command){
+    public boolean add(ArgumentCommand command) {
         return this.commands.add(command);
     }
 
     /**
      * Removes the command from /zone
+     *
      * @param command The command to remove
+     *
      * @return if the command was removed
      */
-    public boolean remove(ArgumentCommand command){
+    public boolean remove(ArgumentCommand command) {
         return this.commands.remove(command);
     }
 
     @Override
-    public CommandResult process(CommandCause cause, ArgumentReader.Mutable arguments) throws CommandException {
+    public CommandResult process(CommandCause cause, ArgumentReader.Mutable arguments) throws
+            CommandException {
         String input = arguments.input();
         String[] args = input.split(" ");
         if (input.endsWith(" ")) {
@@ -85,24 +90,30 @@ public class ZoneSpongeCommand implements Command.Raw {
             Set<ErrorContext> errors = commandContext.getErrors();
             if (!errors.isEmpty()) {
                 ErrorContext error = errors.iterator().next();
-                cause.sendMessage(Identity.nil(), Component.text(error.error()).color(NamedTextColor.RED));
+                cause.sendMessage(Identity.nil(),
+                                  Component.text(error.error()).color(NamedTextColor.RED));
                 errors
                         .parallelStream()
                         .map(e -> e.argument().getUsage())
                         .collect(Collectors.toSet())
-                        .forEach(e -> cause.sendMessage(Identity.nil(), Component.text(e).color(NamedTextColor.RED)));
+                        .forEach(e -> cause.sendMessage(Identity.nil(),
+                                                        Component
+                                                                .text(e)
+                                                                .color(NamedTextColor.RED)));
             } else {
-                cause.sendMessage(Identity.nil(), Component.text("Unknown error").color(NamedTextColor.RED));
+                cause.sendMessage(Identity.nil(),
+                                  Component.text("Unknown error").color(NamedTextColor.RED));
             }
             return CommandResult.success();
         }
         if (!opCommand.get().hasPermission(cause)) {
-            cause.sendMessage(Identity.nil(), Component
-                    .text(" You do not have permission for that command" +
-                            ". You" +
-                            " require " +
-                            opCommand.get().getPermissionNode())
-                    .color(NamedTextColor.RED));
+            cause.sendMessage(Identity.nil(),
+                              Component
+                                      .text(" You do not have permission for that command" +
+                                                    ". You" +
+                                                    " require " +
+                                                    opCommand.get().getPermissionNode())
+                                      .color(NamedTextColor.RED));
             return CommandResult.success();
         }
         try {
@@ -118,7 +129,9 @@ public class ZoneSpongeCommand implements Command.Raw {
     }
 
     @Override
-    public List<CommandCompletion> complete(CommandCause cause, ArgumentReader.Mutable arguments) throws CommandException {
+    public List<CommandCompletion> complete(CommandCause cause,
+                                            ArgumentReader.Mutable arguments) throws
+            CommandException {
         String input = arguments.input();
         String[] args = input.split(" ");
         if (input.endsWith(" ")) {
@@ -134,7 +147,7 @@ public class ZoneSpongeCommand implements Command.Raw {
             if (!c.hasPermission(cause)) {
                 return;
             }
-            if(!c.canApply(commandContext)){
+            if (!c.canApply(commandContext)) {
                 return;
             }
             tab.addAll(commandContext.getSuggestions(c));

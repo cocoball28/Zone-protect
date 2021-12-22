@@ -1,4 +1,4 @@
-package org.zone.commands.structure.zone.flags.greetings;
+package org.zone.commands.structure.zone.flags.leaving;
 
 import net.kyori.adventure.text.Component;
 import org.spongepowered.api.command.CommandResult;
@@ -16,22 +16,23 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class ZoneFlagGreetingsRemoveMessageCommand implements ArgumentCommand {
-    public static final ExactArgument REGION = new ExactArgument("region");
-    public static final ExactArgument FLAGS = new ExactArgument("flag");
-    public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zone_value",
-                                                                   new ZoneArgument.ZoneArgumentPropertiesBuilder());
-    public static final ExactArgument GREETINGS = new ExactArgument("greetings");
-    public static final ExactArgument REMOVE = new ExactArgument("remove");
+public class ZoneFlagLeavingRemoveCommand implements ArgumentCommand {
+
+    public static final ZoneArgument ZONE = new ZoneArgument("zone_value",
+                                                             new ZoneArgument.ZoneArgumentPropertiesBuilder());
 
     @Override
     public List<CommandArgument<?>> getArguments() {
-        return Arrays.asList(REGION, FLAGS, ZONE_VALUE, GREETINGS, REMOVE);
+        return Arrays.asList(new ExactArgument("region"),
+                             new ExactArgument("flag"),
+                             ZONE,
+                             new ExactArgument("leaving"),
+                             new ExactArgument("remove"));
     }
 
     @Override
     public Component getDescription() {
-        return Component.text("Command for removing the greetings message");
+        return Component.text("Removes the leaving flag");
     }
 
     @Override
@@ -42,15 +43,14 @@ public class ZoneFlagGreetingsRemoveMessageCommand implements ArgumentCommand {
     @Override
     public CommandResult run(CommandContext commandContext, String... args) throws
             NotEnoughArgumentsException {
-        Zone zone = commandContext.getArgument(this, ZONE_VALUE);
-        zone.removeFlag(FlagTypes.GREETINGS);
+        Zone zone = commandContext.getArgument(this, ZONE);
+        zone.removeFlag(FlagTypes.LEAVING);
         try {
             zone.save();
-            commandContext.sendMessage(Component.text("Zone greetings message removed from this " +
-                                                              "zone!"));
+            commandContext.sendMessage(Component.text("Removed leaving message"));
         } catch (ConfigurateException e) {
             e.printStackTrace();
-            return CommandResult.error(Component.text("Failed to save:" + e.getMessage()));
+            return CommandResult.error(Component.text("Could not save: " + e.getMessage()));
         }
         return CommandResult.success();
     }

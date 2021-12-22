@@ -21,6 +21,9 @@ public class PreventMonsterFlag implements Flag.Enabled {
     }
 
     @Override
+    public @NotNull PreventMonsterFlagType getType() {
+        return FlagTypes.PREVENT_MONSTER;
+    }    @Override
     public @NotNull Optional<Boolean> getEnabled() {
         return Optional.ofNullable(this.enabled);
     }
@@ -35,8 +38,5 @@ public class PreventMonsterFlag implements Flag.Enabled {
         this.enabled = flag;
     }
 
-    @Override
-    public @NotNull PreventMonsterFlagType getType() {
-        return FlagTypes.PREVENT_MONSTER;
-    }
+
 }

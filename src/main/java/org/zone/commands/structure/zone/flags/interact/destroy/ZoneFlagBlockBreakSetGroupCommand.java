@@ -27,12 +27,21 @@ import java.util.Optional;
  */
 public class ZoneFlagBlockBreakSetGroupCommand implements ArgumentCommand {
 
-    public static final ZoneArgument ZONE = new ZoneArgument("zoneId", new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(GroupKeys.OWNER));
+    public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
+                                                             new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(
+                                                                     GroupKeys.OWNER));
     public static final ZoneGroupArgument GROUP = new ZoneGroupArgument("groupid", ZONE);
 
     @Override
     public List<CommandArgument<?>> getArguments() {
-        return Arrays.asList(new ExactArgument("zone"), new ExactArgument("flag"), ZONE, new ExactArgument("interact"), new ExactArgument("block"), new ExactArgument("break"), new ExactArgument("group"), GROUP);
+        return Arrays.asList(new ExactArgument("zone"),
+                             new ExactArgument("flag"),
+                             ZONE,
+                             new ExactArgument("interact"),
+                             new ExactArgument("block"),
+                             new ExactArgument("break"),
+                             new ExactArgument("group"),
+                             GROUP);
     }
 
     @Override
@@ -46,17 +55,20 @@ public class ZoneFlagBlockBreakSetGroupCommand implements ArgumentCommand {
     }
 
     @Override
-    public CommandResult run(CommandContext commandContext, String... args) throws NotEnoughArgumentsException {
+    public CommandResult run(CommandContext commandContext, String... args) throws
+            NotEnoughArgumentsException {
         Zone zone = commandContext.getArgument(this, ZONE);
         @NotNull BlockBreakFlag flag = zone
                 .getFlag(FlagTypes.BLOCK_BREAK)
                 .orElseGet(() -> new BlockBreakFlag(BlockBreakFlag.ELSE));
         Group newGroup = commandContext.getArgument(this, GROUP);
         zone.getMembers().addKey(newGroup, flag.getRequiredKey());
-        zone.addFlag(flag);
+        zone.setFlag(flag);
         try {
             zone.save();
-            commandContext.getCause().sendMessage(Identity.nil(), Component.text("Updated Block Break Interaction"));
+            commandContext
+                    .getCause()
+                    .sendMessage(Identity.nil(), Component.text("Updated Block Break Interaction"));
         } catch (ConfigurateException e) {
             e.printStackTrace();
             return CommandResult.error(Component.text("Could not save: " + e.getMessage()));

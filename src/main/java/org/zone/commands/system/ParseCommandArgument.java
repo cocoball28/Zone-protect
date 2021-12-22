@@ -7,6 +7,7 @@ import java.io.IOException;
 
 public interface ParseCommandArgument<T> {
 
-    CommandArgumentResult<T> parse(CommandContext context, CommandArgumentContext<T> argument) throws IOException;
+    CommandArgumentResult<T> parse(CommandContext context,
+                                   CommandArgumentContext<T> argument) throws IOException;
 
 }

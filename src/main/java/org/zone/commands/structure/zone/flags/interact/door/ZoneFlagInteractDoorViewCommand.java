@@ -27,11 +27,18 @@ import java.util.Optional;
  */
 public class ZoneFlagInteractDoorViewCommand implements ArgumentCommand {
 
-    public static final ZoneArgument ZONE = new ZoneArgument("zoneId", new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(GroupKeys.OWNER));
+    public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
+                                                             new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(
+                                                                     GroupKeys.OWNER));
 
     @Override
     public List<CommandArgument<?>> getArguments() {
-        return Arrays.asList(new ExactArgument("zone"), new ExactArgument("flag"), ZONE, new ExactArgument("interact"), new ExactArgument("door"), new OptionalArgument<>(new ExactArgument("view"), (String) null));
+        return Arrays.asList(new ExactArgument("zone"),
+                             new ExactArgument("flag"),
+                             ZONE,
+                             new ExactArgument("interact"),
+                             new ExactArgument("door"),
+                             new OptionalArgument<>(new ExactArgument("view"), (String) null));
     }
 
     @Override
@@ -45,16 +52,24 @@ public class ZoneFlagInteractDoorViewCommand implements ArgumentCommand {
     }
 
     @Override
-    public CommandResult run(CommandContext commandContext, String... args) throws NotEnoughArgumentsException {
+    public CommandResult run(CommandContext commandContext, String... args) throws
+            NotEnoughArgumentsException {
         Zone zone = commandContext.getArgument(this, ZONE);
         @NotNull DoorInteractionFlag flag = zone
                 .getFlag(FlagTypes.DOOR_INTERACTION)
                 .orElse(new DoorInteractionFlag(DoorInteractionFlag.ELSE));
-        commandContext.getCause().sendMessage(Identity.nil(), Component.text("Enabled: " + flag.isEnabled()));
         commandContext
                 .getCause()
-                .sendMessage(Identity.nil(), Component.text("Group: " +
-                        zone.getMembers().getGroup(GroupKeys.INTERACT_DOOR).map(Identifiable::getName).orElse("None")));
+                .sendMessage(Identity.nil(), Component.text("Enabled: " + flag.isEnabled()));
+        commandContext
+                .getCause()
+                .sendMessage(Identity.nil(),
+                             Component.text("Group: " +
+                                                    zone
+                                                            .getMembers()
+                                                            .getGroup(GroupKeys.INTERACT_DOOR)
+                                                            .map(Identifiable::getName)
+                                                            .orElse("None")));
         return CommandResult.success();
     }
 }

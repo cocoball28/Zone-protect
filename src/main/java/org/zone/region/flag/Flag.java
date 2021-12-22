@@ -23,13 +23,6 @@ public interface Flag {
     interface Enabled extends Flag {
 
         /**
-         * Sets the flag enabled status
-         *
-         * @param enabled If the flag should be enabled or not. Setting this to null should make it the same as default
-         */
-        void setEnabled(@Nullable Boolean enabled);
-
-        /**
          * Gets if the flag has been enabled
          *
          * @return If the flag has been enabled, {@link Optional#empty()} if default value should be used
@@ -42,6 +35,13 @@ public interface Flag {
          * @return If the flag has been enabled, if the value is null, the default is used instead
          */
         boolean isEnabled();
+
+        /**
+         * Sets the flag enabled status
+         *
+         * @param enabled If the flag should be enabled or not. Setting this to null should make it the same as default
+         */
+        void setEnabled(@Nullable Boolean enabled);
 
     }
 
@@ -61,6 +61,7 @@ public interface Flag {
          *
          * @param zone     the zone this flag is attached to
          * @param playerId The player ID
+         *
          * @return If the player has permission
          */
         default boolean hasPermission(@NotNull Zone zone, @NotNull UUID playerId) {
@@ -72,6 +73,7 @@ public interface Flag {
          *
          * @param flag     the MemberFlag this flag is part of
          * @param playerId the player ID
+         *
          * @return if the player has permission
          */
         default boolean hasPermission(@NotNull MembersFlag flag, @NotNull UUID playerId) {
@@ -82,6 +84,7 @@ public interface Flag {
          * Checks if a group has permission to override this flag
          *
          * @param group The group to compare
+         *
          * @return If the group has permission
          */
         default boolean hasPermission(@NotNull Group group) {
@@ -101,6 +104,7 @@ public interface Flag {
      *
      * @param node The node to serialize to
      * @param <T>  The class of this flag
+     *
      * @throws IOException if there is a issue saving
      */
     default <T extends Flag> void save(ConfigurationNode node) throws IOException {

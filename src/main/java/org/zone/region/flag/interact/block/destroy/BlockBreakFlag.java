@@ -32,11 +32,17 @@ public class BlockBreakFlag implements Flag.Enabled, Flag.GroupKeyed {
     }
 
     @Override
+    public @NotNull BlockBreakFlagType getType() {
+        return FlagTypes.BLOCK_BREAK;
+    }    @Override
     public @NotNull Optional<Boolean> getEnabled() {
         return Optional.ofNullable(this.enabled);
     }
 
     @Override
+    public @NotNull GroupKey getRequiredKey() {
+        return GroupKeys.BLOCK_BREAK;
+    }    @Override
     public boolean isEnabled() {
         return this.getEnabled().orElse(ELSE.getEnabled().orElse(false));
     }
@@ -46,13 +52,7 @@ public class BlockBreakFlag implements Flag.Enabled, Flag.GroupKeyed {
         this.enabled = flag;
     }
 
-    @Override
-    public @NotNull BlockBreakFlagType getType() {
-        return FlagTypes.BLOCK_BREAK;
-    }
 
-    @Override
-    public @NotNull GroupKey getRequiredKey() {
-        return GroupKeys.BLOCK_BREAK;
-    }
+
+
 }

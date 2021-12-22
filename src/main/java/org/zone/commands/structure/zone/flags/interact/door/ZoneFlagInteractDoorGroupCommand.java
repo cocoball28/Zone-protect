@@ -15,7 +15,6 @@ import org.zone.commands.system.context.CommandContext;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.interact.door.DoorInteractionFlag;
-import org.zone.region.group.DefaultGroups;
 import org.zone.region.group.Group;
 import org.zone.region.group.key.GroupKeys;
 
@@ -29,21 +28,20 @@ import java.util.Optional;
 public class ZoneFlagInteractDoorGroupCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
-            new ZoneArgument
-                    .ZoneArgumentPropertiesBuilder()
-                    .setLevel(GroupKeys.OWNER));
+                                                             new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(
+                                                                     GroupKeys.OWNER));
 
     public static final ZoneGroupArgument GROUP = new ZoneGroupArgument("groupId", ZONE);
 
     @Override
     public List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("zone"),
-                new ExactArgument("flag"),
-                ZONE,
-                new ExactArgument("interact"),
-                new ExactArgument("door"),
-                new ExactArgument("group"),
-                GROUP);
+                             new ExactArgument("flag"),
+                             ZONE,
+                             new ExactArgument("interact"),
+                             new ExactArgument("door"),
+                             new ExactArgument("group"),
+                             GROUP);
     }
 
     @Override
@@ -57,17 +55,23 @@ public class ZoneFlagInteractDoorGroupCommand implements ArgumentCommand {
     }
 
     @Override
-    public CommandResult run(CommandContext commandContext, String... args) throws NotEnoughArgumentsException {
+    public CommandResult run(CommandContext commandContext, String... args) throws
+            NotEnoughArgumentsException {
         Zone zone = commandContext.getArgument(this, ZONE);
-        @NotNull DoorInteractionFlag flag =
-                zone.getFlag(FlagTypes.DOOR_INTERACTION).orElseGet(() -> new DoorInteractionFlag(DoorInteractionFlag.ELSE));
+        @NotNull DoorInteractionFlag flag = zone
+                .getFlag(FlagTypes.DOOR_INTERACTION)
+                .orElseGet(() -> new DoorInteractionFlag(DoorInteractionFlag.ELSE));
         Group newGroup = commandContext.getArgument(this, GROUP);
         zone.getMembers().addKey(newGroup, flag.getRequiredKey());
-        commandContext.getCause().sendMessage(Identity.nil(), Component.text("Updated Door Interaction"));
-        zone.addFlag(flag);
+        commandContext
+                .getCause()
+                .sendMessage(Identity.nil(), Component.text("Updated Door Interaction"));
+        zone.setFlag(flag);
         try {
             zone.save();
-            commandContext.getCause().sendMessage(Identity.nil(), Component.text("Updated Door Interaction"));
+            commandContext
+                    .getCause()
+                    .sendMessage(Identity.nil(), Component.text("Updated Door Interaction"));
         } catch (ConfigurateException e) {
             e.printStackTrace();
             return CommandResult.error(Component.text("Could not save: " + e.getMessage()));

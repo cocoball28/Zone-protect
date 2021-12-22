@@ -12,6 +12,9 @@ import java.util.Collection;
 
 public class OptionalArgument<T> implements CommandArgument<T> {
 
+    private final CommandArgument<T> arg;
+    private final ParseCommandArgument<T> value;
+
     public static class WrappedParser<T> implements ParseCommandArgument<T> {
 
         private final T value;
@@ -21,13 +24,11 @@ public class OptionalArgument<T> implements CommandArgument<T> {
         }
 
         @Override
-        public CommandArgumentResult<T> parse(CommandContext context, CommandArgumentContext<T> argument) {
+        public CommandArgumentResult<T> parse(CommandContext context,
+                                              CommandArgumentContext<T> argument) {
             return CommandArgumentResult.from(argument, 0, this.value);
         }
     }
-
-    private final CommandArgument<T> arg;
-    private final ParseCommandArgument<T> value;
 
     public OptionalArgument(CommandArgument<T> arg, T value) {
         this(arg, new WrappedParser<>(value));
@@ -48,25 +49,31 @@ public class OptionalArgument<T> implements CommandArgument<T> {
     }
 
     @Override
-    public CommandArgumentResult<T> parse(CommandContext context, CommandArgumentContext<T> argument) throws IOException {
-        if (context.getCommand().length==argument.getFirstArgument()) {
-            return CommandArgumentResult.from(argument, 0, this.value.parse(context, argument).value());
+    public String getUsage() {
+        String original = this.getOriginalArgument().getUsage();
+        return "[" + original.substring(1, original.length() - 1) + "]";
+    }
+
+    @Override
+    public CommandArgumentResult<T> parse(CommandContext context,
+                                          CommandArgumentContext<T> argument) throws IOException {
+        if (context.getCommand().length == argument.getFirstArgument()) {
+            return CommandArgumentResult.from(argument,
+                                              0,
+                                              this.value.parse(context, argument).value());
         }
         try {
             return this.arg.parse(context, argument);
         } catch (IOException e) {
-            return CommandArgumentResult.from(argument, 0, this.value.parse(context, argument).value());
+            return CommandArgumentResult.from(argument,
+                                              0,
+                                              this.value.parse(context, argument).value());
         }
     }
 
     @Override
-    public Collection<CommandCompletion> suggest(CommandContext commandContext, CommandArgumentContext<T> argument) {
+    public Collection<CommandCompletion> suggest(CommandContext commandContext,
+                                                 CommandArgumentContext<T> argument) {
         return this.arg.suggest(commandContext, argument);
-    }
-
-    @Override
-    public String getUsage() {
-        String original = this.getOriginalArgument().getUsage();
-        return "[" + original.substring(1, original.length() - 1) + "]";
     }
 }

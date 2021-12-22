@@ -36,7 +36,7 @@ public class LeavingFlagType implements FlagType<LeavingFlag> {
     @Override
     public @NotNull LeavingFlag load(@NotNull ConfigurationNode node) throws IOException {
         String message = node.node("Message").getString();
-        if(message == null){
+        if (message == null) {
             throw new IOException("Cannot read message");
         }
         Component component = GsonComponentSerializer.gson().deserialize(message);
@@ -46,7 +46,7 @@ public class LeavingFlagType implements FlagType<LeavingFlag> {
     @Override
     public void save(@NotNull ConfigurationNode node, @Nullable LeavingFlag save) throws
             IOException {
-        if(save == null){
+        if (save == null) {
             node.set(null);
             return;
         }

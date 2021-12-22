@@ -23,7 +23,8 @@ public class CurrencyArgument implements CommandArgument<Currency> {
     private final String id;
     private final ParseCommandArgument<? extends Collection<Currency>> currencies;
 
-    public CurrencyArgument(@NotNull String id, ParseCommandArgument<? extends Collection<Currency>> account) {
+    public CurrencyArgument(@NotNull String id,
+                            ParseCommandArgument<? extends Collection<Currency>> account) {
         this.id = id;
         this.currencies = account;
     }
@@ -34,9 +35,15 @@ public class CurrencyArgument implements CommandArgument<Currency> {
     }
 
     @Override
-    public CommandArgumentResult<Currency> parse(CommandContext context, CommandArgumentContext<Currency> argument) throws IOException {
+    public CommandArgumentResult<Currency> parse(CommandContext context,
+                                                 CommandArgumentContext<Currency> argument) throws
+            IOException {
         Collection<Currency> currencies = this.currencies
-                .parse(context, new CommandArgumentContext<>(argument.getArgumentCommand(), null, argument.getFirstArgument(), context.getCommand()))
+                .parse(context,
+                       new CommandArgumentContext<>(argument.getArgumentCommand(),
+                                                    null,
+                                                    argument.getFirstArgument(),
+                                                    context.getCommand()))
                 .value();
         if (currencies == null) {
             currencies = new HashSet<>();
@@ -59,15 +66,22 @@ public class CurrencyArgument implements CommandArgument<Currency> {
                         .equalsIgnoreCase(focus))
                 .findAny();
 
-        return CommandArgumentResult.from(argument, opCurrency.orElseThrow(() -> new IOException("Unknown currency")));
+        return CommandArgumentResult.from(argument,
+                                          opCurrency.orElseThrow(() -> new IOException(
+                                                  "Unknown currency")));
     }
 
     @Override
-    public Collection<CommandCompletion> suggest(CommandContext commandContext, CommandArgumentContext<Currency> argument) {
+    public Collection<CommandCompletion> suggest(CommandContext commandContext,
+                                                 CommandArgumentContext<Currency> argument) {
         Collection<Currency> currencies;
         try {
             currencies = this.currencies
-                    .parse(commandContext, new CommandArgumentContext<>(argument.getArgumentCommand(), null, argument.getFirstArgument(), commandContext.getCommand()))
+                    .parse(commandContext,
+                           new CommandArgumentContext<>(argument.getArgumentCommand(),
+                                                        null,
+                                                        argument.getFirstArgument(),
+                                                        commandContext.getCommand()))
                     .value();
         } catch (IOException e) {
             currencies = new HashSet<>();
@@ -88,8 +102,9 @@ public class CurrencyArgument implements CommandArgument<Currency> {
         return currencies
                 .parallelStream()
                 .map(currency -> CommandCompletion.of(PlainTextComponentSerializer
-                        .plainText()
-                        .serialize(currency.symbol()), currency.displayName()))
+                                                              .plainText()
+                                                              .serialize(currency.symbol()),
+                                                      currency.displayName()))
                 .filter(currency -> currency.completion().startsWith(focus.toLowerCase()))
                 .collect(Collectors.toSet());
     }

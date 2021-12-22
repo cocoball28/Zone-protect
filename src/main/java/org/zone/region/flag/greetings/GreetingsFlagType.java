@@ -32,7 +32,7 @@ public class GreetingsFlagType implements FlagType<GreetingsFlag> {
     @Override
     public @NotNull GreetingsFlag load(@NotNull ConfigurationNode node) throws IOException {
         String message = node.node("Message").getString();
-        if(message == null){
+        if (message == null) {
             throw new IOException("Couldn't get message");
         }
         Component component = GsonComponentSerializer.gson().deserialize(message);
@@ -40,9 +40,10 @@ public class GreetingsFlagType implements FlagType<GreetingsFlag> {
     }
 
     @Override
-    public void save(@NotNull ConfigurationNode node, @Nullable GreetingsFlag save) throws IOException {
+    public void save(@NotNull ConfigurationNode node, @Nullable GreetingsFlag save) throws
+            IOException {
         Optional<Component> opMessage = save.getMessage();
-        if(opMessage.isEmpty()){
+        if (opMessage.isEmpty()) {
             throw new IOException("Couldn't get message");
         }
         String componentAsString = GsonComponentSerializer.gson().serialize(opMessage.get());

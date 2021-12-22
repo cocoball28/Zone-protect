@@ -17,7 +17,9 @@ public interface BoundMode {
      *
      * @param current The current location that should be shifted
      * @param other   The other point within the Zone (such as if the current is {@link org.zone.region.bounds.PositionType#ONE} then the other would be {@link org.zone.region.bounds.PositionType#TWO}
+     *
      * @return The shifted position
      */
-    @NotNull Location<? extends World<?, ?>, ?> shift(@NotNull Location<? extends World<?, ?>, ?> current, @NotNull Vector3i other);
+    @NotNull Location<? extends World<?, ?>, ?> shift(@NotNull Location<? extends World<?, ?>, ?> current,
+                                                      @NotNull Vector3i other);
 }

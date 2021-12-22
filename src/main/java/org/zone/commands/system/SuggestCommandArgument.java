@@ -9,9 +9,11 @@ import java.util.Collection;
 import java.util.Optional;
 
 public interface SuggestCommandArgument<T> {
-    Collection<CommandCompletion> suggest(CommandContext commandContext, CommandArgumentContext<T> argument);
+    Collection<CommandCompletion> suggest(CommandContext commandContext,
+                                          CommandArgumentContext<T> argument);
 
-    default Optional<Component> errorMessage(CommandContext context, CommandArgumentContext<T> argument) {
+    default Optional<Component> errorMessage(CommandContext context,
+                                             CommandArgumentContext<T> argument) {
         return Optional.empty();
     }
 

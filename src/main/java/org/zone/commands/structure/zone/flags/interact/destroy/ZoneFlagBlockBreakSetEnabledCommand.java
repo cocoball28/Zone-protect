@@ -28,11 +28,21 @@ import java.util.Optional;
 public class ZoneFlagBlockBreakSetEnabledCommand implements ArgumentCommand {
 
     public static final BooleanArgument VALUE = new BooleanArgument("enabledValue");
-    public static final ZoneArgument ZONE = new ZoneArgument("zoneId", new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(GroupKeys.OWNER));
+    public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
+                                                             new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(
+                                                                     GroupKeys.OWNER));
 
     @Override
     public List<CommandArgument<?>> getArguments() {
-        return Arrays.asList(new ExactArgument("zone"), new ExactArgument("flag"), ZONE, new ExactArgument("interact"), new ExactArgument("block"), new ExactArgument("break"), new ExactArgument("set"), new ExactArgument("enabled"), VALUE);
+        return Arrays.asList(new ExactArgument("zone"),
+                             new ExactArgument("flag"),
+                             ZONE,
+                             new ExactArgument("interact"),
+                             new ExactArgument("block"),
+                             new ExactArgument("break"),
+                             new ExactArgument("set"),
+                             new ExactArgument("enabled"),
+                             VALUE);
     }
 
     @Override
@@ -46,7 +56,8 @@ public class ZoneFlagBlockBreakSetEnabledCommand implements ArgumentCommand {
     }
 
     @Override
-    public CommandResult run(CommandContext commandContext, String... args) throws NotEnoughArgumentsException {
+    public CommandResult run(CommandContext commandContext, String... args) throws
+            NotEnoughArgumentsException {
         Zone zone = commandContext.getArgument(this, ZONE);
         @NotNull BlockBreakFlag flag = zone
                 .getFlag(FlagTypes.BLOCK_BREAK)
@@ -58,9 +69,10 @@ public class ZoneFlagBlockBreakSetEnabledCommand implements ArgumentCommand {
                 zone.save();
                 commandContext
                         .getCause()
-                        .sendMessage(Identity.nil(), Component.text("Removed flag. Using default " +
-                                "or parent " +
-                                "flag value"));
+                        .sendMessage(Identity.nil(),
+                                     Component.text("Removed flag. Using default " +
+                                                            "or parent " +
+                                                            "flag value"));
             } catch (ConfigurateException e) {
                 e.printStackTrace();
                 return CommandResult.error(Component.text("Unable to save"));
@@ -68,10 +80,12 @@ public class ZoneFlagBlockBreakSetEnabledCommand implements ArgumentCommand {
             return CommandResult.success();
         }
         flag.setEnabled(value);
-        zone.addFlag(flag);
+        zone.setFlag(flag);
         try {
             zone.save();
-            commandContext.getCause().sendMessage(Identity.nil(), Component.text("Updated Block break"));
+            commandContext
+                    .getCause()
+                    .sendMessage(Identity.nil(), Component.text("Updated Block break"));
         } catch (ConfigurateException e) {
             e.printStackTrace();
             return CommandResult.error(Component.text("Could not save: " + e.getMessage()));

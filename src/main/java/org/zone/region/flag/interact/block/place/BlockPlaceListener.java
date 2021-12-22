@@ -36,12 +36,19 @@ public class BlockPlaceListener {
                 .stream()
                 .filter(t -> t.original().location().isPresent())
                 .map(t -> {
-                    ServerLocation loc = t.original().location().orElseThrow(() -> new RuntimeException("Broke logic"));
-                    @NotNull Optional<Zone> zone = ZonePlugin.getZonesPlugin().getZoneManager().getPriorityZone(loc);
+                    ServerLocation loc = t
+                            .original()
+                            .location()
+                            .orElseThrow(() -> new RuntimeException("Broke logic"));
+                    @NotNull Optional<Zone> zone = ZonePlugin
+                            .getZonesPlugin()
+                            .getZoneManager()
+                            .getPriorityZone(loc);
                     return new AbstractMap.SimpleEntry<>(t, zone.orElse(null));
                 })
                 .filter(map -> map.getValue() != null)
-                .collect(Collectors.toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
+                .collect(Collectors.toMap(AbstractMap.SimpleEntry::getKey,
+                                          AbstractMap.SimpleEntry::getValue));
 
         inZone
                 .entrySet()

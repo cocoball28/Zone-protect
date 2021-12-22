@@ -30,13 +30,20 @@ import java.util.Optional;
  */
 public class ZoneFlagMemberGroupAddCommand implements ArgumentCommand {
 
-    public static final ZoneArgument ZONE = new ZoneArgument("zoneId", new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(GroupKeys.OWNER));
+    public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
+                                                             new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(
+                                                                     GroupKeys.OWNER));
     public static final ZoneGroupArgument GROUP = new ZoneGroupArgument("groupId", ZONE);
     public static final UserArgument USER = new UserArgument("user");
 
     @Override
     public List<CommandArgument<?>> getArguments() {
-        return Arrays.asList(new ExactArgument("zone"), new ExactArgument("member"), ZONE, new ExactArgument("set", false, "set", "change", "apply", "add"), USER, GROUP);
+        return Arrays.asList(new ExactArgument("zone"),
+                             new ExactArgument("member"),
+                             ZONE,
+                             new ExactArgument("set", false, "set", "change", "apply", "add"),
+                             USER,
+                             GROUP);
     }
 
     @Override
@@ -50,7 +57,8 @@ public class ZoneFlagMemberGroupAddCommand implements ArgumentCommand {
     }
 
     @Override
-    public CommandResult run(CommandContext commandContext, String... args) throws NotEnoughArgumentsException {
+    public CommandResult run(CommandContext commandContext, String... args) throws
+            NotEnoughArgumentsException {
         Zone zone = commandContext.getArgument(this, ZONE);
         Group group = commandContext.getArgument(this, GROUP);
         GameProfile profile = commandContext.getArgument(this, USER);
@@ -66,12 +74,13 @@ public class ZoneFlagMemberGroupAddCommand implements ArgumentCommand {
         }
         context
                 .getCause()
-                .sendMessage(Identity.nil(), Component.text("Moved " +
-                        profile.name() +
-                        " from " +
-                        previous.getName() +
-                        " to " +
-                        group.getName()));
+                .sendMessage(Identity.nil(),
+                             Component.text("Moved " +
+                                                    profile.name() +
+                                                    " from " +
+                                                    previous.getName() +
+                                                    " to " +
+                                                    group.getName()));
         if (Sponge.isServerAvailable()) {
             Optional<ServerPlayer> opPlayer = Sponge
                     .server()
@@ -79,13 +88,15 @@ public class ZoneFlagMemberGroupAddCommand implements ArgumentCommand {
                     .stream()
                     .filter(p -> p.uniqueId().equals(profile.uuid()))
                     .findAny();
-            opPlayer.ifPresent(player -> player.sendMessage(Identity.nil(), Component.text("You have been moved in '" +
-                    zone.getName() +
-                    "' from '" +
-                    previous.getName() +
-                    "' to '" +
-                    group.getName() +
-                    "'")));
+            opPlayer.ifPresent(player -> player.sendMessage(Identity.nil(),
+                                                            Component.text(
+                                                                    "You have been moved in '" +
+                                                                            zone.getName() +
+                                                                            "' from '" +
+                                                                            previous.getName() +
+                                                                            "' to '" +
+                                                                            group.getName() +
+                                                                            "'")));
         }
 
         zone.getMembers().addMember(group, profile.uniqueId());
@@ -94,9 +105,13 @@ public class ZoneFlagMemberGroupAddCommand implements ArgumentCommand {
         } catch (IOException e) {
             context
                     .getCause()
-                    .sendMessage(Identity.nil(), Component
-                            .text("Could not save zone. Console log will show" + " more " + "info on " + "why")
-                            .color(NamedTextColor.RED));
+                    .sendMessage(Identity.nil(),
+                                 Component
+                                         .text("Could not save zone. Console log will show" +
+                                                       " more " +
+                                                       "info on " +
+                                                       "why")
+                                         .color(NamedTextColor.RED));
         }
     }
 }

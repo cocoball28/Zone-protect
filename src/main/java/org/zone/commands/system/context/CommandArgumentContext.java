@@ -6,11 +6,13 @@ import org.zone.commands.system.CommandArgument;
 public class CommandArgumentContext<T> {
 
     private final CommandArgument<T> argument;
+    private final ArgumentCommand commandRunner;
     private int firstArgument;
     private String[] command;
-    private final ArgumentCommand commandRunner;
 
-    public CommandArgumentContext(ArgumentCommand runner, CommandArgument<T> argument, int firstArgument,
+    public CommandArgumentContext(ArgumentCommand runner,
+                                  CommandArgument<T> argument,
+                                  int firstArgument,
                                   String... command) {
         this.argument = argument;
         this.firstArgument = firstArgument;
@@ -28,15 +30,15 @@ public class CommandArgumentContext<T> {
 
     public String[] getRemainingArguments() {
         int last = this.command.length;
-
-        if (this.firstArgument < last) {
-            throw new IndexOutOfBoundsException("min (" + this.firstArgument + ") is greater then max (" + last + ")");
+        if (this.firstArgument >= last) {
+            throw new IndexOutOfBoundsException("min (" +
+                                                        this.firstArgument +
+                                                        ") is greater then max (" +
+                                                        last +
+                                                        ")");
         }
-        String[] arr = new String[this.firstArgument - last];
-        if (this.firstArgument + 1 - last >= 0) {
-            if (last - this.firstArgument >= 0) System.arraycopy(this.command, this.firstArgument, arr, 0,
-                    0);
-        }
+        String[] arr = new String[last - this.firstArgument];
+        System.arraycopy(this.command, this.firstArgument, arr, 0, arr.length);
         return arr;
     }
 

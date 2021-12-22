@@ -35,7 +35,9 @@ import java.util.Optional;
 public class ZoneCreateEndCommand implements ArgumentCommand {
     @Override
     public List<CommandArgument<?>> getArguments() {
-        return Arrays.asList(new ExactArgument("create"), new ExactArgument("bounds"), new ExactArgument("end"));
+        return Arrays.asList(new ExactArgument("create"),
+                             new ExactArgument("bounds"),
+                             new ExactArgument("end"));
     }
 
     @Override
@@ -46,6 +48,81 @@ public class ZoneCreateEndCommand implements ArgumentCommand {
     @Override
     public Optional<String> getPermissionNode() {
         return Optional.of(Permissions.REGION_CREATE_BOUNDS.getPermission());
+    }
+
+    @Override
+    public CommandResult run(CommandContext context, String... args) throws
+            NotEnoughArgumentsException {
+        Subject subject = context.getSource();
+        if (!(subject instanceof Player player)) {
+            return CommandResult.error(Component.text("Player only command"));
+        }
+        Optional<ZoneBuilder> opZone = ZonePlugin
+                .getZonesPlugin()
+                .getMemoryHolder()
+                .getZoneBuilder(player.uniqueId());
+        if (opZone.isEmpty()) {
+            return CommandResult.error(Component.text(
+                    "A region needs to be started. Use /zone create bounds " + "<name...>"));
+        }
+
+        Zone zone = opZone.get().build();
+        MembersFlag membersFlag = zone.getMembers();
+        membersFlag.addMember(DefaultGroups.OWNER, player.uniqueId());
+        zone.addFlag(membersFlag);
+
+        if (zone.getParentId().isPresent()) {
+            Optional<Zone> opParent = zone.getParent();
+            if (opParent.isEmpty()) {
+                return CommandResult.error(Component.text("Could not find parent zone of " +
+                                                                  zone.getParentId().get()));
+            }
+
+            Region region = zone.getRegion();
+            Collection<BoundedRegion> children = region.getTrueChildren();
+            if (children
+                    .stream()
+                    .anyMatch(boundedRegion -> !opParent
+                            .get()
+                            .inRegion(null, boundedRegion.getMin().toDouble()))) {
+                return CommandResult.error(Component.text("Region must be within " +
+                                                                  opParent.get().getId()));
+            }
+
+            if (children
+                    .stream()
+                    .anyMatch(boundedRegion -> !opParent
+                            .get()
+                            .inRegion(null, boundedRegion.getMax().toDouble()))) {
+                return CommandResult.error(Component.text("Region must be within " +
+                                                                  opParent.get().getId()));
+            }
+        }
+
+        ZonePlugin.getZonesPlugin().getZoneManager().register(zone);
+        player.sendMessage(Component
+                                   .text("Created a new zone of ")
+                                   .append(Component
+                                                   .text(zone.getName())
+                                                   .color(NamedTextColor.AQUA)));
+        ZonePlugin.getZonesPlugin().getMemoryHolder().unregisterZoneBuilder(player.uniqueId());
+        ChildRegion region = zone.getRegion();
+        Collection<BoundedRegion> children = region.getTrueChildren();
+        children.forEach(boundedRegion -> {
+            PlayerListener.runOnOutside(boundedRegion,
+                                        player.location().blockY() + 3,
+                                        player::resetBlockChange,
+                                        zone.getParent().isPresent());
+        });
+
+        try {
+            zone.save();
+        } catch (ConfigurateException e) {
+            e.printStackTrace();
+            return CommandResult.error(Component.text("Error when saving: " + e.getMessage()));
+        }
+
+        return CommandResult.success();
     }
 
     @Override
@@ -70,66 +147,5 @@ public class ZoneCreateEndCommand implements ArgumentCommand {
             return false;
         }
         return ArgumentCommand.super.canApply(context);
-    }
-
-    @Override
-    public CommandResult run(CommandContext context, String... args) throws NotEnoughArgumentsException {
-        Subject subject = context.getSource();
-        if (!(subject instanceof Player player)) {
-            return CommandResult.error(Component.text("Player only command"));
-        }
-        Optional<ZoneBuilder> opZone = ZonePlugin.getZonesPlugin().getMemoryHolder().getZoneBuilder(player.uniqueId());
-        if (opZone.isEmpty()) {
-            return CommandResult.error(Component.text("A region needs to be started. Use /zone create bounds " +
-                    "<name...>"));
-        }
-
-        Zone zone = opZone.get().build();
-        MembersFlag membersFlag = zone.getMembers();
-        membersFlag.addMember(DefaultGroups.OWNER, player.uniqueId());
-        zone.addFlag(membersFlag);
-
-        if (zone.getParentId().isPresent()) {
-            Optional<Zone> opParent = zone.getParent();
-            if (opParent.isEmpty()) {
-                return CommandResult.error(Component.text("Could not find parent zone of " + zone.getParentId().get()));
-            }
-
-            Region region = zone.getRegion();
-            Collection<BoundedRegion> children = region.getTrueChildren();
-            if (children
-                    .stream()
-                    .anyMatch(boundedRegion -> !opParent.get().inRegion(null, boundedRegion.getMin().toDouble()))) {
-                return CommandResult.error(Component.text("Region must be within " + opParent.get().getId()));
-            }
-
-            if (children
-                    .stream()
-                    .anyMatch(boundedRegion -> !opParent.get().inRegion(null, boundedRegion.getMax().toDouble()))) {
-                return CommandResult.error(Component.text("Region must be within " + opParent.get().getId()));
-            }
-        }
-
-        ZonePlugin.getZonesPlugin().getZoneManager().register(zone);
-        player.sendMessage(Component
-                .text("Created a new zone of ")
-                .append(Component.text(zone.getName()).color(NamedTextColor.AQUA)));
-        ZonePlugin.getZonesPlugin().getMemoryHolder().unregisterZoneBuilder(player.uniqueId());
-        ChildRegion region = zone.getRegion();
-        Collection<BoundedRegion> children = region.getTrueChildren();
-        children.forEach(boundedRegion -> {
-            PlayerListener.runOnOutside(boundedRegion, player.location().blockY() + 3, player::resetBlockChange, zone
-                    .getParent()
-                    .isPresent());
-        });
-
-        try {
-            zone.save();
-        } catch (ConfigurateException e) {
-            e.printStackTrace();
-            return CommandResult.error(Component.text("Error when saving: " + e.getMessage()));
-        }
-
-        return CommandResult.success();
     }
 }

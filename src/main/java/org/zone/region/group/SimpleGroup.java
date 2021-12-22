@@ -17,9 +17,9 @@ public class SimpleGroup implements Group {
     private final @NotNull String name;
     private final @NotNull String key;
     private final @NotNull PluginContainer plugin;
-    private @Nullable Group parent;
     private final boolean canBeRemoved;
     private final Collection<GroupKey> keys = new HashSet<>();
+    private @Nullable Group parent;
 
     public SimpleGroup(@NotNull PluginContainer plugin,
                        @NotNull String key,

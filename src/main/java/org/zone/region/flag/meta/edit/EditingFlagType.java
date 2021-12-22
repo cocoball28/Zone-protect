@@ -40,7 +40,8 @@ public class EditingFlagType implements FlagType<EditingFlag> {
     }
 
     @Override
-    public void save(@NotNull ConfigurationNode node, @Nullable EditingFlag save) throws IOException {
+    public void save(@NotNull ConfigurationNode node, @Nullable EditingFlag save) throws
+            IOException {
 
     }
 

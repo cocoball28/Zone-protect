@@ -270,7 +270,7 @@ public class Zone implements Identifiable {
         return this.inRegion(locatable.location());
     }
 
-    public static void test(){
+    public static void test() {
         BoundedRegion region;
     }
 }

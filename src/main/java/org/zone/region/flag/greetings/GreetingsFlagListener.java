@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public class GreetingsFlagListener {
     @Listener
-    public void onPlayerMove(MoveEntityEvent event, @Getter("entity") Player player){
+    public void onPlayerMove(MoveEntityEvent event, @Getter("entity") Player player) {
         if (event.originalPosition().toInt().equals(event.destinationPosition().toInt())) {
             //ignores this event if the player didn't move, but instead rotated
             return;
@@ -23,7 +23,7 @@ public class GreetingsFlagListener {
                 .getZoneManager()
                 .getPriorityZone(event.entity().world(), event.originalPosition());
 
-        if(opPreviousZone.isPresent()){
+        if (opPreviousZone.isPresent()) {
             //player is already in a zone. No need to greet them unless they are coming from one zone to another, that is out of scope of this tutorial
             return;
         }
@@ -33,14 +33,14 @@ public class GreetingsFlagListener {
                 .getZoneManager()
                 .getPriorityZone(event.entity().world(), event.destinationPosition());
 
-        if(opNextZone.isEmpty()){
+        if (opNextZone.isEmpty()) {
             //player is not moving into a zone, ignore this flag
             return;
         }
 
         Zone zone = opNextZone.get();
-        Optional<GreetingsFlag> opFlag = zone.getFlag(FlagTypes.GREETINGS_FLAG_TYPE);
-        if(opFlag.isEmpty()){
+        Optional<GreetingsFlag> opFlag = zone.getFlag(FlagTypes.GREETINGS);
+        if (opFlag.isEmpty()) {
             //not got the greetings flag, no message required
             return;
         }

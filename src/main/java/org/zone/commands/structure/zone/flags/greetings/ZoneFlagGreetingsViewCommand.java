@@ -19,7 +19,8 @@ import java.util.Optional;
 public class ZoneFlagGreetingsViewCommand implements ArgumentCommand {
     public static final ExactArgument REGION = new ExactArgument("region");
     public static final ExactArgument FLAGS = new ExactArgument("flag");
-    public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zone_value", new ZoneArgument.ZoneArgumentPropertiesBuilder());
+    public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zone_value",
+                                                                   new ZoneArgument.ZoneArgumentPropertiesBuilder());
     public static final ExactArgument GREETINGS = new ExactArgument("greetings");
     public static final ExactArgument VIEW = new ExactArgument("view");
 
@@ -39,15 +40,16 @@ public class ZoneFlagGreetingsViewCommand implements ArgumentCommand {
     }
 
     @Override
-    public CommandResult run(CommandContext commandContext, String[] args) throws NotEnoughArgumentsException {
+    public CommandResult run(CommandContext commandContext, String... args) throws
+            NotEnoughArgumentsException {
         Zone zone = commandContext.getArgument(this, ZONE_VALUE);
-        GreetingsFlag greetingsFlag = zone.getFlag(FlagTypes.GREETINGS_FLAG_TYPE).orElse(new GreetingsFlag());
+        GreetingsFlag greetingsFlag = zone.getFlag(FlagTypes.GREETINGS).orElse(new GreetingsFlag());
         Optional<Component> opMessage = greetingsFlag.getMessage();
         if (opMessage.isEmpty()) {
-            commandContext.sendMessage(Component.text("Message: ").append(Component.text("Message" +
-                                                                                                 " not set by user")));
-        }
-        else {
+            commandContext.sendMessage(Component
+                                               .text("Message: ")
+                                               .append(Component.text("Message not set by user")));
+        } else {
             commandContext.sendMessage(Component.text("Message: ").append(opMessage.get()));
         }
         return CommandResult.success();

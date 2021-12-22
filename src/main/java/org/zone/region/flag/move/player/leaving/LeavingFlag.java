@@ -3,11 +3,11 @@ package org.zone.region.flag.move.player.leaving;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.zone.region.flag.Flag;
-import org.zone.region.flag.FlagType;
+import org.zone.region.flag.FlagTypes;
 
 public class LeavingFlag implements Flag {
 
-    private final @NotNull Component leavingMessage;
+    private @NotNull Component leavingMessage;
 
     public LeavingFlag(@NotNull Component leavingMessage) {
         this.leavingMessage = leavingMessage;
@@ -17,8 +17,12 @@ public class LeavingFlag implements Flag {
         return this.leavingMessage;
     }
 
+    public void setLeavingMessage(@NotNull Component leavingMessage) {
+        this.leavingMessage = leavingMessage;
+    }
+
     @Override
-    public @NotNull FlagType<?> getType() {
-        return null;
+    public @NotNull LeavingFlagType getType() {
+        return FlagTypes.LEAVING;
     }
 }

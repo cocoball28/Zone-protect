@@ -70,15 +70,14 @@ public class ChildRegion implements Region {
     }
 
     @Override
-    public Collection<Region> getChildren() {
-        return Collections.unmodifiableCollection(this.bounds);
-    }
-
-    @Override
     public void save(ConfigurationNode node) throws SerializationException {
         ChildRegion.save(node, this);
     }
 
+    @Override
+    public Collection<Region> getChildren() {
+        return Collections.unmodifiableCollection(this.bounds);
+    }
 
     public static ChildRegion load(ConfigurationNode node) {
         Collection<? extends ConfigurationNode> children = node.childrenMap().values();

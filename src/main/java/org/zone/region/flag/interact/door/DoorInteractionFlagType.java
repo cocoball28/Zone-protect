@@ -48,7 +48,8 @@ public class DoorInteractionFlagType implements FlagType<DoorInteractionFlag> {
     }
 
     @Override
-    public void save(@NotNull ConfigurationNode node, @Nullable DoorInteractionFlag save) throws IOException {
+    public void save(@NotNull ConfigurationNode node, @Nullable DoorInteractionFlag save) throws
+            IOException {
         if (save == null || save.getEnabled().isEmpty()) {
             node.set(null);
             return;

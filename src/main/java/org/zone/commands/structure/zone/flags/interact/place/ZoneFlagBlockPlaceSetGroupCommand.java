@@ -27,12 +27,21 @@ import java.util.Optional;
  */
 public class ZoneFlagBlockPlaceSetGroupCommand implements ArgumentCommand {
 
-    public static final ZoneArgument ZONE = new ZoneArgument("zoneId", new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(GroupKeys.OWNER));
+    public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
+                                                             new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(
+                                                                     GroupKeys.OWNER));
     public static final ZoneGroupArgument GROUP = new ZoneGroupArgument("groupid", ZONE);
 
     @Override
     public List<CommandArgument<?>> getArguments() {
-        return Arrays.asList(new ExactArgument("zone"), new ExactArgument("flag"), ZONE, new ExactArgument("interact"), new ExactArgument("block"), new ExactArgument("place"), new ExactArgument("group"), GROUP);
+        return Arrays.asList(new ExactArgument("zone"),
+                             new ExactArgument("flag"),
+                             ZONE,
+                             new ExactArgument("interact"),
+                             new ExactArgument("block"),
+                             new ExactArgument("place"),
+                             new ExactArgument("group"),
+                             GROUP);
     }
 
     @Override
@@ -46,17 +55,20 @@ public class ZoneFlagBlockPlaceSetGroupCommand implements ArgumentCommand {
     }
 
     @Override
-    public CommandResult run(CommandContext commandContext, String... args) throws NotEnoughArgumentsException {
+    public CommandResult run(CommandContext commandContext, String... args) throws
+            NotEnoughArgumentsException {
         Zone zone = commandContext.getArgument(this, ZONE);
         @NotNull BlockPlaceFlag flag = zone
                 .getFlag(FlagTypes.BLOCK_PLACE)
                 .orElseGet(() -> new BlockPlaceFlag(BlockPlaceFlag.DEFAULT));
         Group newGroup = commandContext.getArgument(this, GROUP);
         zone.getMembers().addKey(newGroup, flag.getRequiredKey());
-        zone.addFlag(flag);
+        zone.setFlag(flag);
         try {
             zone.save();
-            commandContext.getCause().sendMessage(Identity.nil(), Component.text("Updated Block placement"));
+            commandContext
+                    .getCause()
+                    .sendMessage(Identity.nil(), Component.text("Updated Block placement"));
         } catch (ConfigurateException e) {
             e.printStackTrace();
             return CommandResult.error(Component.text("Could not save: " + e.getMessage()));

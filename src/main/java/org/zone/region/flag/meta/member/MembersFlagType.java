@@ -55,7 +55,11 @@ public class MembersFlagType implements FlagType<MembersFlag> {
             keys.put(container, node.node(container.metadata().id()).childrenMap().values());
         }
 
-        int totalSize = (int) keys.values().parallelStream().flatMap(Collection::parallelStream).count();
+        int totalSize = (int) keys
+                .values()
+                .parallelStream()
+                .flatMap(Collection::parallelStream)
+                .count();
         if (totalSize == 0) {
             throw new IOException("No groups found");
         }
@@ -77,7 +81,10 @@ public class MembersFlagType implements FlagType<MembersFlag> {
                     if (userIds == null) {
                         continue;
                     }
-                    Set<UUID> users = userIds.parallelStream().map(UUID::fromString).collect(Collectors.toSet());
+                    Set<UUID> users = userIds
+                            .parallelStream()
+                            .map(UUID::fromString)
+                            .collect(Collectors.toSet());
                     if (name == null) {
                         continue;
                     }
@@ -93,7 +100,10 @@ public class MembersFlagType implements FlagType<MembersFlag> {
                     if (opParent.isEmpty()) {
                         continue;
                     }
-                    Group newGroup = new SimpleGroup(entry.getKey(), groupNode.key().toString(), name, opParent.get());
+                    Group newGroup = new SimpleGroup(entry.getKey(),
+                                                     groupNode.key().toString(),
+                                                     name,
+                                                     opParent.get());
                     List<String> keyIds = groupNode.node("keys").getList(String.class);
                     if (keyIds != null) {
                         Collection<GroupKey> groupKeys = keyIds
@@ -103,7 +113,10 @@ public class MembersFlagType implements FlagType<MembersFlag> {
                                         .getGroupKeyManager()
                                         .getKeys()
                                         .parallelStream()
-                                        .filter(groupKey -> groupKey.getId().asString().equals(keyId))
+                                        .filter(groupKey -> groupKey
+                                                .getId()
+                                                .asString()
+                                                .equals(keyId))
                                         .findFirst())
                                 .filter(Optional::isPresent)
                                 .map(Optional::get)
@@ -125,27 +138,32 @@ public class MembersFlagType implements FlagType<MembersFlag> {
     }
 
     @Override
-    public void save(@NotNull ConfigurationNode node, @Nullable MembersFlag save) throws IOException {
+    public void save(@NotNull ConfigurationNode node, @Nullable MembersFlag save) throws
+            IOException {
         if (save == null) {
             node.set(null);
             return;
         }
         for (Map.Entry<Group, Collection<UUID>> entry : save.getGroupMapping().entrySet()) {
-            ConfigurationNode groupNode = node.node(entry.getKey().getPlugin().metadata().id(), entry
-                    .getKey()
-                    .getKey());
+            ConfigurationNode groupNode = node.node(entry.getKey().getPlugin().metadata().id(),
+                                                    entry.getKey().getKey());
             groupNode.node("name").set(entry.getKey().getName());
             groupNode
                     .node("keys")
                     .set(entry
-                            .getKey()
-                            .getKeys()
-                            .parallelStream()
-                            .map(key -> key.getId().asString())
-                            .collect(Collectors.toSet()));
+                                 .getKey()
+                                 .getKeys()
+                                 .parallelStream()
+                                 .map(key -> key.getId().asString())
+                                 .collect(Collectors.toSet()));
             groupNode
                     .node("users")
-                    .set(entry.getValue().stream().map(UUID::toString).sorted().collect(Collectors.toList()));
+                    .set(entry
+                                 .getValue()
+                                 .stream()
+                                 .map(UUID::toString)
+                                 .sorted()
+                                 .collect(Collectors.toList()));
             Optional<Group> opParent = entry.getKey().getParent();
             if (opParent.isPresent()) {
                 groupNode.node("parent").set(opParent.get().getId());

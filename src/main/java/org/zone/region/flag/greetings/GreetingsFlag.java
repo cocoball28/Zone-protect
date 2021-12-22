@@ -1,4 +1,5 @@
 package org.zone.region.flag.greetings;
+
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -12,25 +13,25 @@ public class GreetingsFlag implements Flag {
 
     private @Nullable Component text;
 
-    public GreetingsFlag(){
+    public GreetingsFlag() {
         this(null);
     }
 
-    public GreetingsFlag(@Nullable Component component){
+    public GreetingsFlag(@Nullable Component component) {
         this.text = component;
     }
 
-    public Optional<Component> getMessage(){
+    public Optional<Component> getMessage() {
         return Optional.ofNullable(this.text);
     }
 
-    public void setMessage(@Nullable Component component){
+    public void setMessage(@Nullable Component component) {
         this.text = component;
     }
 
     @Override
     public @NotNull FlagType<?> getType() {
-        return FlagTypes.GREETINGS_FLAG_TYPE;
+        return FlagTypes.GREETINGS;
     }
 
 }

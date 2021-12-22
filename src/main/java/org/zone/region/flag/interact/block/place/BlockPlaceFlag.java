@@ -35,6 +35,9 @@ public class BlockPlaceFlag implements Flag.Enabled, Flag.GroupKeyed {
     }
 
     @Override
+    public @NotNull GroupKey getRequiredKey() {
+        return GroupKeys.BLOCK_PLACE;
+    }    @Override
     public void setEnabled(@Nullable Boolean enabled) {
         this.enabled = enabled;
     }
@@ -49,8 +52,5 @@ public class BlockPlaceFlag implements Flag.Enabled, Flag.GroupKeyed {
         return this.getEnabled().orElse(DEFAULT.getEnabled().orElse(false));
     }
 
-    @Override
-    public @NotNull GroupKey getRequiredKey() {
-        return GroupKeys.BLOCK_PLACE;
-    }
+
 }

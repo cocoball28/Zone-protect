@@ -5,8 +5,8 @@ import org.zone.commands.structure.create.ZoneCreateStartCommand;
 import org.zone.commands.structure.create.ZoneCreateSubStartCommand;
 import org.zone.commands.structure.zone.flags.eco.ZoneViewBalanceCommand;
 import org.zone.commands.structure.zone.flags.greetings.ZoneFlagGreetingsRemoveMessageCommand;
-import org.zone.commands.structure.zone.flags.greetings.ZoneFlagGreetingsViewCommand;
 import org.zone.commands.structure.zone.flags.greetings.ZoneFlagGreetingsSetMessageCommand;
+import org.zone.commands.structure.zone.flags.greetings.ZoneFlagGreetingsViewCommand;
 import org.zone.commands.structure.zone.flags.interact.destroy.ZoneFlagBlockBreakSetEnabledCommand;
 import org.zone.commands.structure.zone.flags.interact.destroy.ZoneFlagBlockBreakSetGroupCommand;
 import org.zone.commands.structure.zone.flags.interact.destroy.ZoneFlagBlockBreakViewCommand;
@@ -16,6 +16,9 @@ import org.zone.commands.structure.zone.flags.interact.door.ZoneFlagInteractDoor
 import org.zone.commands.structure.zone.flags.interact.place.ZoneFlagBlockPlaceSetEnabledCommand;
 import org.zone.commands.structure.zone.flags.interact.place.ZoneFlagBlockPlaceSetGroupCommand;
 import org.zone.commands.structure.zone.flags.interact.place.ZoneFlagBlockPlaceViewCommand;
+import org.zone.commands.structure.zone.flags.leaving.ZoneFlagLeavingRemoveCommand;
+import org.zone.commands.structure.zone.flags.leaving.ZoneFlagLeavingSetMessageCommand;
+import org.zone.commands.structure.zone.flags.leaving.ZoneFlagLeavingViewCommand;
 import org.zone.commands.structure.zone.flags.members.ZoneFlagMemberGroupAddCommand;
 import org.zone.commands.structure.zone.flags.members.ZoneFlagMemberGroupViewCommand;
 import org.zone.commands.structure.zone.info.bounds.ZoneInfoBoundsShowCommand;
@@ -50,7 +53,11 @@ public interface ZoneCommands {
     ZoneViewBalanceCommand ZONE_FLAG_VIEW_BALANCE_COMMAND = new ZoneViewBalanceCommand();
     ZoneFlagGreetingsSetMessageCommand SET_GREETINGS_MESSAGE_COMMAND = new ZoneFlagGreetingsSetMessageCommand();
     ZoneFlagGreetingsViewCommand GREETINGS_MESSAGE_VIEW_COMMAND = new ZoneFlagGreetingsViewCommand();
-    ZoneFlagGreetingsRemoveMessageCommand GREETINGS_REMOVE_MESSAGE_COMMAND = new ZoneFlagGreetingsRemoveMessageCommand();
+    ZoneFlagGreetingsRemoveMessageCommand GREETINGS_REMOVE_COMMAND = new ZoneFlagGreetingsRemoveMessageCommand();
+    ZoneFlagLeavingRemoveCommand LEAVING_REMOVE_COMMAND = new ZoneFlagLeavingRemoveCommand();
+    ZoneFlagLeavingSetMessageCommand LEAVING_SET_MESSAGE_COMMAND = new ZoneFlagLeavingSetMessageCommand();
+    ZoneFlagLeavingViewCommand LEAVING_VIEW_COMMAND = new ZoneFlagLeavingViewCommand();
+
     static ZoneSpongeCommand createCommand() {
         Collection<ArgumentCommand> collection = Arrays
                 .stream(ZoneCommands.class.getDeclaredFields())
