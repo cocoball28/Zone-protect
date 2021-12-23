@@ -1,6 +1,6 @@
 package org.zone.region.flag;
 
-import org.zone.region.flag.greetings.GreetingsFlagType;
+import org.zone.region.flag.move.player.greetings.GreetingsFlagType;
 import org.zone.region.flag.interact.block.destroy.BlockBreakFlagType;
 import org.zone.region.flag.interact.block.place.BlockPlaceFlagType;
 import org.zone.region.flag.interact.door.DoorInteractionFlagType;

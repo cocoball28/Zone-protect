@@ -1,4 +1,4 @@
-package org.zone.region.flag.greetings;
+package org.zone.region.flag.move.player.greetings;
 
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;

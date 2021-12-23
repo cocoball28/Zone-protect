@@ -94,6 +94,28 @@ public class Zone implements Identifiable {
     }
 
     /**
+     * Checks if the exact instance of a flag is registered to the zone
+     *
+     * @param flag The instance to check
+     *
+     * @return true if the flag is present
+     */
+    public boolean containsFlag(@NotNull Flag flag) {
+        return this.flags.contains(flag);
+    }
+
+    /**
+     * Checks if the type of flag is found within the flags of this zone
+     *
+     * @param type the type of flag
+     *
+     * @return true if a flag has the same type as provided
+     */
+    public boolean containsFlag(@NotNull FlagType<?> type) {
+        return this.flags.parallelStream().anyMatch(flag -> flag.getType().equals(type));
+    }
+
+    /**
      * Gets the flags of this zone
      *
      * @return A collection of the flags that zone has

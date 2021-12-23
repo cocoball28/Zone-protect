@@ -14,7 +14,7 @@ import java.util.Optional;
  * <p>
  * If the player is within a group that has the specified GroupKey then they can open/close blocks even with the flag enabled
  */
-public class DoorInteractionFlag implements Flag.Enabled, Flag.GroupKeyed {
+public class DoorInteractionFlag implements Flag.Enabled, Flag.AffectsPlayer {
 
     private @Nullable Boolean enabled;
 
@@ -32,7 +32,9 @@ public class DoorInteractionFlag implements Flag.Enabled, Flag.GroupKeyed {
     @Override
     public @NotNull DoorInteractionFlagType getType() {
         return FlagTypes.DOOR_INTERACTION;
-    }    @Override
+    }
+
+    @Override
     public @NotNull Optional<Boolean> getEnabled() {
         return Optional.ofNullable(this.enabled);
     }
@@ -40,7 +42,9 @@ public class DoorInteractionFlag implements Flag.Enabled, Flag.GroupKeyed {
     @Override
     public @NotNull GroupKey getRequiredKey() {
         return GroupKeys.INTERACT_DOOR;
-    }    @Override
+    }
+
+    @Override
     public boolean isEnabled() {
         return this.getEnabled().orElse(ELSE.getEnabled().orElse(false));
     }
@@ -49,8 +53,6 @@ public class DoorInteractionFlag implements Flag.Enabled, Flag.GroupKeyed {
     public void setEnabled(@Nullable Boolean flag) {
         this.enabled = flag;
     }
-
-
 
 
 }
