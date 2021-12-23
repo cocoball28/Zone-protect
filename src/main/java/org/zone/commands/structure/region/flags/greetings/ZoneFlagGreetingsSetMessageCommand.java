@@ -12,7 +12,7 @@ import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.greetings.GreetingsFlag;
+import org.zone.region.flag.move.player.greetings.GreetingsFlag;
 
 import java.util.Arrays;
 import java.util.List;

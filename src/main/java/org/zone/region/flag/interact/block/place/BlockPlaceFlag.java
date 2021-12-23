@@ -15,7 +15,7 @@ import java.util.Optional;
  * <p>
  * If the player is within a group that has the specified GroupKey then they can place blocks even with the flag enabled
  */
-public class BlockPlaceFlag implements Flag.Enabled, Flag.GroupKeyed {
+public class BlockPlaceFlag implements Flag.Enabled, Flag.AffectsPlayer {
 
     private Boolean enabled;
 
@@ -38,7 +38,9 @@ public class BlockPlaceFlag implements Flag.Enabled, Flag.GroupKeyed {
     @Override
     public @NotNull GroupKey getRequiredKey() {
         return GroupKeys.BLOCK_PLACE;
-    }    @Override
+    }
+
+    @Override
     public void setEnabled(@Nullable Boolean enabled) {
         this.enabled = enabled;
     }

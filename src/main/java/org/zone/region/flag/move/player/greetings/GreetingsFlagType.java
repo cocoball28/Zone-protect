@@ -1,4 +1,4 @@
-package org.zone.region.flag.greetings;
+package org.zone.region.flag.move.player.greetings;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;

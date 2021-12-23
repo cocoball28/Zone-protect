@@ -3,6 +3,7 @@ package org.zone.region.flag;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
+import org.zone.ZonePlugin;
 import org.zone.region.Zone;
 import org.zone.region.flag.meta.member.MembersFlag;
 import org.zone.region.group.Group;
@@ -16,6 +17,17 @@ import java.util.UUID;
  * A modifier for a Zone. This is designed to hold data or modify the zone in one way or another
  */
 public interface Flag {
+
+    /**
+     * If the flag affects players then it should implement this
+     */
+    interface AffectsPlayer extends Flag.GroupKeyed {
+
+        default boolean canBypassEffects(@NotNull Zone zone, @NotNull UUID player) {
+            return this.hasPermission(zone, player);
+        }
+
+    }
 
     /**
      * If the flag can be enabled/disabled, then it should implement this to help other plugins to understand your flag
@@ -109,6 +121,23 @@ public interface Flag {
      */
     default <T extends Flag> void save(ConfigurationNode node) throws IOException {
         ((FlagType<T>) this.getType()).save(node, (T) this);
+    }
+
+    /**
+     * Finds the zone that this flag belongs to.
+     * If another way to find the zone is possible, then please use that as this checks every
+     * zone until found
+     *
+     * @return The attached zone, if {@link Optional#empty()} then no active zone has this flag
+     */
+    default Optional<Zone> findAttachedZone() {
+        return ZonePlugin
+                .getZonesPlugin()
+                .getZoneManager()
+                .getZones()
+                .parallelStream()
+                .filter(z -> z.containsFlag(Flag.this))
+                .findAny();
     }
 
 }
