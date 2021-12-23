@@ -1,4 +1,4 @@
-package org.zone.commands.structure.zone.flags.greetings;
+package org.zone.commands.structure.region.flags.greetings;
 
 import net.kyori.adventure.text.Component;
 import org.spongepowered.api.command.CommandResult;
@@ -44,14 +44,10 @@ public class ZoneFlagGreetingsViewCommand implements ArgumentCommand {
             NotEnoughArgumentsException {
         Zone zone = commandContext.getArgument(this, ZONE_VALUE);
         GreetingsFlag greetingsFlag = zone.getFlag(FlagTypes.GREETINGS).orElse(new GreetingsFlag());
-        Optional<Component> opMessage = greetingsFlag.getMessage();
-        if (opMessage.isEmpty()) {
-            commandContext.sendMessage(Component
-                                               .text("Message: ")
-                                               .append(Component.text("Message not set by user")));
-        } else {
-            commandContext.sendMessage(Component.text("Message: ").append(opMessage.get()));
-        }
+        Component message = greetingsFlag
+                .getMessage()
+                .orElse(Component.text("Message not set by user"));
+        commandContext.sendMessage(Component.text("Message: ").append(message));
         return CommandResult.success();
     }
 

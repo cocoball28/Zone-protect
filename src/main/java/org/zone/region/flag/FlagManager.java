@@ -19,15 +19,7 @@ public class FlagManager {
     private final DefaultFlagFile defaultFlags = new DefaultFlagFile();
 
     public FlagManager() {
-        this.flags.add(FlagTypes.PREVENT_MONSTER);
-        this.flags.add(FlagTypes.MEMBERS);
-        this.flags.add(FlagTypes.DOOR_INTERACTION);
-        this.flags.add(FlagTypes.BLOCK_BREAK);
-        this.flags.add(FlagTypes.ECO);
-        this.flags.add(FlagTypes.EDITING);
-        this.flags.add(FlagTypes.BLOCK_PLACE);
-        this.flags.add(FlagTypes.GREETINGS);
-        this.flags.add(FlagTypes.LEAVING);
+        this.flags.addAll(FlagTypes.getVanillaFlags());
     }
 
     /**

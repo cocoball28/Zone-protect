@@ -12,7 +12,6 @@ import org.spongepowered.math.vector.Vector3d;
 import org.spongepowered.plugin.PluginContainer;
 import org.zone.Identifiable;
 import org.zone.ZonePlugin;
-import org.zone.region.bounds.BoundedRegion;
 import org.zone.region.bounds.ChildRegion;
 import org.zone.region.flag.Flag;
 import org.zone.region.flag.FlagType;
@@ -268,9 +267,5 @@ public class Zone implements Identifiable {
      */
     public boolean inRegion(@NotNull Locatable locatable) {
         return this.inRegion(locatable.location());
-    }
-
-    public static void test() {
-        BoundedRegion region;
     }
 }

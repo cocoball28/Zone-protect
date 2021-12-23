@@ -49,7 +49,7 @@ public interface Group extends Identifiable, Comparable<Group> {
     @NotNull Collection<GroupKey> getKeys();
 
     /**
-     * Adds a groupkey to this group. Please note you should use
+     * Adds a groupKey to this group. Please note you should use
      * {@link org.zone.region.flag.meta.member.MembersFlag#addKey(Group, GroupKey)} instead where
      * possible as that will prevent duplicates
      *
@@ -86,11 +86,11 @@ public interface Group extends Identifiable, Comparable<Group> {
     }
 
     /**
-     * Checks if the groupkey was found within this group
+     * Checks if the groupKey was found within this group
      *
-     * @param key The groupkey to check
+     * @param key The groupKey to check
      *
-     * @return true if the group contains the groupkey
+     * @return true if the group contains the groupKey
      */
     default boolean contains(GroupKey key) {
         if (this.getKeys().contains(key)) {

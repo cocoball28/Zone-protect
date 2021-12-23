@@ -31,7 +31,7 @@ public class MemoryHolder {
     }
 
     /**
-     * Registers a zonebuilder to the temporary space
+     * Registers a zone builder to the temporary space
      *
      * @param uuid    The players UUID
      * @param builder the builder to register
@@ -45,7 +45,7 @@ public class MemoryHolder {
     }
 
     /**
-     * Unregisters a zonebuilder from the temporary space
+     * Unregisters a zone builder from the temporary space
      *
      * @param uuid The players UUID
      */

@@ -1,4 +1,4 @@
-package org.zone.commands.structure.zone.flags.greetings;
+package org.zone.commands.structure.region.flags.greetings;
 
 import net.kyori.adventure.text.Component;
 import org.spongepowered.api.command.CommandResult;

@@ -1,8 +1,8 @@
-package org.zone.commands.structure.zone.flags.leaving;
+package org.zone.commands.structure.region.flags.leaving;
 
 import net.kyori.adventure.text.Component;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandResult;
-import org.spongepowered.configurate.ConfigurateException;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.NotEnoughArgumentsException;
@@ -11,12 +11,13 @@ import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
+import org.zone.region.flag.move.player.leaving.LeavingFlag;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class ZoneFlagLeavingRemoveCommand implements ArgumentCommand {
+public class ZoneFlagLeavingViewCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE = new ZoneArgument("zone_value",
                                                              new ZoneArgument.ZoneArgumentPropertiesBuilder());
@@ -27,12 +28,12 @@ public class ZoneFlagLeavingRemoveCommand implements ArgumentCommand {
                              new ExactArgument("flag"),
                              ZONE,
                              new ExactArgument("leaving"),
-                             new ExactArgument("remove"));
+                             new ExactArgument("view"));
     }
 
     @Override
     public Component getDescription() {
-        return Component.text("Removes the leaving flag");
+        return Component.text("View the leaving message flag");
     }
 
     @Override
@@ -44,14 +45,14 @@ public class ZoneFlagLeavingRemoveCommand implements ArgumentCommand {
     public CommandResult run(CommandContext commandContext, String... args) throws
             NotEnoughArgumentsException {
         Zone zone = commandContext.getArgument(this, ZONE);
-        zone.removeFlag(FlagTypes.LEAVING);
-        try {
-            zone.save();
-            commandContext.sendMessage(Component.text("Removed leaving message"));
-        } catch (ConfigurateException e) {
-            e.printStackTrace();
-            return CommandResult.error(Component.text("Could not save: " + e.getMessage()));
+        @NotNull Optional<LeavingFlag> opFlag = zone.getFlag(FlagTypes.LEAVING);
+        if (opFlag.isEmpty()) {
+            commandContext.sendMessage(Component.text("Message: No Message set"));
+            return CommandResult.success();
         }
+        commandContext.sendMessage(Component
+                                           .text("Message: ")
+                                           .append(opFlag.get().getLeavingMessage()));
         return CommandResult.success();
     }
 }

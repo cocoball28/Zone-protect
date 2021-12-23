@@ -10,6 +10,11 @@ import org.zone.region.flag.meta.member.MembersFlagType;
 import org.zone.region.flag.move.monster.PreventMonsterFlagType;
 import org.zone.region.flag.move.player.leaving.LeavingFlagType;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
 /**
  * All known default flag types found within the zones plugin
  */
@@ -27,5 +32,23 @@ public final class FlagTypes {
 
     private FlagTypes() {
         throw new RuntimeException("Should not init");
+    }
+
+    public static Collection<FlagType<?>> getVanillaFlags() {
+        return Arrays
+                .stream(FlagTypes.class.getDeclaredFields())
+                .parallel()
+                .filter(field -> FlagType.class.isAssignableFrom(field.getType()))
+                .map(field -> {
+                    try {
+                        return (FlagType<?>) field.get(null);
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                        //noinspection ReturnOfNull
+                        return null;
+                    }
+                })
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
     }
 }

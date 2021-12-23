@@ -1,4 +1,4 @@
-package org.zone.commands.structure.zone.flags.greetings;
+package org.zone.commands.structure.region.flags.greetings;
 
 import net.kyori.adventure.text.Component;
 import org.spongepowered.api.command.CommandResult;
@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class ZoneFlagGreetingsRemoveMessageCommand implements ArgumentCommand {
+public class ZoneFlagGreetingsRemoveCommand implements ArgumentCommand {
     public static final ExactArgument REGION = new ExactArgument("region");
     public static final ExactArgument FLAGS = new ExactArgument("flag");
     public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zone_value",

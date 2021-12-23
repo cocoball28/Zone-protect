@@ -1,4 +1,4 @@
-package org.zone.commands.structure.zone.flags.interact.place;
+package org.zone.commands.structure.region.flags.interact.place;
 
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
@@ -16,7 +16,6 @@ import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.interact.block.place.BlockPlaceFlag;
 import org.zone.region.group.Group;
-import org.zone.region.group.key.GroupKeys;
 
 import java.util.Arrays;
 import java.util.List;
@@ -27,14 +26,12 @@ import java.util.Optional;
  */
 public class ZoneFlagBlockPlaceSetGroupCommand implements ArgumentCommand {
 
-    public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
-                                                             new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(
-                                                                     GroupKeys.OWNER));
-    public static final ZoneGroupArgument GROUP = new ZoneGroupArgument("groupid", ZONE);
+    public static final ZoneArgument ZONE = new ZoneArgument("zoneId");
+    public static final ZoneGroupArgument GROUP = new ZoneGroupArgument("groupId", ZONE);
 
     @Override
     public List<CommandArgument<?>> getArguments() {
-        return Arrays.asList(new ExactArgument("zone"),
+        return Arrays.asList(new ExactArgument("region"),
                              new ExactArgument("flag"),
                              ZONE,
                              new ExactArgument("interact"),

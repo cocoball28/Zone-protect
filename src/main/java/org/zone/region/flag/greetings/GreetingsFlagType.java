@@ -42,6 +42,10 @@ public class GreetingsFlagType implements FlagType<GreetingsFlag> {
     @Override
     public void save(@NotNull ConfigurationNode node, @Nullable GreetingsFlag save) throws
             IOException {
+        if(save == null){
+            node.set(null);
+            return;
+        }
         Optional<Component> opMessage = save.getMessage();
         if (opMessage.isEmpty()) {
             throw new IOException("Couldn't get message");

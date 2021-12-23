@@ -1,4 +1,4 @@
-package org.zone.commands.structure.zone.flags.interact.door;
+package org.zone.commands.structure.region.flags.interact.door;
 
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
@@ -33,7 +33,7 @@ public class ZoneFlagInteractDoorViewCommand implements ArgumentCommand {
 
     @Override
     public List<CommandArgument<?>> getArguments() {
-        return Arrays.asList(new ExactArgument("zone"),
+        return Arrays.asList(new ExactArgument("region"),
                              new ExactArgument("flag"),
                              ZONE,
                              new ExactArgument("interact"),

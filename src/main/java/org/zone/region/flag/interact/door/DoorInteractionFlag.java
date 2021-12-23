@@ -20,6 +20,7 @@ public class DoorInteractionFlag implements Flag.Enabled, Flag.GroupKeyed {
 
     public static final DoorInteractionFlag ELSE = new DoorInteractionFlag(false);
 
+    @SuppressWarnings("CopyConstructorMissesField")
     public DoorInteractionFlag(@SuppressWarnings("TypeMayBeWeakened") @NotNull DoorInteractionFlag flag) {
         this(flag.getEnabled().orElse(null));
     }
