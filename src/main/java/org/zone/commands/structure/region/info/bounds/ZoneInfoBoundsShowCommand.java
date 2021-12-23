@@ -1,4 +1,4 @@
-package org.zone.commands.structure.zone.info.bounds;
+package org.zone.commands.structure.region.info.bounds;
 
 import net.kyori.adventure.text.Component;
 import org.spongepowered.api.Sponge;
@@ -36,7 +36,7 @@ public class ZoneInfoBoundsShowCommand implements ArgumentCommand {
 
     @Override
     public List<CommandArgument<?>> getArguments() {
-        return Arrays.asList(new ExactArgument("zone"),
+        return Arrays.asList(new ExactArgument("region"),
                              new ExactArgument("info"),
                              new ExactArgument("bounds"),
                              new ExactArgument("show"),

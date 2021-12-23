@@ -1,4 +1,4 @@
-package org.zone.commands.structure.zone.flags.members;
+package org.zone.commands.structure.region.flags.members;
 
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
@@ -21,7 +21,6 @@ import org.zone.commands.system.arguments.zone.ZoneGroupArgument;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.region.Zone;
 import org.zone.region.group.Group;
-import org.zone.region.group.key.GroupKeys;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -39,14 +38,12 @@ public class ZoneFlagMemberGroupViewCommand implements ArgumentCommand {
         return CommandArgumentResult.from(a, pages);
 
     }), 1);
-    public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
-                                                             new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(
-                                                                     GroupKeys.OWNER));
+    public static final ZoneArgument ZONE = new ZoneArgument("zoneId");
     public static final ZoneGroupArgument GROUP = new ZoneGroupArgument("groupId", ZONE);
 
     @Override
     public List<CommandArgument<?>> getArguments() {
-        return Arrays.asList(new ExactArgument("zone"),
+        return Arrays.asList(new ExactArgument("region"),
                              new ExactArgument("members"),
                              ZONE,
                              new ExactArgument("view"),

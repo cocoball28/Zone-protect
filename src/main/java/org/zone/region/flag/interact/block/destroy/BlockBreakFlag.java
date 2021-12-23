@@ -23,6 +23,7 @@ public class BlockBreakFlag implements Flag.Enabled, Flag.GroupKeyed {
      */
     public static final BlockBreakFlag ELSE = new BlockBreakFlag(false);
 
+    @SuppressWarnings("CopyConstructorMissesField")
     public BlockBreakFlag(@SuppressWarnings("TypeMayBeWeakened") @NotNull BlockBreakFlag flag) {
         this(flag.getEnabled().orElse(null));
     }

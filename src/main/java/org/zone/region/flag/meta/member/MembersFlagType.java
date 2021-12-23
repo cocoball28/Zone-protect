@@ -73,7 +73,7 @@ public class MembersFlagType implements FlagType<MembersFlag> {
                 for (ConfigurationNode groupNode : entry.getValue()) {
                     String name = groupNode.node("name").getString();
                     String parentString = groupNode.node("parent").getString();
-                    String id = entry.getKey().metadata().id() + ":" + groupNode.key().toString();
+                    String id = entry.getKey().metadata().id() + ":" + groupNode.key();
                     if (groups.keySet().parallelStream().anyMatch(g -> g.getId().equals(id))) {
                         continue;
                     }
@@ -101,7 +101,7 @@ public class MembersFlagType implements FlagType<MembersFlag> {
                         continue;
                     }
                     Group newGroup = new SimpleGroup(entry.getKey(),
-                                                     groupNode.key().toString(),
+                                                     groupNode.key() + "",
                                                      name,
                                                      opParent.get());
                     List<String> keyIds = groupNode.node("keys").getList(String.class);

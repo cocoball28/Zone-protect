@@ -1,4 +1,4 @@
-package org.zone.commands.structure.zone.flags.members;
+package org.zone.commands.structure.region.flags.members;
 
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
@@ -38,7 +38,7 @@ public class ZoneFlagMemberGroupAddCommand implements ArgumentCommand {
 
     @Override
     public List<CommandArgument<?>> getArguments() {
-        return Arrays.asList(new ExactArgument("zone"),
+        return Arrays.asList(new ExactArgument("region"),
                              new ExactArgument("member"),
                              ZONE,
                              new ExactArgument("set", false, "set", "change", "apply", "add"),

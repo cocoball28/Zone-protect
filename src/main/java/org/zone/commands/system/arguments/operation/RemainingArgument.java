@@ -57,7 +57,7 @@ public class RemainingArgument<T> implements CommandArgument<List<T>> {
             }
         }
         if (e1 == null) {
-            //shouldnt be possible
+            //shouldn't be possible
             throw new IOException("Unknown error occurred");
         }
         throw e1;

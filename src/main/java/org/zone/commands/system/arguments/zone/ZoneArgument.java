@@ -15,6 +15,7 @@ import org.zone.commands.system.context.CommandContext;
 import org.zone.region.Zone;
 import org.zone.region.group.Group;
 import org.zone.region.group.key.GroupKey;
+import org.zone.region.group.key.GroupKeys;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -31,7 +32,7 @@ public class ZoneArgument implements CommandArgument<Zone> {
         private ParseCommandArgument<Zone> subZoneTo;
         private boolean onlyMainZones = true;
         private String bypassSuggestionPermission;
-        private GroupKey level;
+        private GroupKey level = GroupKeys.OWNER;
 
         public String getBypassSuggestionPermission() {
             return this.bypassSuggestionPermission;
@@ -68,6 +69,10 @@ public class ZoneArgument implements CommandArgument<Zone> {
             this.level = level;
             return this;
         }
+    }
+
+    public ZoneArgument(@NotNull String id) {
+        this(id, new ZoneArgumentPropertiesBuilder());
     }
 
     public ZoneArgument(@NotNull String id, @NotNull ZoneArgumentPropertiesBuilder builder) {

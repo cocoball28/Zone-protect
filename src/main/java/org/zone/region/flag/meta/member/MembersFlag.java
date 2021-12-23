@@ -68,7 +68,7 @@ public class MembersFlag implements Flag {
     }
 
     /**
-     * Adds a groupkey to a group
+     * Adds a group key to a group
      *
      * @param group the group to have the key
      * @param key   the key to use

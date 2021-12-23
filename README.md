@@ -14,7 +14,7 @@ Currently we support the following
 And we plan on supporting more in the future.
 
 Zone-Protect is designed to take advantage of modern code and will be updating with Sponge. Due to this we have a Java
-version requirement of Java 16 at minimum and this will likey update as older Sponge versions are dropped from support.
+version requirement of Java 16 at minimum and this will likely update as older Sponge versions are dropped from support.
 
 ## Download
 
@@ -30,6 +30,6 @@ You can gain support via the following means:
 
 Take a look at our [Wiki](https://github.com/mosemister/Zone-protect/wiki)
 
-[Javadocs](https://mosemister.github.io/Zone-protect/allclasses-index.html)
+[Javadocs](https://zone-protect.github.io/Zone-protect/allclasses-index.html)
 
 

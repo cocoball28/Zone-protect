@@ -1,4 +1,4 @@
-package org.zone.commands.structure.zone.flags.eco;
+package org.zone.commands.structure.region.flags.eco;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -28,7 +28,7 @@ import java.util.Optional;
 /**
  * Used to view the balance found for the zone. This command only activates when a valid economy plugin is activate on the server
  */
-public class ZoneViewBalanceCommand implements ArgumentCommand {
+public class ZoneFlagViewBalanceCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE = new ZoneArgument("zone_value",
                                                              new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(
@@ -55,7 +55,7 @@ public class ZoneViewBalanceCommand implements ArgumentCommand {
 
     @Override
     public List<CommandArgument<?>> getArguments() {
-        return Arrays.asList(new ExactArgument("zone"),
+        return Arrays.asList(new ExactArgument("region"),
                              new ExactArgument("flag"),
                              ZONE,
                              new ExactArgument("balance"),

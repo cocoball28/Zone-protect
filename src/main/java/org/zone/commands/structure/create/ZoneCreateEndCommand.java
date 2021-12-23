@@ -108,12 +108,13 @@ public class ZoneCreateEndCommand implements ArgumentCommand {
         ZonePlugin.getZonesPlugin().getMemoryHolder().unregisterZoneBuilder(player.uniqueId());
         ChildRegion region = zone.getRegion();
         Collection<BoundedRegion> children = region.getTrueChildren();
-        children.forEach(boundedRegion -> {
-            PlayerListener.runOnOutside(boundedRegion,
-                                        player.location().blockY() + 3,
-                                        player::resetBlockChange,
-                                        zone.getParent().isPresent());
-        });
+        children.forEach(boundedRegion -> PlayerListener.runOnOutside(boundedRegion,
+                                                                      player.location().blockY() +
+                                                                              3,
+                                                                      player::resetBlockChange,
+                                                                      zone
+                                                                              .getParent()
+                                                                              .isPresent()));
 
         try {
             zone.save();

@@ -9,9 +9,12 @@ import org.zone.utils.component.parsers.colour.ComponentColourParser;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class ZoneComponentParser {
+public final class ZoneComponentParser {
 
-    public static final Set<ComponentPartParser> PARTS = new HashSet<>(Arrays.asList(new ComponentColourParser()));
+    public static final Set<ComponentPartParser> PARTS = new HashSet<>(List.of(new ComponentColourParser()));
+
+    private ZoneComponentParser() {
+    }
 
     public static @NotNull Collection<String> getSuggestion(@NotNull String peek) {
         Integer tagStart = null;

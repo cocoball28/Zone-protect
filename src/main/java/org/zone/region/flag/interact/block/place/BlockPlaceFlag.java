@@ -21,6 +21,7 @@ public class BlockPlaceFlag implements Flag.Enabled, Flag.GroupKeyed {
 
     public static final BlockPlaceFlag DEFAULT = new BlockPlaceFlag(false);
 
+    @SuppressWarnings("CopyConstructorMissesField")
     public BlockPlaceFlag(@SuppressWarnings("TypeMayBeWeakened") @NotNull BlockPlaceFlag flag) {
         this(flag.getEnabled().orElse(null));
     }
