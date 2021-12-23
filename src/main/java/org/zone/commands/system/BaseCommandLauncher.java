@@ -1,5 +1,6 @@
 package org.zone.commands.system;
 
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandCause;
 import org.spongepowered.api.command.CommandCompletion;
 import org.spongepowered.api.command.CommandResult;
@@ -8,17 +9,18 @@ import java.util.List;
 
 public interface BaseCommandLauncher {
 
-    String getName();
+    @NotNull String getName();
 
-    String getDescription();
+    @NotNull String getDescription();
 
-    boolean hasPermission(CommandCause context);
+    boolean hasPermission(@NotNull CommandCause context);
 
-    default String getUsage(CommandCause context) {
+    default @NotNull String getUsage(@NotNull CommandCause context) {
         return this.getName();
     }
 
-    CommandResult run(CommandCause context, String... args) throws NotEnoughArgumentsException;
+    @NotNull CommandResult run(@NotNull CommandCause context, @NotNull String... args) throws
+            NotEnoughArgumentsException;
 
-    List<CommandCompletion> tab(CommandCause source, String... args);
+    @NotNull List<CommandCompletion> tab(@NotNull CommandCause source, @NotNull String... args);
 }

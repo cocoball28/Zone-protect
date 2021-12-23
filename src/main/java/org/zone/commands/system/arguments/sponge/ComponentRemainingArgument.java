@@ -1,6 +1,7 @@
 package org.zone.commands.system.arguments.sponge;
 
 import net.kyori.adventure.text.Component;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandCompletion;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.CommandArgumentResult;
@@ -22,7 +23,7 @@ public class ComponentRemainingArgument implements CommandArgument<Component> {
     }
 
     @Override
-    public String getId() {
+    public @NotNull String getId() {
         return this.id;
     }
 

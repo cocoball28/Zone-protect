@@ -2,6 +2,7 @@ package org.zone.commands.structure.create;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandCause;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.entity.living.player.Player;
@@ -35,7 +36,7 @@ public class ZoneCreateStartCommand implements ArgumentCommand {
             "key"));
 
     @Override
-    public List<CommandArgument<?>> getArguments() {
+    public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("create"),
                              new ExactArgument("bounds"),
                              new ExactArgument("start"),
@@ -43,17 +44,17 @@ public class ZoneCreateStartCommand implements ArgumentCommand {
     }
 
     @Override
-    public Component getDescription() {
+    public @NotNull Component getDescription() {
         return Component.text("Create a zone via walking edge to edge");
     }
 
     @Override
-    public Optional<String> getPermissionNode() {
+    public @NotNull Optional<String> getPermissionNode() {
         return Optional.of(Permissions.REGION_CREATE_BOUNDS.getPermission());
     }
 
     @Override
-    public CommandResult run(CommandContext context, String... args) {
+    public @NotNull CommandResult run(CommandContext context, String... args) {
         Subject subject = context.getSource();
         if (!(subject instanceof ServerPlayer player)) {
             return CommandResult.error(Component.text("Player only command"));

@@ -7,7 +7,6 @@ import org.jetbrains.annotations.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.plugin.PluginContainer;
 import org.zone.ZonePlugin;
-import org.zone.region.Zone;
 import org.zone.region.flag.FlagType;
 
 import java.io.IOException;
@@ -42,7 +41,7 @@ public class GreetingsFlagType implements FlagType<GreetingsFlag> {
     @Override
     public void save(@NotNull ConfigurationNode node, @Nullable GreetingsFlag save) throws
             IOException {
-        if(save == null){
+        if (save == null) {
             node.set(null);
             return;
         }
@@ -55,12 +54,7 @@ public class GreetingsFlagType implements FlagType<GreetingsFlag> {
     }
 
     @Override
-    public boolean canApply(Zone zone) {
-        return true;
-    }
-
-    @Override
-    public Optional<GreetingsFlag> createCopyOfDefaultFlag() {
+    public @NotNull Optional<GreetingsFlag> createCopyOfDefaultFlag() {
         return Optional.empty();
     }
 }

@@ -1,5 +1,6 @@
 package org.zone.commands.system.arguments.simple;
 
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandCompletion;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.CommandArgumentResult;
@@ -18,7 +19,7 @@ public class StringArgument implements CommandArgument<String> {
     }
 
     @Override
-    public String getId() {
+    public @NotNull String getId() {
         return this.id;
     }
 
@@ -31,8 +32,8 @@ public class StringArgument implements CommandArgument<String> {
     }
 
     @Override
-    public Set<CommandCompletion> suggest(CommandContext commandContext,
-                                          CommandArgumentContext<String> argument) {
+    public Set<CommandCompletion> suggest(@NotNull CommandContext commandContext,
+                                          @NotNull CommandArgumentContext<String> argument) {
         return Collections.emptySet();
     }
 }

@@ -1,5 +1,6 @@
 package org.zone.commands.system.arguments.operation;
 
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandCompletion;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.CommandArgumentResult;
@@ -35,12 +36,12 @@ public class ExactArgument implements CommandArgument<String> {
     }
 
     @Override
-    public String getId() {
+    public @NotNull String getId() {
         return this.id;
     }
 
     @Override
-    public String getUsage() {
+    public @NotNull String getUsage() {
         return "<" +
                 Arrays
                         .stream(this.lookup)

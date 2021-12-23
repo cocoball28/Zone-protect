@@ -3,6 +3,7 @@ package org.zone.commands.system;
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandCause;
 import org.spongepowered.api.command.CommandCompletion;
 import org.spongepowered.api.command.CommandResult;
@@ -14,10 +15,10 @@ import java.util.stream.Collectors;
 
 public interface CommandLauncher extends BaseCommandLauncher {
 
-    Set<ArgumentCommand> getCommands();
+    @NotNull Set<ArgumentCommand> getCommands();
 
     @Override
-    default CommandResult run(CommandCause source, String... args) throws
+    default @NotNull CommandResult run(@NotNull CommandCause source, @NotNull String... args) throws
             NotEnoughArgumentsException {
         CommandContext commandContext = new CommandContext(source, this.getCommands(), args);
         Optional<ArgumentCommand> opCommand = commandContext.getCompleteCommand();
@@ -57,7 +58,8 @@ public interface CommandLauncher extends BaseCommandLauncher {
     }
 
     @Override
-    default List<CommandCompletion> tab(CommandCause source, String... args) {
+    default @NotNull List<CommandCompletion> tab(@NotNull CommandCause source,
+                                                 @NotNull String... args) {
         CommandContext commandContext = new CommandContext(source, this.getCommands(), args);
         Set<ArgumentCommand> commands = commandContext.getPotentialCommands();
         TreeSet<CommandCompletion> tab = new TreeSet<>(Comparator.comparing(CommandCompletion::completion));

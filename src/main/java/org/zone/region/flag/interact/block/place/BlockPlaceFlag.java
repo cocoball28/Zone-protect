@@ -46,7 +46,7 @@ public class BlockPlaceFlag implements Flag.Enabled, Flag.AffectsPlayer {
     }
 
     @Override
-    public Optional<Boolean> getEnabled() {
+    public @NotNull Optional<Boolean> getEnabled() {
         return Optional.ofNullable(this.enabled);
     }
 

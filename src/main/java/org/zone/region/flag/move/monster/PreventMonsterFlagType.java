@@ -1,10 +1,10 @@
 package org.zone.region.flag.move.monster;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.plugin.PluginContainer;
 import org.zone.ZonePlugin;
-import org.zone.region.Zone;
 import org.zone.region.flag.FlagType;
 
 import java.io.IOException;
@@ -43,8 +43,12 @@ public class PreventMonsterFlagType implements FlagType<PreventMonsterFlag> {
     }
 
     @Override
-    public void save(@NotNull ConfigurationNode node, @NotNull PreventMonsterFlag save) throws
+    public void save(@NotNull ConfigurationNode node, @Nullable PreventMonsterFlag save) throws
             IOException {
+        if (save == null) {
+            node.set(null);
+            return;
+        }
         if (save.getEnabled().isEmpty()) {
             node.set(null);
             return;
@@ -53,12 +57,7 @@ public class PreventMonsterFlagType implements FlagType<PreventMonsterFlag> {
     }
 
     @Override
-    public boolean canApply(Zone zone) {
-        return true;
-    }
-
-    @Override
-    public Optional<PreventMonsterFlag> createCopyOfDefaultFlag() {
+    public @NotNull Optional<PreventMonsterFlag> createCopyOfDefaultFlag() {
         return Optional.of(new PreventMonsterFlag(PreventMonsterFlag.DEFAULT
                                                           .getEnabled()
                                                           .orElse(null)));

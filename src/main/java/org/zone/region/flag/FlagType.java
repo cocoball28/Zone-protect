@@ -44,14 +44,16 @@ public interface FlagType<F extends Flag> extends Identifiable, Comparable<FlagT
      *
      * @return if the zone can accept the flag
      */
-    boolean canApply(Zone zone);
+    default boolean canApply(@NotNull Zone zone) {
+        return true;
+    }
 
     /**
      * Creates a copy of the defaults to this flag. This will be used if a flag cannot be found on a zone
      *
      * @return A copy of the defaults
      */
-    Optional<F> createCopyOfDefaultFlag();
+    @NotNull Optional<F> createCopyOfDefaultFlag();
 
     @Override
     default int compareTo(@NotNull FlagType<?> o) {

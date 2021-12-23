@@ -2,6 +2,7 @@ package org.zone.commands.system.context;
 
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandCause;
 import org.spongepowered.api.command.CommandCompletion;
 import org.spongepowered.api.service.permission.Subject;
@@ -15,18 +16,18 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class CommandContext {
-    private final String[] commands;
-    private final CommandCause cause;
-    private final Collection<ArgumentCommand> potentialCommands = new HashSet<>();
+    private final @NotNull String[] commands;
+    private final @NotNull CommandCause cause;
+    private final @NotNull Collection<ArgumentCommand> potentialCommands = new HashSet<>();
 
     /**
      * @param source   The command source who is running the command
      * @param commands The potential commands of the command context
      * @param command  The string arguments that the source wrote
      */
-    public CommandContext(CommandCause source,
-                          Collection<ArgumentCommand> commands,
-                          String... command) {
+    public CommandContext(@NotNull CommandCause source,
+                          @NotNull Collection<ArgumentCommand> commands,
+                          @NotNull String... command) {
         Collection<ArgumentCommand> duped = commands.parallelStream().filter(cmd -> {
             List<String> argIds = cmd
                     .getArguments()
@@ -53,7 +54,7 @@ public class CommandContext {
      *
      * @return A String array of the raw string arguments
      */
-    public String[] getCommand() {
+    public @NotNull String[] getCommand() {
         return this.commands;
     }
 
@@ -62,15 +63,15 @@ public class CommandContext {
      *
      * @return The command sender
      */
-    public Subject getSource() {
+    public @NotNull Subject getSource() {
         return this.cause.subject();
     }
 
-    public CommandCause getCause() {
+    public @NotNull CommandCause getCause() {
         return this.cause;
     }
 
-    public void sendMessage(Component component) {
+    public void sendMessage(@NotNull Component component) {
         this.cause.sendMessage(Identity.nil(), component);
     }
 
@@ -83,7 +84,7 @@ public class CommandContext {
      *
      * @return A list of suggestions for the current context and provided command
      */
-    public Collection<CommandCompletion> getSuggestions(ArgumentCommand command) {
+    public @NotNull Collection<CommandCompletion> getSuggestions(@NotNull ArgumentCommand command) {
         List<CommandArgument<?>> arguments = command.getArguments();
         int commandArgument = 0;
         Collection<OptionalArgument<?>> optionalArguments = new ArrayList<>();
@@ -133,7 +134,7 @@ public class CommandContext {
      * @throws IllegalArgumentException If the provided id argument is not part of the command
      * @throws IllegalStateException    Argument requested is asking for string requirements then what is provided
      */
-    public <T> T getArgument(ArgumentCommand command, CommandArgument<T> id) {
+    public <T> @NotNull T getArgument(@NotNull ArgumentCommand command, @NotNull CommandArgument<T> id) {
         return this.getArgument(command, id.getId());
     }
 
@@ -149,7 +150,7 @@ public class CommandContext {
      * @throws IllegalArgumentException If the provided id argument is not part of the command
      * @throws IllegalStateException    Argument requested is asking for string requirements then what is provided
      */
-    public <T> T getArgument(ArgumentCommand command, String id) {
+    public <T> @NotNull T getArgument(@NotNull ArgumentCommand command, @NotNull String id) {
         List<CommandArgument<?>> arguments = command.getArguments();
         if (arguments.stream().noneMatch(a -> a.getId().equals(id))) {
             throw new IllegalArgumentException("Argument ID (" + id + ") not found within command");
@@ -188,7 +189,7 @@ public class CommandContext {
      *
      * @return A set of all errors
      */
-    public Set<ErrorContext> getErrors() {
+    public @NotNull Set<ErrorContext> getErrors() {
         Collection<ErrorContext> map = new HashSet<>();
         for (ArgumentCommand command : this.potentialCommands) {
             List<CommandArgument<?>> arguments = command.getArguments();
@@ -245,7 +246,7 @@ public class CommandContext {
      *
      * @return A single argument command, if none can be found then {@link Optional#empty()} will be used
      */
-    public Optional<ArgumentCommand> getCompleteCommand() {
+    public @NotNull Optional<ArgumentCommand> getCompleteCommand() {
         return this.potentialCommands.stream().filter(command -> {
             List<CommandArgument<?>> arguments = command.getArguments();
             int commandArgument = 0;
@@ -273,7 +274,7 @@ public class CommandContext {
      *
      * @return A set of all the potential commands
      */
-    public Set<ArgumentCommand> getPotentialCommands() {
+    public @NotNull Set<ArgumentCommand> getPotentialCommands() {
         Map<ArgumentCommand, Integer> map = new HashMap<>();
         this.potentialCommands.forEach(c -> {
             List<CommandArgument<?>> arguments = c.getArguments();
@@ -315,8 +316,8 @@ public class CommandContext {
         return set;
     }
 
-    private <T> CommandArgumentResult<T> parse(ArgumentCommand launcher,
-                                               CommandArgument<T> arg,
+    private <T> @NotNull CommandArgumentResult<T> parse(@NotNull ArgumentCommand launcher,
+                                               @NotNull CommandArgument<T> arg,
                                                int commandArgument) throws IOException {
         CommandArgumentContext<T> argContext = new CommandArgumentContext<>(launcher,
                                                                             arg,

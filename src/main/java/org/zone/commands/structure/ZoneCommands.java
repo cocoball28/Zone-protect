@@ -21,6 +21,7 @@ import org.zone.commands.structure.region.flags.leaving.ZoneFlagLeavingSetMessag
 import org.zone.commands.structure.region.flags.leaving.ZoneFlagLeavingViewCommand;
 import org.zone.commands.structure.region.flags.members.ZoneFlagMemberGroupAddCommand;
 import org.zone.commands.structure.region.flags.members.ZoneFlagMemberGroupViewCommand;
+import org.zone.commands.structure.region.info.ZoneInfoCommand;
 import org.zone.commands.structure.region.info.bounds.ZoneInfoBoundsShowCommand;
 import org.zone.commands.system.ArgumentCommand;
 
@@ -57,6 +58,7 @@ public interface ZoneCommands {
     ZoneFlagLeavingRemoveCommand ZONE_FLAG_LEAVING_REMOVE_COMMAND = new ZoneFlagLeavingRemoveCommand();
     ZoneFlagLeavingSetMessageCommand ZONE_FLAG_LEAVING_SET_MESSAGE_COMMAND = new ZoneFlagLeavingSetMessageCommand();
     ZoneFlagLeavingViewCommand ZONE_FLAG_LEAVING_VIEW_COMMAND = new ZoneFlagLeavingViewCommand();
+    ZoneInfoCommand ZONE_INFO_COMMAND = new ZoneInfoCommand();
 
     static ZoneSpongeCommand createCommand() {
         Collection<ArgumentCommand> collection = Arrays

@@ -1,6 +1,7 @@
 package org.zone.commands.structure.region.info.bounds;
 
 import net.kyori.adventure.text.Component;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.command.CommandResult;
@@ -12,13 +13,11 @@ import org.zone.Permissions;
 import org.zone.ZonePlugin;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
-import org.zone.commands.system.NotEnoughArgumentsException;
 import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.event.listener.PlayerListener;
 import org.zone.region.Zone;
-import org.zone.region.group.key.GroupKeys;
 
 import java.util.Arrays;
 import java.util.List;
@@ -30,32 +29,29 @@ import java.util.concurrent.TimeUnit;
  */
 public class ZoneInfoBoundsShowCommand implements ArgumentCommand {
 
-    public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
-                                                             new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(
-                                                                     GroupKeys.OWNER));
+    public static final ZoneArgument ZONE = new ZoneArgument("zoneId");
 
     @Override
-    public List<CommandArgument<?>> getArguments() {
+    public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
                              new ExactArgument("info"),
+                             ZONE,
                              new ExactArgument("bounds"),
-                             new ExactArgument("show"),
-                             ZONE);
+                             new ExactArgument("show"));
     }
 
     @Override
-    public Component getDescription() {
+    public @NotNull Component getDescription() {
         return Component.text("Show the bounds of a specified region");
     }
 
     @Override
-    public Optional<String> getPermissionNode() {
+    public @NotNull Optional<String> getPermissionNode() {
         return Optional.of(Permissions.REGION_ADMIN_INFO.getPermission());
     }
 
     @Override
-    public CommandResult run(CommandContext context, String... args) throws
-            NotEnoughArgumentsException {
+    public @NotNull CommandResult run(CommandContext context, String... args) {
         Subject subject = context.getSource();
         if (!(subject instanceof Viewer viewer && subject instanceof Locatable locatable)) {
             return CommandResult.error(Component.text("Player only command"));

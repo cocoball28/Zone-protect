@@ -4,7 +4,10 @@ import org.junit.jupiter.api.Assertions;
 
 import java.util.Collection;
 
-public class CollectionAssert {
+public final class CollectionAssert {
+
+    private CollectionAssert() {
+    }
 
     public static <T> void collectionEquals(Collection<? extends T> expected, Collection<T> value) {
         if (expected.size() != value.size()) {
@@ -16,7 +19,10 @@ public class CollectionAssert {
         }
         for (T exp : expected) {
             if (!value.contains(exp)) {
-                Assertions.fail("Expected " + exp.toString() + " however failed to find it in: " + value.toString());
+                Assertions.fail("Expected " +
+                                        exp.toString() +
+                                        " however failed to find it in: " +
+                                        value);
             }
         }
     }

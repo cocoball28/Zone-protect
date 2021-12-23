@@ -1,6 +1,6 @@
 package org.zone.region.flag;
 
-import org.zone.region.flag.move.player.greetings.GreetingsFlagType;
+import org.jetbrains.annotations.NotNull;
 import org.zone.region.flag.interact.block.destroy.BlockBreakFlagType;
 import org.zone.region.flag.interact.block.place.BlockPlaceFlagType;
 import org.zone.region.flag.interact.door.DoorInteractionFlagType;
@@ -8,6 +8,7 @@ import org.zone.region.flag.meta.eco.EcoFlagType;
 import org.zone.region.flag.meta.edit.EditingFlagType;
 import org.zone.region.flag.meta.member.MembersFlagType;
 import org.zone.region.flag.move.monster.PreventMonsterFlagType;
+import org.zone.region.flag.move.player.greetings.GreetingsFlagType;
 import org.zone.region.flag.move.player.leaving.LeavingFlagType;
 
 import java.util.Arrays;
@@ -34,7 +35,7 @@ public final class FlagTypes {
         throw new RuntimeException("Should not init");
     }
 
-    public static Collection<FlagType<?>> getVanillaFlags() {
+    public static @NotNull Collection<FlagType<?>> getVanillaFlags() {
         return Arrays
                 .stream(FlagTypes.class.getDeclaredFields())
                 .parallel()

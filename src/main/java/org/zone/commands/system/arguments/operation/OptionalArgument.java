@@ -1,5 +1,6 @@
 package org.zone.commands.system.arguments.operation;
 
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandCompletion;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.CommandArgumentResult;
@@ -24,8 +25,8 @@ public class OptionalArgument<T> implements CommandArgument<T> {
         }
 
         @Override
-        public CommandArgumentResult<T> parse(CommandContext context,
-                                              CommandArgumentContext<T> argument) {
+        public CommandArgumentResult<T> parse(@NotNull CommandContext context,
+                                              @NotNull CommandArgumentContext<T> argument) {
             return CommandArgumentResult.from(argument, 0, this.value);
         }
     }
@@ -44,12 +45,12 @@ public class OptionalArgument<T> implements CommandArgument<T> {
     }
 
     @Override
-    public String getId() {
+    public @NotNull String getId() {
         return this.arg.getId();
     }
 
     @Override
-    public String getUsage() {
+    public @NotNull String getUsage() {
         String original = this.getOriginalArgument().getUsage();
         return "[" + original.substring(1, original.length() - 1) + "]";
     }
@@ -72,8 +73,8 @@ public class OptionalArgument<T> implements CommandArgument<T> {
     }
 
     @Override
-    public Collection<CommandCompletion> suggest(CommandContext commandContext,
-                                                 CommandArgumentContext<T> argument) {
+    public Collection<CommandCompletion> suggest(@NotNull CommandContext commandContext,
+                                                 @NotNull CommandArgumentContext<T> argument) {
         return this.arg.suggest(commandContext, argument);
     }
 }

@@ -6,7 +6,6 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.plugin.PluginContainer;
 import org.zone.ZonePlugin;
-import org.zone.region.Zone;
 import org.zone.region.flag.FlagType;
 import org.zone.region.group.DefaultGroups;
 import org.zone.region.group.Group;
@@ -172,12 +171,7 @@ public class MembersFlagType implements FlagType<MembersFlag> {
     }
 
     @Override
-    public boolean canApply(Zone zone) {
-        return true;
-    }
-
-    @Override
-    public Optional<MembersFlag> createCopyOfDefaultFlag() {
+    public @NotNull Optional<MembersFlag> createCopyOfDefaultFlag() {
         return Optional.of(new MembersFlag(MembersFlag.DEFAULT));
     }
 }
