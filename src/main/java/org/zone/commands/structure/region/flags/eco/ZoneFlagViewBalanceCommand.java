@@ -2,6 +2,7 @@ package org.zone.commands.structure.region.flags.eco;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandCause;
 import org.spongepowered.api.command.CommandResult;
@@ -10,7 +11,6 @@ import org.spongepowered.api.service.economy.EconomyService;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.CommandArgumentResult;
-import org.zone.commands.system.NotEnoughArgumentsException;
 import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.sponge.CurrencyArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
@@ -54,7 +54,7 @@ public class ZoneFlagViewBalanceCommand implements ArgumentCommand {
                                                                          });
 
     @Override
-    public List<CommandArgument<?>> getArguments() {
+    public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
                              new ExactArgument("flag"),
                              ZONE,
@@ -64,18 +64,17 @@ public class ZoneFlagViewBalanceCommand implements ArgumentCommand {
     }
 
     @Override
-    public Component getDescription() {
+    public @NotNull Component getDescription() {
         return Component.text("View the balance for the zone");
     }
 
     @Override
-    public Optional<String> getPermissionNode() {
+    public @NotNull Optional<String> getPermissionNode() {
         return Optional.empty();
     }
 
     @Override
-    public CommandResult run(CommandContext commandContext, String... args) throws
-            NotEnoughArgumentsException {
+    public @NotNull CommandResult run(CommandContext commandContext, String... args) {
         Zone zone = commandContext.getArgument(this, ZONE);
         Currency currency = commandContext.getArgument(this, CURRENCY);
         BigDecimal decimal = zone.getEconomy().getMoney(currency);
@@ -93,7 +92,7 @@ public class ZoneFlagViewBalanceCommand implements ArgumentCommand {
     }
 
     @Override
-    public boolean hasPermission(CommandCause source) {
+    public boolean hasPermission(@NotNull CommandCause source) {
         if (Sponge.serviceProvider().provide(EconomyService.class).isEmpty()) {
             return false;
         }

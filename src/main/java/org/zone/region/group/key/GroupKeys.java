@@ -16,7 +16,7 @@ public enum GroupKeys implements GroupKey {
     private final String name;
     private final String key;
 
-    private GroupKeys(String key, String name) {
+    GroupKeys(String key, String name) {
         this.name = name;
         this.key = key;
     }

@@ -3,12 +3,10 @@ package org.zone.commands.structure.region.flags.interact.destroy;
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.configurate.ConfigurateException;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
-import org.zone.commands.system.NotEnoughArgumentsException;
 import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.simple.BooleanArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
@@ -16,7 +14,6 @@ import org.zone.commands.system.context.CommandContext;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.interact.block.destroy.BlockBreakFlag;
-import org.zone.region.group.key.GroupKeys;
 
 import java.util.Arrays;
 import java.util.List;
@@ -28,12 +25,10 @@ import java.util.Optional;
 public class ZoneFlagBlockBreakSetEnabledCommand implements ArgumentCommand {
 
     public static final BooleanArgument VALUE = new BooleanArgument("enabledValue");
-    public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
-                                                             new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(
-                                                                     GroupKeys.OWNER));
+    public static final ZoneArgument ZONE = new ZoneArgument("zoneId");
 
     @Override
-    public List<CommandArgument<?>> getArguments() {
+    public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
                              new ExactArgument("flag"),
                              ZONE,
@@ -46,39 +41,22 @@ public class ZoneFlagBlockBreakSetEnabledCommand implements ArgumentCommand {
     }
 
     @Override
-    public Component getDescription() {
+    public @NotNull Component getDescription() {
         return Component.text("Sets if the prevention to break blocks is enabled");
     }
 
     @Override
-    public Optional<String> getPermissionNode() {
+    public @NotNull Optional<String> getPermissionNode() {
         return Optional.empty();
     }
 
     @Override
-    public CommandResult run(CommandContext commandContext, String... args) throws
-            NotEnoughArgumentsException {
+    public @NotNull CommandResult run(CommandContext commandContext, String... args) {
         Zone zone = commandContext.getArgument(this, ZONE);
         @NotNull BlockBreakFlag flag = zone
                 .getFlag(FlagTypes.BLOCK_BREAK)
                 .orElseGet(() -> new BlockBreakFlag(BlockBreakFlag.ELSE));
-        @Nullable Boolean value = commandContext.getArgument(this, VALUE);
-        if (value == null) {
-            zone.removeFlag(FlagTypes.BLOCK_BREAK);
-            try {
-                zone.save();
-                commandContext
-                        .getCause()
-                        .sendMessage(Identity.nil(),
-                                     Component.text("Removed flag. Using default " +
-                                                            "or parent " +
-                                                            "flag value"));
-            } catch (ConfigurateException e) {
-                e.printStackTrace();
-                return CommandResult.error(Component.text("Unable to save"));
-            }
-            return CommandResult.success();
-        }
+        boolean value = commandContext.getArgument(this, VALUE);
         flag.setEnabled(value);
         zone.setFlag(flag);
         try {

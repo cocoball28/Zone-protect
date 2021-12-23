@@ -5,7 +5,6 @@ import org.jetbrains.annotations.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.plugin.PluginContainer;
 import org.zone.ZonePlugin;
-import org.zone.region.Zone;
 import org.zone.region.flag.FlagType;
 
 import java.io.IOException;
@@ -40,18 +39,12 @@ public class EditingFlagType implements FlagType<EditingFlag> {
     }
 
     @Override
-    public void save(@NotNull ConfigurationNode node, @Nullable EditingFlag save) throws
-            IOException {
+    public void save(@NotNull ConfigurationNode node, @Nullable EditingFlag save) {
 
     }
 
     @Override
-    public boolean canApply(Zone zone) {
-        return true;
-    }
-
-    @Override
-    public Optional<EditingFlag> createCopyOfDefaultFlag() {
+    public @NotNull Optional<EditingFlag> createCopyOfDefaultFlag() {
         return Optional.empty();
     }
 }

@@ -1,5 +1,6 @@
 package org.zone.commands.system.arguments.simple;
 
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandCompletion;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.CommandArgumentResult;
@@ -27,7 +28,7 @@ public class BooleanArgument implements CommandArgument<Boolean> {
     }
 
     @Override
-    public String getId() {
+    public @NotNull String getId() {
         return this.id;
     }
 

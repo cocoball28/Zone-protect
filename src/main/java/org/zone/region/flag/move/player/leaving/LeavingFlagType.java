@@ -7,7 +7,6 @@ import org.jetbrains.annotations.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.plugin.PluginContainer;
 import org.zone.ZonePlugin;
-import org.zone.region.Zone;
 import org.zone.region.flag.FlagType;
 
 import java.io.IOException;
@@ -55,12 +54,7 @@ public class LeavingFlagType implements FlagType<LeavingFlag> {
     }
 
     @Override
-    public boolean canApply(Zone zone) {
-        return true;
-    }
-
-    @Override
-    public Optional<LeavingFlag> createCopyOfDefaultFlag() {
+    public @NotNull Optional<LeavingFlag> createCopyOfDefaultFlag() {
         return Optional.empty();
     }
 }

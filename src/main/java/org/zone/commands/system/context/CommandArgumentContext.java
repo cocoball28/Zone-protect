@@ -1,34 +1,36 @@
 package org.zone.commands.system.context;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 
 public class CommandArgumentContext<T> {
 
-    private final CommandArgument<T> argument;
-    private final ArgumentCommand commandRunner;
+    private final @Nullable CommandArgument<T> argument;
+    private final @NotNull ArgumentCommand commandRunner;
     private int firstArgument;
-    private String[] command;
+    private @NotNull String[] command;
 
-    public CommandArgumentContext(ArgumentCommand runner,
-                                  CommandArgument<T> argument,
+    public CommandArgumentContext(@NotNull ArgumentCommand runner,
+                                  @Nullable CommandArgument<T> argument,
                                   int firstArgument,
-                                  String... command) {
+                                  @NotNull String... command) {
         this.argument = argument;
         this.firstArgument = firstArgument;
         this.command = command;
         this.commandRunner = runner;
     }
 
-    public ArgumentCommand getArgumentCommand() {
+    public @NotNull ArgumentCommand getArgumentCommand() {
         return this.commandRunner;
     }
 
-    public CommandArgument<T> getArgument() {
+    public @Nullable CommandArgument<T> getArgument() {
         return this.argument;
     }
 
-    public String[] getRemainingArguments() {
+    public @NotNull String[] getRemainingArguments() {
         int last = this.command.length;
         if (this.firstArgument >= last) {
             throw new IndexOutOfBoundsException("min (" +
@@ -42,7 +44,7 @@ public class CommandArgumentContext<T> {
         return arr;
     }
 
-    public String getFocusArgument() {
+    public @NotNull String getFocusArgument() {
         return this.command[this.firstArgument];
     }
 
@@ -50,7 +52,7 @@ public class CommandArgumentContext<T> {
         return this.firstArgument;
     }
 
-    public void setCommand(String... args) {
+    public void setCommand(@NotNull String... args) {
         this.command = args;
     }
 

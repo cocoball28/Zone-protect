@@ -1,5 +1,6 @@
 package org.zone.memory;
 
+import org.jetbrains.annotations.NotNull;
 import org.zone.region.ZoneBuilder;
 
 import java.util.HashMap;
@@ -21,7 +22,7 @@ public class MemoryHolder {
      *
      * @return A Optional of the ZoneBuilder
      */
-    public Optional<ZoneBuilder> getZoneBuilder(UUID uuid) {
+    public Optional<ZoneBuilder> getZoneBuilder(@NotNull UUID uuid) {
         return this.zoneBuilders
                 .entrySet()
                 .parallelStream()
@@ -36,7 +37,7 @@ public class MemoryHolder {
      * @param uuid    The players UUID
      * @param builder the builder to register
      */
-    public void registerZoneBuilder(UUID uuid, ZoneBuilder builder) {
+    public void registerZoneBuilder(@NotNull UUID uuid, @NotNull ZoneBuilder builder) {
         if (this.zoneBuilders.containsKey(uuid)) {
             this.zoneBuilders.replace(uuid, builder);
             return;
@@ -49,7 +50,7 @@ public class MemoryHolder {
      *
      * @param uuid The players UUID
      */
-    public void unregisterZoneBuilder(UUID uuid) {
+    public void unregisterZoneBuilder(@NotNull UUID uuid) {
         this.zoneBuilders.remove(uuid);
     }
 

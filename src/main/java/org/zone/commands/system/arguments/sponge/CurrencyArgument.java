@@ -20,23 +20,23 @@ import java.util.stream.Collectors;
 
 public class CurrencyArgument implements CommandArgument<Currency> {
 
-    private final String id;
-    private final ParseCommandArgument<? extends Collection<Currency>> currencies;
+    private final @NotNull String id;
+    private final @NotNull ParseCommandArgument<? extends Collection<Currency>> currencies;
 
     public CurrencyArgument(@NotNull String id,
-                            ParseCommandArgument<? extends Collection<Currency>> account) {
+                            @NotNull ParseCommandArgument<? extends Collection<Currency>> account) {
         this.id = id;
         this.currencies = account;
     }
 
     @Override
-    public String getId() {
+    public @NotNull String getId() {
         return this.id;
     }
 
     @Override
-    public CommandArgumentResult<Currency> parse(CommandContext context,
-                                                 CommandArgumentContext<Currency> argument) throws
+    public CommandArgumentResult<Currency> parse(@NotNull CommandContext context,
+                                                 @NotNull CommandArgumentContext<Currency> argument) throws
             IOException {
         Collection<Currency> currencies = this.currencies
                 .parse(context,
@@ -45,9 +45,6 @@ public class CurrencyArgument implements CommandArgument<Currency> {
                                                     argument.getFirstArgument(),
                                                     context.getCommand()))
                 .value();
-        if (currencies == null) {
-            currencies = new HashSet<>();
-        }
 
         Optional<EconomyService> opService = Sponge.serviceProvider().provide(EconomyService.class);
         if (opService.isPresent()) {
@@ -72,7 +69,7 @@ public class CurrencyArgument implements CommandArgument<Currency> {
     }
 
     @Override
-    public Collection<CommandCompletion> suggest(CommandContext commandContext,
+    public Collection<CommandCompletion> suggest(@NotNull CommandContext commandContext,
                                                  CommandArgumentContext<Currency> argument) {
         Collection<Currency> currencies;
         try {
@@ -84,9 +81,6 @@ public class CurrencyArgument implements CommandArgument<Currency> {
                                                         commandContext.getCommand()))
                     .value();
         } catch (IOException e) {
-            currencies = new HashSet<>();
-        }
-        if (currencies == null) {
             currencies = new HashSet<>();
         }
 

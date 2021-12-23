@@ -40,13 +40,13 @@ public class AccountCurrencyArgument implements CommandArgument<Currency> {
     }
 
     @Override
-    public String getId() {
+    public @NotNull String getId() {
         return this.id;
     }
 
     @Override
-    public CommandArgumentResult<Currency> parse(CommandContext context,
-                                                 CommandArgumentContext<Currency> argument) throws
+    public CommandArgumentResult<Currency> parse(@NotNull CommandContext context,
+                                                 @NotNull CommandArgumentContext<Currency> argument) throws
             IOException {
         Optional<EconomyService> opService = Sponge.serviceProvider().provide(EconomyService.class);
         if (opService.isEmpty()) {
@@ -84,8 +84,8 @@ public class AccountCurrencyArgument implements CommandArgument<Currency> {
     }
 
     @Override
-    public Collection<CommandCompletion> suggest(CommandContext commandContext,
-                                                 CommandArgumentContext<Currency> argument) {
+    public Collection<CommandCompletion> suggest(@NotNull CommandContext commandContext,
+                                                 @NotNull CommandArgumentContext<Currency> argument) {
         Optional<EconomyService> opService = Sponge.serviceProvider().provide(EconomyService.class);
         if (opService.isEmpty()) {
             return Collections.emptyList();

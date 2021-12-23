@@ -3,6 +3,7 @@ package org.zone.commands.structure;
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.Command;
 import org.spongepowered.api.command.CommandCause;
 import org.spongepowered.api.command.CommandCompletion;
@@ -38,7 +39,7 @@ public class ZoneSpongeCommand implements Command.Raw {
      *
      * @param commands The possible commands for this command
      */
-    public ZoneSpongeCommand(ArgumentCommand... commands) {
+    public ZoneSpongeCommand(@NotNull ArgumentCommand... commands) {
         this(Arrays.asList(commands));
     }
 
@@ -47,7 +48,7 @@ public class ZoneSpongeCommand implements Command.Raw {
      *
      * @param commands The possible commands for this command
      */
-    public ZoneSpongeCommand(Collection<? extends ArgumentCommand> commands) {
+    public ZoneSpongeCommand(@NotNull Collection<? extends ArgumentCommand> commands) {
         this.commands.addAll(commands);
     }
 
@@ -58,7 +59,7 @@ public class ZoneSpongeCommand implements Command.Raw {
      *
      * @return if the command was added
      */
-    public boolean add(ArgumentCommand command) {
+    public boolean add(@NotNull ArgumentCommand command) {
         return this.commands.add(command);
     }
 
@@ -69,12 +70,13 @@ public class ZoneSpongeCommand implements Command.Raw {
      *
      * @return if the command was removed
      */
-    public boolean remove(ArgumentCommand command) {
+    public boolean remove(@NotNull ArgumentCommand command) {
         return this.commands.remove(command);
     }
 
     @Override
-    public CommandResult process(CommandCause cause, ArgumentReader.Mutable arguments) throws
+    public CommandResult process(@NotNull CommandCause cause,
+                                 @NotNull ArgumentReader.Mutable arguments) throws
             CommandException {
         String input = arguments.input();
         String[] args = input.split(" ");
@@ -129,9 +131,8 @@ public class ZoneSpongeCommand implements Command.Raw {
     }
 
     @Override
-    public List<CommandCompletion> complete(CommandCause cause,
-                                            ArgumentReader.Mutable arguments) throws
-            CommandException {
+    public List<CommandCompletion> complete(@NotNull CommandCause cause,
+                                            @NotNull ArgumentReader.Mutable arguments) {
         String input = arguments.input();
         String[] args = input.split(" ");
         if (input.endsWith(" ")) {
@@ -156,22 +157,22 @@ public class ZoneSpongeCommand implements Command.Raw {
     }
 
     @Override
-    public boolean canExecute(CommandCause cause) {
+    public boolean canExecute(@NotNull CommandCause cause) {
         return this.commands.stream().anyMatch(command -> command.hasPermission(cause));
     }
 
     @Override
-    public Optional<Component> shortDescription(CommandCause cause) {
+    public @NotNull Optional<Component> shortDescription(@NotNull CommandCause cause) {
         return Optional.of(Component.text("All Zone commands"));
     }
 
     @Override
-    public Optional<Component> extendedDescription(CommandCause cause) {
+    public @NotNull Optional<Component> extendedDescription(@NotNull CommandCause cause) {
         return Optional.of(Component.text("All commands for the plugin Zones"));
     }
 
     @Override
-    public Component usage(CommandCause cause) {
+    public @NotNull Component usage(@NotNull CommandCause cause) {
         return Component.text("/Zone <Arg>");
     }
 }

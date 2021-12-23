@@ -3,12 +3,10 @@ package org.zone.commands.structure.region.flags.interact.door;
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.configurate.ConfigurateException;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
-import org.zone.commands.system.NotEnoughArgumentsException;
 import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.operation.OptionalArgument;
 import org.zone.commands.system.arguments.simple.BooleanArgument;
@@ -35,7 +33,7 @@ public class ZoneFlagInteractDoorEnabledCommand implements ArgumentCommand {
             "enabledValue"), (Boolean) null);
 
     @Override
-    public List<CommandArgument<?>> getArguments() {
+    public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
                              new ExactArgument("flag"),
                              ZONE,
@@ -47,39 +45,22 @@ public class ZoneFlagInteractDoorEnabledCommand implements ArgumentCommand {
     }
 
     @Override
-    public Component getDescription() {
+    public @NotNull Component getDescription() {
         return Component.text("sets if interaction with door should be enabled");
     }
 
     @Override
-    public Optional<String> getPermissionNode() {
+    public @NotNull Optional<String> getPermissionNode() {
         return Optional.empty();
     }
 
     @Override
-    public CommandResult run(CommandContext commandContext, String... args) throws
-            NotEnoughArgumentsException {
+    public @NotNull CommandResult run(CommandContext commandContext, String... args) {
         Zone zone = commandContext.getArgument(this, ZONE);
         @NotNull DoorInteractionFlag flag = zone
                 .getFlag(FlagTypes.DOOR_INTERACTION)
                 .orElseGet(() -> new DoorInteractionFlag(DoorInteractionFlag.ELSE));
-        @Nullable Boolean value = commandContext.getArgument(this, VALUE);
-        if (value == null) {
-            zone.removeFlag(FlagTypes.DOOR_INTERACTION);
-            try {
-                zone.save();
-                commandContext
-                        .getCause()
-                        .sendMessage(Identity.nil(),
-                                     Component.text("Removed flag. Using default " +
-                                                            "or parent " +
-                                                            "flag value"));
-            } catch (ConfigurateException e) {
-                e.printStackTrace();
-                return CommandResult.error(Component.text("Unable to save"));
-            }
-            return CommandResult.success();
-        }
+        boolean value = commandContext.getArgument(this, VALUE);
         flag.setEnabled(value);
         zone.setFlag(flag);
         try {

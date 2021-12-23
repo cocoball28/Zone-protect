@@ -7,7 +7,6 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.configurate.ConfigurateException;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
-import org.zone.commands.system.NotEnoughArgumentsException;
 import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.arguments.zone.ZoneGroupArgument;
@@ -34,7 +33,7 @@ public class ZoneFlagInteractDoorGroupCommand implements ArgumentCommand {
     public static final ZoneGroupArgument GROUP = new ZoneGroupArgument("groupId", ZONE);
 
     @Override
-    public List<CommandArgument<?>> getArguments() {
+    public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
                              new ExactArgument("flag"),
                              ZONE,
@@ -45,18 +44,17 @@ public class ZoneFlagInteractDoorGroupCommand implements ArgumentCommand {
     }
 
     @Override
-    public Component getDescription() {
+    public @NotNull Component getDescription() {
         return Component.text("Sets the minimum group that can interact with doors");
     }
 
     @Override
-    public Optional<String> getPermissionNode() {
+    public @NotNull Optional<String> getPermissionNode() {
         return Optional.empty();
     }
 
     @Override
-    public CommandResult run(CommandContext commandContext, String... args) throws
-            NotEnoughArgumentsException {
+    public @NotNull CommandResult run(CommandContext commandContext, String... args) {
         Zone zone = commandContext.getArgument(this, ZONE);
         @NotNull DoorInteractionFlag flag = zone
                 .getFlag(FlagTypes.DOOR_INTERACTION)

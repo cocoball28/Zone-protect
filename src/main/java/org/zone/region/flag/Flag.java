@@ -39,7 +39,7 @@ public interface Flag {
          *
          * @return If the flag has been enabled, {@link Optional#empty()} if default value should be used
          */
-        Optional<Boolean> getEnabled();
+        @NotNull Optional<Boolean> getEnabled();
 
         /**
          * Gets if the flag has been enabled
@@ -119,7 +119,7 @@ public interface Flag {
      *
      * @throws IOException if there is a issue saving
      */
-    default <T extends Flag> void save(ConfigurationNode node) throws IOException {
+    default <T extends Flag> void save(@NotNull ConfigurationNode node) throws IOException {
         ((FlagType<T>) this.getType()).save(node, (T) this);
     }
 
@@ -130,7 +130,7 @@ public interface Flag {
      *
      * @return The attached zone, if {@link Optional#empty()} then no active zone has this flag
      */
-    default Optional<Zone> findAttachedZone() {
+    default @NotNull Optional<Zone> findAttachedZone() {
         return ZonePlugin
                 .getZonesPlugin()
                 .getZoneManager()

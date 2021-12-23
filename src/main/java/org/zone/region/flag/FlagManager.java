@@ -19,6 +19,7 @@ public class FlagManager {
     private final DefaultFlagFile defaultFlags = new DefaultFlagFile();
 
     public FlagManager() {
+        //noinspection vanilla-only-flag-types
         this.flags.addAll(FlagTypes.getVanillaFlags());
     }
 

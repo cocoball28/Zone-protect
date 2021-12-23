@@ -1,11 +1,11 @@
 package org.zone.commands.structure.region.flags.leaving;
 
 import net.kyori.adventure.text.Component;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.configurate.ConfigurateException;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
-import org.zone.commands.system.NotEnoughArgumentsException;
 import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.sponge.ComponentRemainingArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
@@ -26,7 +26,7 @@ public class ZoneFlagLeavingSetMessageCommand implements ArgumentCommand {
             "message_value");
 
     @Override
-    public List<CommandArgument<?>> getArguments() {
+    public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
                              new ExactArgument("flag"),
                              ZONE,
@@ -37,18 +37,17 @@ public class ZoneFlagLeavingSetMessageCommand implements ArgumentCommand {
     }
 
     @Override
-    public Component getDescription() {
+    public @NotNull Component getDescription() {
         return Component.text("Sets the message of the leaving message");
     }
 
     @Override
-    public Optional<String> getPermissionNode() {
+    public @NotNull Optional<String> getPermissionNode() {
         return Optional.empty();
     }
 
     @Override
-    public CommandResult run(CommandContext commandContext, String... args) throws
-            NotEnoughArgumentsException {
+    public @NotNull CommandResult run(CommandContext commandContext, String... args) {
         Zone zone = commandContext.getArgument(this, ZONE);
         Component message = commandContext.getArgument(this, MESSAGE);
 

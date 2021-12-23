@@ -3,6 +3,7 @@ package org.zone.commands.structure.region.flags.members;
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.entity.living.player.User;
@@ -11,7 +12,6 @@ import org.zone.Permissions;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.CommandArgumentResult;
-import org.zone.commands.system.NotEnoughArgumentsException;
 import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.operation.OptionalArgument;
 import org.zone.commands.system.arguments.simple.number.IntegerArgument;
@@ -42,7 +42,7 @@ public class ZoneFlagMemberGroupViewCommand implements ArgumentCommand {
     public static final ZoneGroupArgument GROUP = new ZoneGroupArgument("groupId", ZONE);
 
     @Override
-    public List<CommandArgument<?>> getArguments() {
+    public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
                              new ExactArgument("members"),
                              ZONE,
@@ -52,18 +52,17 @@ public class ZoneFlagMemberGroupViewCommand implements ArgumentCommand {
     }
 
     @Override
-    public Component getDescription() {
+    public @NotNull Component getDescription() {
         return Component.text("View the members in a zone by group");
     }
 
     @Override
-    public Optional<String> getPermissionNode() {
+    public @NotNull Optional<String> getPermissionNode() {
         return Optional.of(Permissions.REGION_ADMIN_INFO.getPermission());
     }
 
     @Override
-    public CommandResult run(CommandContext commandContext, String... args) throws
-            NotEnoughArgumentsException {
+    public @NotNull CommandResult run(CommandContext commandContext, String... args) {
         Zone zone = commandContext.getArgument(this, ZONE);
         Group group = commandContext.getArgument(this, GROUP);
         int page = commandContext.getArgument(this, this.PAGE);

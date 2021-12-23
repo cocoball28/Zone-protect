@@ -86,7 +86,7 @@ public class EcoFlagType implements FlagType<EcoFlag> {
     }
 
     @Override
-    public Optional<EcoFlag> createCopyOfDefaultFlag() {
+    public @NotNull Optional<EcoFlag> createCopyOfDefaultFlag() {
         return Optional.of(new EcoFlag());
     }
 }

@@ -5,7 +5,6 @@ import org.jetbrains.annotations.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.plugin.PluginContainer;
 import org.zone.ZonePlugin;
-import org.zone.region.Zone;
 import org.zone.region.flag.FlagType;
 import org.zone.region.flag.FlagTypes;
 
@@ -59,12 +58,7 @@ public class DoorInteractionFlagType implements FlagType<DoorInteractionFlag> {
     }
 
     @Override
-    public boolean canApply(Zone zone) {
-        return true;
-    }
-
-    @Override
-    public Optional<DoorInteractionFlag> createCopyOfDefaultFlag() {
+    public @NotNull Optional<DoorInteractionFlag> createCopyOfDefaultFlag() {
         return Optional.empty();
     }
 

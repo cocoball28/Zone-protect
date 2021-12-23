@@ -3,12 +3,10 @@ package org.zone.commands.structure.region.flags.interact.place;
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.configurate.ConfigurateException;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
-import org.zone.commands.system.NotEnoughArgumentsException;
 import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.simple.BooleanArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
@@ -30,7 +28,7 @@ public class ZoneFlagBlockPlaceSetEnabledCommand implements ArgumentCommand {
     public static final ZoneArgument ZONE = new ZoneArgument("zoneId");
 
     @Override
-    public List<CommandArgument<?>> getArguments() {
+    public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
                              new ExactArgument("flag"),
                              ZONE,
@@ -43,39 +41,22 @@ public class ZoneFlagBlockPlaceSetEnabledCommand implements ArgumentCommand {
     }
 
     @Override
-    public Component getDescription() {
+    public @NotNull Component getDescription() {
         return Component.text("Sets if the prevention to break blocks is enabled");
     }
 
     @Override
-    public Optional<String> getPermissionNode() {
+    public @NotNull Optional<String> getPermissionNode() {
         return Optional.empty();
     }
 
     @Override
-    public CommandResult run(CommandContext commandContext, String... args) throws
-            NotEnoughArgumentsException {
+    public @NotNull CommandResult run(CommandContext commandContext, String... args) {
         Zone zone = commandContext.getArgument(this, ZONE);
         @NotNull BlockPlaceFlag flag = zone
                 .getFlag(FlagTypes.BLOCK_PLACE)
                 .orElseGet(() -> new BlockPlaceFlag(BlockPlaceFlag.DEFAULT));
-        @Nullable Boolean value = commandContext.getArgument(this, VALUE);
-        if (value == null) {
-            zone.removeFlag(FlagTypes.BLOCK_PLACE);
-            try {
-                zone.save();
-                commandContext
-                        .getCause()
-                        .sendMessage(Identity.nil(),
-                                     Component.text("Removed flag. Using default " +
-                                                            "or parent " +
-                                                            "flag value"));
-            } catch (ConfigurateException e) {
-                e.printStackTrace();
-                return CommandResult.error(Component.text("Unable to save"));
-            }
-            return CommandResult.success();
-        }
+        boolean value = commandContext.getArgument(this, VALUE);
         flag.setEnabled(value);
         zone.addFlag(flag);
         try {

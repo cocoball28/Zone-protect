@@ -2,6 +2,7 @@ package org.zone.commands.structure.create;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.entity.living.player.server.ServerPlayer;
 import org.spongepowered.api.service.permission.Subject;
@@ -9,7 +10,6 @@ import org.zone.Permissions;
 import org.zone.ZonePlugin;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
-import org.zone.commands.system.NotEnoughArgumentsException;
 import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.operation.RemainingArgument;
 import org.zone.commands.system.arguments.simple.StringArgument;
@@ -41,7 +41,7 @@ public class ZoneCreateSubStartCommand implements ArgumentCommand {
             "name"));
 
     @Override
-    public List<CommandArgument<?>> getArguments() {
+    public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("create"),
                              new ExactArgument("sub"),
                              new ExactArgument("region"),
@@ -50,18 +50,17 @@ public class ZoneCreateSubStartCommand implements ArgumentCommand {
     }
 
     @Override
-    public Component getDescription() {
+    public @NotNull Component getDescription() {
         return Component.text("Creates a sub region by walking end to end");
     }
 
     @Override
-    public Optional<String> getPermissionNode() {
+    public @NotNull Optional<String> getPermissionNode() {
         return Optional.of(Permissions.REGION_CREATE_BOUNDS.getPermission());
     }
 
     @Override
-    public CommandResult run(CommandContext context, String... args) throws
-            NotEnoughArgumentsException {
+    public @NotNull CommandResult run(CommandContext context, String... args) {
         Subject subject = context.getSource();
         if (!(subject instanceof ServerPlayer player)) {
             return CommandResult.error(Component.text("Player only command"));
