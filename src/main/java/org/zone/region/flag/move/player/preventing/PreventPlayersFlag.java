@@ -1,9 +1,10 @@
-package org.zone.region.flag.move.player;
+package org.zone.region.flag.move.player.preventing;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.zone.region.flag.Flag;
 import org.zone.region.flag.FlagType;
+import org.zone.region.flag.FlagTypes;
 import org.zone.region.group.key.GroupKey;
 import org.zone.region.group.key.GroupKeys;
 
@@ -48,7 +49,7 @@ public class PreventPlayersFlag implements Flag.Enabled, Flag.GroupKeyed {
 
     @Override
     public @NotNull FlagType<?> getType() {
-        return null;
+        return FlagTypes.PREVENT_PLAYERS;
     }
 
 }

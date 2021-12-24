@@ -1,4 +1,4 @@
-package org.zone.region.flag.move.player;
+package org.zone.region.flag.move.player.preventing;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
