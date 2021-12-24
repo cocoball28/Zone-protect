@@ -23,7 +23,7 @@ public class ZoneFlagPreventionPlayerEnabledCommand implements ArgumentCommand {
     public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zone_value", new ZoneArgument.ZoneArgumentPropertiesBuilder());
     public static final ExactArgument PLAYER = new ExactArgument("player");
     public static final ExactArgument PREVENTION = new ExactArgument("prevention");
-    BooleanArgument ENABLE = new BooleanArgument("enableValue", "enable", "disable");
+    public static final BooleanArgument ENABLE = new BooleanArgument("enableValue", "enable", "disable");
     @Override
     public List<CommandArgument<?>> getArguments() {
         return Arrays.asList(REGION, FLAG, ZONE_VALUE, PLAYER, PREVENTION, ENABLE);
@@ -50,7 +50,7 @@ public class ZoneFlagPreventionPlayerEnabledCommand implements ArgumentCommand {
             zone.save();
         }catch (ConfigurateException ce) {
             ce.printStackTrace();
-            commandContext.sendMessage(Component.text("Couldn't save"));
+            commandContext.sendMessage(Component.text("Couldn't save because" + ce.getMessage()));
         }
 
         return CommandResult.success();

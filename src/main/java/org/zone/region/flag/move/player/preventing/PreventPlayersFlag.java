@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public class PreventPlayersFlag implements Flag.Enabled, Flag.GroupKeyed {
 
-    @Nullable Boolean enabled;
+    public @Nullable Boolean enabled;
     public static final PreventPlayersFlag ELSE = new PreventPlayersFlag(false);
 
     public PreventPlayersFlag(@NotNull PreventPlayersFlag flag) {

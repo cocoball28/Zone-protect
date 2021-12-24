@@ -7,7 +7,6 @@ import org.spongepowered.api.event.filter.Getter;
 import org.zone.ZonePlugin;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.move.player.greetings.GreetingsFlag;
 
 import java.util.Optional;
 
