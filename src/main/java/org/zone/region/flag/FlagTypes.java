@@ -8,6 +8,7 @@ import org.zone.region.flag.meta.eco.EcoFlagType;
 import org.zone.region.flag.meta.edit.EditingFlagType;
 import org.zone.region.flag.meta.member.MembersFlagType;
 import org.zone.region.flag.move.monster.PreventMonsterFlagType;
+import org.zone.region.flag.move.player.PreventPlayersFlagType;
 
 /**
  * All known default flag types found within the zones plugin
@@ -22,6 +23,7 @@ public final class FlagTypes {
     public static final EditingFlagType EDITING = new EditingFlagType();
     public static final BlockPlaceFlagType BLOCK_PLACE = new BlockPlaceFlagType();
     public static final GreetingsFlagType GREETINGS_FLAG_TYPE = new GreetingsFlagType();
+    public static final PreventPlayersFlagType PREVENT_PLAYERS_FLAG_TYPE = new PreventPlayersFlagType();
 
     private FlagTypes() {
         throw new RuntimeException("Should not init");

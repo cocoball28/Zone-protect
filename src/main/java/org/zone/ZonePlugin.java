@@ -25,6 +25,7 @@ import org.zone.region.flag.greetings.GreetingsFlagListener;
 import org.zone.region.flag.interact.block.destroy.BlockBreakListener;
 import org.zone.region.flag.interact.door.DoorInteractListener;
 import org.zone.region.flag.move.monster.MonsterPreventionListener;
+import org.zone.region.flag.move.player.PreventPlayersListener;
 import org.zone.region.group.key.GroupKeyManager;
 
 import java.io.File;
@@ -110,6 +111,7 @@ public class ZonePlugin {
         Sponge.eventManager().registerListeners(this.plugin, new DoorInteractListener());
         Sponge.eventManager().registerListeners(this.plugin, new BlockBreakListener());
         Sponge.eventManager().registerListeners(this.plugin, new GreetingsFlagListener());
+        Sponge.eventManager().registerListeners(this.plugin, new PreventPlayersListener());
     }
 
     @Listener

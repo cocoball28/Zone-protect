@@ -1,4 +1,4 @@
-package org.zone.region.flag.greetings;
+package org.zone.region.flag.move.player;
 
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
@@ -10,7 +10,7 @@ import org.zone.region.flag.FlagTypes;
 
 import java.util.Optional;
 
-public class GreetingsFlagListener {
+public class PreventPlayersListener {
     @Listener
     public void onPlayerMove(MoveEntityEvent event, @Getter("entity") Player player){
         if (event.originalPosition().toInt().equals(event.destinationPosition().toInt())) {
@@ -24,7 +24,10 @@ public class GreetingsFlagListener {
                 .getPriorityZone(event.entity().world(), event.originalPosition());
 
         if(opPreviousZone.isPresent()){
-            //player is already in a zone. No need to greet them unless they are coming from one zone to another, that is out of scope of this tutorial
+            /*
+             Player is already in a zone. No need to prevent from them entering unless they are
+             coming from one zone to another, that is out of scope of this tutorial
+             */
             return;
         }
 
@@ -39,14 +42,17 @@ public class GreetingsFlagListener {
         }
 
         Zone zone = opNextZone.get();
-        Optional<GreetingsFlag> opFlag = zone.getFlag(FlagTypes.GREETINGS_FLAG_TYPE);
+        Optional<PreventPlayersFlag> opFlag = zone.getFlag(FlagTypes.PREVENT_PLAYERS_FLAG_TYPE);
         if(opFlag.isEmpty()){
-            //not got the greetings flag, no message required
+
             return;
         }
 
         // gets the flag -> then gets the message -> then if the message is present -> send that message to the player
-        opFlag.get().getMessage().ifPresent(player::sendMessage);
+        if (opFlag.get().hasPermission(zone, player.uniqueId())) {
+            return;
+        }
+        event.setCancelled(true);
     }
 
 }

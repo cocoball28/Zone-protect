@@ -11,7 +11,8 @@ public enum GroupKeys implements GroupKey {
     HOME_OWNER("home_owner", "Home Owner"),
     BLOCK_BREAK("block_break", "Block Break"),
     BLOCK_PLACE("block_place", "Block Place"),
-    INTERACT_DOOR("interact_door", "Interact with Door");
+    INTERACT_DOOR("interact_door", "Interact with Door"),
+    PLAYER_PREVENTION("prevent_players", "Prevent players from entering your zone");
 
     private final String name;
     private final String key;

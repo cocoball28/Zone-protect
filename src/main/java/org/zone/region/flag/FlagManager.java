@@ -27,6 +27,7 @@ public class FlagManager {
         this.flags.add(FlagTypes.EDITING);
         this.flags.add(FlagTypes.BLOCK_PLACE);
         this.flags.add(FlagTypes.GREETINGS_FLAG_TYPE);
+        this.flags.add(FlagTypes.PREVENT_PLAYERS_FLAG_TYPE);
     }
 
     /**
