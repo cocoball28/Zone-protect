@@ -33,7 +33,9 @@ public class DoorInteractListener {
         }
         Zone zone = opZone.get();
         if (BlockTypeTags.DOORS.get().contains(snapshot.state().type())) {
-            DoorInteractionFlag flag = zone.getFlag(FlagTypes.DOOR_INTERACTION).orElse(DoorInteractionFlag.ELSE);
+            DoorInteractionFlag flag = zone
+                    .getFlag(FlagTypes.DOOR_INTERACTION)
+                    .orElse(DoorInteractionFlag.ELSE);
             if (!flag.isEnabled()) {
                 return;
             }

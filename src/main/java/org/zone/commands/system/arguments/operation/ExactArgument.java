@@ -1,5 +1,6 @@
 package org.zone.commands.system.arguments.operation;
 
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandCompletion;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.CommandArgumentResult;
@@ -22,7 +23,7 @@ public class ExactArgument implements CommandArgument<String> {
     }
 
     public ExactArgument(String id, boolean caseSens, String... lookup) {
-        if (lookup.length==0) {
+        if (lookup.length == 0) {
             throw new IllegalArgumentException("Lookup cannot be []");
         }
         this.id = id;
@@ -35,8 +36,18 @@ public class ExactArgument implements CommandArgument<String> {
     }
 
     @Override
-    public String getId() {
+    public @NotNull String getId() {
         return this.id;
+    }
+
+    @Override
+    public @NotNull String getUsage() {
+        return "<" +
+                Arrays
+                        .stream(this.lookup)
+                        .map(l -> "\"" + l + "\"")
+                        .collect(Collectors.joining(" / ")) +
+                ">";
     }
 
     private boolean anyMatch(String arg) {
@@ -49,7 +60,9 @@ public class ExactArgument implements CommandArgument<String> {
     }
 
     @Override
-    public CommandArgumentResult<String> parse(CommandContext context, CommandArgumentContext<String> argument) throws IOException {
+    public CommandArgumentResult<String> parse(CommandContext context,
+                                               CommandArgumentContext<String> argument) throws
+            IOException {
         String arg = context.getCommand()[argument.getFirstArgument()];
         if (this.anyMatch(arg)) {
             return CommandArgumentResult.from(argument, arg);
@@ -58,25 +71,19 @@ public class ExactArgument implements CommandArgument<String> {
     }
 
     @Override
-    public Set<CommandCompletion> suggest(CommandContext context, CommandArgumentContext<String> argument) {
+    public Set<CommandCompletion> suggest(CommandContext context,
+                                          CommandArgumentContext<String> argument) {
         String arg = "";
         if (context.getCommand().length > argument.getFirstArgument()) {
             arg = context.getCommand()[argument.getFirstArgument()];
         }
         final String finalArg = arg.toLowerCase();
-        return Arrays.stream(this.lookup).parallel().map(String::toLowerCase)
+        return Arrays
+                .stream(this.lookup)
+                .parallel()
+                .map(String::toLowerCase)
                 .filter(look -> look.startsWith(finalArg))
                 .map(CommandCompletion::of)
                 .collect(Collectors.toSet());
-    }
-
-    @Override
-    public String getUsage() {
-        return "<" +
-                Arrays
-                        .stream(this.lookup)
-                        .map(l -> "\"" + l + "\"")
-                        .collect(Collectors.joining(" / "))
-                + ">";
     }
 }

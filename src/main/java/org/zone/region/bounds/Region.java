@@ -24,6 +24,7 @@ public interface Region {
      *
      * @param location The block position to compare
      * @param ignoreY  true will ignore the height in the provided location
+     *
      * @return true if the region contains that block position
      */
     boolean contains(@NotNull Vector3d location, boolean ignoreY);
@@ -32,6 +33,7 @@ public interface Region {
      * Gets the location within the region that is nearest to the provided block position
      *
      * @param vector3i The block position to compare
+     *
      * @return The closes block position, if {@link Optional#empty()} then the closes could not be found. This is highly unlikely but is possible
      */
     Optional<Vector3i> getNearestPosition(@NotNull Vector3i vector3i);
@@ -40,6 +42,7 @@ public interface Region {
      * Serializes the region to the provided node
      *
      * @param node The node to serialize this region to
+     *
      * @throws SerializationException If the zone could not be serialized
      */
     void save(ConfigurationNode node) throws SerializationException;
@@ -77,6 +80,7 @@ public interface Region {
      *
      * @param vector3i The block position to compare
      * @param ignoreY  if true, the height will be ignored in the check
+     *
      * @return if true, the position is contained
      */
     default boolean contains(@NotNull Vector3i vector3i, boolean ignoreY) {
@@ -88,9 +92,11 @@ public interface Region {
      *
      * @param location The block position to be compared
      * @param ignoreY  if true, the height will be ignored in the chunk
+     *
      * @return if true, the position is contained
      */
-    default boolean contains(@NotNull Location<? extends World<?, ?>, ?> location, boolean ignoreY) {
+    default boolean contains(@NotNull Location<? extends World<?, ?>, ?> location,
+                             boolean ignoreY) {
         return this.contains(location.position(), ignoreY);
     }
 

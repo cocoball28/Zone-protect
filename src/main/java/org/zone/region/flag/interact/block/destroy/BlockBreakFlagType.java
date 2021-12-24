@@ -5,7 +5,6 @@ import org.jetbrains.annotations.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.plugin.PluginContainer;
 import org.zone.ZonePlugin;
-import org.zone.region.Zone;
 import org.zone.region.flag.FlagType;
 
 import java.io.IOException;
@@ -43,7 +42,8 @@ public class BlockBreakFlagType implements FlagType<BlockBreakFlag> {
     }
 
     @Override
-    public void save(@NotNull ConfigurationNode node, @Nullable BlockBreakFlag save) throws IOException {
+    public void save(@NotNull ConfigurationNode node, @Nullable BlockBreakFlag save) throws
+            IOException {
         if (save == null || save.getEnabled().isEmpty()) {
             node.set(null);
             return;
@@ -53,12 +53,7 @@ public class BlockBreakFlagType implements FlagType<BlockBreakFlag> {
     }
 
     @Override
-    public boolean canApply(Zone zone) {
-        return true;
-    }
-
-    @Override
-    public Optional<BlockBreakFlag> createCopyOfDefaultFlag() {
+    public @NotNull Optional<BlockBreakFlag> createCopyOfDefaultFlag() {
         return Optional.empty();
     }
 }

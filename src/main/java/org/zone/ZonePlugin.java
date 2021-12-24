@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.Server;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.Command;
@@ -21,11 +22,11 @@ import org.zone.memory.MemoryHolder;
 import org.zone.region.Zone;
 import org.zone.region.ZoneManager;
 import org.zone.region.flag.FlagManager;
-import org.zone.region.flag.greetings.GreetingsFlagListener;
 import org.zone.region.flag.interact.block.destroy.BlockBreakListener;
 import org.zone.region.flag.interact.door.DoorInteractListener;
 import org.zone.region.flag.move.monster.MonsterPreventionListener;
-import org.zone.region.flag.move.player.PreventPlayersListener;
+import org.zone.region.flag.move.player.greetings.GreetingsFlagListener;
+import org.zone.region.flag.move.player.leaving.LeavingFlagListener;
 import org.zone.region.group.key.GroupKeyManager;
 
 import java.io.File;
@@ -45,12 +46,20 @@ public class ZonePlugin {
     private MemoryHolder memoryHolder;
     private static ZonePlugin zonePlugin;
 
+    @SuppressWarnings("SpongeInjection")
+    @Inject
+    public ZonePlugin(final PluginContainer plugin, final Logger logger) {
+        zonePlugin = this;
+        this.plugin = plugin;
+        this.logger = logger;
+    }
+
     /**
      * Gets the flag manager
      *
      * @return The instance of the flag manager
      */
-    public FlagManager getFlagManager() {
+    public @NotNull FlagManager getFlagManager() {
         return this.flagManager;
     }
 
@@ -59,7 +68,7 @@ public class ZonePlugin {
      *
      * @return The instance of the zone manager
      */
-    public ZoneManager getZoneManager() {
+    public @NotNull ZoneManager getZoneManager() {
         return this.zoneManager;
     }
 
@@ -68,7 +77,7 @@ public class ZonePlugin {
      *
      * @return the instance of the memory holder
      */
-    public MemoryHolder getMemoryHolder() {
+    public @NotNull MemoryHolder getMemoryHolder() {
         return this.memoryHolder;
     }
 
@@ -77,7 +86,7 @@ public class ZonePlugin {
      *
      * @return The instance of the group key manager
      */
-    public GroupKeyManager getGroupKeyManager() {
+    public @NotNull GroupKeyManager getGroupKeyManager() {
         return this.groupKeyManager;
     }
 
@@ -86,15 +95,8 @@ public class ZonePlugin {
      *
      * @return The logger for this plugin
      */
-    public Logger getLogger() {
+    public @NotNull Logger getLogger() {
         return this.logger;
-    }
-
-    @Inject
-    public ZonePlugin(final PluginContainer plugin, final Logger logger) {
-        zonePlugin = this;
-        this.plugin = plugin;
-        this.logger = logger;
     }
 
     @Listener
@@ -111,7 +113,7 @@ public class ZonePlugin {
         Sponge.eventManager().registerListeners(this.plugin, new DoorInteractListener());
         Sponge.eventManager().registerListeners(this.plugin, new BlockBreakListener());
         Sponge.eventManager().registerListeners(this.plugin, new GreetingsFlagListener());
-        Sponge.eventManager().registerListeners(this.plugin, new PreventPlayersListener());
+        Sponge.eventManager().registerListeners(this.plugin, new LeavingFlagListener());
     }
 
     @Listener
@@ -175,7 +177,7 @@ public class ZonePlugin {
      *
      * @return The plugin container for this plugin
      */
-    public PluginContainer getPluginContainer() {
+    public @NotNull PluginContainer getPluginContainer() {
         return this.plugin;
     }
 
@@ -184,7 +186,7 @@ public class ZonePlugin {
      *
      * @return The instance of this class
      */
-    public static ZonePlugin getZonesPlugin() {
+    public static @NotNull ZonePlugin getZonesPlugin() {
         return zonePlugin;
     }
 }

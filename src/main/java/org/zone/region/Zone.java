@@ -12,7 +12,6 @@ import org.spongepowered.math.vector.Vector3d;
 import org.spongepowered.plugin.PluginContainer;
 import org.zone.Identifiable;
 import org.zone.ZonePlugin;
-import org.zone.region.bounds.BoundedRegion;
 import org.zone.region.bounds.ChildRegion;
 import org.zone.region.flag.Flag;
 import org.zone.region.flag.FlagType;
@@ -92,6 +91,28 @@ public class Zone implements Identifiable {
      */
     public @NotNull Optional<String> getParentId() {
         return Optional.ofNullable(this.parentId);
+    }
+
+    /**
+     * Checks if the exact instance of a flag is registered to the zone
+     *
+     * @param flag The instance to check
+     *
+     * @return true if the flag is present
+     */
+    public boolean containsFlag(@NotNull Flag flag) {
+        return this.flags.contains(flag);
+    }
+
+    /**
+     * Checks if the type of flag is found within the flags of this zone
+     *
+     * @param type the type of flag
+     *
+     * @return true if a flag has the same type as provided
+     */
+    public boolean containsFlag(@NotNull FlagType<?> type) {
+        return this.flags.parallelStream().anyMatch(flag -> flag.getType().equals(type));
     }
 
     /**
@@ -268,9 +289,5 @@ public class Zone implements Identifiable {
      */
     public boolean inRegion(@NotNull Locatable locatable) {
         return this.inRegion(locatable.location());
-    }
-
-    public static void test(){
-        BoundedRegion region;
     }
 }

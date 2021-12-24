@@ -37,7 +37,6 @@ public class ZoneManager {
     private static final Object[] REGION = {"Region"};
     private static final Object[] WORLD = {"Region", "World"};
 
-
     /**
      * gets all the zones
      *
@@ -200,7 +199,7 @@ public class ZoneManager {
                             .error("Could not load flag: Unknown flag Id of '" +
                                            flagPluginNode.getKey().toString() +
                                            ":" +
-                                           keyNode.getValue().key().toString() +
+                                           keyNode.getValue().key() +
                                            "'");
                     continue;
                 }

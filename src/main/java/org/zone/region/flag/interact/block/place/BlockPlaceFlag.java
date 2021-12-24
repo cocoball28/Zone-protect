@@ -15,12 +15,13 @@ import java.util.Optional;
  * <p>
  * If the player is within a group that has the specified GroupKey then they can place blocks even with the flag enabled
  */
-public class BlockPlaceFlag implements Flag.Enabled, Flag.GroupKeyed {
+public class BlockPlaceFlag implements Flag.Enabled, Flag.AffectsPlayer {
 
     private Boolean enabled;
 
     public static final BlockPlaceFlag DEFAULT = new BlockPlaceFlag(false);
 
+    @SuppressWarnings("CopyConstructorMissesField")
     public BlockPlaceFlag(@SuppressWarnings("TypeMayBeWeakened") @NotNull BlockPlaceFlag flag) {
         this(flag.getEnabled().orElse(null));
     }
@@ -35,12 +36,17 @@ public class BlockPlaceFlag implements Flag.Enabled, Flag.GroupKeyed {
     }
 
     @Override
+    public @NotNull GroupKey getRequiredKey() {
+        return GroupKeys.BLOCK_PLACE;
+    }
+
+    @Override
     public void setEnabled(@Nullable Boolean enabled) {
         this.enabled = enabled;
     }
 
     @Override
-    public Optional<Boolean> getEnabled() {
+    public @NotNull Optional<Boolean> getEnabled() {
         return Optional.ofNullable(this.enabled);
     }
 
@@ -49,8 +55,5 @@ public class BlockPlaceFlag implements Flag.Enabled, Flag.GroupKeyed {
         return this.getEnabled().orElse(DEFAULT.getEnabled().orElse(false));
     }
 
-    @Override
-    public @NotNull GroupKey getRequiredKey() {
-        return GroupKeys.BLOCK_PLACE;
-    }
+
 }

@@ -61,7 +61,8 @@ public class EcoFlagType implements FlagType<EcoFlag> {
                     return new AbstractMap.SimpleImmutableEntry<>(currency, value);
                 })
                 .filter(entry -> entry.getValue() < 0)
-                .collect(Collectors.toMap(AbstractMap.SimpleImmutableEntry::getKey, AbstractMap.SimpleImmutableEntry::getValue));
+                .collect(Collectors.toMap(AbstractMap.SimpleImmutableEntry::getKey,
+                                          AbstractMap.SimpleImmutableEntry::getValue));
         return new EcoFlag(map);
     }
 
@@ -85,7 +86,7 @@ public class EcoFlagType implements FlagType<EcoFlag> {
     }
 
     @Override
-    public Optional<EcoFlag> createCopyOfDefaultFlag() {
+    public @NotNull Optional<EcoFlag> createCopyOfDefaultFlag() {
         return Optional.of(new EcoFlag());
     }
 }

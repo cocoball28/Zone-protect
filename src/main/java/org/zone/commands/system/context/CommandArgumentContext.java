@@ -1,46 +1,50 @@
 package org.zone.commands.system.context;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 
 public class CommandArgumentContext<T> {
 
-    private final CommandArgument<T> argument;
+    private final @Nullable CommandArgument<T> argument;
+    private final @NotNull ArgumentCommand commandRunner;
     private int firstArgument;
-    private String[] command;
-    private final ArgumentCommand commandRunner;
+    private @NotNull String[] command;
 
-    public CommandArgumentContext(ArgumentCommand runner, CommandArgument<T> argument, int firstArgument,
-                                  String... command) {
+    public CommandArgumentContext(@NotNull ArgumentCommand runner,
+                                  @Nullable CommandArgument<T> argument,
+                                  int firstArgument,
+                                  @NotNull String... command) {
         this.argument = argument;
         this.firstArgument = firstArgument;
         this.command = command;
         this.commandRunner = runner;
     }
 
-    public ArgumentCommand getArgumentCommand() {
+    public @NotNull ArgumentCommand getArgumentCommand() {
         return this.commandRunner;
     }
 
-    public CommandArgument<T> getArgument() {
+    public @Nullable CommandArgument<T> getArgument() {
         return this.argument;
     }
 
-    public String[] getRemainingArguments() {
+    public @NotNull String[] getRemainingArguments() {
         int last = this.command.length;
-
-        if (this.firstArgument < last) {
-            throw new IndexOutOfBoundsException("min (" + this.firstArgument + ") is greater then max (" + last + ")");
+        if (this.firstArgument >= last) {
+            throw new IndexOutOfBoundsException("min (" +
+                                                        this.firstArgument +
+                                                        ") is greater then max (" +
+                                                        last +
+                                                        ")");
         }
-        String[] arr = new String[this.firstArgument - last];
-        if (this.firstArgument + 1 - last >= 0) {
-            if (last - this.firstArgument >= 0) System.arraycopy(this.command, this.firstArgument, arr, 0,
-                    0);
-        }
+        String[] arr = new String[last - this.firstArgument];
+        System.arraycopy(this.command, this.firstArgument, arr, 0, arr.length);
         return arr;
     }
 
-    public String getFocusArgument() {
+    public @NotNull String getFocusArgument() {
         return this.command[this.firstArgument];
     }
 
@@ -48,7 +52,7 @@ public class CommandArgumentContext<T> {
         return this.firstArgument;
     }
 
-    public void setCommand(String... args) {
+    public void setCommand(@NotNull String... args) {
         this.command = args;
     }
 

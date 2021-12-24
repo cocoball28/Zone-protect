@@ -2,6 +2,7 @@ package org.zone.commands.system.context;
 
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandCause;
 import org.spongepowered.api.command.CommandCompletion;
 import org.spongepowered.api.service.permission.Subject;
@@ -15,26 +16,33 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class CommandContext {
-    private final String[] commands;
-    private final CommandCause cause;
-    private final Collection<ArgumentCommand> potentialCommands = new HashSet<>();
+    private final @NotNull String[] commands;
+    private final @NotNull CommandCause cause;
+    private final @NotNull Collection<ArgumentCommand> potentialCommands = new HashSet<>();
 
     /**
      * @param source   The command source who is running the command
      * @param commands The potential commands of the command context
      * @param command  The string arguments that the source wrote
      */
-    public CommandContext(CommandCause source, Collection<ArgumentCommand> commands, String... command) {
+    public CommandContext(@NotNull CommandCause source,
+                          @NotNull Collection<ArgumentCommand> commands,
+                          @NotNull String... command) {
         Collection<ArgumentCommand> duped = commands.parallelStream().filter(cmd -> {
-            List<String> argIds = cmd.getArguments().stream().map(CommandArgument::getId).collect(Collectors.toList());
+            List<String> argIds = cmd
+                    .getArguments()
+                    .stream()
+                    .map(CommandArgument::getId)
+                    .collect(Collectors.toList());
             return argIds.parallelStream().anyMatch(arg -> Collections.frequency(argIds, arg) > 1);
         }).collect(Collectors.toSet());
         if (!duped.isEmpty()) {
             throw new IllegalStateException("Duped argument ids found in " +
-                    duped
-                            .parallelStream()
-                            .map(argCmd -> "\t- " + argCmd.getClass().getName())
-                            .collect(Collectors.joining("\n")));
+                                                    duped
+                                                            .parallelStream()
+                                                            .map(argCmd -> "\t- " +
+                                                                    argCmd.getClass().getName())
+                                                            .collect(Collectors.joining("\n")));
         }
         this.commands = command;
         this.potentialCommands.addAll(commands);
@@ -46,7 +54,7 @@ public class CommandContext {
      *
      * @return A String array of the raw string arguments
      */
-    public String[] getCommand() {
+    public @NotNull String[] getCommand() {
         return this.commands;
     }
 
@@ -55,15 +63,15 @@ public class CommandContext {
      *
      * @return The command sender
      */
-    public Subject getSource() {
+    public @NotNull Subject getSource() {
         return this.cause.subject();
     }
 
-    public CommandCause getCause() {
+    public @NotNull CommandCause getCause() {
         return this.cause;
     }
 
-    public void sendMessage(Component component) {
+    public void sendMessage(@NotNull Component component) {
         this.cause.sendMessage(Identity.nil(), component);
     }
 
@@ -73,9 +81,10 @@ public class CommandContext {
      * string arguments. The suggestion will be to the last of the raw string argument
      *
      * @param command The command to target
+     *
      * @return A list of suggestions for the current context and provided command
      */
-    public Collection<CommandCompletion> getSuggestions(ArgumentCommand command) {
+    public @NotNull Collection<CommandCompletion> getSuggestions(@NotNull ArgumentCommand command) {
         List<CommandArgument<?>> arguments = command.getArguments();
         int commandArgument = 0;
         Collection<OptionalArgument<?>> optionalArguments = new ArrayList<>();
@@ -88,7 +97,8 @@ public class CommandContext {
                 return this.suggest(command, arg, commandArgument);
             }
             if (this.commands.length < commandArgument) {
-                throw new IllegalArgumentException("Not enough provided arguments for value of that argument");
+                throw new IllegalArgumentException(
+                        "Not enough provided arguments for value of that argument");
             }
             try {
                 CommandArgumentResult<?> entry = this.parse(command, arg, commandArgument);
@@ -118,11 +128,13 @@ public class CommandContext {
      * @param command The command to target
      * @param id      The command argument that should be used
      * @param <T>     The expected type of argument (by providing the command argument, the type will be the same unless the argument is breaking the standard)
+     *
      * @return The value of the argument
+     *
      * @throws IllegalArgumentException If the provided id argument is not part of the command
      * @throws IllegalStateException    Argument requested is asking for string requirements then what is provided
      */
-    public <T> T getArgument(ArgumentCommand command, CommandArgument<T> id) {
+    public <T> @NotNull T getArgument(@NotNull ArgumentCommand command, @NotNull CommandArgument<T> id) {
         return this.getArgument(command, id.getId());
     }
 
@@ -132,11 +144,13 @@ public class CommandContext {
      * @param command The command to target
      * @param id      The id of the argument to get
      * @param <T>     The expected type of argument
+     *
      * @return The value of the argument
+     *
      * @throws IllegalArgumentException If the provided id argument is not part of the command
      * @throws IllegalStateException    Argument requested is asking for string requirements then what is provided
      */
-    public <T> T getArgument(ArgumentCommand command, String id) {
+    public <T> @NotNull T getArgument(@NotNull ArgumentCommand command, @NotNull String id) {
         List<CommandArgument<?>> arguments = command.getArguments();
         if (arguments.stream().noneMatch(a -> a.getId().equals(id))) {
             throw new IllegalArgumentException("Argument ID (" + id + ") not found within command");
@@ -153,7 +167,8 @@ public class CommandContext {
                 continue;
             }
             if (this.commands.length < commandArgument) {
-                throw new IllegalStateException("Not enough provided arguments for value of that argument");
+                throw new IllegalStateException(
+                        "Not enough provided arguments for value of that argument");
             }
             try {
                 CommandArgumentResult<?> entry = this.parse(command, arg, commandArgument);
@@ -174,7 +189,7 @@ public class CommandContext {
      *
      * @return A set of all errors
      */
-    public Set<ErrorContext> getErrors() {
+    public @NotNull Set<ErrorContext> getErrors() {
         Collection<ErrorContext> map = new HashSet<>();
         for (ArgumentCommand command : this.potentialCommands) {
             List<CommandArgument<?>> arguments = command.getArguments();
@@ -184,7 +199,10 @@ public class CommandContext {
                     continue;
                 }
                 if (this.commands.length <= commandArgument) {
-                    ErrorContext context = new ErrorContext(command, commandArgument, arg, "Not enough arguments");
+                    ErrorContext context = new ErrorContext(command,
+                                                            commandArgument,
+                                                            arg,
+                                                            "Not enough arguments");
                     map.add(context);
                     break;
                 }
@@ -192,7 +210,10 @@ public class CommandContext {
                     CommandArgumentResult<?> entry = this.parse(command, arg, commandArgument);
                     commandArgument = entry.position();
                 } catch (IOException e) {
-                    ErrorContext context = new ErrorContext(command, commandArgument, arg, e.getMessage());
+                    ErrorContext context = new ErrorContext(command,
+                                                            commandArgument,
+                                                            arg,
+                                                            e.getMessage());
                     map.add(context);
                     break;
                 }
@@ -225,7 +246,7 @@ public class CommandContext {
      *
      * @return A single argument command, if none can be found then {@link Optional#empty()} will be used
      */
-    public Optional<ArgumentCommand> getCompleteCommand() {
+    public @NotNull Optional<ArgumentCommand> getCompleteCommand() {
         return this.potentialCommands.stream().filter(command -> {
             List<CommandArgument<?>> arguments = command.getArguments();
             int commandArgument = 0;
@@ -253,7 +274,7 @@ public class CommandContext {
      *
      * @return A set of all the potential commands
      */
-    public Set<ArgumentCommand> getPotentialCommands() {
+    public @NotNull Set<ArgumentCommand> getPotentialCommands() {
         Map<ArgumentCommand, Integer> map = new HashMap<>();
         this.potentialCommands.forEach(c -> {
             List<CommandArgument<?>> arguments = c.getArguments();
@@ -295,15 +316,26 @@ public class CommandContext {
         return set;
     }
 
-    private <T> CommandArgumentResult<T> parse(ArgumentCommand launcher, CommandArgument<T> arg, int commandArgument) throws IOException {
-        CommandArgumentContext<T> argContext = new CommandArgumentContext<>(launcher, arg, commandArgument, this.commands);
+    private <T> @NotNull CommandArgumentResult<T> parse(@NotNull ArgumentCommand launcher,
+                                               @NotNull CommandArgument<T> arg,
+                                               int commandArgument) throws IOException {
+        CommandArgumentContext<T> argContext = new CommandArgumentContext<>(launcher,
+                                                                            arg,
+                                                                            commandArgument,
+                                                                            this.commands);
         return arg.parse(this, argContext);
     }
 
-    private <T> Collection<CommandCompletion> suggest(ArgumentCommand launcher, CommandArgument<T> arg, int commandArgument) {
+    private <T> Collection<CommandCompletion> suggest(ArgumentCommand launcher,
+                                                      CommandArgument<T> arg,
+                                                      int commandArgument) {
         if (this.commands.length <= commandArgument) {
             return Collections.emptySet();
         }
-        return arg.suggest(this, new CommandArgumentContext<>(launcher, arg, commandArgument, this.commands));
+        return arg.suggest(this,
+                           new CommandArgumentContext<>(launcher,
+                                                        arg,
+                                                        commandArgument,
+                                                        this.commands));
     }
 }

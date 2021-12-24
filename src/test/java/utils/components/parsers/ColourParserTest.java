@@ -18,7 +18,9 @@ public class ColourParserTest {
         Component plainComponent = Component.text(testAgainst);
 
         //ACT
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new ComponentColourParser().withTag(testAgainst, plainComponent));
+        Assertions.assertThrows(IllegalArgumentException.class,
+                                () -> new ComponentColourParser().withTag(testAgainst,
+                                                                          plainComponent));
 
         //ASSERT
     }
@@ -58,7 +60,9 @@ public class ColourParserTest {
         Component plainComponent = Component.text("Test");
 
         //ACT
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new ComponentColourParser().withTag(testAgainst, plainComponent));
+        Assertions.assertThrows(IllegalArgumentException.class,
+                                () -> new ComponentColourParser().withTag(testAgainst,
+                                                                          plainComponent));
     }
 
     @Test

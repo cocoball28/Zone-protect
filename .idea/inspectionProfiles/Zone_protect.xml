@@ -2,7 +2,9 @@
   <profile version="1.0">
     <option name="myName" value="Zone-protect" />
     <inspection_tool class="091614a1-8db5-3961-a80b-3fbdac9b018c" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
+    <inspection_tool class="1453fff0-8113-381d-ae33-c1f3917f5b2c" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
     <inspection_tool class="25736eba-2721-3f08-9b29-144f0faa1b79" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
+    <inspection_tool class="5dff24b0-1ea7-3f58-8adc-4df10c433664" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
     <inspection_tool class="98f58be0-94b4-386b-baba-f30acc38cefb" enabled="true" level="ERROR" enabled_by_default="true" />
     <inspection_tool class="AbstractClassWithoutAbstractMethods" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
     <inspection_tool class="ArrayEquality" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -10,6 +12,7 @@
     <inspection_tool class="BoundedWildcard" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
     <inspection_tool class="BreakStatement" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
     <inspection_tool class="CharUsedInArithmeticContext" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
+    <inspection_tool class="ClassCanBeRecord" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
     <inspection_tool class="ClassInitializer" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="ClassNewInstance" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="CloneInNonCloneableClass" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -110,6 +113,9 @@
     <inspection_tool class="RuntimeExec" enabled="true" level="ERROR" enabled_by_default="true" />
     <inspection_tool class="RuntimeExecWithNonConstantString" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="SSBasedInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <replaceConfiguration name="all-flag-types" suppressId="vanilla-only-flag-types" problemDescriptor="Your probably wanting all flag types, replace" text="org.zone.region.flag.FlagTypes.getVanillaFlags()" recursive="false" caseInsensitive="false" type="JAVA" pattern_context="default" reformatAccordingToStyle="false" shortenFQN="false" replacement="org.zone.ZonePlugin.getZonesPlugin().getFlagManager().getRegistered()">
+        <constraint name="__context__" within="" contains="" />
+      </replaceConfiguration>
       <replaceConfiguration name="get Eco flag by method" suppressId="no-eco-method" problemDescriptor="Economy flag is always present" text="$zone$.getFlag(org.zone.region.flag.FlagTypes.ECO)" recursive="false" caseInsensitive="false" type="JAVA" pattern_context="default" reformatAccordingToStyle="false" shortenFQN="false" replacement="$zone$.getEconomy()">
         <constraint name="__context__" within="" contains="" />
         <constraint name="zone" nameOfExprType="Zone" exprTypeWithinHierarchy="true" within="" contains="" />
@@ -118,6 +124,15 @@
         <constraint name="__context__" within="" contains="" />
         <constraint name="zone" nameOfExprType="Zone" exprTypeWithinHierarchy="true" within="" contains="" />
       </replaceConfiguration>
+      <replaceConfiguration name="remove-add-should-be-set" suppressId="remove-add-flag" problemDescriptor="Simplify code" text="$zone$.removeFlag($flag$.getType());&#10;$zone$.addFlag($flag$);" recursive="false" caseInsensitive="false" type="JAVA" pattern_context="default" reformatAccordingToStyle="false" shortenFQN="false" replacement="$zone$.setFlag($flag$);">
+        <constraint name="__context__" within="" contains="" />
+        <constraint name="zone" nameOfExprType="Zone" within="" contains="" />
+        <constraint name="flag" nameOfExprType="Flag" exprTypeWithinHierarchy="true" within="" contains="" />
+      </replaceConfiguration>
+      <searchConfiguration name="String-Argument-prevent-use" suppressId="allow-string-argument" problemDescriptor="StringArgument can accept anything as valid, this may have issues with other commands, try using another argument where possible" text="new org.zone.commands.system.arguments.simple.StringArgument($id$)" recursive="false" caseInsensitive="false" type="JAVA" pattern_context="default">
+        <constraint name="__context__" within="" contains="" />
+        <constraint name="id" nameOfExprType="String" within="" contains="" />
+      </searchConfiguration>
       <searchConfiguration name="useless-children-in-bounded-region" problemDescriptor="A bounded region cannot have children" text="$region$.getChildren()" recursive="false" caseInsensitive="false" type="JAVA" pattern_context="default">
         <constraint name="__context__" within="" contains="" />
         <constraint name="region" nameOfExprType="BoundedRegion" exprTypeWithinHierarchy="true" within="" contains="" />
@@ -126,6 +141,10 @@
         <constraint name="__context__" within="" contains="" />
         <constraint name="region" nameOfExprType="BoundedRegion" exprTypeWithinHierarchy="true" within="" contains="" />
       </searchConfiguration>
+      <replaceConfiguration name="zone-argument-no-properteries" problemDescriptor="ZoneArgument has default properties, can be simplified" text="new org.zone.commands.system.arguments.zone.ZoneArgument($id$, new ZoneArgument.ZoneArgumentPropertiesBuilder());" recursive="false" caseInsensitive="false" type="JAVA" pattern_context="default" reformatAccordingToStyle="false" shortenFQN="false" replacement="new ZoneArgument($id$);">
+        <constraint name="__context__" within="" contains="" />
+        <constraint name="id" nameOfExprType="String" within="" contains="" />
+      </replaceConfiguration>
       <replaceConfiguration name="Zone-group-keys-vs-all-group-keys" suppressId="vanilla-only" problemDescriptor="GroupKeys.values does not get keys that were registered using another source. Use the following to get all known groupkeys" text="org.zone.region.group.key.GroupKeys.values()" recursive="false" caseInsensitive="false" type="JAVA" pattern_context="default" reformatAccordingToStyle="false" shortenFQN="false" replacement="org.zone.ZonePlugin.getZonesPlugin().getGroupKeyManager().getKeys()">
         <constraint name="__context__" within="" contains="" />
       </replaceConfiguration>
@@ -137,6 +156,12 @@
         <constraint name="__context__" within="" contains="" />
         <constraint name="zone" nameOfExprType="Zone" exprTypeWithinHierarchy="true" within="" contains="" />
       </searchConfiguration>
+      <replaceConfiguration name="ZoneArgumentPropertiesBuilder-default-level" suppressId="zone-arg-builder-default-level" problemDescriptor="Builder has level of OWNER by default" text="new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(GroupKeys.OWNER)" recursive="false" caseInsensitive="true" type="JAVA" pattern_context="default" reformatAccordingToStyle="false" shortenFQN="false" replacement="new ZoneArgument.ZoneArgumentPropertiesBuilder()">
+        <constraint name="__context__" within="" contains="" />
+      </replaceConfiguration>
+      <replaceConfiguration name="ZoneArgumentPropertiesBuilder-default-mains-only" suppressId="ZoneArgumentPropertiesBuilder-default-mains-only" problemDescriptor="mains-only has a default value of true already" text="new ZoneArgument.ZoneArgumentPropertiesBuilder().setOnlyMainZones(true)" recursive="false" caseInsensitive="true" type="JAVA" pattern_context="default" reformatAccordingToStyle="false" shortenFQN="false" replacement="new ZoneArgument.ZoneArgumentPropertiesBuilder()">
+        <constraint name="__context__" within="" contains="" />
+      </replaceConfiguration>
     </inspection_tool>
     <inspection_tool class="SamePackageImport" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
     <inspection_tool class="SerializableDeserializableClassInSecureContext" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -196,9 +221,12 @@
       </option>
       <option name="ignoreClassesWithOnlyMain" value="false" />
     </inspection_tool>
+    <inspection_tool class="ab6ee01e-062f-3c0b-a8fe-290fa10d9533" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
+    <inspection_tool class="c30ac1b3-2e27-330e-9141-3cccebb7a37a" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
     <inspection_tool class="d94dfbc5-0c9d-391b-9048-ad2ec035eb66" enabled="true" level="ERROR" enabled_by_default="true" />
     <inspection_tool class="dcfebccd-121b-320f-ac1f-b8c3d0cc9f4b" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
-    <inspection_tool class="e1f887a4-f22d-30d9-95b2-ad0da96fa838" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="e15b3c6e-a42f-3e97-955e-d315bb9d0d38" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
+    <inspection_tool class="ea9c077f-7fe2-3ebe-b38a-c5136b0f736a" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
     <inspection_tool class="f262b04b-fb80-3a9b-a176-1853c36e9b4b" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
     <inspection_tool class="unused" enabled="true" level="WARNING" enabled_by_default="true" klass="packageLocal" inner_class="packageLocal" method="packageLocal">
       <option name="LOCAL_VARIABLE" value="true" />

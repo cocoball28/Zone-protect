@@ -3,22 +3,26 @@ package org.zone.commands.structure;
 import org.zone.commands.structure.create.ZoneCreateEndCommand;
 import org.zone.commands.structure.create.ZoneCreateStartCommand;
 import org.zone.commands.structure.create.ZoneCreateSubStartCommand;
-import org.zone.commands.structure.zone.flags.eco.ZoneViewBalanceCommand;
-import org.zone.commands.structure.zone.flags.greetings.ZoneFlagGreetingsRemoveMessageCommand;
-import org.zone.commands.structure.zone.flags.greetings.ZoneFlagGreetingsViewCommand;
-import org.zone.commands.structure.zone.flags.greetings.ZoneFlagGreetingsSetMessageCommand;
-import org.zone.commands.structure.zone.flags.interact.destroy.ZoneFlagBlockBreakSetEnabledCommand;
-import org.zone.commands.structure.zone.flags.interact.destroy.ZoneFlagBlockBreakSetGroupCommand;
-import org.zone.commands.structure.zone.flags.interact.destroy.ZoneFlagBlockBreakViewCommand;
-import org.zone.commands.structure.zone.flags.interact.door.ZoneFlagInteractDoorEnabledCommand;
-import org.zone.commands.structure.zone.flags.interact.door.ZoneFlagInteractDoorGroupCommand;
-import org.zone.commands.structure.zone.flags.interact.door.ZoneFlagInteractDoorViewCommand;
-import org.zone.commands.structure.zone.flags.interact.place.ZoneFlagBlockPlaceSetEnabledCommand;
-import org.zone.commands.structure.zone.flags.interact.place.ZoneFlagBlockPlaceSetGroupCommand;
-import org.zone.commands.structure.zone.flags.interact.place.ZoneFlagBlockPlaceViewCommand;
-import org.zone.commands.structure.zone.flags.members.ZoneFlagMemberGroupAddCommand;
-import org.zone.commands.structure.zone.flags.members.ZoneFlagMemberGroupViewCommand;
-import org.zone.commands.structure.zone.info.bounds.ZoneInfoBoundsShowCommand;
+import org.zone.commands.structure.region.flags.eco.ZoneFlagViewBalanceCommand;
+import org.zone.commands.structure.region.flags.greetings.ZoneFlagGreetingsRemoveCommand;
+import org.zone.commands.structure.region.flags.greetings.ZoneFlagGreetingsSetMessageCommand;
+import org.zone.commands.structure.region.flags.greetings.ZoneFlagGreetingsViewCommand;
+import org.zone.commands.structure.region.flags.interact.destroy.ZoneFlagBlockBreakSetEnabledCommand;
+import org.zone.commands.structure.region.flags.interact.destroy.ZoneFlagBlockBreakSetGroupCommand;
+import org.zone.commands.structure.region.flags.interact.destroy.ZoneFlagBlockBreakViewCommand;
+import org.zone.commands.structure.region.flags.interact.door.ZoneFlagInteractDoorEnabledCommand;
+import org.zone.commands.structure.region.flags.interact.door.ZoneFlagInteractDoorGroupCommand;
+import org.zone.commands.structure.region.flags.interact.door.ZoneFlagInteractDoorViewCommand;
+import org.zone.commands.structure.region.flags.interact.place.ZoneFlagBlockPlaceSetEnabledCommand;
+import org.zone.commands.structure.region.flags.interact.place.ZoneFlagBlockPlaceSetGroupCommand;
+import org.zone.commands.structure.region.flags.interact.place.ZoneFlagBlockPlaceViewCommand;
+import org.zone.commands.structure.region.flags.leaving.ZoneFlagLeavingRemoveCommand;
+import org.zone.commands.structure.region.flags.leaving.ZoneFlagLeavingSetMessageCommand;
+import org.zone.commands.structure.region.flags.leaving.ZoneFlagLeavingViewCommand;
+import org.zone.commands.structure.region.flags.members.ZoneFlagMemberGroupAddCommand;
+import org.zone.commands.structure.region.flags.members.ZoneFlagMemberGroupViewCommand;
+import org.zone.commands.structure.region.info.ZoneInfoCommand;
+import org.zone.commands.structure.region.info.bounds.ZoneInfoBoundsShowCommand;
 import org.zone.commands.system.ArgumentCommand;
 
 import java.util.Arrays;
@@ -47,10 +51,15 @@ public interface ZoneCommands {
     ZoneFlagBlockPlaceSetEnabledCommand ZONE_FLAG_BLOCK_PLACE_SET_ENABLED_COMMAND = new ZoneFlagBlockPlaceSetEnabledCommand();
     ZoneFlagBlockPlaceViewCommand ZONE_FLAG_BLOCK_PLACE_VIEW_COMMAND = new ZoneFlagBlockPlaceViewCommand();
     ZoneFlagBlockPlaceSetGroupCommand ZONE_FLAG_BLOCK_PLACE_SET_GROUP_COMMAND = new ZoneFlagBlockPlaceSetGroupCommand();
-    ZoneViewBalanceCommand ZONE_FLAG_VIEW_BALANCE_COMMAND = new ZoneViewBalanceCommand();
-    ZoneFlagGreetingsSetMessageCommand SET_GREETINGS_MESSAGE_COMMAND = new ZoneFlagGreetingsSetMessageCommand();
-    ZoneFlagGreetingsViewCommand GREETINGS_MESSAGE_VIEW_COMMAND = new ZoneFlagGreetingsViewCommand();
-    ZoneFlagGreetingsRemoveMessageCommand GREETINGS_REMOVE_MESSAGE_COMMAND = new ZoneFlagGreetingsRemoveMessageCommand();
+    ZoneFlagViewBalanceCommand ZONE_FLAG_VIEW_BALANCE_COMMAND = new ZoneFlagViewBalanceCommand();
+    ZoneFlagGreetingsSetMessageCommand ZONE_FLAG_GREETINGS_MESSAGE_COMMAND = new ZoneFlagGreetingsSetMessageCommand();
+    ZoneFlagGreetingsViewCommand ZONE_FLAG_GREETINGS_VIEW_COMMAND = new ZoneFlagGreetingsViewCommand();
+    ZoneFlagGreetingsRemoveCommand ZONE_FLAG_GREETINGS_REMOVE_COMMAND = new ZoneFlagGreetingsRemoveCommand();
+    ZoneFlagLeavingRemoveCommand ZONE_FLAG_LEAVING_REMOVE_COMMAND = new ZoneFlagLeavingRemoveCommand();
+    ZoneFlagLeavingSetMessageCommand ZONE_FLAG_LEAVING_SET_MESSAGE_COMMAND = new ZoneFlagLeavingSetMessageCommand();
+    ZoneFlagLeavingViewCommand ZONE_FLAG_LEAVING_VIEW_COMMAND = new ZoneFlagLeavingViewCommand();
+    ZoneInfoCommand ZONE_INFO_COMMAND = new ZoneInfoCommand();
+
     static ZoneSpongeCommand createCommand() {
         Collection<ArgumentCommand> collection = Arrays
                 .stream(ZoneCommands.class.getDeclaredFields())

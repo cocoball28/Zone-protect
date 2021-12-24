@@ -2,6 +2,7 @@ package org.zone.commands.structure.create;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandCause;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.entity.living.player.Player;
@@ -31,33 +32,29 @@ import java.util.Optional;
  */
 public class ZoneCreateStartCommand implements ArgumentCommand {
 
-    private static final RemainingArgument<String> NAME = new RemainingArgument<>(new StringArgument("key"));
+    private static final RemainingArgument<String> NAME = new RemainingArgument<>(new StringArgument(
+            "key"));
 
     @Override
-    public List<CommandArgument<?>> getArguments() {
-        return Arrays.asList(new ExactArgument("create"), new ExactArgument("bounds"), new ExactArgument("start"), NAME);
+    public @NotNull List<CommandArgument<?>> getArguments() {
+        return Arrays.asList(new ExactArgument("create"),
+                             new ExactArgument("bounds"),
+                             new ExactArgument("start"),
+                             NAME);
     }
 
     @Override
-    public Component getDescription() {
+    public @NotNull Component getDescription() {
         return Component.text("Create a zone via walking edge to edge");
     }
 
     @Override
-    public Optional<String> getPermissionNode() {
+    public @NotNull Optional<String> getPermissionNode() {
         return Optional.of(Permissions.REGION_CREATE_BOUNDS.getPermission());
     }
 
     @Override
-    public boolean hasPermission(CommandCause source) {
-        if (!(source.subject() instanceof Player)) {
-            return false;
-        }
-        return ArgumentCommand.super.hasPermission(source);
-    }
-
-    @Override
-    public CommandResult run(CommandContext context, String... args) {
+    public @NotNull CommandResult run(CommandContext context, String... args) {
         Subject subject = context.getSource();
         if (!(subject instanceof ServerPlayer player)) {
             return CommandResult.error(Component.text("Player only command"));
@@ -65,7 +62,8 @@ public class ZoneCreateStartCommand implements ArgumentCommand {
 
         String name = String.join(" ", context.getArgument(this, NAME));
         Vector3i vector3i = player.location().blockPosition();
-        BoundedRegion region = new BoundedRegion(new Vector3i(vector3i.x(), 0, vector3i.z()), new Vector3i(vector3i.x(), 256, vector3i.z()));
+        BoundedRegion region = new BoundedRegion(new Vector3i(vector3i.x(), 0, vector3i.z()),
+                                                 new Vector3i(vector3i.x(), 256, vector3i.z()));
 
         ChildRegion childRegion = new ChildRegion(Collections.singleton(region));
 
@@ -80,12 +78,27 @@ public class ZoneCreateStartCommand implements ArgumentCommand {
                 .getZoneManager()
                 .getZone(builder.getContainer(), builder.getKey())
                 .isPresent()) {
-            return CommandResult.error(Component.text("Cannot use that name").color(NamedTextColor.RED));
+            return CommandResult.error(Component
+                                               .text("Cannot use that name")
+                                               .color(NamedTextColor.RED));
         }
-        ZonePlugin.getZonesPlugin().getMemoryHolder().registerZoneBuilder(player.uniqueId(), builder);
+        ZonePlugin
+                .getZonesPlugin()
+                .getMemoryHolder()
+                .registerZoneBuilder(player.uniqueId(), builder);
         player.sendMessage(Component
-                .text("Region builder mode enabled. Run ")
-                .append(Component.text("'/zone create end'").color(NamedTextColor.AQUA)));
+                                   .text("Region builder mode enabled. Run ")
+                                   .append(Component
+                                                   .text("'/zone create end'")
+                                                   .color(NamedTextColor.AQUA)));
         return CommandResult.success();
+    }
+
+    @Override
+    public boolean hasPermission(CommandCause source) {
+        if (!(source.subject() instanceof Player)) {
+            return false;
+        }
+        return ArgumentCommand.super.hasPermission(source);
     }
 }

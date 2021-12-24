@@ -32,12 +32,15 @@ public class EcoFlag implements Flag {
 
     public EcoFlag(Map<? extends Currency, ? extends Number> money) {
         this.money.putAll(money
-                .entrySet()
-                .stream()
-                .map(entry -> new AbstractMap.SimpleImmutableEntry<>(entry.getKey(), BigDecimal.valueOf(entry
-                        .getValue()
-                        .doubleValue())))
-                .collect(Collectors.toMap(AbstractMap.SimpleImmutableEntry::getKey, AbstractMap.SimpleImmutableEntry::getValue)));
+                                  .entrySet()
+                                  .stream()
+                                  .map(entry -> new AbstractMap.SimpleImmutableEntry<>(entry.getKey(),
+                                                                                       BigDecimal.valueOf(
+                                                                                               entry
+                                                                                                       .getValue()
+                                                                                                       .doubleValue())))
+                                  .collect(Collectors.toMap(AbstractMap.SimpleImmutableEntry::getKey,
+                                                            AbstractMap.SimpleImmutableEntry::getValue)));
     }
 
     /**
@@ -53,19 +56,23 @@ public class EcoFlag implements Flag {
      * Gets the balance found within the zone
      *
      * @param currency The currency to get
+     *
      * @return Gets the balance from the zone, if the zone does not contain that currency, a balance of 0 will be used unless there is no eco plugin found, in that case it will be {@link Double#MAX_VALUE}
      */
     public @NotNull BigDecimal getMoney(@NotNull Currency currency) {
-        return this.money.getOrDefault(currency, BigDecimal.valueOf(Sponge
-                .serviceProvider()
-                .provide(EconomyService.class)
-                .isPresent() ? 0 : Double.MAX_VALUE));
+        return this.money.getOrDefault(currency,
+                                       BigDecimal.valueOf(Sponge
+                                                                  .serviceProvider()
+                                                                  .provide(EconomyService.class)
+                                                                  .isPresent() ? 0 : Double.MAX_VALUE));
     }
 
     /**
      * Checks if the flag has the specified balance
+     *
      * @param currency The currency to check
-     * @param amount The amount to check
+     * @param amount   The amount to check
+     *
      * @return If the zone has that much, returns true if no eco plugin was found
      */
     public boolean hasBalance(@NotNull Currency currency, @NotNull BigDecimal amount) {
@@ -74,8 +81,9 @@ public class EcoFlag implements Flag {
 
     /**
      * Sets the balance of a specific currency. This will override the current value. Will not take affect if no currency plugin was found
+     *
      * @param currency The currency to use
-     * @param amount The amount to set
+     * @param amount   The amount to set
      */
     public void setBalance(@NotNull Currency currency, @NotNull BigDecimal amount) {
         if (Sponge.serviceProvider().provide(EconomyService.class).isEmpty()) {
@@ -90,50 +98,56 @@ public class EcoFlag implements Flag {
 
     /**
      * Adds the specified amount into the zone
+     *
      * @param currency The currency to use
-     * @param amount The amount to deposit
+     * @param amount   The amount to deposit
+     *
      * @return The transaction
      */
-    public @NotNull DepositTransaction deposit(@NotNull Currency currency, @NotNull BigDecimal amount) {
+    public @NotNull DepositTransaction deposit(@NotNull Currency currency,
+                                               @NotNull BigDecimal amount) {
         if (Sponge.serviceProvider().provide(EconomyService.class).isEmpty()) {
             return new DepositTransaction(new TransactionBuilder()
-                    .setFlag(this)
-                    .setAfter(BigDecimal.valueOf(Double.MAX_VALUE))
-                    .setOriginal(BigDecimal.valueOf(Double.MAX_VALUE))
-                    .setState(TransactionState.FAIL));
+                                                  .setFlag(this)
+                                                  .setAfter(BigDecimal.valueOf(Double.MAX_VALUE))
+                                                  .setOriginal(BigDecimal.valueOf(Double.MAX_VALUE))
+                                                  .setState(TransactionState.FAIL));
         }
         BigDecimal money = this.getMoney(currency);
         BigDecimal nextMoney = money.add(amount);
         this.setBalance(currency, money);
         return new DepositTransaction(new TransactionBuilder()
-                .setState(TransactionState.SUCCESS)
-                .setOriginal(money)
-                .setAfter(nextMoney)
-                .setFlag(this));
+                                              .setState(TransactionState.SUCCESS)
+                                              .setOriginal(money)
+                                              .setAfter(nextMoney)
+                                              .setFlag(this));
     }
 
     /**
      * Removes the specified amount into the zone. If the zone does not have enough or no economy plugin is found then the transaction will fail
+     *
      * @param currency The currency to use
-     * @param amount The amount to withdraw
+     * @param amount   The amount to withdraw
+     *
      * @return The transaction
      */
-    public @NotNull WithdrawTransaction withdraw(@NotNull Currency currency, @NotNull BigDecimal amount) {
+    public @NotNull WithdrawTransaction withdraw(@NotNull Currency currency,
+                                                 @NotNull BigDecimal amount) {
         if (Sponge.serviceProvider().provide(EconomyService.class).isEmpty()) {
             return new WithdrawTransaction(new TransactionBuilder()
-                    .setFlag(this)
-                    .setAfter(BigDecimal.valueOf(Double.MAX_VALUE))
-                    .setOriginal(BigDecimal.valueOf(Double.MAX_VALUE))
-                    .setState(TransactionState.FAIL));
+                                                   .setFlag(this)
+                                                   .setAfter(BigDecimal.valueOf(Double.MAX_VALUE))
+                                                   .setOriginal(BigDecimal.valueOf(Double.MAX_VALUE))
+                                                   .setState(TransactionState.FAIL));
         }
         BigDecimal money = this.getMoney(currency);
         BigDecimal nextMoney = money.subtract(amount);
         this.setBalance(currency, money);
         return new WithdrawTransaction(new TransactionBuilder()
-                .setState(TransactionState.SUCCESS)
-                .setOriginal(money)
-                .setAfter(nextMoney)
-                .setFlag(this));
+                                               .setState(TransactionState.SUCCESS)
+                                               .setOriginal(money)
+                                               .setAfter(nextMoney)
+                                               .setFlag(this));
     }
 
     @Override

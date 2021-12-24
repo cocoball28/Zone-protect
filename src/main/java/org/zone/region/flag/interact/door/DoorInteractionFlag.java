@@ -14,12 +14,13 @@ import java.util.Optional;
  * <p>
  * If the player is within a group that has the specified GroupKey then they can open/close blocks even with the flag enabled
  */
-public class DoorInteractionFlag implements Flag.Enabled, Flag.GroupKeyed {
+public class DoorInteractionFlag implements Flag.Enabled, Flag.AffectsPlayer {
 
     private @Nullable Boolean enabled;
 
     public static final DoorInteractionFlag ELSE = new DoorInteractionFlag(false);
 
+    @SuppressWarnings("CopyConstructorMissesField")
     public DoorInteractionFlag(@SuppressWarnings("TypeMayBeWeakened") @NotNull DoorInteractionFlag flag) {
         this(flag.getEnabled().orElse(null));
     }
@@ -29,8 +30,18 @@ public class DoorInteractionFlag implements Flag.Enabled, Flag.GroupKeyed {
     }
 
     @Override
+    public @NotNull DoorInteractionFlagType getType() {
+        return FlagTypes.DOOR_INTERACTION;
+    }
+
+    @Override
     public @NotNull Optional<Boolean> getEnabled() {
         return Optional.ofNullable(this.enabled);
+    }
+
+    @Override
+    public @NotNull GroupKey getRequiredKey() {
+        return GroupKeys.INTERACT_DOOR;
     }
 
     @Override
@@ -43,13 +54,5 @@ public class DoorInteractionFlag implements Flag.Enabled, Flag.GroupKeyed {
         this.enabled = flag;
     }
 
-    @Override
-    public @NotNull DoorInteractionFlagType getType() {
-        return FlagTypes.DOOR_INTERACTION;
-    }
 
-    @Override
-    public @NotNull GroupKey getRequiredKey() {
-        return GroupKeys.INTERACT_DOOR;
-    }
 }

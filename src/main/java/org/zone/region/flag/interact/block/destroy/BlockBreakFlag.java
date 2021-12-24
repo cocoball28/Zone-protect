@@ -14,7 +14,7 @@ import java.util.Optional;
  *
  * If the player is within a group that has the specified GroupKey then they can break blocks even with the flag enabled
  */
-public class BlockBreakFlag implements Flag.Enabled, Flag.GroupKeyed {
+public class BlockBreakFlag implements Flag.Enabled, Flag.AffectsPlayer {
 
     private @Nullable Boolean enabled;
 
@@ -23,6 +23,7 @@ public class BlockBreakFlag implements Flag.Enabled, Flag.GroupKeyed {
      */
     public static final BlockBreakFlag ELSE = new BlockBreakFlag(false);
 
+    @SuppressWarnings("CopyConstructorMissesField")
     public BlockBreakFlag(@SuppressWarnings("TypeMayBeWeakened") @NotNull BlockBreakFlag flag) {
         this(flag.getEnabled().orElse(null));
     }
@@ -32,8 +33,18 @@ public class BlockBreakFlag implements Flag.Enabled, Flag.GroupKeyed {
     }
 
     @Override
+    public @NotNull BlockBreakFlagType getType() {
+        return FlagTypes.BLOCK_BREAK;
+    }
+
+    @Override
     public @NotNull Optional<Boolean> getEnabled() {
         return Optional.ofNullable(this.enabled);
+    }
+
+    @Override
+    public @NotNull GroupKey getRequiredKey() {
+        return GroupKeys.BLOCK_BREAK;
     }
 
     @Override
@@ -46,13 +57,5 @@ public class BlockBreakFlag implements Flag.Enabled, Flag.GroupKeyed {
         this.enabled = flag;
     }
 
-    @Override
-    public @NotNull BlockBreakFlagType getType() {
-        return FlagTypes.BLOCK_BREAK;
-    }
 
-    @Override
-    public @NotNull GroupKey getRequiredKey() {
-        return GroupKeys.BLOCK_BREAK;
-    }
 }

@@ -14,13 +14,13 @@ import java.util.stream.Collectors;
  */
 public class ChildRegion implements Region {
 
-    private final Collection<Region> bounds = new HashSet<>();
+    private final @NotNull Collection<Region> bounds = new HashSet<>();
 
     public ChildRegion() {
         this(Collections.emptyList());
     }
 
-    public ChildRegion(Collection<? extends Region> bounds) {
+    public ChildRegion(@NotNull Collection<? extends Region> bounds) {
         this.bounds.addAll(bounds);
     }
 
@@ -29,7 +29,7 @@ public class ChildRegion implements Region {
      *
      * @param region The region to add
      */
-    public void add(Region region) {
+    public void add(@NotNull Region region) {
         this.bounds.add(region);
     }
 
@@ -38,7 +38,7 @@ public class ChildRegion implements Region {
      *
      * @param region The region to remove
      */
-    public void remove(Region region) {
+    public void remove(@NotNull Region region) {
         this.bounds.remove(region);
     }
 
@@ -48,7 +48,7 @@ public class ChildRegion implements Region {
     }
 
     @Override
-    public Optional<Vector3i> getNearestPosition(@NotNull Vector3i vector3i) {
+    public @NotNull Optional<Vector3i> getNearestPosition(@NotNull Vector3i vector3i) {
         Set<Vector3i> nearestPositions = this
                 .getTrueChildren()
                 .stream()
@@ -70,17 +70,16 @@ public class ChildRegion implements Region {
     }
 
     @Override
-    public Collection<Region> getChildren() {
-        return Collections.unmodifiableCollection(this.bounds);
-    }
-
-    @Override
-    public void save(ConfigurationNode node) throws SerializationException {
+    public void save(@NotNull ConfigurationNode node) throws SerializationException {
         ChildRegion.save(node, this);
     }
 
+    @Override
+    public @NotNull Collection<Region> getChildren() {
+        return Collections.unmodifiableCollection(this.bounds);
+    }
 
-    public static ChildRegion load(ConfigurationNode node) {
+    public static @NotNull ChildRegion load(@NotNull ConfigurationNode node) {
         Collection<? extends ConfigurationNode> children = node.childrenMap().values();
         Set<Region> regions = new HashSet<>();
 
@@ -94,7 +93,7 @@ public class ChildRegion implements Region {
         return new ChildRegion(regions);
     }
 
-    public static void save(ConfigurationNode node, ChildRegion region) throws
+    public static void save(@NotNull ConfigurationNode node, @SuppressWarnings("TypeMayBeWeakened") @NotNull ChildRegion region) throws
             SerializationException {
         for (Region child : region.getChildren()) {
             child.save(node.node("" + child.hashCode()));

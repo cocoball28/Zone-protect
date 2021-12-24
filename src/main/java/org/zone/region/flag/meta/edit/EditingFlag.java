@@ -24,7 +24,11 @@ public class EditingFlag implements Flag {
     private final @NotNull BoundMode boundMode;
     private @NotNull Vector3i newPosition;
 
-    public EditingFlag(@NotNull BoundedRegion region, @NotNull PositionType positionType, @NotNull Vector3i newPosition, @NotNull BoundMode boundMode, @Nullable UUID uuid) {
+    public EditingFlag(@NotNull BoundedRegion region,
+                       @NotNull PositionType positionType,
+                       @NotNull Vector3i newPosition,
+                       @NotNull BoundMode boundMode,
+                       @Nullable UUID uuid) {
         this.playerEditing = uuid;
         this.positionType = positionType;
         this.newPosition = newPosition;
@@ -34,6 +38,7 @@ public class EditingFlag implements Flag {
 
     /**
      * Gets the shift for the zone
+     *
      * @return The BoundMode for this editing state
      */
     public @NotNull BoundMode getBoundMode() {
@@ -42,6 +47,7 @@ public class EditingFlag implements Flag {
 
     /**
      * Gets the region being edited
+     *
      * @return The BoundedRegion for this editing state
      */
     public @NotNull BoundedRegion getRegion() {
@@ -50,6 +56,7 @@ public class EditingFlag implements Flag {
 
     /**
      * Gets the player editing the region
+     *
      * @return The UUID of the player editing the region
      */
     public Optional<UUID> getPlayer() {
@@ -58,6 +65,7 @@ public class EditingFlag implements Flag {
 
     /**
      * Gets the position type being used to edit
+     *
      * @return The position type being edited
      */
     public @NotNull PositionType getPositionType() {
@@ -66,6 +74,7 @@ public class EditingFlag implements Flag {
 
     /**
      * Gets the current new position to be
+     *
      * @return The new position after editing
      */
     public @NotNull Vector3i getNewPosition() {
@@ -74,6 +83,7 @@ public class EditingFlag implements Flag {
 
     /**
      * Sets the current new position to be
+     *
      * @param vector3i The new position to set
      */
     public void setNewPosition(@NotNull Vector3i vector3i) {

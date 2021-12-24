@@ -18,12 +18,12 @@ public class ImplementedGroupIterator implements Iterator<Group> {
 
     @Override
     public boolean hasNext() {
-        return this.targetGroup!=null;
+        return this.targetGroup != null;
     }
 
     @Override
     public Group next() {
-        if (this.targetGroup==null) {
+        if (this.targetGroup == null) {
             throw new IllegalStateException("Out of next groups");
         }
         Group ret = this.targetGroup;

@@ -18,9 +18,9 @@ import java.util.Optional;
  */
 public class DefaultFlagFile {
 
-    public static final File FILE = new File("config/zones/DefaultZone.conf");
     private final HoconConfigurationLoader loader;
     private final ConfigurationNode node;
+    public static final File FILE = new File("config/zones/DefaultZone.conf");
 
     public DefaultFlagFile() {
         this.loader = HoconConfigurationLoader.builder().file(FILE).build();
@@ -41,7 +41,10 @@ public class DefaultFlagFile {
                 FILE.getParentFile().mkdirs();
                 FILE.createNewFile();
             }
-            for (FlagType<? extends Flag> type : ZonePlugin.getZonesPlugin().getFlagManager().getRegistered()) {
+            for (FlagType<? extends Flag> type : ZonePlugin
+                    .getZonesPlugin()
+                    .getFlagManager()
+                    .getRegistered()) {
                 Optional<? extends Flag> opFlag = this.loadDefault(type);
                 if (opFlag.isEmpty()) {
                     this.removeDefault(type);
@@ -61,20 +64,23 @@ public class DefaultFlagFile {
      * @param type The flag type
      * @param <F>  The flag class
      * @param <T>  The flag type class
+     *
      * @return The loaded flag, if it fails to load then the default from the type will be used.
      */
     public <F extends Flag, T extends FlagType<F>> Optional<F> loadDefault(T type) {
         try {
-            return Optional.of(type.load(this.node.node("flags", type.getPlugin().metadata().id(), type.getKey())));
+            return Optional.of(type.load(this.node.node("flags",
+                                                        type.getPlugin().metadata().id(),
+                                                        type.getKey())));
         } catch (IOException e) {
             return type.createCopyOfDefaultFlag();
         } catch (Throwable e) {
             Sponge
                     .systemSubject()
                     .sendMessage(Component
-                            .text("Failed to load flag of " + type.getId())
-                            .color(NamedTextColor.RED)
-                            .decorate(TextDecoration.BOLD));
+                                         .text("Failed to load flag of " + type.getId())
+                                         .color(NamedTextColor.RED)
+                                         .decorate(TextDecoration.BOLD));
             e.printStackTrace();
             return Optional.empty();
         }
@@ -86,6 +92,7 @@ public class DefaultFlagFile {
      * @param flag The new defaults
      * @param <F>  The flag class
      * @param <T>  The flag type class
+     *
      * @throws IOException If fails to save
      */
     public <F extends Flag, T extends FlagType<F>> void setDefault(F flag) throws IOException {
@@ -97,6 +104,7 @@ public class DefaultFlagFile {
      * removes the default values for a flag
      *
      * @param type The type to remove
+     *
      * @throws IOException if fails to save
      */
     public void removeDefault(FlagType<? extends Flag> type) throws IOException {

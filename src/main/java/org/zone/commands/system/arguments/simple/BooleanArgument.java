@@ -1,5 +1,6 @@
 package org.zone.commands.system.arguments.simple;
 
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandCompletion;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.CommandArgumentResult;
@@ -13,37 +14,54 @@ import java.util.Set;
 public class BooleanArgument implements CommandArgument<Boolean> {
 
     private final String id;
+    private final String asTrue;
+    private final String asFalse;
 
     public BooleanArgument(String id) {
+        this(id, "true", "false");
+    }
+
+    public BooleanArgument(String id, String trueString, String falseString) {
         this.id = id;
+        this.asFalse = falseString;
+        this.asTrue = trueString;
     }
 
     @Override
-    public String getId() {
+    public @NotNull String getId() {
         return this.id;
     }
 
     @Override
-    public CommandArgumentResult<Boolean> parse(CommandContext context, CommandArgumentContext<Boolean> argument) throws IOException {
+    public CommandArgumentResult<Boolean> parse(CommandContext context,
+                                                CommandArgumentContext<Boolean> argument) throws
+            IOException {
         String arg = context.getCommand()[argument.getFirstArgument()];
-        if (arg.equals("true")) {
+        if (arg.equals(this.asTrue)) {
             return CommandArgumentResult.from(argument, true);
         }
-        if (arg.equals("false")) {
+        if (arg.equals(this.asFalse)) {
             return CommandArgumentResult.from(argument, false);
         }
-        throw new IOException("'" + arg + "' is not either 'true' or 'false'");
+        throw new IOException("'" +
+                                      arg +
+                                      "' is not either '" +
+                                      this.asTrue +
+                                      "' or '" +
+                                      this.asFalse +
+                                      "'");
     }
 
     @Override
-    public Set<CommandCompletion> suggest(CommandContext commandContext, CommandArgumentContext<Boolean> argument) {
+    public Set<CommandCompletion> suggest(CommandContext commandContext,
+                                          CommandArgumentContext<Boolean> argument) {
         String peek = commandContext.getCommand()[argument.getFirstArgument()];
         Set<CommandCompletion> list = new HashSet<>();
-        if ("true".startsWith(peek.toLowerCase())) {
-            list.add(CommandCompletion.of("true"));
+        if (this.asTrue.startsWith(peek.toLowerCase())) {
+            list.add(CommandCompletion.of(this.asTrue));
         }
-        if ("false".startsWith(peek.toLowerCase())) {
-            list.add(CommandCompletion.of("false"));
+        if (this.asFalse.startsWith(peek.toLowerCase())) {
+            list.add(CommandCompletion.of(this.asFalse));
         }
         return list;
     }

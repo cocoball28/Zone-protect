@@ -28,10 +28,6 @@ public class ZoneBuilder {
     private BoundMode boundMode;
     private ResourceKey world;
 
-    public void setBoundMode(@Nullable BoundMode mode) {
-        this.boundMode = mode;
-    }
-
     public ResourceKey getWorldKey() {
         return this.world;
     }
@@ -51,6 +47,10 @@ public class ZoneBuilder {
             return BoundModes.BLOCK;
         }
         return this.boundMode;
+    }
+
+    public void setBoundMode(@Nullable BoundMode mode) {
+        this.boundMode = mode;
     }
 
     public PluginContainer getContainer() {
@@ -107,13 +107,13 @@ public class ZoneBuilder {
         return this.parentId;
     }
 
-    public ZoneBuilder setParent(@SuppressWarnings("TypeMayBeWeakened") Zone parent) {
-        this.parentId = parent.getId();
+    public ZoneBuilder setParentId(String id) {
+        this.parentId = id;
         return this;
     }
 
-    public ZoneBuilder setParentId(String id) {
-        this.parentId = id;
+    public ZoneBuilder setParent(@SuppressWarnings("TypeMayBeWeakened") Zone parent) {
+        this.parentId = parent.getId();
         return this;
     }
 

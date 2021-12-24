@@ -3,6 +3,7 @@ package org.zone.region.flag;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
+import org.zone.ZonePlugin;
 import org.zone.region.Zone;
 import org.zone.region.flag.meta.member.MembersFlag;
 import org.zone.region.group.Group;
@@ -18,23 +19,27 @@ import java.util.UUID;
 public interface Flag {
 
     /**
+     * If the flag affects players then it should implement this
+     */
+    interface AffectsPlayer extends Flag.GroupKeyed {
+
+        default boolean canBypassEffects(@NotNull Zone zone, @NotNull UUID player) {
+            return this.hasPermission(zone, player);
+        }
+
+    }
+
+    /**
      * If the flag can be enabled/disabled, then it should implement this to help other plugins to understand your flag
      */
     interface Enabled extends Flag {
-
-        /**
-         * Sets the flag enabled status
-         *
-         * @param enabled If the flag should be enabled or not. Setting this to null should make it the same as default
-         */
-        void setEnabled(@Nullable Boolean enabled);
 
         /**
          * Gets if the flag has been enabled
          *
          * @return If the flag has been enabled, {@link Optional#empty()} if default value should be used
          */
-        Optional<Boolean> getEnabled();
+        @NotNull Optional<Boolean> getEnabled();
 
         /**
          * Gets if the flag has been enabled
@@ -42,6 +47,13 @@ public interface Flag {
          * @return If the flag has been enabled, if the value is null, the default is used instead
          */
         boolean isEnabled();
+
+        /**
+         * Sets the flag enabled status
+         *
+         * @param enabled If the flag should be enabled or not. Setting this to null should make it the same as default
+         */
+        void setEnabled(@Nullable Boolean enabled);
 
     }
 
@@ -61,6 +73,7 @@ public interface Flag {
          *
          * @param zone     the zone this flag is attached to
          * @param playerId The player ID
+         *
          * @return If the player has permission
          */
         default boolean hasPermission(@NotNull Zone zone, @NotNull UUID playerId) {
@@ -72,6 +85,7 @@ public interface Flag {
          *
          * @param flag     the MemberFlag this flag is part of
          * @param playerId the player ID
+         *
          * @return if the player has permission
          */
         default boolean hasPermission(@NotNull MembersFlag flag, @NotNull UUID playerId) {
@@ -82,6 +96,7 @@ public interface Flag {
          * Checks if a group has permission to override this flag
          *
          * @param group The group to compare
+         *
          * @return If the group has permission
          */
         default boolean hasPermission(@NotNull Group group) {
@@ -101,10 +116,28 @@ public interface Flag {
      *
      * @param node The node to serialize to
      * @param <T>  The class of this flag
+     *
      * @throws IOException if there is a issue saving
      */
-    default <T extends Flag> void save(ConfigurationNode node) throws IOException {
+    default <T extends Flag> void save(@NotNull ConfigurationNode node) throws IOException {
         ((FlagType<T>) this.getType()).save(node, (T) this);
+    }
+
+    /**
+     * Finds the zone that this flag belongs to.
+     * If another way to find the zone is possible, then please use that as this checks every
+     * zone until found
+     *
+     * @return The attached zone, if {@link Optional#empty()} then no active zone has this flag
+     */
+    default @NotNull Optional<Zone> findAttachedZone() {
+        return ZonePlugin
+                .getZonesPlugin()
+                .getZoneManager()
+                .getZones()
+                .parallelStream()
+                .filter(z -> z.containsFlag(Flag.this))
+                .findAny();
     }
 
 }

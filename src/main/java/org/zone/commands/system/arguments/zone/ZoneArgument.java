@@ -15,6 +15,7 @@ import org.zone.commands.system.context.CommandContext;
 import org.zone.region.Zone;
 import org.zone.region.group.Group;
 import org.zone.region.group.key.GroupKey;
+import org.zone.region.group.key.GroupKeys;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -23,14 +24,17 @@ import java.util.stream.Stream;
 
 public class ZoneArgument implements CommandArgument<Zone> {
 
+    private final @NotNull ZoneArgumentPropertiesBuilder builder;
+    private final @NotNull String id;
+
     public static class ZoneArgumentPropertiesBuilder {
 
-        private ParseCommandArgument<Zone> subZoneTo;
+        private @Nullable ParseCommandArgument<Zone> subZoneTo;
         private boolean onlyMainZones = true;
-        private String bypassSuggestionPermission;
-        private GroupKey level;
+        private @Nullable String bypassSuggestionPermission;
+        private @Nullable GroupKey level = GroupKeys.OWNER;
 
-        public String getBypassSuggestionPermission() {
+        public @Nullable String getBypassSuggestionPermission() {
             return this.bypassSuggestionPermission;
         }
 
@@ -39,7 +43,7 @@ public class ZoneArgument implements CommandArgument<Zone> {
             return this;
         }
 
-        public ParseCommandArgument<Zone> getSubZoneTo() {
+        public @Nullable ParseCommandArgument<Zone> getSubZoneTo() {
             return this.subZoneTo;
         }
 
@@ -57,7 +61,7 @@ public class ZoneArgument implements CommandArgument<Zone> {
             return this;
         }
 
-        public GroupKey getLevel() {
+        public @Nullable GroupKey getLevel() {
             return this.level;
         }
 
@@ -67,8 +71,9 @@ public class ZoneArgument implements CommandArgument<Zone> {
         }
     }
 
-    private final @NotNull ZoneArgumentPropertiesBuilder builder;
-    private final @NotNull String id;
+    public ZoneArgument(@NotNull String id) {
+        this(id, new ZoneArgumentPropertiesBuilder());
+    }
 
     public ZoneArgument(@NotNull String id, @NotNull ZoneArgumentPropertiesBuilder builder) {
         this.id = id;
@@ -81,7 +86,14 @@ public class ZoneArgument implements CommandArgument<Zone> {
     }
 
     @Override
-    public CommandArgumentResult<Zone> parse(CommandContext context, CommandArgumentContext<Zone> argument) throws IOException {
+    public boolean canApply(@NotNull CommandContext context) {
+        return !this.suggest(context, "").isEmpty();
+    }
+
+    @Override
+    public CommandArgumentResult<Zone> parse(@NotNull CommandContext context,
+                                             @NotNull CommandArgumentContext<Zone> argument) throws
+            IOException {
         Stream<Zone> zones = ZonePlugin.getZonesPlugin().getZoneManager().getZones().stream();
         if (this.builder.isOnlyMainZones()) {
             zones = zones.filter(zone -> zone.getParent().isEmpty());
@@ -105,16 +117,19 @@ public class ZoneArgument implements CommandArgument<Zone> {
         Zone result = zones
                 .filter(zone -> zone.getId().equalsIgnoreCase(argument.getFocusArgument()))
                 .findAny()
-                .orElseThrow(() -> new IOException("Could not find zone of " + argument.getFocusArgument()));
+                .orElseThrow(() -> new IOException("Could not find zone of " +
+                                                           argument.getFocusArgument()));
         return CommandArgumentResult.from(argument, result);
     }
 
     @Override
-    public Collection<CommandCompletion> suggest(CommandContext context, CommandArgumentContext<Zone> argument) {
+    public Collection<CommandCompletion> suggest(@NotNull CommandContext context,
+                                                 @NotNull CommandArgumentContext<Zone> argument) {
         return this.suggest(context, argument.getFocusArgument());
     }
 
-    private Collection<CommandCompletion> suggest(CommandContext context, String focus) {
+    private Collection<CommandCompletion> suggest(@NotNull CommandContext context,
+                                                  @NotNull String focus) {
         Collection<Zone> collection = ZonePlugin.getZonesPlugin().getZoneManager().getZones();
         Stream<Zone> zones = collection.stream();
         if (this.builder.isOnlyMainZones()) {
@@ -140,10 +155,5 @@ public class ZoneArgument implements CommandArgument<Zone> {
                 .filter(zone -> zone.getId().toLowerCase().startsWith(focus.toLowerCase()))
                 .map(zone -> CommandCompletion.of(zone.getId(), Component.text(zone.getName())))
                 .collect(Collectors.toSet());
-    }
-
-    @Override
-    public boolean canApply(CommandContext context) {
-        return !this.suggest(context, "").isEmpty();
     }
 }

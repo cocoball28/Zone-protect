@@ -11,7 +11,8 @@ import org.spongepowered.math.vector.Vector3i;
  */
 public class ChunkBoundMode implements BoundMode {
     @Override
-    public @NotNull Location<? extends World<?, ?>, ?> shift(@NotNull Location<? extends World<?, ?>, ?> current, @NotNull Vector3i other) {
+    public @NotNull Location<? extends World<?, ?>, ?> shift(@NotNull Location<? extends World<?, ?>, ?> current,
+                                                             @NotNull Vector3i other) {
         Vector3i chunkPos = current.chunkPosition();
         WorldChunk chunk = current.world().chunk(chunkPos);
         Vector3i min = chunk.min();

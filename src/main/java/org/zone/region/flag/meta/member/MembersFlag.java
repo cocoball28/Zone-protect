@@ -15,9 +15,8 @@ import java.util.stream.Collectors;
  */
 public class MembersFlag implements Flag {
 
-    public static final MembersFlag DEFAULT = new MembersFlag(DefaultGroups.createDefaultGroups());
-
     private final java.util.Map<Group, Collection<UUID>> groups = new HashMap<>();
+    public static final MembersFlag DEFAULT = new MembersFlag(DefaultGroups.createDefaultGroups());
 
     public MembersFlag() {
         this(DEFAULT);
@@ -45,12 +44,13 @@ public class MembersFlag implements Flag {
 
     /**
      * Gets a group by a specified GroupKey, {@link Optional#empty()} if no group holds that key
+     *
      * @param key The key to check
+     *
      * @return The group holding the key, {@link Optional#empty()} if no group holds the specified key
      */
     public Optional<Group> getGroup(@NotNull GroupKey key) {
-        return this
-                .groups
+        return this.groups
                 .entrySet()
                 .parallelStream()
                 .map(Map.Entry::getKey)
@@ -60,6 +60,7 @@ public class MembersFlag implements Flag {
 
     /**
      * Removes the key from all groups
+     *
      * @param key The key to remove
      */
     public void removeKey(@NotNull GroupKey key) {
@@ -67,9 +68,10 @@ public class MembersFlag implements Flag {
     }
 
     /**
-     * Adds a groupkey to a group
+     * Adds a group key to a group
+     *
      * @param group the group to have the key
-     * @param key the key to use
+     * @param key   the key to use
      */
     public void addKey(@NotNull Group group, @NotNull GroupKey key) {
         this.removeKey(key);
@@ -78,8 +80,9 @@ public class MembersFlag implements Flag {
 
     /**
      * Adds a member to the group
+     *
      * @param group The group to use
-     * @param uuid the UUID of the player
+     * @param uuid  the UUID of the player
      */
     public void addMember(@NotNull Group group, @NotNull UUID uuid) {
         this.removeMember(uuid);
@@ -97,11 +100,11 @@ public class MembersFlag implements Flag {
 
     /**
      * Gets all members found within this flag
+     *
      * @return A collection of members
      */
     public @NotNull Collection<UUID> getMembers() {
-        return this
-                .groups
+        return this.groups
                 .entrySet()
                 .parallelStream()
                 .flatMap(e -> e.getValue().parallelStream())
@@ -110,7 +113,9 @@ public class MembersFlag implements Flag {
 
     /**
      * gets all the members of a specific group
+     *
      * @param group the group to check
+     *
      * @return A collection of members for that group
      */
     public @NotNull Collection<UUID> getMembers(@NotNull Group group) {
@@ -119,6 +124,7 @@ public class MembersFlag implements Flag {
 
     /**
      * Gets the groups found in this flag
+     *
      * @return a set of groups
      */
     public @NotNull Set<Group> getGroups() {
@@ -127,7 +133,9 @@ public class MembersFlag implements Flag {
 
     /**
      * gets the group a player belongs to
+     *
      * @param uuid UUID of the player
+     *
      * @return The group the player belongs to
      */
     public @NotNull Group getGroup(@NotNull UUID uuid) {
@@ -143,6 +151,7 @@ public class MembersFlag implements Flag {
 
     /**
      * sets a player into the visitor group
+     *
      * @param uuid the UUID of the player
      */
     public void removeMember(@NotNull UUID uuid) {

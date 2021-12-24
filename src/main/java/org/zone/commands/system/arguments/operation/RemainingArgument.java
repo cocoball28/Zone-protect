@@ -1,5 +1,6 @@
 package org.zone.commands.system.arguments.operation;
 
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandCompletion;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
@@ -38,37 +39,46 @@ public class RemainingArgument<T> implements CommandArgument<List<T>> {
         this.argument = new ArrayList<>(argument);
     }
 
-    private CommandArgumentResult<T> parseAny(ArgumentCommand command, CommandContext context, int B) throws IOException {
+    private CommandArgumentResult<T> parseAny(ArgumentCommand command,
+                                              CommandContext context,
+                                              int B) throws IOException {
         IOException e1 = null;
         for (int A = 0; A < this.argument.size(); A++) {
             try {
-                CommandArgumentContext<T> argumentContext = new CommandArgumentContext<>(command, this.argument.get(A)
-                        , B, context.getCommand());
+                CommandArgumentContext<T> argumentContext = new CommandArgumentContext<>(command,
+                                                                                         this.argument.get(
+                                                                                                 A),
+                                                                                         B,
+                                                                                         context.getCommand());
                 return this.argument.get(A).parse(context, argumentContext);
             } catch (IOException e) {
-                if (A==0) {
+                if (A == 0) {
                     e1 = e;
                 }
             }
         }
-        if (e1==null) {
-            //shouldnt be possible
+        if (e1 == null) {
+            //shouldn't be possible
             throw new IOException("Unknown error occurred");
         }
         throw e1;
     }
 
     @Override
-    public String getId() {
+    public @NotNull String getId() {
         return this.id;
     }
 
     @Override
-    public CommandArgumentResult<List<T>> parse(CommandContext context, CommandArgumentContext<List<T>> argument) throws IOException {
+    public CommandArgumentResult<List<T>> parse(CommandContext context,
+                                                CommandArgumentContext<List<T>> argument) throws
+            IOException {
         int A = argument.getFirstArgument();
         List<T> list = new ArrayList<>();
         while (A < context.getCommand().length) {
-            CommandArgumentResult<T> entry = this.parseAny(argument.getArgumentCommand(), context, A);
+            CommandArgumentResult<T> entry = this.parseAny(argument.getArgumentCommand(),
+                                                           context,
+                                                           A);
             A = entry.position();
             list.add(entry.value());
         }
@@ -76,7 +86,8 @@ public class RemainingArgument<T> implements CommandArgument<List<T>> {
     }
 
     @Override
-    public Set<CommandCompletion> suggest(CommandContext context, CommandArgumentContext<List<T>> argument) {
+    public Set<CommandCompletion> suggest(CommandContext context,
+                                          CommandArgumentContext<List<T>> argument) {
         int A = argument.getFirstArgument();
         while (A < context.getCommand().length) {
             final int B = A;
@@ -84,14 +95,14 @@ public class RemainingArgument<T> implements CommandArgument<List<T>> {
             try {
                 entry = this.parseAny(argument.getArgumentCommand(), context, A);
             } catch (IOException e) {
-                return this
-                        .argument
+                return this.argument
                         .stream()
-                        .flatMap(a -> a.suggest(context, new CommandArgumentContext<>(
-                                        argument.getArgumentCommand(),
-                                        a,
-                                        B,
-                                        context.getCommand()))
+                        .flatMap(a -> a
+                                .suggest(context,
+                                         new CommandArgumentContext<>(argument.getArgumentCommand(),
+                                                                      a,
+                                                                      B,
+                                                                      context.getCommand()))
                                 .stream())
                         .collect(Collectors.toSet());
             }

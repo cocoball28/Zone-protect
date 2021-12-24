@@ -2,6 +2,7 @@ package org.zone.commands.system;
 
 
 import net.kyori.adventure.text.Component;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandCause;
 import org.spongepowered.api.command.CommandResult;
 import org.zone.commands.system.context.CommandContext;
@@ -20,14 +21,14 @@ public interface ArgumentCommand {
      *
      * @return A list of command arguments
      */
-    List<CommandArgument<?>> getArguments();
+    @NotNull List<CommandArgument<?>> getArguments();
 
     /**
      * Gets a description of the command, designing to inform the user on what the command does.
      *
      * @return A string of the description
      */
-    Component getDescription();
+    @NotNull Component getDescription();
 
     /**
      * Gets the permission node of the command that is required to run the command.
@@ -37,30 +38,31 @@ public interface ArgumentCommand {
      *
      * @return The permission to the command
      */
-    Optional<String> getPermissionNode();
+    @NotNull Optional<String> getPermissionNode();
 
     /**
      * Runs the command
      *
      * @param commandContext The command context for this command
      * @param args           The arguments for the command
+     *
      * @return if the command should show the usage (false to show)
-     * @throws NotEnoughArgumentsException If the arguments provided are not enough for the command, this will throw
      */
-    CommandResult run(CommandContext commandContext, String... args) throws NotEnoughArgumentsException;
+    @NotNull CommandResult run(@NotNull CommandContext commandContext, @NotNull String... args);
 
     /**
      * If the command source has permission to run this command
      *
      * @param source The command source to compare
+     *
      * @return If the source has permission to run the command
      */
-    default boolean hasPermission(CommandCause source) {
+    default boolean hasPermission(@NotNull CommandCause source) {
         Optional<String> opNode = this.getPermissionNode();
         return opNode.map(source::hasPermission).orElse(true);
     }
 
-    default boolean canApply(CommandContext context) {
+    default boolean canApply(@NotNull CommandContext context) {
         return this.getArguments().stream().allMatch(arg -> arg.canApply(context));
     }
 

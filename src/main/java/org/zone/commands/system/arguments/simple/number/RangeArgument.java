@@ -1,5 +1,6 @@
 package org.zone.commands.system.arguments.simple.number;
 
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandCompletion;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.CommandArgumentResult;
@@ -18,31 +19,42 @@ public class RangeArgument<N extends Number> implements CommandArgument<N> {
     private final ParseCommandArgument<N> lower;
     private final ParseCommandArgument<N> higher;
 
-    public RangeArgument(CommandArgument<N> parser, ParseCommandArgument<N> lower, ParseCommandArgument<N> higher) {
+    public RangeArgument(CommandArgument<N> parser,
+                         ParseCommandArgument<N> lower,
+                         ParseCommandArgument<N> higher) {
         this.parser = parser;
         this.lower = lower;
         this.higher = higher;
     }
 
     @Override
-    public String getId() {
+    public @NotNull String getId() {
         return this.parser.getId();
     }
 
     @Override
-    public CommandArgumentResult<N> parse(CommandContext context, CommandArgumentContext<N> argument) throws IOException {
+    public CommandArgumentResult<N> parse(@NotNull CommandContext context,
+                                          @NotNull CommandArgumentContext<N> argument) throws
+            IOException {
         CommandArgumentResult<N> numberResult = this.parser.parse(context, argument);
         N number = numberResult.value();
         N lower = this.lower.parse(context, argument).value();
         N higher = this.higher.parse(context, argument).value();
-        if (number.doubleValue() < lower.doubleValue() || number.doubleValue() > higher.doubleValue()) {
-            throw new IOException("Number of " + number + " wasn't between " + lower + "-" + higher);
+        if (number.doubleValue() < lower.doubleValue() ||
+                number.doubleValue() > higher.doubleValue()) {
+            throw new IOException("Number of " +
+                                          number +
+                                          " wasn't between " +
+                                          lower +
+                                          "-" +
+                                          higher);
         }
         return numberResult;
     }
 
     @Override
-    public Collection<CommandCompletion> suggest(CommandContext commandContext, CommandArgumentContext<N> argument) {
+    public Collection<CommandCompletion> suggest(@NotNull CommandContext commandContext,
+                                                 @NotNull CommandArgumentContext<N> argument) {
         try {
             N lowest = this.lower.parse(commandContext, argument).value();
             N highest = this.higher.parse(commandContext, argument).value();

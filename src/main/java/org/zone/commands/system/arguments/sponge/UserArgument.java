@@ -1,5 +1,6 @@
 package org.zone.commands.system.arguments.sponge;
 
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandCompletion;
 import org.spongepowered.api.profile.GameProfile;
@@ -17,19 +18,21 @@ import java.util.stream.Collectors;
 
 public class UserArgument implements CommandArgument<GameProfile> {
 
-    private final String id;
+    private final @NotNull String id;
 
-    public UserArgument(String id) {
+    public UserArgument(@NotNull String id) {
         this.id = id;
     }
 
     @Override
-    public String getId() {
+    public @NotNull String getId() {
         return this.id;
     }
 
     @Override
-    public CommandArgumentResult<GameProfile> parse(CommandContext context, CommandArgumentContext<GameProfile> argument) throws IOException {
+    public CommandArgumentResult<GameProfile> parse(@NotNull CommandContext context,
+                                                    @NotNull CommandArgumentContext<GameProfile> argument) throws
+            IOException {
         UserManager manager;
         if (Sponge.isServerAvailable()) {
             manager = Sponge.server().userManager();
@@ -52,7 +55,8 @@ public class UserArgument implements CommandArgument<GameProfile> {
     }
 
     @Override
-    public Collection<CommandCompletion> suggest(CommandContext commandContext, CommandArgumentContext<GameProfile> argument) {
+    public Collection<CommandCompletion> suggest(@NotNull CommandContext commandContext,
+                                                 @NotNull CommandArgumentContext<GameProfile> argument) {
         UserManager manager;
         if (Sponge.isServerAvailable()) {
             manager = Sponge.server().userManager();

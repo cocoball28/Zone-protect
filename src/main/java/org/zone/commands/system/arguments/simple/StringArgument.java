@@ -1,5 +1,6 @@
 package org.zone.commands.system.arguments.simple;
 
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandCompletion;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.CommandArgumentResult;
@@ -18,19 +19,21 @@ public class StringArgument implements CommandArgument<String> {
     }
 
     @Override
-    public String getId() {
+    public @NotNull String getId() {
         return this.id;
     }
 
     @Override
-    public CommandArgumentResult<String> parse(CommandContext context, CommandArgumentContext<String> argument) {
+    public CommandArgumentResult<String> parse(CommandContext context,
+                                               CommandArgumentContext<String> argument) {
         String text = context.getCommand()[argument.getFirstArgument()];
         return CommandArgumentResult.from(argument, text);
 
     }
 
     @Override
-    public Set<CommandCompletion> suggest(CommandContext commandContext, CommandArgumentContext<String> argument) {
+    public Set<CommandCompletion> suggest(@NotNull CommandContext commandContext,
+                                          @NotNull CommandArgumentContext<String> argument) {
         return Collections.emptySet();
     }
 }

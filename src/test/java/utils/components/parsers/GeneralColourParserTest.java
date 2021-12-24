@@ -8,7 +8,10 @@ import org.junit.jupiter.api.Test;
 import org.zone.utils.component.ZoneComponentParser;
 import utils.CollectionAssert;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 public class GeneralColourParserTest {
 
@@ -18,7 +21,8 @@ public class GeneralColourParserTest {
         String testAgainst = "";
 
         //ACT
-        Assertions.assertThrows(IllegalArgumentException.class, () -> ZoneComponentParser.fromString(testAgainst));
+        Assertions.assertThrows(IllegalArgumentException.class,
+                                () -> ZoneComponentParser.fromString(testAgainst));
 
         //ASSERT
     }
@@ -55,7 +59,8 @@ public class GeneralColourParserTest {
         String testAgainst = "<invalid name=RED>Test";
 
         //ACT
-        Assertions.assertThrows(IllegalArgumentException.class, () -> ZoneComponentParser.fromString(testAgainst));
+        Assertions.assertThrows(IllegalArgumentException.class,
+                                () -> ZoneComponentParser.fromString(testAgainst));
     }
 
     @Test
@@ -158,7 +163,7 @@ public class GeneralColourParserTest {
     public void onSuggestTestColourNamePart() {
         //SETUP
         String toTest = "<colour name=RE";
-        Collection<String> expected = new HashSet<>(Collections.singleton("red"));
+        Collection<String> expected = Collections.singleton("red");
 
         //ACT
         @NotNull Collection<String> results = ZoneComponentParser.getSuggestion(toTest);
@@ -166,7 +171,7 @@ public class GeneralColourParserTest {
         //ASSERT
         Assertions.assertFalse(results.isEmpty());
         Assertions.assertEquals(1, results.size());
-        Assertions.assertEquals(expected, results);
+        CollectionAssert.collectionEquals(expected, results);
     }
 
     @Test
@@ -180,5 +185,49 @@ public class GeneralColourParserTest {
         //ASSERT
         Assertions.assertFalse(results.isEmpty());
         Assertions.assertTrue(results.parallelStream().anyMatch(t -> t.endsWith(">")));
+    }
+
+    @Test
+    public void onSuggestRGBPart0() {
+        String toTest = "<colour";
+
+        Collection<String> expected = Arrays.asList("255,", "0,", "name=");
+
+        Collection<String> results = ZoneComponentParser.getSuggestion(toTest);
+
+        CollectionAssert.collectionEquals(expected, results);
+    }
+
+    @Test
+    public void onSuggestRGBPart1() {
+        String toTest = "<colour 255, ";
+
+        Collection<String> expected = Arrays.asList("255,", "0,");
+
+        Collection<String> results = ZoneComponentParser.getSuggestion(toTest);
+
+        CollectionAssert.collectionEquals(expected, results);
+    }
+
+    @Test
+    public void onSuggestRGBPart2() {
+        String toTest = "<colour 255, 10, ";
+
+        Collection<String> expected = Arrays.asList("255>", "0>");
+
+        Collection<String> results = ZoneComponentParser.getSuggestion(toTest);
+
+        CollectionAssert.collectionEquals(expected, results);
+    }
+
+    @Test
+    public void onSuggestRGBPart3() {
+        String toTest = "<colour 255, 10, 2";
+
+        Collection<String> expected = List.of(">");
+
+        Collection<String> results = ZoneComponentParser.getSuggestion(toTest);
+
+        CollectionAssert.collectionEquals(expected, results);
     }
 }
