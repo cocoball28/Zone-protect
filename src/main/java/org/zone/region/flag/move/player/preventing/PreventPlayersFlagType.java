@@ -43,8 +43,10 @@ public class PreventPlayersFlagType implements FlagType<PreventPlayersFlag> {
             node.set(null);
             return;
         }
-        Optional<Boolean> value = save.getEnabled();
-        node.node("Enabled").set(value);
+        Optional<Boolean> opvalue = save.getEnabled();
+        if (opvalue.isPresent()) {
+            node.node("Enabled").set(opvalue);
+        }
     }
 
     @Override
