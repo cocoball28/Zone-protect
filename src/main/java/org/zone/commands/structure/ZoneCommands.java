@@ -7,6 +7,7 @@ import org.zone.commands.structure.region.flags.eco.ZoneFlagViewBalanceCommand;
 import org.zone.commands.structure.region.flags.greetings.ZoneFlagGreetingsRemoveCommand;
 import org.zone.commands.structure.region.flags.greetings.ZoneFlagGreetingsSetMessageCommand;
 import org.zone.commands.structure.region.flags.greetings.ZoneFlagGreetingsViewCommand;
+import org.zone.commands.structure.region.flags.prevention.player.ZoneFlagPreventionPlayerEnabledCommand;
 import org.zone.commands.structure.region.flags.interact.destroy.ZoneFlagBlockBreakSetEnabledCommand;
 import org.zone.commands.structure.region.flags.interact.destroy.ZoneFlagBlockBreakSetGroupCommand;
 import org.zone.commands.structure.region.flags.interact.destroy.ZoneFlagBlockBreakViewCommand;
@@ -54,7 +55,9 @@ public interface ZoneCommands {
     ZoneFlagViewBalanceCommand ZONE_FLAG_VIEW_BALANCE_COMMAND = new ZoneFlagViewBalanceCommand();
     ZoneFlagGreetingsSetMessageCommand ZONE_FLAG_GREETINGS_MESSAGE_COMMAND = new ZoneFlagGreetingsSetMessageCommand();
     ZoneFlagGreetingsViewCommand ZONE_FLAG_GREETINGS_VIEW_COMMAND = new ZoneFlagGreetingsViewCommand();
+
     ZoneFlagGreetingsRemoveCommand ZONE_FLAG_GREETINGS_REMOVE_COMMAND = new ZoneFlagGreetingsRemoveCommand();
+    ZoneFlagPreventionPlayerEnabledCommand ZONE_FLAG_PREVENTION_PLAYER_ENABLED_COMMAND = new ZoneFlagPreventionPlayerEnabledCommand();
     ZoneFlagLeavingRemoveCommand ZONE_FLAG_LEAVING_REMOVE_COMMAND = new ZoneFlagLeavingRemoveCommand();
     ZoneFlagLeavingSetMessageCommand ZONE_FLAG_LEAVING_SET_MESSAGE_COMMAND = new ZoneFlagLeavingSetMessageCommand();
     ZoneFlagLeavingViewCommand ZONE_FLAG_LEAVING_VIEW_COMMAND = new ZoneFlagLeavingViewCommand();
