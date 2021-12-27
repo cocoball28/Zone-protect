@@ -35,15 +35,32 @@ public class ZonePluginInfoCommand implements ArgumentCommand {
     }
 
     @Override
-    public @NotNull CommandResult run(@NotNull CommandContext commandContext, @NotNull String... args) {
-        String pluginname = ZonePlugin.getZonesPlugin().getPluginContainer().metadata().name().orElse(ZonePlugin.getZonesPlugin().getPluginContainer().metadata().id());
-        String pluginversion = ZonePlugin.getZonesPlugin().getPluginContainer().metadata().version().getQualifier();
-        String plugingithub = "https://github.com/Zone-Protect/Zone-protect";
-        String pluginzonesnumber = ZonePlugin.getZonesPlugin().getZoneManager().getZones().stream().filter(zone -> zone.getParentId().isEmpty()).count() + "";
-        commandContext.sendMessage(Component.text("Name: " + pluginname));
-        commandContext.sendMessage(Component.text("Version: " + pluginversion));
-        commandContext.sendMessage(Component.text("Github: " + plugingithub));
-        commandContext.sendMessage(Component.text("Zones: " + pluginzonesnumber));
+    public @NotNull CommandResult run(@NotNull CommandContext commandContext,
+                                      @NotNull String... args) {
+        String pluginName = ZonePlugin
+                .getZonesPlugin()
+                .getPluginContainer()
+                .metadata()
+                .name()
+                .orElse(ZonePlugin.getZonesPlugin().getPluginContainer().metadata().id());
+        String pluginVersion = ZonePlugin
+                .getZonesPlugin()
+                .getPluginContainer()
+                .metadata()
+                .version()
+                .toString();
+        String pluginGithub = "https://github.com/Zone-Protect/Zone-protect";
+        String pluginZonesNumber = ZonePlugin
+                .getZonesPlugin()
+                .getZoneManager()
+                .getZones()
+                .stream()
+                .filter(zone -> zone.getParentId().isEmpty())
+                .count() + "";
+        commandContext.sendMessage(Component.text("Name: " + pluginName));
+        commandContext.sendMessage(Component.text("Version: " + pluginVersion));
+        commandContext.sendMessage(Component.text("Github: " + pluginGithub));
+        commandContext.sendMessage(Component.text("Zones: " + pluginZonesNumber));
         return CommandResult.success();
     }
 
