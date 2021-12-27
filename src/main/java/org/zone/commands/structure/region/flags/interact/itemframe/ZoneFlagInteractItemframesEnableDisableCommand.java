@@ -27,7 +27,7 @@ public class ZoneFlagInteractItemframesEnableDisableCommand implements ArgumentC
     public static final ExactArgument REGION = new ExactArgument("region");
     public static final ExactArgument FLAG = new ExactArgument("flag");
     public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zone_value", new ZoneArgument.ZoneArgumentPropertiesBuilder());
-    public static final ExactArgument INTERACT_ITEMFRAMES = new ExactArgument("interacyitemframes");
+    public static final ExactArgument INTERACT_ITEMFRAMES = new ExactArgument("interactitemframes");
     public static final BooleanArgument ENABLEDISABLE = new BooleanArgument("enableValue", "enable", "disable");
 
     @Override
