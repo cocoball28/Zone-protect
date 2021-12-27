@@ -5,7 +5,6 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.service.economy.Currency;
 import org.spongepowered.api.service.economy.EconomyService;
 import org.zone.region.flag.Flag;
-import org.zone.region.flag.FlagType;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.meta.eco.transaction.DepositTransaction;
 import org.zone.region.flag.meta.eco.transaction.TransactionBuilder;
@@ -151,7 +150,7 @@ public class EcoFlag implements Flag {
     }
 
     @Override
-    public @NotNull FlagType<?> getType() {
+    public @NotNull EcoFlagType getType() {
         return FlagTypes.ECO;
     }
 }

@@ -29,6 +29,12 @@ public interface Flag {
 
     }
 
+    interface TaggedFlag extends Flag {
+
+
+
+    }
+
     /**
      * If the flag can be enabled/disabled, then it should implement this to help other plugins to understand your flag
      */

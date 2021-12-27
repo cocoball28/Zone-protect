@@ -7,6 +7,7 @@ import org.zone.region.flag.interact.door.DoorInteractionFlagType;
 import org.zone.region.flag.meta.eco.EcoFlagType;
 import org.zone.region.flag.meta.edit.EditingFlagType;
 import org.zone.region.flag.meta.member.MembersFlagType;
+import org.zone.region.flag.meta.tag.TagsFlagType;
 import org.zone.region.flag.move.monster.PreventMonsterFlagType;
 import org.zone.region.flag.move.player.greetings.GreetingsFlagType;
 import org.zone.region.flag.move.player.leaving.LeavingFlagType;
@@ -30,7 +31,8 @@ public final class FlagTypes {
     public static final BlockPlaceFlagType BLOCK_PLACE = new BlockPlaceFlagType();
     public static final GreetingsFlagType GREETINGS = new GreetingsFlagType();
     public static final LeavingFlagType LEAVING = new LeavingFlagType();
-
+    public static final TagsFlagType TAGS = new TagsFlagType();
+    
     private FlagTypes() {
         throw new RuntimeException("Should not init");
     }

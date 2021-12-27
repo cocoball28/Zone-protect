@@ -18,6 +18,7 @@ import org.zone.region.flag.FlagType;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.meta.eco.EcoFlag;
 import org.zone.region.flag.meta.member.MembersFlag;
+import org.zone.region.flag.meta.tag.TagsFlag;
 
 import java.util.*;
 
@@ -101,7 +102,11 @@ public class Zone implements Identifiable {
      * @return true if the flag is present
      */
     public boolean containsFlag(@NotNull Flag flag) {
-        return this.flags.contains(flag);
+        if (this.flags.contains(flag)) {
+            return true;
+        }
+        //noinspection SuspiciousMethodCalls
+        return this.getTags().getTags().contains(flag);
     }
 
     /**
@@ -112,7 +117,14 @@ public class Zone implements Identifiable {
      * @return true if a flag has the same type as provided
      */
     public boolean containsFlag(@NotNull FlagType<?> type) {
-        return this.flags.parallelStream().anyMatch(flag -> flag.getType().equals(type));
+        if (this.flags.parallelStream().anyMatch(flag -> flag.getType().equals(type))) {
+            return true;
+        }
+        if (type instanceof FlagType.TaggedFlagType tagType) {
+            //noinspection unchecked
+            return this.getTags().getTag(tagType).isPresent();
+        }
+        return false;
     }
 
     /**
@@ -138,6 +150,10 @@ public class Zone implements Identifiable {
                 .findFirst();
 
         if (opFlag.isEmpty()) {
+            if (type instanceof FlagType.TaggedFlagType tagType) {
+                this.getTags().removeTag(tagType);
+                return true;
+            }
             return false;
         }
         return this.flags.remove(opFlag.get());
@@ -151,6 +167,9 @@ public class Zone implements Identifiable {
      * @return If the flag was added
      */
     public boolean addFlag(@NotNull Flag flag) {
+        if (flag instanceof Flag.TaggedFlag tag) {
+            return this.getTags().addTag(tag);
+        }
         return this.flags.add(flag);
     }
 
@@ -205,6 +224,9 @@ public class Zone implements Identifiable {
         if (opFlag.isPresent()) {
             return opFlag;
         }
+        if (type instanceof FlagType.TaggedFlagType<?> tagType) {
+            return this.getTags().getTag(tagType).map(tag -> (F) tag);
+        }
         return ZonePlugin.getZonesPlugin().getFlagManager().getDefaultFlags().loadDefault(type);
     }
 
@@ -214,6 +236,7 @@ public class Zone implements Identifiable {
      * @return The membersFlag
      */
     public MembersFlag getMembers() {
+        //noinspection no-member-method
         return this
                 .getFlag(FlagTypes.MEMBERS)
                 .orElseThrow(() -> new IllegalStateException("MembersFlag is missing in zone: " +
@@ -227,8 +250,16 @@ public class Zone implements Identifiable {
      * @return The economy flag
      */
     public EcoFlag getEconomy() {
+        //noinspection no-eco-method
         return this
                 .getFlag(FlagTypes.ECO)
+                .orElseThrow(() -> new IllegalStateException("EcoFlag is missing in zone " +
+                                                                     this.getId()));
+    }
+
+    public TagsFlag getTags() {
+        return this
+                .getFlag(FlagTypes.TAGS)
                 .orElseThrow(() -> new IllegalStateException("EcoFlag is missing in zone " +
                                                                      this.getId()));
     }

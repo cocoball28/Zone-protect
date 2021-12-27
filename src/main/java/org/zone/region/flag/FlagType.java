@@ -16,6 +16,29 @@ import java.util.Optional;
  */
 public interface FlagType<F extends Flag> extends Identifiable, Comparable<FlagType<?>> {
 
+    interface TaggedFlagType<F extends Flag.TaggedFlag> extends FlagType<F> {
+
+        F createCopyOfDefault();
+
+        @Override
+        @Deprecated
+        default @NotNull F load(@NotNull ConfigurationNode node) throws IOException {
+            throw new RuntimeException("Load by TagsFlag");
+        }
+
+        @Override
+        @Deprecated
+        default void save(@NotNull ConfigurationNode node, @Nullable F save) throws IOException {
+            throw new RuntimeException("Save by TagsFlag");
+        }
+
+        @Override
+        @Deprecated
+        default @NotNull Optional<F> createCopyOfDefaultFlag() {
+            return Optional.of(this.createCopyOfDefault());
+        }
+    }
+
     /**
      * Loads a flag from the provided node
      *

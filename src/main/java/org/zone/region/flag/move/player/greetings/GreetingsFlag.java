@@ -4,7 +4,6 @@ import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.zone.region.flag.Flag;
-import org.zone.region.flag.FlagType;
 import org.zone.region.flag.FlagTypes;
 
 import java.util.Optional;
@@ -30,7 +29,7 @@ public class GreetingsFlag implements Flag {
     }
 
     @Override
-    public @NotNull FlagType<?> getType() {
+    public @NotNull GreetingsFlagType getType() {
         return FlagTypes.GREETINGS;
     }
 

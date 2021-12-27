@@ -91,7 +91,7 @@ public class EditingFlag implements Flag {
     }
 
     @Override
-    public @NotNull FlagType<?> getType() {
+    public @NotNull EditingFlagType getType() {
         return FlagTypes.EDITING;
     }
 }
