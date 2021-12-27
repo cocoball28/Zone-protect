@@ -44,11 +44,9 @@ public class PreventPlayersListener {
         Zone zone = opNextZone.get();
         Optional<PreventPlayersFlag> opFlag = zone.getFlag(FlagTypes.PREVENT_PLAYERS);
         if(opFlag.isEmpty()){
-
             return;
         }
 
-        // gets the flag -> then gets the message -> then if the message is present -> send that message to the player
         if (opFlag.get().hasPermission(zone, player.uniqueId())) {
             return;
         }

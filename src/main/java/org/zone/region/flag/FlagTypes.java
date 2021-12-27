@@ -4,6 +4,8 @@ import org.jetbrains.annotations.NotNull;
 import org.zone.region.flag.interact.block.destroy.BlockBreakFlagType;
 import org.zone.region.flag.interact.block.place.BlockPlaceFlagType;
 import org.zone.region.flag.interact.door.DoorInteractionFlagType;
+import org.zone.region.flag.interact.itemframe.InteractItemframesFlag;
+import org.zone.region.flag.interact.itemframe.InteractItemframesFlagType;
 import org.zone.region.flag.meta.eco.EcoFlagType;
 import org.zone.region.flag.meta.edit.EditingFlagType;
 import org.zone.region.flag.meta.member.MembersFlagType;
@@ -32,6 +34,7 @@ public final class FlagTypes {
     public static final GreetingsFlagType GREETINGS = new GreetingsFlagType();
     public static final PreventPlayersFlagType PREVENT_PLAYERS = new PreventPlayersFlagType();
     public static final LeavingFlagType LEAVING = new LeavingFlagType();
+    public static final InteractItemframesFlagType INTERACT_ITEMFRAMES_FLAG_TYPE = new InteractItemframesFlagType();
 
     private FlagTypes() {
         throw new RuntimeException("Should not init");

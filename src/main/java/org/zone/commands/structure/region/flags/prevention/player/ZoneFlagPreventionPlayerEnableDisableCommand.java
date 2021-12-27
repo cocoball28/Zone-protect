@@ -17,7 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class ZoneFlagPreventionPlayerEnabledCommand implements ArgumentCommand {
+public class ZoneFlagPreventionPlayerEnableDisableCommand implements ArgumentCommand {
     public static final ExactArgument REGION = new ExactArgument("region");
     public static final ExactArgument FLAG = new ExactArgument("flag");
     public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zone_value", new ZoneArgument.ZoneArgumentPropertiesBuilder());
@@ -31,7 +31,7 @@ public class ZoneFlagPreventionPlayerEnabledCommand implements ArgumentCommand {
 
     @Override
     public Component getDescription() {
-        return Component.text("Command to enable Player Prevention");
+        return Component.text("Command to enable/disable Player Prevention");
     }
 
     @Override

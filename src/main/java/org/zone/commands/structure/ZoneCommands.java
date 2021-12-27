@@ -7,7 +7,10 @@ import org.zone.commands.structure.region.flags.eco.ZoneFlagViewBalanceCommand;
 import org.zone.commands.structure.region.flags.greetings.ZoneFlagGreetingsRemoveCommand;
 import org.zone.commands.structure.region.flags.greetings.ZoneFlagGreetingsSetMessageCommand;
 import org.zone.commands.structure.region.flags.greetings.ZoneFlagGreetingsViewCommand;
-import org.zone.commands.structure.region.flags.prevention.player.ZoneFlagPreventionPlayerEnabledCommand;
+import org.zone.commands.structure.region.flags.interact.itemframe.ZoneFlagInteractItemframesEnableDisableCommand;
+import org.zone.commands.structure.region.flags.interact.itemframe.ZoneFlagInteractItemframesGroupCommand;
+import org.zone.commands.structure.region.flags.interact.itemframe.ZoneFlagInteractItemframesViewCommand;
+import org.zone.commands.structure.region.flags.prevention.player.ZoneFlagPreventionPlayerEnableDisableCommand;
 import org.zone.commands.structure.region.flags.interact.destroy.ZoneFlagBlockBreakSetEnabledCommand;
 import org.zone.commands.structure.region.flags.interact.destroy.ZoneFlagBlockBreakSetGroupCommand;
 import org.zone.commands.structure.region.flags.interact.destroy.ZoneFlagBlockBreakViewCommand;
@@ -55,9 +58,12 @@ public interface ZoneCommands {
     ZoneFlagViewBalanceCommand ZONE_FLAG_VIEW_BALANCE_COMMAND = new ZoneFlagViewBalanceCommand();
     ZoneFlagGreetingsSetMessageCommand ZONE_FLAG_GREETINGS_MESSAGE_COMMAND = new ZoneFlagGreetingsSetMessageCommand();
     ZoneFlagGreetingsViewCommand ZONE_FLAG_GREETINGS_VIEW_COMMAND = new ZoneFlagGreetingsViewCommand();
+    ZoneFlagInteractItemframesViewCommand ZONE_FLAG_INTERACT_ITEMFRAMES_VIEW_COMMAND = new ZoneFlagInteractItemframesViewCommand();
 
+    ZoneFlagInteractItemframesEnableDisableCommand ZONE_FLAG_INTERACT_ITEMFRAMES_ENABLE_DISABLE_COMMAND = new ZoneFlagInteractItemframesEnableDisableCommand();
+    ZoneFlagInteractItemframesGroupCommand ZONE_FLAG_INTERACT_ITEMFRAMES_GROUP_COMMAND = new ZoneFlagInteractItemframesGroupCommand();
     ZoneFlagGreetingsRemoveCommand ZONE_FLAG_GREETINGS_REMOVE_COMMAND = new ZoneFlagGreetingsRemoveCommand();
-    ZoneFlagPreventionPlayerEnabledCommand ZONE_FLAG_PREVENTION_PLAYER_ENABLED_COMMAND = new ZoneFlagPreventionPlayerEnabledCommand();
+    ZoneFlagPreventionPlayerEnableDisableCommand ZONE_FLAG_PREVENTION_PLAYER_ENABLED_COMMAND = new ZoneFlagPreventionPlayerEnableDisableCommand();
     ZoneFlagLeavingRemoveCommand ZONE_FLAG_LEAVING_REMOVE_COMMAND = new ZoneFlagLeavingRemoveCommand();
     ZoneFlagLeavingSetMessageCommand ZONE_FLAG_LEAVING_SET_MESSAGE_COMMAND = new ZoneFlagLeavingSetMessageCommand();
     ZoneFlagLeavingViewCommand ZONE_FLAG_LEAVING_VIEW_COMMAND = new ZoneFlagLeavingViewCommand();
