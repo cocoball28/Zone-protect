@@ -37,7 +37,7 @@ public class ZonePluginInfoCommand implements ArgumentCommand {
     @Override
     public @NotNull CommandResult run(@NotNull CommandContext commandContext, @NotNull String... args) {
         String pluginname = ZonePlugin.getZonesPlugin().getPluginContainer().metadata().name().orElse(ZonePlugin.getZonesPlugin().getPluginContainer().metadata().id());
-        String pluginversion = ZonePlugin.getZonesPlugin().getPluginContainer().metadata().version().toString();
+        String pluginversion = ZonePlugin.getZonesPlugin().getPluginContainer().metadata().version().getQualifier();
         String plugingithub = "https://github.com/Zone-Protect/Zone-protect";
         String pluginzonesnumber = ZonePlugin.getZonesPlugin().getZoneManager().getZones().stream().filter(zone -> zone.getParentId().isEmpty()).count() + "";
         commandContext.sendMessage(Component.text("Name: " + pluginname));
