@@ -3,10 +3,10 @@ package org.zone.commands.structure.info;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandResult;
+import org.zone.ZonePlugin;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
-import org.zone.commands.system.arguments.simple.StringArgument;
 import org.zone.commands.system.context.CommandContext;
 
 import java.util.Arrays;
@@ -17,7 +17,7 @@ public class ZonePluginInfoCommand implements ArgumentCommand {
 
     public static final ExactArgument ZONE = new ExactArgument("zone");
     public static final ExactArgument PLUGIN = new ExactArgument("plugin");
-    public static final StringArgument INFO = new StringArgument("info");
+    public static final ExactArgument INFO = new ExactArgument("info");
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
@@ -36,6 +36,14 @@ public class ZonePluginInfoCommand implements ArgumentCommand {
 
     @Override
     public @NotNull CommandResult run(@NotNull CommandContext commandContext, @NotNull String... args) {
+        String pluginname = ZonePlugin.getZonesPlugin().getPluginContainer().metadata().name().orElse(ZonePlugin.getZonesPlugin().getPluginContainer().metadata().id());
+        String pluginversion = ZonePlugin.getZonesPlugin().getPluginContainer().metadata().version().toString();
+        String plugingithub = "https://github.com/Zone-Protect/Zone-protect";
+        String pluginzonesnumber = ZonePlugin.getZonesPlugin().getZoneManager().getZones().stream().filter(zone -> zone.getParentId().isEmpty()).count() + "";
+        commandContext.sendMessage(Component.text("Name: " + pluginname));
+        commandContext.sendMessage(Component.text("Version: " + pluginversion));
+        commandContext.sendMessage(Component.text("Github: " + plugingithub));
+        commandContext.sendMessage(Component.text("Zones: " + pluginzonesnumber));
         return CommandResult.success();
     }
 

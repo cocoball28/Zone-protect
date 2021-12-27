@@ -3,6 +3,7 @@ package org.zone.commands.structure;
 import org.zone.commands.structure.create.ZoneCreateEndCommand;
 import org.zone.commands.structure.create.ZoneCreateStartCommand;
 import org.zone.commands.structure.create.ZoneCreateSubStartCommand;
+import org.zone.commands.structure.info.ZonePluginInfoCommand;
 import org.zone.commands.structure.region.flags.eco.ZoneFlagViewBalanceCommand;
 import org.zone.commands.structure.region.flags.greetings.ZoneFlagGreetingsRemoveCommand;
 import org.zone.commands.structure.region.flags.greetings.ZoneFlagGreetingsSetMessageCommand;
@@ -40,6 +41,7 @@ import java.util.stream.Collectors;
 @SuppressWarnings("unused")
 public interface ZoneCommands {
 
+    ZonePluginInfoCommand ZONE_PLUGIN_INFO_COMMAND = new ZonePluginInfoCommand();
     ZoneCreateEndCommand ZONE_CREATE_END = new ZoneCreateEndCommand();
     ZoneCreateStartCommand ZONE_CREATE_START_COMMAND = new ZoneCreateStartCommand();
     ZoneCreateSubStartCommand ZONE_CREATE_SUB_START_COMMAND = new ZoneCreateSubStartCommand();
