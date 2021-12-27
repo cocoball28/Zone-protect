@@ -29,11 +29,12 @@ public class ZoneFlagInteractItemframesGroupCommand implements ArgumentCommand {
     public static final ExactArgument REGION = new ExactArgument("region");
     public static final ExactArgument FLAG = new ExactArgument("flag");
     public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zone_value", new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(GroupKeys.INTERACT_ITEMFRAME));
-    public static final ExactArgument INTERACT_ITEMFRAMES = new ExactArgument("interactitemframes");
+    public static final ExactArgument INTERACT = new ExactArgument("interact");
+    public static final ExactArgument ITEMFRAMES = new ExactArgument("itemframes");
     public static final ZoneGroupArgument GROUP = new ZoneGroupArgument("groupID", ZONE_VALUE);
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
-        return Arrays.asList(REGION, FLAG, ZONE_VALUE, INTERACT_ITEMFRAMES, new ExactArgument("group"), GROUP);
+        return Arrays.asList(REGION, FLAG, ZONE_VALUE, INTERACT, ITEMFRAMES, new ExactArgument("group"), GROUP);
     }
 
     @Override
