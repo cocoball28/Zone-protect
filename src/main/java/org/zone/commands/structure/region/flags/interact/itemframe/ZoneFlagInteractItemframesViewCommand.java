@@ -27,9 +27,7 @@ public class ZoneFlagInteractItemframesViewCommand implements ArgumentCommand {
 
     public static final ExactArgument REGION = new ExactArgument("region");
     public static final ExactArgument FLAG = new ExactArgument("flag");
-    public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zone_value", new ZoneArgument
-            .ZoneArgumentPropertiesBuilder()
-            .setLevel(GroupKeys.INTERACT_ITEMFRAME));
+    public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zone_value");
     public static final ExactArgument INTERACT = new ExactArgument("interact");
     public static final ExactArgument ITEMFRAMES = new ExactArgument("itemframes");
     public static final OptionalArgument VIEW = new OptionalArgument<>(new ExactArgument("view"), (String) null);
