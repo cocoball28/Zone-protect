@@ -49,8 +49,9 @@ public class ZoneBuilder {
         return this.boundMode;
     }
 
-    public void setBoundMode(@Nullable BoundMode mode) {
+    public ZoneBuilder setBoundMode(@Nullable BoundMode mode) {
         this.boundMode = mode;
+        return this;
     }
 
     public PluginContainer getContainer() {

@@ -3,6 +3,8 @@ package org.zone.commands.structure;
 import org.zone.commands.structure.create.ZoneCreateEndCommand;
 import org.zone.commands.structure.create.ZoneCreateStartCommand;
 import org.zone.commands.structure.create.ZoneCreateSubStartCommand;
+import org.zone.commands.structure.create.chunk.ZoneCreateChunkStartCommand;
+import org.zone.commands.structure.create.chunk.ZoneCreateChunkSubStartCommand;
 import org.zone.commands.structure.info.ZonePluginInfoCommand;
 import org.zone.commands.structure.region.flags.eco.ZoneFlagViewBalanceCommand;
 import org.zone.commands.structure.region.flags.greetings.ZoneFlagGreetingsRemoveCommand;
@@ -46,6 +48,8 @@ public interface ZoneCommands {
     ZoneCreateStartCommand ZONE_CREATE_START_COMMAND = new ZoneCreateStartCommand();
     ZoneCreateSubStartCommand ZONE_CREATE_SUB_START_COMMAND = new ZoneCreateSubStartCommand();
     ZoneInfoBoundsShowCommand ZONE_INFO_BOUNDS_SHOW_COMMAND = new ZoneInfoBoundsShowCommand();
+    ZoneCreateChunkStartCommand ZONE_CREATE_CHUNK_START_COMMAND = new ZoneCreateChunkStartCommand();
+    ZoneCreateChunkSubStartCommand ZONE_CREATE_CHUNK_SUB_START_COMMAND = new ZoneCreateChunkSubStartCommand();
     ZoneFlagInteractDoorEnabledCommand ZONE_FLAG_INTERACT_DOOR_ENABLED_COMMAND = new ZoneFlagInteractDoorEnabledCommand();
     ZoneFlagInteractDoorGroupCommand ZONE_FLAG_INTERACT_DOOR_GROUP_COMMAND = new ZoneFlagInteractDoorGroupCommand();
     ZoneFlagInteractDoorViewCommand ZONE_FLAG_INTERACT_DOOR_VIEW_COMMAND = new ZoneFlagInteractDoorViewCommand();
