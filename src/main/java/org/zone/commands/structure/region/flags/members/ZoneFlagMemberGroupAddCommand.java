@@ -30,9 +30,7 @@ import java.util.Optional;
  */
 public class ZoneFlagMemberGroupAddCommand implements ArgumentCommand {
 
-    public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
-                                                             new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(
-                                                                     GroupKeys.OWNER));
+    public static final ZoneArgument ZONE = new ZoneArgument("zoneId", new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(GroupKeys.OWNER));
     public static final ZoneGroupArgument GROUP = new ZoneGroupArgument("groupId", ZONE);
     public static final UserArgument USER = new UserArgument("user");
 

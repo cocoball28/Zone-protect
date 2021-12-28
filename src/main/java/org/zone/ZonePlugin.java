@@ -24,6 +24,7 @@ import org.zone.region.ZoneManager;
 import org.zone.region.flag.FlagManager;
 import org.zone.region.flag.interact.block.destroy.BlockBreakListener;
 import org.zone.region.flag.interact.door.DoorInteractListener;
+import org.zone.region.flag.interact.itemframe.InteractItemframesListener;
 import org.zone.region.flag.move.monster.MonsterPreventionListener;
 import org.zone.region.flag.move.player.preventing.PreventPlayersListener;
 import org.zone.region.flag.move.player.greetings.GreetingsFlagListener;
@@ -116,6 +117,7 @@ public class ZonePlugin {
         Sponge.eventManager().registerListeners(this.plugin, new GreetingsFlagListener());
         Sponge.eventManager().registerListeners(this.plugin, new PreventPlayersListener());
         Sponge.eventManager().registerListeners(this.plugin, new LeavingFlagListener());
+        Sponge.eventManager().registerListeners(this.plugin, new InteractItemframesListener());
     }
 
     @Listener
