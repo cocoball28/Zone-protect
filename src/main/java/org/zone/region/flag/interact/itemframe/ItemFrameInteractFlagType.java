@@ -10,11 +10,11 @@ import org.zone.region.flag.FlagType;
 import java.io.IOException;
 import java.util.Optional;
 
-public class InteractItemframesFlagType implements FlagType<InteractItemframesFlag> {
+public class ItemFrameInteractFlagType implements FlagType<ItemFrameInteractFlag> {
 
     @Override
     public @NotNull String getName() {
-        return "Interact Itemframes";
+        return "Interaction with Item Frames";
     }
 
     @Override
@@ -24,34 +24,35 @@ public class InteractItemframesFlagType implements FlagType<InteractItemframesFl
 
     @Override
     public @NotNull String getKey() {
-        return "interactitemframes";
+        return "itemframe_interact";
     }
 
     @Override
-    public @NotNull InteractItemframesFlag load(@NotNull ConfigurationNode node) throws IOException {
+    public @NotNull ItemFrameInteractFlag load(@NotNull ConfigurationNode node) throws IOException {
         boolean isEmpty = node.node("Enabled").isNull();
         if (isEmpty) {
             throw new IOException("Could not load flag");
         }
         boolean enabled = node.node("Enabled").getBoolean();
-        return new InteractItemframesFlag(enabled);
+        return new ItemFrameInteractFlag(enabled);
     }
 
     @Override
-    public void save(@NotNull ConfigurationNode node, @Nullable InteractItemframesFlag save) throws IOException {
+    public void save(@NotNull ConfigurationNode node, @Nullable ItemFrameInteractFlag save) throws
+            IOException {
         if (save == null || save.getEnabled().isEmpty()) {
             node.set(null);
             return;
         }
-        Optional<Boolean> opvalue = save.getEnabled();
-        if (opvalue.isPresent()) {
-            node.node("Enabled").set(opvalue);
+        Optional<Boolean> opValue = save.getEnabled();
+        if (opValue.isPresent()) {
+            node.node("Enabled").set(opValue);
         }
 
     }
 
     @Override
-    public @NotNull Optional<InteractItemframesFlag> createCopyOfDefaultFlag() {
+    public @NotNull Optional<ItemFrameInteractFlag> createCopyOfDefaultFlag() {
         return Optional.empty();
     }
 }

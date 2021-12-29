@@ -54,21 +54,19 @@ public class ZoneFlagBlockBreakViewCommand implements ArgumentCommand {
     @Override
     public @NotNull CommandResult run(CommandContext commandContext, String... args) {
         Zone zone = commandContext.getArgument(this, ZONE);
-        @NotNull BlockBreakFlag flag = zone
-                .getFlag(FlagTypes.BLOCK_BREAK)
-                .orElse(new BlockBreakFlag(BlockBreakFlag.ELSE));
+        Optional<BlockBreakFlag> opFlag = zone.getFlag(FlagTypes.BLOCK_BREAK);
         commandContext
                 .getCause()
-                .sendMessage(Identity.nil(), Component.text("Enabled: " + flag.isEnabled()));
+                .sendMessage(Identity.nil(), Component.text("Enabled: " + opFlag.isPresent()));
         commandContext
                 .getCause()
                 .sendMessage(Identity.nil(),
                              Component.text("Group: " +
-                                                    zone
+                                                    opFlag.map(flag -> zone
                                                             .getMembers()
                                                             .getGroup(flag.getRequiredKey())
                                                             .map(Identifiable::getName)
-                                                            .orElse("None")));
+                                                            .orElse("None"))));
         return CommandResult.success();
     }
 }

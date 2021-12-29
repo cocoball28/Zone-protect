@@ -53,12 +53,12 @@ public class ZoneFlagBlockPlaceSetEnabledCommand implements ArgumentCommand {
     @Override
     public @NotNull CommandResult run(CommandContext commandContext, String... args) {
         Zone zone = commandContext.getArgument(this, ZONE);
-        @NotNull BlockPlaceFlag flag = zone
-                .getFlag(FlagTypes.BLOCK_PLACE)
-                .orElseGet(() -> new BlockPlaceFlag(BlockPlaceFlag.DEFAULT));
         boolean value = commandContext.getArgument(this, VALUE);
-        flag.setEnabled(value);
-        zone.addFlag(flag);
+        if (value) {
+            zone.addFlag(FlagTypes.BLOCK_BREAK.createCopyOfDefault());
+        } else {
+            zone.removeFlag(FlagTypes.BLOCK_BREAK);
+        }
         try {
             zone.save();
             commandContext

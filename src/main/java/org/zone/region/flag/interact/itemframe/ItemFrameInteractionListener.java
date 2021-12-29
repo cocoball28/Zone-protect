@@ -1,6 +1,5 @@
 package org.zone.region.flag.interact.itemframe;
 
-import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.entity.EntityTypes;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
@@ -13,15 +12,13 @@ import org.zone.region.group.key.GroupKeys;
 
 import java.util.Optional;
 
-public class InteractItemframesListener {
+public class ItemFrameInteractionListener {
     @Listener
     public void onAttack(DamageEntityEvent event, @Root Player attacker) {
-
-        if (!event.entity().type().equals(EntityTypes.ITEM_FRAME)) {
+        if (!event.entity().type().equals(EntityTypes.ITEM_FRAME.get())) {
             return;
         }
-
-        @NotNull Optional<Zone> opZone = ZonePlugin
+        Optional<Zone> opZone = ZonePlugin
                 .getZonesPlugin()
                 .getZoneManager()
                 .getPriorityZone(event.entity().world(), event.entity().position());

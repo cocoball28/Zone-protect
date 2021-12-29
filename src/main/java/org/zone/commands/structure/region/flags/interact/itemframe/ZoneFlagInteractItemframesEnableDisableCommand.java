@@ -12,14 +12,14 @@ import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.interact.itemframe.InteractItemframesFlag;
+import org.zone.region.flag.interact.itemframe.ItemFrameInteractFlag;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 /**
-`* Used to enable/disable the flag {@link InteractItemframesFlag}
+`* Used to enable/disable the flag {@link ItemFrameInteractFlag}
  */
 
 public class ZoneFlagInteractItemframesEnableDisableCommand implements ArgumentCommand {
@@ -50,7 +50,7 @@ public class ZoneFlagInteractItemframesEnableDisableCommand implements ArgumentC
     public @NotNull CommandResult run(@NotNull CommandContext commandContext, @NotNull String[] args) {
         boolean enable = commandContext.getArgument(this, ENABLEDISABLE);
         Zone zone = commandContext.getArgument(this, ZONE_VALUE);
-        InteractItemframesFlag interactItemframesFlag = zone.getFlag(FlagTypes.INTERACT_ITEMFRAMES_FLAG_TYPE).orElse(new InteractItemframesFlag());
+        ItemFrameInteractFlag interactItemframesFlag = zone.getFlag(FlagTypes.ITEM_FRAME_INTERACT).orElse(new ItemFrameInteractFlag());
         interactItemframesFlag.setEnabled(enable);
         zone.setFlag(interactItemframesFlag);
         try {

@@ -10,20 +10,20 @@ import org.zone.region.group.key.GroupKeys;
 
 import java.util.Optional;
 
-public class InteractItemframesFlag implements Flag.AffectsPlayer, Flag.Enabled {
+public class ItemFrameInteractFlag implements Flag.AffectsPlayer, Flag.Enabled {
 
     public @Nullable Boolean enabled;
-    public static final InteractItemframesFlag ELSE = new InteractItemframesFlag(false);
+    public static final ItemFrameInteractFlag ELSE = new ItemFrameInteractFlag(false);
 
-    public InteractItemframesFlag(@NotNull InteractItemframesFlag flag) {
+    public ItemFrameInteractFlag(@SuppressWarnings("TypeMayBeWeakened") @NotNull ItemFrameInteractFlag flag) {
         this(flag.getEnabled().orElse(null));
     }
 
-    public InteractItemframesFlag() {
+    public ItemFrameInteractFlag() {
         this((Boolean)null);
     }
 
-    public InteractItemframesFlag(@Nullable Boolean enabled) {
+    public ItemFrameInteractFlag(@Nullable Boolean enabled) {
         this.enabled = enabled;
     }
 
@@ -50,7 +50,7 @@ public class InteractItemframesFlag implements Flag.AffectsPlayer, Flag.Enabled 
 
     @Override
     public @NotNull FlagType<?> getType() {
-        return FlagTypes.INTERACT_ITEMFRAMES_FLAG_TYPE;
+        return FlagTypes.ITEM_FRAME_INTERACT;
     }
 
 }

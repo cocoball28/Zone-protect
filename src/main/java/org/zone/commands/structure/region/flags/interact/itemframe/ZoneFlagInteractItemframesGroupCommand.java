@@ -13,7 +13,7 @@ import org.zone.commands.system.arguments.zone.ZoneGroupArgument;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.interact.itemframe.InteractItemframesFlag;
+import org.zone.region.flag.interact.itemframe.ItemFrameInteractFlag;
 import org.zone.region.group.Group;
 import org.zone.region.group.key.GroupKeys;
 
@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Used ot modify the group that the groupkey belongs to {@link InteractItemframesFlag}
+ * Used ot modify the group that the groupkey belongs to {@link ItemFrameInteractFlag}
  */
 public class ZoneFlagInteractItemframesGroupCommand implements ArgumentCommand {
 
@@ -50,9 +50,9 @@ public class ZoneFlagInteractItemframesGroupCommand implements ArgumentCommand {
     @Override
     public @NotNull CommandResult run(@NotNull CommandContext commandContext, @NotNull String[] args) {
         Zone zone = commandContext.getArgument(this, ZONE_VALUE);
-        @NotNull InteractItemframesFlag interactItemframesFlag = zone
-                .getFlag(FlagTypes.INTERACT_ITEMFRAMES_FLAG_TYPE)
-                .orElseGet(() -> new InteractItemframesFlag(InteractItemframesFlag.ELSE));
+        @NotNull ItemFrameInteractFlag interactItemframesFlag = zone
+                .getFlag(FlagTypes.ITEM_FRAME_INTERACT)
+                .orElseGet(() -> new ItemFrameInteractFlag(ItemFrameInteractFlag.ELSE));
         Group newGroup = commandContext.getArgument(this, GROUP);
         zone.getMembers().addKey(newGroup, interactItemframesFlag.getRequiredKey());
         commandContext

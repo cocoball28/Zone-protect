@@ -53,9 +53,9 @@ public class ZoneFlagBlockBreakSetGroupCommand implements ArgumentCommand {
     @Override
     public @NotNull CommandResult run(CommandContext commandContext, String... args) {
         Zone zone = commandContext.getArgument(this, ZONE);
-        @NotNull BlockBreakFlag flag = zone
+        BlockBreakFlag flag = zone
                 .getFlag(FlagTypes.BLOCK_BREAK)
-                .orElseGet(() -> new BlockBreakFlag(BlockBreakFlag.ELSE));
+                .orElseGet(FlagTypes.BLOCK_BREAK::createCopyOfDefault);
         Group newGroup = commandContext.getArgument(this, GROUP);
         zone.getMembers().addKey(newGroup, flag.getRequiredKey());
         zone.setFlag(flag);
@@ -63,7 +63,8 @@ public class ZoneFlagBlockBreakSetGroupCommand implements ArgumentCommand {
             zone.save();
             commandContext
                     .getCause()
-                    .sendMessage(Identity.nil(), Component.text("Updated Block Break Interaction"));
+                    .sendMessage(Identity.nil(),
+                                 Component.text("Updated Block Break Interaction " + "group"));
         } catch (ConfigurateException e) {
             e.printStackTrace();
             return CommandResult.error(Component.text("Could not save: " + e.getMessage()));
