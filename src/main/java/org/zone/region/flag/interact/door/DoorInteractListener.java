@@ -33,10 +33,8 @@ public class DoorInteractListener {
         }
         Zone zone = opZone.get();
         if (BlockTypeTags.DOORS.get().contains(snapshot.state().type())) {
-            DoorInteractionFlag flag = zone
-                    .getFlag(FlagTypes.DOOR_INTERACTION)
-                    .orElse(DoorInteractionFlag.ELSE);
-            if (!flag.isEnabled()) {
+            Optional<DoorInteractionFlag> opFlag = zone.getFlag(FlagTypes.DOOR_INTERACTION);
+            if (opFlag.isEmpty()) {
                 return;
             }
             if (player instanceof ServerPlayer sPlayer &&
@@ -54,7 +52,7 @@ public class DoorInteractListener {
                             .orElse(false)) {
                 return;
             }
-            if (!flag.hasPermission(zone, player.uniqueId())) {
+            if (!opFlag.get().hasPermission(zone, player.uniqueId())) {
                 event.setCancelled(true);
             }
         }

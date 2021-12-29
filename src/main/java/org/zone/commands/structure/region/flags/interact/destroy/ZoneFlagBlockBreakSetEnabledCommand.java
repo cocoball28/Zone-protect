@@ -53,12 +53,12 @@ public class ZoneFlagBlockBreakSetEnabledCommand implements ArgumentCommand {
     @Override
     public @NotNull CommandResult run(CommandContext commandContext, String... args) {
         Zone zone = commandContext.getArgument(this, ZONE);
-        @NotNull BlockBreakFlag flag = zone
-                .getFlag(FlagTypes.BLOCK_BREAK)
-                .orElseGet(() -> new BlockBreakFlag(BlockBreakFlag.ELSE));
         boolean value = commandContext.getArgument(this, VALUE);
-        flag.setEnabled(value);
-        zone.setFlag(flag);
+        if (value) {
+            zone.addFlag(FlagTypes.BLOCK_BREAK.createCopyOfDefault());
+        } else {
+            zone.removeFlag(FlagTypes.BLOCK_BREAK);
+        }
         try {
             zone.save();
             commandContext

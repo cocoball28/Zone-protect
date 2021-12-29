@@ -57,17 +57,17 @@ public class ZoneFlagInteractDoorEnabledCommand implements ArgumentCommand {
     @Override
     public @NotNull CommandResult run(CommandContext commandContext, String... args) {
         Zone zone = commandContext.getArgument(this, ZONE);
-        @NotNull DoorInteractionFlag flag = zone
-                .getFlag(FlagTypes.DOOR_INTERACTION)
-                .orElseGet(() -> new DoorInteractionFlag(DoorInteractionFlag.ELSE));
         boolean value = commandContext.getArgument(this, VALUE);
-        flag.setEnabled(value);
-        zone.setFlag(flag);
+        if (value) {
+            zone.addFlag(FlagTypes.BLOCK_BREAK.createCopyOfDefault());
+        } else {
+            zone.removeFlag(FlagTypes.BLOCK_BREAK);
+        }
         try {
             zone.save();
             commandContext
                     .getCause()
-                    .sendMessage(Identity.nil(), Component.text("Updated Block Break"));
+                    .sendMessage(Identity.nil(), Component.text("Updated Door interaction"));
         } catch (ConfigurateException e) {
             e.printStackTrace();
             return CommandResult.error(Component.text("Could not save: " + e.getMessage()));

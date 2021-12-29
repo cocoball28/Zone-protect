@@ -51,12 +51,12 @@ public class ZoneFlagInteractDoorViewCommand implements ArgumentCommand {
     @Override
     public @NotNull CommandResult run(CommandContext commandContext, String... args) {
         Zone zone = commandContext.getArgument(this, ZONE);
-        @NotNull DoorInteractionFlag flag = zone
-                .getFlag(FlagTypes.DOOR_INTERACTION)
-                .orElse(new DoorInteractionFlag(DoorInteractionFlag.ELSE));
+        Optional<DoorInteractionFlag> opFlag = zone
+                .getFlag(FlagTypes.DOOR_INTERACTION);
         commandContext
                 .getCause()
-                .sendMessage(Identity.nil(), Component.text("Enabled: " + flag.isEnabled()));
+                .sendMessage(Identity.nil(),
+                             Component.text("Enabled: " + opFlag.isPresent()));
         commandContext
                 .getCause()
                 .sendMessage(Identity.nil(),

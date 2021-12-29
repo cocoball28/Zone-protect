@@ -54,20 +54,20 @@ public class ZoneFlagBlockPlaceViewCommand implements ArgumentCommand {
     @Override
     public @NotNull CommandResult run(CommandContext commandContext, String... args) {
         Zone zone = commandContext.getArgument(this, ZONE);
-        @NotNull BlockPlaceFlag flag = zone
-                .getFlag(FlagTypes.BLOCK_PLACE)
-                .orElse(new BlockPlaceFlag(BlockPlaceFlag.DEFAULT));
+        Optional<BlockPlaceFlag> opFlag = zone.getFlag(FlagTypes.BLOCK_PLACE);
         commandContext
                 .getCause()
-                .sendMessage(Identity.nil(), Component.text("Enabled: " + flag.isEnabled()));
+                .sendMessage(Identity.nil(), Component.text("Enabled: " + opFlag.isPresent()));
         commandContext
                 .getCause()
                 .sendMessage(Identity.nil(),
                              Component.text("Group: " +
-                                                    zone
-                                                            .getMembers()
-                                                            .getGroup(flag.getRequiredKey())
-                                                            .map(Identifiable::getName)
+                                                    opFlag
+                                                            .map(flag -> zone
+                                                                    .getMembers()
+                                                                    .getGroup(flag.getRequiredKey())
+                                                                    .map(Identifiable::getName)
+                                                                    .orElse("None"))
                                                             .orElse("None")));
         return CommandResult.success();
     }

@@ -55,7 +55,7 @@ public class ZoneFlagBlockPlaceSetGroupCommand implements ArgumentCommand {
         Zone zone = commandContext.getArgument(this, ZONE);
         @NotNull BlockPlaceFlag flag = zone
                 .getFlag(FlagTypes.BLOCK_PLACE)
-                .orElseGet(() -> new BlockPlaceFlag(BlockPlaceFlag.DEFAULT));
+                .orElseGet(FlagTypes.BLOCK_PLACE::createCopyOfDefault);
         Group newGroup = commandContext.getArgument(this, GROUP);
         zone.getMembers().addKey(newGroup, flag.getRequiredKey());
         zone.setFlag(flag);

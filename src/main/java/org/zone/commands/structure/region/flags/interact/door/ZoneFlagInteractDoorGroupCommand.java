@@ -58,7 +58,7 @@ public class ZoneFlagInteractDoorGroupCommand implements ArgumentCommand {
         Zone zone = commandContext.getArgument(this, ZONE);
         @NotNull DoorInteractionFlag flag = zone
                 .getFlag(FlagTypes.DOOR_INTERACTION)
-                .orElseGet(() -> new DoorInteractionFlag(DoorInteractionFlag.ELSE));
+                .orElseGet(FlagTypes.DOOR_INTERACTION::createCopyOfDefault);
         Group newGroup = commandContext.getArgument(this, GROUP);
         zone.getMembers().addKey(newGroup, flag.getRequiredKey());
         commandContext
