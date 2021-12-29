@@ -30,9 +30,7 @@ import java.util.Optional;
  */
 public class ZoneFlagViewBalanceCommand implements ArgumentCommand {
 
-    public static final ZoneArgument ZONE = new ZoneArgument("zone_value",
-                                                             new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(
-                                                                     GroupKeys.OWNER));
+    public static final ZoneArgument ZONE = new ZoneArgument("zone_value", new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(GroupKeys.OWNER));
 
     public static final CurrencyArgument CURRENCY = new CurrencyArgument("currency_value",
                                                                          (context, argument) -> {

@@ -27,8 +27,7 @@ public class BlockBreakListener {
 
     @Listener
     public void onPlayerBlockChangeEvent(ChangeBlockEvent.All event, @Root Player player) {
-        if (player instanceof ServerPlayer sPlayer &&
-                sPlayer.hasPermission(Permissions.BYPASS_INTERACTION_BLOCK.getPermission())) {
+        if (player instanceof ServerPlayer sPlayer && sPlayer.hasPermission(Permissions.BYPASS_INTERACTION_BLOCK.getPermission())) {
             return;
         }
         Map<BlockTransaction, Zone> inZone = event
