@@ -42,7 +42,7 @@ public interface CommandLauncher extends BaseCommandLauncher {
 
         }
         if (!opCommand.get().hasPermission(source)) {
-            return CommandResult.error(Messages.getCommandLauncherrunMethodNoPermissionError2(opCommand.get()));
+            return CommandResult.error(Messages.getMissingPermissionForCommand(opCommand.get()));
         }
         return opCommand.get().run(commandContext, args);
     }

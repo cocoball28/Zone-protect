@@ -61,7 +61,7 @@ public class ZoneCreateEndCommand implements ArgumentCommand {
                 .getMemoryHolder()
                 .getZoneBuilder(player.uniqueId());
         if (opZone.isEmpty()) {
-            return CommandResult.error(Messages.getZonesCreateEndCommandrunopZoneEmptyError());
+            return CommandResult.error(Messages.getNoZoneCreatedError());
         }
 
         Zone zone = opZone.get().build();

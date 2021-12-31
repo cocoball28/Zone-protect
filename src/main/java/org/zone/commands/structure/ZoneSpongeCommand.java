@@ -99,7 +99,7 @@ public class ZoneSpongeCommand implements Command.Raw {
                         .collect(Collectors.toSet())
                         .forEach(e -> cause.sendMessage(Identity.nil(), Messages.getFormattedMessage(e)));
             } else {
-                cause.sendMessage(Identity.nil(), Messages.getZoneSpongeCommandnotEmptyErrorElse());
+                cause.sendMessage(Identity.nil(), Messages.getUnknownError());
             }
             return CommandResult.success();
         }

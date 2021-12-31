@@ -75,6 +75,10 @@ public final class Messages {
                 .text(e)
                 .color(NamedTextColor.RED);
     }
+
+    public static Component getUnknownError() {
+        return Component.text("Unknown error").color(NamedTextColor.RED);
+    }
     //Universal only for some special classes end or will continue
 
     //Custom messages
@@ -100,10 +104,6 @@ public final class Messages {
                 .color(NamedTextColor.AQUA);
     }
 
-    public static Component getZoneSpongeCommandnotEmptyErrorElse() {
-        return Messages.getUnknownError();
-    }
-
     public static Component getMissingPermissionForCommand(ArgumentCommand argumentCommand) {
         return Component
                 .text(" You do not have permission for that command" +
@@ -113,7 +113,7 @@ public final class Messages {
                 .color(NamedTextColor.RED);
     }
 
-    public static Component getZonesCreateEndCommandrunopZoneEmptyError() {
+    public static Component getNoZoneCreatedError() {
         return Component.text("A region needs to be started. Use /zone create bounds " + "<name...>")
                 .color(NamedTextColor.RED);
     }
@@ -128,18 +128,6 @@ public final class Messages {
                 .append(Component
                                 .text(zone.getName())
                                 .color(NamedTextColor.AQUA));
-    }
-
-    public static Component getUnknownError() {
-        return Component.text("Unknown error").color(NamedTextColor.RED);
-    }
-
-    public static Component getCommandLauncherrunMethodNoPermissionError2(ArgumentCommand argumentCommand) {
-        return Component
-                .text("You do not have permission for that command. You " +
-                              "require " +
-                              argumentCommand.getPermissionNode())
-                .color(NamedTextColor.RED);
     }
 
     public static Component getFailedToLoadFlag(@SuppressWarnings("TypeMayBeWeakened") FlagType<?> type) {
