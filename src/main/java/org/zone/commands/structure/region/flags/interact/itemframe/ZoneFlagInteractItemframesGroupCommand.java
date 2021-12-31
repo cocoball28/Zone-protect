@@ -58,13 +58,13 @@ public class ZoneFlagInteractItemframesGroupCommand implements ArgumentCommand {
         zone.getMembers().addKey(newGroup, interactItemframesFlag.getRequiredKey());
         commandContext
                 .getCause()
-                .sendMessage(Identity.nil(), Messages.getUniversalOnlyZoneFlagInteractDoorCommandsFlagSaved());
+                .sendMessage(Identity.nil(), Messages.getMessageOnlyZoneFlagInteractDoorCommandsFlagSaved());
         zone.setFlag(interactItemframesFlag);
         try {
             zone.save();
             commandContext
                     .getCause()
-                    .sendMessage(Identity.nil(), Messages.getUniversalOnlyZoneFlagInteractItemframesCommandFlagSaved());
+                    .sendMessage(Identity.nil(), Messages.getMessageOnlyZoneFlagInteractItemframesCommandFlagSaved());
         }catch (ConfigurateException ce) {
             ce.printStackTrace();
             return CommandResult.error(Messages.getUniversalZoneSavingError(ce));

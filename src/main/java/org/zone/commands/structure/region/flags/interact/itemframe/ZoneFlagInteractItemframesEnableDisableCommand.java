@@ -56,7 +56,7 @@ public class ZoneFlagInteractItemframesEnableDisableCommand implements ArgumentC
         zone.setFlag(interactItemframesFlag);
         try {
             zone.save();
-            commandContext.sendMessage(Messages.getUniversalOnlyZoneFlagInteractItemframesCommandFlagSaved());
+            commandContext.sendMessage(Messages.getMessageOnlyZoneFlagInteractItemframesCommandFlagSaved());
         } catch (ConfigurateException ce) {
             ce.printStackTrace();
             return CommandResult.error(Messages.getUniversalZoneSavingError(ce));

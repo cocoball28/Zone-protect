@@ -64,7 +64,7 @@ public class ZoneFlagBlockPlaceSetEnabledCommand implements ArgumentCommand {
             zone.save();
             commandContext
                     .getCause()
-                    .sendMessage(Identity.nil(), Messages.getUniversalOnlyZoneFlagBlockPlaceCommandFlagSaved());
+                    .sendMessage(Identity.nil(), Messages.getMessageOnlyZoneFlagBlockPlaceCommandFlagSaved());
         } catch (ConfigurateException e) {
             e.printStackTrace();
             return CommandResult.error(Messages.getUniversalZoneSavingError(e));

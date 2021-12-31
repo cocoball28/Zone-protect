@@ -78,7 +78,7 @@ public class ZoneCreateStartCommand implements ArgumentCommand {
                 .getZoneManager()
                 .getZone(builder.getContainer(), builder.getKey())
                 .isPresent()) {
-            return CommandResult.error(Messages.getUniversalZoneRegionNameConflictError());
+            return CommandResult.error(Messages.getUniversalDuplicateNameError());
         }
         ZonePlugin
                 .getZonesPlugin()

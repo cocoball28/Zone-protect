@@ -42,7 +42,7 @@ public final class Messages {
                                 .color(NamedTextColor.AQUA));
     }
 
-    public static Component getUniversalZoneRegionNameConflictError() {
+    public static Component getUniversalDuplicateNameError() {
         return Component
                 .text("Cannot use that name")
                 .color(NamedTextColor.RED);
@@ -58,15 +58,15 @@ public final class Messages {
 
     //Universal Messages end
     //Universal only for some special classes
-    public static Component getUniversalOnlyZoneFlagInteractDoorCommandsFlagSaved() {
+    public static Component getMessageOnlyZoneFlagInteractDoorCommandsFlagSaved() {
         return Component.text("Updated Door interaction").color(NamedTextColor.AQUA);
     }
 
-    public static Component getUniversalOnlyZoneFlagInteractItemframesCommandFlagSaved() {
+    public static Component getMessageOnlyZoneFlagInteractItemframesCommandFlagSaved() {
         return  Component.text("Updated InteractItemframesFlag").color(NamedTextColor.AQUA);
     }
 
-    public static Component getUniversalOnlyZoneFlagBlockPlaceCommandFlagSaved() {
+    public static Component getMessageOnlyZoneFlagBlockPlaceCommandFlagSaved() {
         return Component.text("Updated Block placement").color(NamedTextColor.AQUA);
     }
     //Universal only for some special classes end or will continue

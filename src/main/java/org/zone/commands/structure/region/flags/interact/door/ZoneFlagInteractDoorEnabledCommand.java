@@ -68,7 +68,7 @@ public class ZoneFlagInteractDoorEnabledCommand implements ArgumentCommand {
             zone.save();
             commandContext
                     .getCause()
-                    .sendMessage(Identity.nil(), Messages.getUniversalOnlyZoneFlagInteractDoorCommandsFlagSaved());
+                    .sendMessage(Identity.nil(), Messages.getMessageOnlyZoneFlagInteractDoorCommandsFlagSaved());
         } catch (ConfigurateException e) {
             e.printStackTrace();
             return CommandResult.error(Messages.getUniversalZoneSavingError(e));
