@@ -61,7 +61,7 @@ public final class Messages {
         return getUniversalMessageTag().append(message);
     }
 
-    public static Component getUniversalUpdatedFlag(FlagType<?> type) {
+    public static Component getUniversalUpdatedFlag(Identifiable type) {
         return Component.text("Updated " + type.getName()).color(NamedTextColor.AQUA);
     }
     //Universal Messages end
