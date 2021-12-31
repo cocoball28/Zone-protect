@@ -67,7 +67,7 @@ public class ZoneFlagBlockBreakSetGroupCommand implements ArgumentCommand {
                     .sendMessage(Identity.nil(), Messages.getZoneFlagBlockBreakSetGroupCommandGroupUpdatedFlagSaved());
         } catch (ConfigurateException e) {
             e.printStackTrace();
-            return CommandResult.error(Messages.setUniversalZoneSavingErrorMessage(e));
+            return CommandResult.error(Messages.getUniversalZoneSavingError(e));
         }
         return CommandResult.success();
     }

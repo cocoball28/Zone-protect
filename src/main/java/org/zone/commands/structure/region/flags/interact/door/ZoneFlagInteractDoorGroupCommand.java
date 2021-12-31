@@ -65,16 +65,16 @@ public class ZoneFlagInteractDoorGroupCommand implements ArgumentCommand {
         commandContext
                 .getCause()
                 .sendMessage(Identity.nil(),
-                             Messages.setUniversalOnlyZoneFlagInteractDoorCommandsFlagSavedMessage());
+                             Messages.getUniversalOnlyZoneFlagInteractDoorCommandsFlagSaved());
         zone.setFlag(flag);
         try {
             zone.save();
             commandContext
                     .getCause()
-                    .sendMessage(Identity.nil(), Messages.setUniversalOnlyZoneFlagInteractDoorCommandsFlagSavedMessage());
+                    .sendMessage(Identity.nil(), Messages.getUniversalOnlyZoneFlagInteractDoorCommandsFlagSaved());
         } catch (ConfigurateException e) {
             e.printStackTrace();
-            return CommandResult.error(Messages.setUniversalZoneSavingErrorMessage(e));
+            return CommandResult.error(Messages.getUniversalZoneSavingError(e));
         }
         return CommandResult.success();
     }

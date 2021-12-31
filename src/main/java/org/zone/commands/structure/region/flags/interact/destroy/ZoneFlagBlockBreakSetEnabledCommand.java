@@ -68,7 +68,7 @@ public class ZoneFlagBlockBreakSetEnabledCommand implements ArgumentCommand {
                                  Messages.getZoneFlagBlockBreakCommandSetEnabledFlagSaved());
         } catch (ConfigurateException e) {
             e.printStackTrace();
-            return CommandResult.error(Messages.setUniversalZoneSavingErrorMessage(e));
+            return CommandResult.error(Messages.getUniversalZoneSavingError(e));
         }
         return CommandResult.success();
     }

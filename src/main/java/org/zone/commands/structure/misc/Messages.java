@@ -26,15 +26,15 @@ public final class Messages {
         throw new RuntimeException("Could not construct class");
     }
     //Universal Messages
-    public static Component setUniversalPlayerOnlyCommandErrorMessage() {
+    public static Component getUniversalPlayerOnlyCommandError() {
         return Component.text("Player only command").color(NamedTextColor.RED);
     }
 
-    public static Component setUniversalZoneSavingErrorMessage(ConfigurateException ce) {
+    public static Component getUniversalZoneSavingError(ConfigurateException ce) {
         return Component.text("Error when saving: " + ce.getMessage()).color(NamedTextColor.RED);
     }
 
-    public static Component setUniversalZoneRegionBuilderEnabledMessage() {
+    public static Component getUniversalZoneRegionBuilderEnabled() {
         return Component
                 .text("Region builder mode enabled. Run ")
                 .append(Component
@@ -42,31 +42,31 @@ public final class Messages {
                                 .color(NamedTextColor.AQUA));
     }
 
-    public static Component setUniversalZoneRegionNameConflictErrorMessage() {
+    public static Component getUniversalZoneRegionNameConflictError() {
         return Component
                 .text("Cannot use that name")
                 .color(NamedTextColor.RED);
     }
 
-    public static Component setUniversalFlagCommandsRegionInteractMessageNoMessageSetErrorMessage() {
+    public static Component getUniversalFlagCommandsRegionInteractMessageNoMessageSetError() {
         return Component.text("Message: No Message set by user").color(NamedTextColor.RED);
     }
 
-    public static Component setUniversalZoneFlagRegionInteractMessageSetViewCommandMessage(Component message) {
+    public static Component getUniversalZoneFlagRegionInteractMessageSetViewCommand(Component message) {
         return Component.text("Message: ").append(message).color(NamedTextColor.AQUA);
     }
 
     //Universal Messages end
     //Universal only for some special classes
-    public static Component setUniversalOnlyZoneFlagInteractDoorCommandsFlagSavedMessage() {
+    public static Component getUniversalOnlyZoneFlagInteractDoorCommandsFlagSaved() {
         return Component.text("Updated Door interaction").color(NamedTextColor.AQUA);
     }
 
-    public static Component setUniversalOnlyZoneFlagInteractItemframesCommandFlagSaved() {
+    public static Component getUniversalOnlyZoneFlagInteractItemframesCommandFlagSaved() {
         return  Component.text("Updated InteractItemframesFlag").color(NamedTextColor.AQUA);
     }
 
-    public static Component setUniversalOnlyZoneFlagBlockPlaceCommandFlagSaved() {
+    public static Component getUniversalOnlyZoneFlagBlockPlaceCommandFlagSaved() {
         return Component.text("Updated Block placement").color(NamedTextColor.AQUA);
     }
     //Universal only for some special classes end or will continue

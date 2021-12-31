@@ -49,7 +49,7 @@ public class ZoneFlagGreetingsRemoveCommand implements ArgumentCommand {
             commandContext.sendMessage(Messages.getZoneFlagGreetingsRemoveCommandGreetingsRemovedMessage());
         } catch (ConfigurateException e) {
             e.printStackTrace();
-            return CommandResult.error(Messages.setUniversalZoneSavingErrorMessage(e));
+            return CommandResult.error(Messages.getUniversalZoneSavingError(e));
         }
         return CommandResult.success();
     }

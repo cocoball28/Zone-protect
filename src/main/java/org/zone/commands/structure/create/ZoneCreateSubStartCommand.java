@@ -1,7 +1,6 @@
 package org.zone.commands.structure.create;
 
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.entity.living.player.server.ServerPlayer;
@@ -64,7 +63,7 @@ public class ZoneCreateSubStartCommand implements ArgumentCommand {
     public @NotNull CommandResult run(CommandContext context, String... args) {
         Subject subject = context.getSource();
         if (!(subject instanceof ServerPlayer player)) {
-            return CommandResult.error(Messages.setUniversalPlayerOnlyCommandErrorMessage());
+            return CommandResult.error(Messages.getUniversalPlayerOnlyCommandError());
         }
         Zone zone = context.getArgument(this, ZONE);
         String name = String.join(" ", context.getArgument(this, NAME));
@@ -85,13 +84,13 @@ public class ZoneCreateSubStartCommand implements ArgumentCommand {
                 .getZoneManager()
                 .getZone(builder.getContainer(), builder.getKey())
                 .isPresent()) {
-            return CommandResult.error(Messages.setUniversalZoneRegionNameConflictErrorMessage());
+            return CommandResult.error(Messages.getUniversalZoneRegionNameConflictError());
         }
         ZonePlugin
                 .getZonesPlugin()
                 .getMemoryHolder()
                 .registerZoneBuilder(player.uniqueId(), builder);
-        player.sendMessage(Messages.setUniversalZoneRegionBuilderEnabledMessage());
+        player.sendMessage(Messages.getUniversalZoneRegionBuilderEnabled());
         return CommandResult.success();
     }
 }

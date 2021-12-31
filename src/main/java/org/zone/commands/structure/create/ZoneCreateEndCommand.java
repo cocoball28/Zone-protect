@@ -54,7 +54,7 @@ public class ZoneCreateEndCommand implements ArgumentCommand {
     public @NotNull CommandResult run(CommandContext context, String... args) {
         Subject subject = context.getSource();
         if (!(subject instanceof Player player)) {
-            return CommandResult.error(Messages.setUniversalPlayerOnlyCommandErrorMessage());
+            return CommandResult.error(Messages.getUniversalPlayerOnlyCommandError());
         }
         Optional<ZoneBuilder> opZone = ZonePlugin
                 .getZonesPlugin()
@@ -111,7 +111,7 @@ public class ZoneCreateEndCommand implements ArgumentCommand {
             zone.save();
         } catch (ConfigurateException e) {
             e.printStackTrace();
-            return CommandResult.error(Messages.setUniversalZoneSavingErrorMessage(e));
+            return CommandResult.error(Messages.getUniversalZoneSavingError(e));
         }
 
         return CommandResult.success();

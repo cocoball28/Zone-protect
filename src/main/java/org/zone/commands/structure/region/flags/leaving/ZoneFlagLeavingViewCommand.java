@@ -46,7 +46,7 @@ public class ZoneFlagLeavingViewCommand implements ArgumentCommand {
         Zone zone = commandContext.getArgument(this, ZONE);
         @NotNull Optional<LeavingFlag> opFlag = zone.getFlag(FlagTypes.LEAVING);
         if (opFlag.isEmpty()) {
-            commandContext.sendMessage(Messages.setUniversalFlagCommandsRegionInteractMessageNoMessageSetErrorMessage());
+            commandContext.sendMessage(Messages.getUniversalFlagCommandsRegionInteractMessageNoMessageSetError());
             return CommandResult.success();
         }
         commandContext.sendMessage(Messages.getZoneFlagLeavingMessageViewCommandMessageViewMessage(opFlag.get()));

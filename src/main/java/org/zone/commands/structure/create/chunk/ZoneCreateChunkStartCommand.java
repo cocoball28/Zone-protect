@@ -53,7 +53,7 @@ public class ZoneCreateChunkStartCommand implements ArgumentCommand {
     public @NotNull CommandResult run(@NotNull CommandContext commandContext, @NotNull String... args) {
         Subject subject = commandContext.getSource();
         if (!(subject instanceof ServerPlayer player)) {
-            return CommandResult.error(Messages.setUniversalPlayerOnlyCommandErrorMessage());
+            return CommandResult.error(Messages.getUniversalPlayerOnlyCommandError());
         }
 
         String name = String.join(" ", commandContext.getArgument(this, NAME));
@@ -75,13 +75,13 @@ public class ZoneCreateChunkStartCommand implements ArgumentCommand {
                 .getZoneManager()
                 .getZone(builder.getContainer(), builder.getKey())
                 .isPresent()) {
-            return CommandResult.error(Messages.setUniversalZoneRegionNameConflictErrorMessage());
+            return CommandResult.error(Messages.getUniversalZoneRegionNameConflictError());
         }
         ZonePlugin
                 .getZonesPlugin()
                 .getMemoryHolder()
                 .registerZoneBuilder(player.uniqueId(), builder);
-        player.sendMessage(Messages.setUniversalZoneRegionBuilderEnabledMessage());
+        player.sendMessage(Messages.getUniversalZoneRegionBuilderEnabled());
         return CommandResult.success();
     }
 

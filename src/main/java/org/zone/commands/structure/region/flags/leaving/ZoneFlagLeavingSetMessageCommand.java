@@ -63,7 +63,7 @@ public class ZoneFlagLeavingSetMessageCommand implements ArgumentCommand {
             commandContext.sendMessage(Messages.getZoneFlagLeavingSetMessageCommandLeavingMessageSaved(message));
         } catch (ConfigurateException e) {
             e.printStackTrace();
-            return CommandResult.error(Messages.setUniversalZoneSavingErrorMessage(e));
+            return CommandResult.error(Messages.getUniversalZoneSavingError(e));
         }
         return CommandResult.success();
     }
