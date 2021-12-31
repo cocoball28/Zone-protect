@@ -27,7 +27,7 @@ public final class Messages {
         throw new RuntimeException("Could not construct class");
     }
     //Universal Messages
-    public static Component getPlayerOnlyCommandError() {
+    public static Component getPlayerCommandError() {
         return Component.text("Player only command").color(NamedTextColor.RED);
     }
 

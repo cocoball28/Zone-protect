@@ -55,7 +55,7 @@ public class ZoneInfoBoundsShowCommand implements ArgumentCommand {
     public @NotNull CommandResult run(CommandContext context, String... args) {
         Subject subject = context.getSource();
         if (!(subject instanceof Viewer viewer && subject instanceof Locatable locatable)) {
-            return CommandResult.error(Messages.getPlayerOnlyCommandError());
+            return CommandResult.error(Messages.getPlayerCommandError());
         }
 
         Zone zone = context.getArgument(this, ZONE);

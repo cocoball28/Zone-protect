@@ -53,7 +53,7 @@ public class ZoneCreateChunkStartCommand implements ArgumentCommand {
     public @NotNull CommandResult run(@NotNull CommandContext commandContext, @NotNull String... args) {
         Subject subject = commandContext.getSource();
         if (!(subject instanceof ServerPlayer player)) {
-            return CommandResult.error(Messages.getPlayerOnlyCommandError());
+            return CommandResult.error(Messages.getPlayerCommandError());
         }
 
         String name = String.join(" ", commandContext.getArgument(this, NAME));

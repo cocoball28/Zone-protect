@@ -57,7 +57,7 @@ public class ZoneCreateStartCommand implements ArgumentCommand {
     public @NotNull CommandResult run(CommandContext context, String... args) {
         Subject subject = context.getSource();
         if (!(subject instanceof ServerPlayer player)) {
-            return CommandResult.error(Messages.getPlayerOnlyCommandError());
+            return CommandResult.error(Messages.getPlayerCommandError());
         }
 
         String name = String.join(" ", context.getArgument(this, NAME));

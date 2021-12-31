@@ -63,7 +63,7 @@ public class ZoneCreateSubStartCommand implements ArgumentCommand {
     public @NotNull CommandResult run(CommandContext context, String... args) {
         Subject subject = context.getSource();
         if (!(subject instanceof ServerPlayer player)) {
-            return CommandResult.error(Messages.getPlayerOnlyCommandError());
+            return CommandResult.error(Messages.getPlayerCommandError());
         }
         Zone zone = context.getArgument(this, ZONE);
         String name = String.join(" ", context.getArgument(this, NAME));

@@ -54,7 +54,7 @@ public class ZoneCreateEndCommand implements ArgumentCommand {
     public @NotNull CommandResult run(CommandContext context, String... args) {
         Subject subject = context.getSource();
         if (!(subject instanceof Player player)) {
-            return CommandResult.error(Messages.getPlayerOnlyCommandError());
+            return CommandResult.error(Messages.getPlayerCommandError());
         }
         Optional<ZoneBuilder> opZone = ZonePlugin
                 .getZonesPlugin()
