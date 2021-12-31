@@ -46,7 +46,7 @@ public class ZoneFlagGreetingsViewCommand implements ArgumentCommand {
         GreetingsFlag greetingsFlag = zone.getFlag(FlagTypes.GREETINGS).orElse(new GreetingsFlag());
         Component message = greetingsFlag
                 .getMessage()
-                .orElse(Messages.getUniversalNoMessageSet());
+                .orElse(Messages.getNoMessageSet());
         commandContext.sendMessage(Messages.getFlagMessageView(message));
         return CommandResult.success();
     }

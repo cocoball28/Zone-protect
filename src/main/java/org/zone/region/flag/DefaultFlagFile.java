@@ -1,8 +1,5 @@
 package org.zone.region.flag;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextDecoration;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
@@ -78,7 +75,7 @@ public class DefaultFlagFile {
         } catch (Throwable e) {
             Sponge
                     .systemSubject()
-                    .sendMessage(Messages.getDefaultFlagFileFlagLoadFail(type));
+                    .sendMessage(Messages.getFailedToLoadFlag(type));
             e.printStackTrace();
             return Optional.empty();
         }

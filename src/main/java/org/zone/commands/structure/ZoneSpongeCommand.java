@@ -104,7 +104,7 @@ public class ZoneSpongeCommand implements Command.Raw {
             return CommandResult.success();
         }
         if (!opCommand.get().hasPermission(cause)) {
-            cause.sendMessage(Identity.nil(), Messages.getZoneSpongeCommandnotgetHasPermission(opCommand.get()));
+            cause.sendMessage(Identity.nil(), Messages.getMissingPermissionForCommand(opCommand.get()));
             return CommandResult.success();
         }
         try {

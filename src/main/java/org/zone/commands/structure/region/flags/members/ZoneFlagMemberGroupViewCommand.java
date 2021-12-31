@@ -67,7 +67,7 @@ public class ZoneFlagMemberGroupViewCommand implements ArgumentCommand {
         Group group = commandContext.getArgument(this, GROUP);
         int page = commandContext.getArgument(this, this.PAGE);
         if (page <= 0) {
-            return CommandResult.error(Messages.getZoneFlagMemberGroupViewCommandrunPagelessthan1());
+            return CommandResult.error(Messages.getPageTooLow());
         }
 
         Collection<UUID> memberIds = zone.getMembers().getMembers(group);

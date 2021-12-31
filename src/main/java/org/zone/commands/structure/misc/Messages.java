@@ -66,7 +66,7 @@ public final class Messages {
     }
     //Universal Messages end
     //Universal only for some special classes
-    public static Component getZoneCreateEndCommandError1(@SuppressWarnings("TypeMayBeWeakened") Zone parent) {
+    public static Component getNotInRegion(@SuppressWarnings("TypeMayBeWeakened") Zone parent) {
         return Component.text("Region must be within " + parent.getId()).color(NamedTextColor.RED);
     }
     //Universal only for some special classes end or will continue
@@ -95,10 +95,10 @@ public final class Messages {
     }
 
     public static Component getZoneSpongeCommandnotEmptyErrorElse() {
-        return Component.text("Unknown error").color(NamedTextColor.RED);
+        return Messages.getUnknownError();
     }
 
-    public static Component getZoneSpongeCommandnotgetHasPermission(ArgumentCommand argumentCommand) {
+    public static Component getMissingPermissionForCommand(ArgumentCommand argumentCommand) {
         return Component
                 .text(" You do not have permission for that command" +
                               ". You" +
@@ -128,7 +128,7 @@ public final class Messages {
         return Component.text("Unknown error").color(NamedTextColor.RED);
     }
 
-    public static Component getCommandLauncherrunMethodNoPermissionError(ArgumentCommand argumentCommand) {
+    public static Component getCommandLauncherrunMethodNoPermissionError2(ArgumentCommand argumentCommand) {
         return Component
                 .text("You do not have permission for that command. You " +
                               "require " +
@@ -136,14 +136,14 @@ public final class Messages {
                 .color(NamedTextColor.RED);
     }
 
-    public static Component getDefaultFlagFileFlagLoadFail(@SuppressWarnings("TypeMayBeWeakened") FlagType<?> type) {
+    public static Component getFailedToLoadFlag(@SuppressWarnings("TypeMayBeWeakened") FlagType<?> type) {
         return Component
                 .text("Failed to load flag of " + type.getId())
                 .color(NamedTextColor.RED)
                 .decorate(TextDecoration.BOLD);
     }
 
-    public static Component getZoneFlagMemberGroupViewCommandrunPagelessthan1() {
+    public static Component getPageTooLow() {
         return Component.text("Page needs to be 1 or more").color(NamedTextColor.RED);
     }
 
