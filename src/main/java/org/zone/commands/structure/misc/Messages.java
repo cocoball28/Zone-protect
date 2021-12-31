@@ -5,6 +5,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.configurate.ConfigurateException;
+import org.zone.Identifiable;
 import org.zone.ZonePlugin;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.context.ErrorContext;
