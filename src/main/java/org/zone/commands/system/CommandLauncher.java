@@ -34,7 +34,7 @@ public interface CommandLauncher extends BaseCommandLauncher {
                         .parallelStream()
                         .map(e -> e.argument().getUsage())
                         .collect(Collectors.toSet())
-                        .forEach(e -> source.sendMessage(Identity.nil(), Messages.getCommandLaunhcerrunMethodError1(e)));
+                        .forEach(e -> source.sendMessage(Identity.nil(), Messages.getFormattedMessage(e)));
             } else {
                 source.sendMessage(Identity.nil(), Messages.getUnknownError());
             }

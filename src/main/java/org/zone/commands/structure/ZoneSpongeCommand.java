@@ -97,7 +97,7 @@ public class ZoneSpongeCommand implements Command.Raw {
                         .parallelStream()
                         .map(e -> e.argument().getUsage())
                         .collect(Collectors.toSet())
-                        .forEach(e -> cause.sendMessage(Identity.nil(), Messages.getZoneSpongeCommandnotEmptyError(e)));
+                        .forEach(e -> cause.sendMessage(Identity.nil(), Messages.getFormattedMessage(e)));
             } else {
                 cause.sendMessage(Identity.nil(), Messages.getZoneSpongeCommandnotEmptyErrorElse());
             }
@@ -115,7 +115,7 @@ public class ZoneSpongeCommand implements Command.Raw {
             if (message == null) {
                 message = "Unknown error";
             }
-            throw new CommandException(Messages.getZoneSpongeCommandError2Unknown(message), e);
+            throw new CommandException(Messages.getFormattedMessage(message), e);
         }
     }
 

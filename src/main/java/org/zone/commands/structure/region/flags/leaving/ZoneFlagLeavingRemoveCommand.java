@@ -47,7 +47,7 @@ public class ZoneFlagLeavingRemoveCommand implements ArgumentCommand {
         zone.removeFlag(FlagTypes.LEAVING);
         try {
             zone.save();
-            commandContext.sendMessage(Messages.getZoneFlagLeavingRemoveCommandRemovedMessage());
+            commandContext.sendMessage(Messages.getUpdatedMessage(FlagTypes.LEAVING));
         } catch (ConfigurateException e) {
             e.printStackTrace();
             return CommandResult.error(Messages.getZoneSavingError(e));

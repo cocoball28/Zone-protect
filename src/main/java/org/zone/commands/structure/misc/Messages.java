@@ -61,13 +61,19 @@ public final class Messages {
         return getMessageTag().append(message);
     }
 
-    public static Component getUpdatedFlag(Identifiable type) {
+    public static Component getUpdatedMessage(Identifiable type) {
         return Component.text("Updated " + type.getName()).color(NamedTextColor.AQUA);
     }
     //Universal Messages end
     //Universal only for some special classes
     public static Component getNotInRegion(@SuppressWarnings("TypeMayBeWeakened") Zone parent) {
         return Component.text("Region must be within " + parent.getId()).color(NamedTextColor.RED);
+    }
+
+    public static Component getFormattedMessage(String e) {
+        return Component
+                .text(e)
+                .color(NamedTextColor.RED);
     }
     //Universal only for some special classes end or will continue
 
@@ -233,14 +239,6 @@ public final class Messages {
                                       "zone!").color(NamedTextColor.AQUA);
     }
 
-    public static Component getZoneFlagBlockBreakSetGroupCommandGroupUpdatedFlagSaved() {
-        return Component.text("Updated Block Break Interaction " + "group").color(NamedTextColor.AQUA);
-    }
-
-    public static Component getZoneFlagLeavingRemoveCommandRemovedMessage() {
-        return Component.text("Removed leaving message").color(NamedTextColor.BLUE);
-    }
-
     public static Component getEditBoundsStartCommandBeingEditedError() {
         return Component.text("Zone is already being edited").color(NamedTextColor.RED);
     }
@@ -274,22 +272,9 @@ public final class Messages {
         return Component.text(error.error()).color(NamedTextColor.RED);
     }
 
-    public static Component getCommandLaunhcerrunMethodError1(String e) {
-        return Component
-                .text(e)
-                .color(NamedTextColor.RED);
-    }
-
-    public static Component getZoneSpongeCommandError2Unknown(String message) {
-        return Component.text(message).color(NamedTextColor.RED);
-    }
-
     public static Component getZoneSpongeCommandError(ErrorContext error) {
         return Component.text(error.error()).color(NamedTextColor.RED);
     }
 
-    public static Component getZoneSpongeCommandnotEmptyError(String e) {
-        return Component.text(e).color(NamedTextColor.RED);
-    }
     //Unuseful messages end or will continue
 }
