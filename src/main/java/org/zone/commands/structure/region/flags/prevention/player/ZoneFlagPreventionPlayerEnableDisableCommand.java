@@ -3,6 +3,7 @@ package org.zone.commands.structure.region.flags.prevention.player;
 import net.kyori.adventure.text.Component;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.configurate.ConfigurateException;
+import org.zone.commands.structure.misc.Messages;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
@@ -50,7 +51,7 @@ public class ZoneFlagPreventionPlayerEnableDisableCommand implements ArgumentCom
             zone.save();
         }catch (ConfigurateException ce) {
             ce.printStackTrace();
-            commandContext.sendMessage(Component.text("Couldn't save because" + ce.getMessage()));
+            commandContext.sendMessage(Messages.setUniversalZoneSavingErrorMessage(ce));
         }
 
         return CommandResult.success();

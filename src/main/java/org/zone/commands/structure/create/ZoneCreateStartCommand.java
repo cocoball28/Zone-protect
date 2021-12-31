@@ -1,7 +1,6 @@
 package org.zone.commands.structure.create;
 
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandCause;
 import org.spongepowered.api.command.CommandResult;
@@ -11,6 +10,7 @@ import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.math.vector.Vector3i;
 import org.zone.Permissions;
 import org.zone.ZonePlugin;
+import org.zone.commands.structure.misc.Messages;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
@@ -57,7 +57,7 @@ public class ZoneCreateStartCommand implements ArgumentCommand {
     public @NotNull CommandResult run(CommandContext context, String... args) {
         Subject subject = context.getSource();
         if (!(subject instanceof ServerPlayer player)) {
-            return CommandResult.error(Component.text("Player only command"));
+            return CommandResult.error(Messages.setUniversalPlayerOnlyCommandErrorMessage());
         }
 
         String name = String.join(" ", context.getArgument(this, NAME));
@@ -78,19 +78,13 @@ public class ZoneCreateStartCommand implements ArgumentCommand {
                 .getZoneManager()
                 .getZone(builder.getContainer(), builder.getKey())
                 .isPresent()) {
-            return CommandResult.error(Component
-                                               .text("Cannot use that name")
-                                               .color(NamedTextColor.RED));
+            return CommandResult.error(Messages.setUniversalZoneRegionNameConflictErrorMessage());
         }
         ZonePlugin
                 .getZonesPlugin()
                 .getMemoryHolder()
                 .registerZoneBuilder(player.uniqueId(), builder);
-        player.sendMessage(Component
-                                   .text("Region builder mode enabled. Run ")
-                                   .append(Component
-                                                   .text("'/zone create end'")
-                                                   .color(NamedTextColor.AQUA)));
+        player.sendMessage(Messages.setUniversalZoneRegionBuilderEnabledMessage());
         return CommandResult.success();
     }
 

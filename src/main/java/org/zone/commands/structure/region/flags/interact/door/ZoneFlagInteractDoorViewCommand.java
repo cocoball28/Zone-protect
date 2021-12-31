@@ -2,10 +2,12 @@ package org.zone.commands.structure.region.flags.interact.door;
 
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandResult;
 import org.zone.Identifiable;
 import org.zone.Permissions;
+import org.zone.commands.structure.misc.Messages;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
@@ -55,8 +57,7 @@ public class ZoneFlagInteractDoorViewCommand implements ArgumentCommand {
                 .getFlag(FlagTypes.DOOR_INTERACTION);
         commandContext
                 .getCause()
-                .sendMessage(Identity.nil(),
-                             Component.text("Enabled: " + opFlag.isPresent()));
+                .sendMessage(Identity.nil(), Component.text("Enabled: " + opFlag.isPresent()).color(NamedTextColor.AQUA));
         commandContext
                 .getCause()
                 .sendMessage(Identity.nil(),

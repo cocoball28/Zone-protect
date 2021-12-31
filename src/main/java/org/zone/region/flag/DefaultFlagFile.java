@@ -8,6 +8,7 @@ import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
 import org.zone.ZonePlugin;
+import org.zone.commands.structure.misc.Messages;
 
 import java.io.File;
 import java.io.IOException;
@@ -77,10 +78,7 @@ public class DefaultFlagFile {
         } catch (Throwable e) {
             Sponge
                     .systemSubject()
-                    .sendMessage(Component
-                                         .text("Failed to load flag of " + type.getId())
-                                         .color(NamedTextColor.RED)
-                                         .decorate(TextDecoration.BOLD));
+                    .sendMessage(Messages.getDefaultFlagFileFlagLoadFail(type));
             e.printStackTrace();
             return Optional.empty();
         }

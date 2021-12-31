@@ -5,6 +5,7 @@ import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.configurate.ConfigurateException;
+import org.zone.commands.structure.misc.Messages;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
@@ -63,10 +64,10 @@ public class ZoneFlagBlockPlaceSetGroupCommand implements ArgumentCommand {
             zone.save();
             commandContext
                     .getCause()
-                    .sendMessage(Identity.nil(), Component.text("Updated Block placement"));
+                    .sendMessage(Identity.nil(), Messages.setUniversalOnlyZoneFlagBlockPlaceCommandFlagSaved());
         } catch (ConfigurateException e) {
             e.printStackTrace();
-            return CommandResult.error(Component.text("Could not save: " + e.getMessage()));
+            return CommandResult.error(Messages.setUniversalZoneSavingErrorMessage(e));
         }
         return CommandResult.success();
     }

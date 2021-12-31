@@ -3,6 +3,7 @@ package org.zone.commands.structure.region.flags.leaving;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandResult;
+import org.zone.commands.structure.misc.Messages;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
@@ -45,12 +46,10 @@ public class ZoneFlagLeavingViewCommand implements ArgumentCommand {
         Zone zone = commandContext.getArgument(this, ZONE);
         @NotNull Optional<LeavingFlag> opFlag = zone.getFlag(FlagTypes.LEAVING);
         if (opFlag.isEmpty()) {
-            commandContext.sendMessage(Component.text("Message: No Message set"));
+            commandContext.sendMessage(Messages.setUniversalFlagCommandsRegionInteractMessageNoMessageSetErrorMessage());
             return CommandResult.success();
         }
-        commandContext.sendMessage(Component
-                                           .text("Message: ")
-                                           .append(opFlag.get().getLeavingMessage()));
+        commandContext.sendMessage(Messages.getZoneFlagLeavingMessageViewCommandMessageViewMessage(opFlag.get()));
         return CommandResult.success();
     }
 }

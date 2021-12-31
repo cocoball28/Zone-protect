@@ -1,7 +1,6 @@
 package org.zone.commands.structure.create;
 
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandCause;
 import org.spongepowered.api.command.CommandResult;
@@ -10,6 +9,7 @@ import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.configurate.ConfigurateException;
 import org.zone.Permissions;
 import org.zone.ZonePlugin;
+import org.zone.commands.structure.misc.Messages;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
@@ -54,15 +54,14 @@ public class ZoneCreateEndCommand implements ArgumentCommand {
     public @NotNull CommandResult run(CommandContext context, String... args) {
         Subject subject = context.getSource();
         if (!(subject instanceof Player player)) {
-            return CommandResult.error(Component.text("Player only command"));
+            return CommandResult.error(Messages.setUniversalPlayerOnlyCommandErrorMessage());
         }
         Optional<ZoneBuilder> opZone = ZonePlugin
                 .getZonesPlugin()
                 .getMemoryHolder()
                 .getZoneBuilder(player.uniqueId());
         if (opZone.isEmpty()) {
-            return CommandResult.error(Component.text(
-                    "A region needs to be started. Use /zone create bounds " + "<name...>"));
+            return CommandResult.error(Messages.getZonesCreateEndCommandrunopZoneEmptyError());
         }
 
         Zone zone = opZone.get().build();
@@ -73,8 +72,7 @@ public class ZoneCreateEndCommand implements ArgumentCommand {
         if (zone.getParentId().isPresent()) {
             Optional<Zone> opParent = zone.getParent();
             if (opParent.isEmpty()) {
-                return CommandResult.error(Component.text("Could not find parent zone of " +
-                                                                  zone.getParentId().get()));
+                return CommandResult.error(Messages.getZonesCreateEndCommandrunopParentEmptyError(zone));
             }
 
             Region region = zone.getRegion();
@@ -84,8 +82,7 @@ public class ZoneCreateEndCommand implements ArgumentCommand {
                     .anyMatch(boundedRegion -> !opParent
                             .get()
                             .inRegion(null, boundedRegion.getMin().toDouble()))) {
-                return CommandResult.error(Component.text("Region must be within " +
-                                                                  opParent.get().getId()));
+                return CommandResult.error(Messages.getZonesCreateEndCommandrunError2(opParent.get()));
             }
 
             if (children
@@ -93,17 +90,12 @@ public class ZoneCreateEndCommand implements ArgumentCommand {
                     .anyMatch(boundedRegion -> !opParent
                             .get()
                             .inRegion(null, boundedRegion.getMax().toDouble()))) {
-                return CommandResult.error(Component.text("Region must be within " +
-                                                                  opParent.get().getId()));
+                return CommandResult.error(Messages.getZonesCreateEndCommandrunError3(opParent.get()));
             }
         }
 
         ZonePlugin.getZonesPlugin().getZoneManager().register(zone);
-        player.sendMessage(Component
-                                   .text("Created a new zone of ")
-                                   .append(Component
-                                                   .text(zone.getName())
-                                                   .color(NamedTextColor.AQUA)));
+        player.sendMessage(Messages.getZonesCreateEndCommandrunZoneCreated(zone));
         ZonePlugin.getZonesPlugin().getMemoryHolder().unregisterZoneBuilder(player.uniqueId());
         ChildRegion region = zone.getRegion();
         Collection<BoundedRegion> children = region.getTrueChildren();
@@ -119,7 +111,7 @@ public class ZoneCreateEndCommand implements ArgumentCommand {
             zone.save();
         } catch (ConfigurateException e) {
             e.printStackTrace();
-            return CommandResult.error(Component.text("Error when saving: " + e.getMessage()));
+            return CommandResult.error(Messages.setUniversalZoneSavingErrorMessage(e));
         }
 
         return CommandResult.success();
