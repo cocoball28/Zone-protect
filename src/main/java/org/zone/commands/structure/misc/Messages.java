@@ -57,15 +57,17 @@ public final class Messages {
     }
 
     public static Component getUniversalFlagMessageView(Component message) {
-        return getUniversalMessageTag().append(message).color(NamedTextColor.AQUA);
+        return getUniversalMessageTag().append(message);
     }
 
-    public static Component getUniversalUpdatedFlag(@SuppressWarnings("TypeMayBeWeakened") FlagType<?> type) {
+    public static Component getUniversalUpdatedFlag(FlagType<?> type) {
         return Component.text("Updated " + type.getName()).color(NamedTextColor.AQUA);
     }
     //Universal Messages end
     //Universal only for some special classes
-
+    public static Component getOnlyZoneCreateEndCommandError1(@SuppressWarnings("TypeMayBeWeakened") Zone parent) {
+        return Component.text("Region must be within " + parent.getId()).color(NamedTextColor.RED);
+    }
     //Universal only for some special classes end or will continue
 
     //Custom messages
@@ -111,14 +113,6 @@ public final class Messages {
 
     public static Component getZonesCreateEndCommandrunopParentEmptyError(Zone zone) {
         return Component.text("Could not find parent zone of " + zone.getParentId().orElse("None")).color(NamedTextColor.RED);
-    }
-
-    public static Component getZonesCreateEndCommandrunError2(@SuppressWarnings("TypeMayBeWeakened") Zone parent) {
-        return Component.text("Region must be within " + parent.getId()).color(NamedTextColor.RED);
-    }
-
-    public static Component getZonesCreateEndCommandrunError3(@SuppressWarnings("TypeMayBeWeakened") Zone parent) {
-        return Component.text("Region must be within " + parent.getId()).color(NamedTextColor.RED);
     }
 
     public static Component getZonesCreateEndCommandrunZoneCreated(@SuppressWarnings("TypeMayBeWeakened") Zone zone) {

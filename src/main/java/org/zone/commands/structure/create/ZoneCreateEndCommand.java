@@ -82,7 +82,7 @@ public class ZoneCreateEndCommand implements ArgumentCommand {
                     .anyMatch(boundedRegion -> !opParent
                             .get()
                             .inRegion(null, boundedRegion.getMin().toDouble()))) {
-                return CommandResult.error(Messages.getZonesCreateEndCommandrunError2(opParent.get()));
+                return CommandResult.error(Messages.getOnlyZoneCreateEndCommandError1(opParent.get()));
             }
 
             if (children
@@ -90,7 +90,7 @@ public class ZoneCreateEndCommand implements ArgumentCommand {
                     .anyMatch(boundedRegion -> !opParent
                             .get()
                             .inRegion(null, boundedRegion.getMax().toDouble()))) {
-                return CommandResult.error(Messages.getZonesCreateEndCommandrunError3(opParent.get()));
+                return CommandResult.error(Messages.getOnlyZoneCreateEndCommandError1(opParent.get()));
             }
         }
 
