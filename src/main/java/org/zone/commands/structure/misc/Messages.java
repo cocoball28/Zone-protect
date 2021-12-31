@@ -172,8 +172,8 @@ public final class Messages {
                 .append(Component.text(page).color(NamedTextColor.AQUA));
     }
 
-    public static Component getZoneInfoCommandZoneName(@SuppressWarnings("TypeMayBeWeakened") Zone zone) {
-        return Component.text("Name: " + zone.getName()).color(NamedTextColor.AQUA);
+    public static Component getZoneInfoCommandZoneName(Identifiable zone) {
+        return Messages.getZonePluginInfoCommandPluginName(zone.getName());
     }
 
     public static Component getZoneInfoCommandZoneMembers(Collection<UUID> members) {
@@ -233,16 +233,20 @@ public final class Messages {
                                       "zone!").color(NamedTextColor.AQUA);
     }
 
-    public static Component getZoneFlagBlockBreakCommandSetEnabledFlagSaved() {
-        return Component.text("Updated Block break").color(NamedTextColor.AQUA);
-    }
-
     public static Component getZoneFlagBlockBreakSetGroupCommandGroupUpdatedFlagSaved() {
         return Component.text("Updated Block Break Interaction " + "group").color(NamedTextColor.AQUA);
     }
 
     public static Component getZoneFlagLeavingRemoveCommandRemovedMessage() {
         return Component.text("Removed leaving message").color(NamedTextColor.BLUE);
+    }
+
+    public static Component getEditBoundsStartCommandBeingEditedError() {
+        return Component.text("Zone is already being edited").color(NamedTextColor.RED);
+    }
+
+    public static Component getEditBoundsStartCommandNotBeingInZoneError() {
+        return Component.text("Must be within the zone to start editing").color(NamedTextColor.RED);
     }
 
     //More Custom messages to come ;)
@@ -286,14 +290,6 @@ public final class Messages {
 
     public static Component getZoneSpongeCommandnotEmptyError(String e) {
         return Component.text(e).color(NamedTextColor.RED);
-    }
-
-    public static Component getEditBoundsStartCommandBeingEditedError() {
-        return Component.text("Zone is already being edited").color(NamedTextColor.RED);
-    }
-
-    public static Component getEditBoundsStartCommandNotBeingInZoneError() {
-        return Component.text("Must be within the zone to start editing").color(NamedTextColor.RED);
     }
     //Unuseful messages end or will continue
 }
