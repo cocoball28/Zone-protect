@@ -48,27 +48,24 @@ public final class Messages {
                 .color(NamedTextColor.RED);
     }
 
-    public static Component getUniversalFlagCommandsRegionInteractMessageNoMessageSetError() {
-        return Component.text("Message: No Message set by user").color(NamedTextColor.RED);
+    public static Component getUniversalMessageTag() {
+        return Component.text("Message: ");
     }
 
-    public static Component getUniversalZoneFlagRegionInteractMessageSetViewCommand(Component message) {
-        return Component.text("Message: ").append(message).color(NamedTextColor.AQUA);
+    public static Component getUniversalNoMessageSet() {
+        return getUniversalMessageTag().append(Component.text("No message set by user")).color(NamedTextColor.RED);
     }
 
+    public static Component getUniversalFlagMessageView(Component message) {
+        return getUniversalMessageTag().append(message).color(NamedTextColor.AQUA);
+    }
+
+    public static Component getUniversalUpdatedFlag(@SuppressWarnings("TypeMayBeWeakened") FlagType<?> type) {
+        return Component.text("Updated " + type.getName()).color(NamedTextColor.AQUA);
+    }
     //Universal Messages end
     //Universal only for some special classes
-    public static Component getMessageOnlyZoneFlagInteractDoorCommandsFlagSaved() {
-        return Component.text("Updated Door interaction").color(NamedTextColor.AQUA);
-    }
 
-    public static Component getMessageOnlyZoneFlagInteractItemframesCommandFlagSaved() {
-        return  Component.text("Updated InteractItemframesFlag").color(NamedTextColor.AQUA);
-    }
-
-    public static Component getMessageOnlyZoneFlagBlockPlaceCommandFlagSaved() {
-        return Component.text("Updated Block placement").color(NamedTextColor.AQUA);
-    }
     //Universal only for some special classes end or will continue
 
     //Custom messages
