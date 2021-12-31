@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandResult;
 import org.zone.ZonePlugin;
+import org.zone.commands.structure.misc.Messages;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
@@ -57,10 +58,10 @@ public class ZonePluginInfoCommand implements ArgumentCommand {
                 .stream()
                 .filter(zone -> zone.getParentId().isEmpty())
                 .count() + "";
-        commandContext.sendMessage(Component.text("Name: " + pluginName));
-        commandContext.sendMessage(Component.text("Version: " + pluginVersion));
-        commandContext.sendMessage(Component.text("Github: " + pluginGithub));
-        commandContext.sendMessage(Component.text("Zones: " + pluginZonesNumber));
+        commandContext.sendMessage(Messages.getZonePluginInfoCommandPluginName(pluginName));
+        commandContext.sendMessage(Messages.getZonePluginInfoCommandPluginVersion(pluginVersion));
+        commandContext.sendMessage(Messages.getZonePluginInfoCommandPluginGithub(pluginGithub));
+        commandContext.sendMessage(Messages.getZonesPluginInfoCommandZonesNumber(pluginZonesNumber));
         return CommandResult.success();
     }
 

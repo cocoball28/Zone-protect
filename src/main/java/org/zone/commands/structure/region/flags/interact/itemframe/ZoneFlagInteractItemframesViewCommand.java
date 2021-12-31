@@ -48,7 +48,7 @@ public class ZoneFlagInteractItemframesViewCommand implements ArgumentCommand {
     }
 
     @Override
-    public @NotNull CommandResult run(@NotNull CommandContext commandContext, @NotNull String[] args) {
+    public @NotNull CommandResult run(@NotNull CommandContext commandContext, @NotNull String... args) {
         Zone zone = commandContext.getArgument(this, ZONE_VALUE);
         @NotNull ItemFrameInteractFlag interactItemframesFlag = zone
                 .getFlag(FlagTypes.ITEM_FRAME_INTERACT)

@@ -5,6 +5,7 @@ import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.configurate.ConfigurateException;
+import org.zone.commands.structure.misc.Messages;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
@@ -46,7 +47,7 @@ public class ZoneFlagInteractDoorEnabledCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("sets if interaction with door should be enabled");
+        return Component.text("Sets if interaction with door should be enabled");
     }
 
     @Override
@@ -67,10 +68,10 @@ public class ZoneFlagInteractDoorEnabledCommand implements ArgumentCommand {
             zone.save();
             commandContext
                     .getCause()
-                    .sendMessage(Identity.nil(), Component.text("Updated Door interaction"));
+                    .sendMessage(Identity.nil(), Messages.getUpdatedMessage(FlagTypes.DOOR_INTERACTION));
         } catch (ConfigurateException e) {
             e.printStackTrace();
-            return CommandResult.error(Component.text("Could not save: " + e.getMessage()));
+            return CommandResult.error(Messages.getZoneSavingError(e));
         }
         return CommandResult.success();
     }

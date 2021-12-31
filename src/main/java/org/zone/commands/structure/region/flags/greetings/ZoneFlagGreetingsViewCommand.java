@@ -3,6 +3,7 @@ package org.zone.commands.structure.region.flags.greetings;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandResult;
+import org.zone.commands.structure.misc.Messages;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
@@ -45,8 +46,8 @@ public class ZoneFlagGreetingsViewCommand implements ArgumentCommand {
         GreetingsFlag greetingsFlag = zone.getFlag(FlagTypes.GREETINGS).orElse(new GreetingsFlag());
         Component message = greetingsFlag
                 .getMessage()
-                .orElse(Component.text("Message not set by user"));
-        commandContext.sendMessage(Component.text("Message: ").append(message));
+                .orElse(Messages.getNoMessageSet());
+        commandContext.sendMessage(Messages.getFlagMessageView(message));
         return CommandResult.success();
     }
 

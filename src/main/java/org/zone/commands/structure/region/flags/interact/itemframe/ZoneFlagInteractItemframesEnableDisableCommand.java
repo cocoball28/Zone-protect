@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.configurate.ConfigurateException;
+import org.zone.commands.structure.misc.Messages;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
@@ -47,7 +48,7 @@ public class ZoneFlagInteractItemframesEnableDisableCommand implements ArgumentC
     }
 
     @Override
-    public @NotNull CommandResult run(@NotNull CommandContext commandContext, @NotNull String[] args) {
+    public @NotNull CommandResult run(@NotNull CommandContext commandContext, @NotNull String... args) {
         boolean enable = commandContext.getArgument(this, ENABLEDISABLE);
         Zone zone = commandContext.getArgument(this, ZONE_VALUE);
         ItemFrameInteractFlag interactItemframesFlag = zone.getFlag(FlagTypes.ITEM_FRAME_INTERACT).orElse(new ItemFrameInteractFlag());
@@ -55,10 +56,10 @@ public class ZoneFlagInteractItemframesEnableDisableCommand implements ArgumentC
         zone.setFlag(interactItemframesFlag);
         try {
             zone.save();
-            commandContext.sendMessage(Component.text("Saved!"));
+            commandContext.sendMessage(Messages.getUpdatedMessage(FlagTypes.ITEM_FRAME_INTERACT));
         } catch (ConfigurateException ce) {
             ce.printStackTrace();
-            return CommandResult.error(Component.text("Could not save because " + ce.getMessage()));
+            return CommandResult.error(Messages.getZoneSavingError(ce));
         }
         return CommandResult.success();
     }
