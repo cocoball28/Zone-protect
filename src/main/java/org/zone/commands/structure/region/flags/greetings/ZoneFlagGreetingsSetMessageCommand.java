@@ -57,7 +57,7 @@ public class ZoneFlagGreetingsSetMessageCommand implements ArgumentCommand {
             commandContext.sendMessage(Messages.getZoneFlagGreetingsSetMesssageCommandSetMessage(message));
         } catch (ConfigurateException e) {
             e.printStackTrace();
-            return CommandResult.error(Messages.getUniversalZoneSavingError(e));
+            return CommandResult.error(Messages.getZoneSavingError(e));
         }
         return CommandResult.success();
     }

@@ -64,10 +64,10 @@ public class ZoneFlagBlockPlaceSetEnabledCommand implements ArgumentCommand {
             zone.save();
             commandContext
                     .getCause()
-                    .sendMessage(Identity.nil(), Messages.getUniversalUpdatedFlag(FlagTypes.BLOCK_PLACE));
+                    .sendMessage(Identity.nil(), Messages.getUpdatedFlag(FlagTypes.BLOCK_PLACE));
         } catch (ConfigurateException e) {
             e.printStackTrace();
-            return CommandResult.error(Messages.getUniversalZoneSavingError(e));
+            return CommandResult.error(Messages.getZoneSavingError(e));
         }
         return CommandResult.success();
     }

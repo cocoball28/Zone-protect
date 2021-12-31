@@ -57,7 +57,7 @@ public class ZoneCreateStartCommand implements ArgumentCommand {
     public @NotNull CommandResult run(CommandContext context, String... args) {
         Subject subject = context.getSource();
         if (!(subject instanceof ServerPlayer player)) {
-            return CommandResult.error(Messages.getUniversalPlayerOnlyCommandError());
+            return CommandResult.error(Messages.getPlayerOnlyCommandError());
         }
 
         String name = String.join(" ", context.getArgument(this, NAME));
@@ -78,13 +78,13 @@ public class ZoneCreateStartCommand implements ArgumentCommand {
                 .getZoneManager()
                 .getZone(builder.getContainer(), builder.getKey())
                 .isPresent()) {
-            return CommandResult.error(Messages.getUniversalDuplicateNameError());
+            return CommandResult.error(Messages.getDuplicateNameError());
         }
         ZonePlugin
                 .getZonesPlugin()
                 .getMemoryHolder()
                 .registerZoneBuilder(player.uniqueId(), builder);
-        player.sendMessage(Messages.getUniversalZoneRegionBuilderEnabled());
+        player.sendMessage(Messages.getZoneRegionBuilderEnabled());
         return CommandResult.success();
     }
 

@@ -54,7 +54,7 @@ public class ZoneCreateEndCommand implements ArgumentCommand {
     public @NotNull CommandResult run(CommandContext context, String... args) {
         Subject subject = context.getSource();
         if (!(subject instanceof Player player)) {
-            return CommandResult.error(Messages.getUniversalPlayerOnlyCommandError());
+            return CommandResult.error(Messages.getPlayerOnlyCommandError());
         }
         Optional<ZoneBuilder> opZone = ZonePlugin
                 .getZonesPlugin()
@@ -72,7 +72,7 @@ public class ZoneCreateEndCommand implements ArgumentCommand {
         if (zone.getParentId().isPresent()) {
             Optional<Zone> opParent = zone.getParent();
             if (opParent.isEmpty()) {
-                return CommandResult.error(Messages.getZonesCreateEndCommandrunopParentEmptyError(zone));
+                return CommandResult.error(Messages.getFailedToFindParentZone(zone));
             }
 
             Region region = zone.getRegion();
@@ -82,7 +82,7 @@ public class ZoneCreateEndCommand implements ArgumentCommand {
                     .anyMatch(boundedRegion -> !opParent
                             .get()
                             .inRegion(null, boundedRegion.getMin().toDouble()))) {
-                return CommandResult.error(Messages.getOnlyZoneCreateEndCommandError1(opParent.get()));
+                return CommandResult.error(Messages.getZoneCreateEndCommandError1(opParent.get()));
             }
 
             if (children
@@ -90,12 +90,12 @@ public class ZoneCreateEndCommand implements ArgumentCommand {
                     .anyMatch(boundedRegion -> !opParent
                             .get()
                             .inRegion(null, boundedRegion.getMax().toDouble()))) {
-                return CommandResult.error(Messages.getOnlyZoneCreateEndCommandError1(opParent.get()));
+                return CommandResult.error(Messages.getZoneCreateEndCommandError1(opParent.get()));
             }
         }
 
         ZonePlugin.getZonesPlugin().getZoneManager().register(zone);
-        player.sendMessage(Messages.getZonesCreateEndCommandrunZoneCreated(zone));
+        player.sendMessage(Messages.getCreatedZoneMessage(zone));
         ZonePlugin.getZonesPlugin().getMemoryHolder().unregisterZoneBuilder(player.uniqueId());
         ChildRegion region = zone.getRegion();
         Collection<BoundedRegion> children = region.getTrueChildren();
@@ -111,7 +111,7 @@ public class ZoneCreateEndCommand implements ArgumentCommand {
             zone.save();
         } catch (ConfigurateException e) {
             e.printStackTrace();
-            return CommandResult.error(Messages.getUniversalZoneSavingError(e));
+            return CommandResult.error(Messages.getZoneSavingError(e));
         }
 
         return CommandResult.success();

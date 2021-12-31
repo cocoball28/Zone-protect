@@ -51,7 +51,7 @@ public class ZoneFlagPreventionPlayerEnableDisableCommand implements ArgumentCom
             zone.save();
         }catch (ConfigurateException ce) {
             ce.printStackTrace();
-            commandContext.sendMessage(Messages.getUniversalZoneSavingError(ce));
+            commandContext.sendMessage(Messages.getZoneSavingError(ce));
         }
 
         return CommandResult.success();

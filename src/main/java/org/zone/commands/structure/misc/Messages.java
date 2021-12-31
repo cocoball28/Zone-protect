@@ -27,15 +27,15 @@ public final class Messages {
         throw new RuntimeException("Could not construct class");
     }
     //Universal Messages
-    public static Component getUniversalPlayerOnlyCommandError() {
+    public static Component getPlayerOnlyCommandError() {
         return Component.text("Player only command").color(NamedTextColor.RED);
     }
 
-    public static Component getUniversalZoneSavingError(ConfigurateException ce) {
+    public static Component getZoneSavingError(ConfigurateException ce) {
         return Component.text("Error when saving: " + ce.getMessage()).color(NamedTextColor.RED);
     }
 
-    public static Component getUniversalZoneRegionBuilderEnabled() {
+    public static Component getZoneRegionBuilderEnabled() {
         return Component
                 .text("Region builder mode enabled. Run ")
                 .append(Component
@@ -43,30 +43,30 @@ public final class Messages {
                                 .color(NamedTextColor.AQUA));
     }
 
-    public static Component getUniversalDuplicateNameError() {
+    public static Component getDuplicateNameError() {
         return Component
                 .text("Cannot use that name")
                 .color(NamedTextColor.RED);
     }
 
-    public static Component getUniversalMessageTag() {
+    public static Component getMessageTag() {
         return Component.text("Message: ");
     }
 
-    public static Component getUniversalNoMessageSet() {
-        return getUniversalMessageTag().append(Component.text("No message set by user")).color(NamedTextColor.RED);
+    public static Component getNoMessageSet() {
+        return getMessageTag().append(Component.text("No message set by user")).color(NamedTextColor.RED);
     }
 
-    public static Component getUniversalFlagMessageView(Component message) {
-        return getUniversalMessageTag().append(message);
+    public static Component getFlagMessageView(Component message) {
+        return getMessageTag().append(message);
     }
 
-    public static Component getUniversalUpdatedFlag(Identifiable type) {
+    public static Component getUpdatedFlag(Identifiable type) {
         return Component.text("Updated " + type.getName()).color(NamedTextColor.AQUA);
     }
     //Universal Messages end
     //Universal only for some special classes
-    public static Component getOnlyZoneCreateEndCommandError1(@SuppressWarnings("TypeMayBeWeakened") Zone parent) {
+    public static Component getZoneCreateEndCommandError1(@SuppressWarnings("TypeMayBeWeakened") Zone parent) {
         return Component.text("Region must be within " + parent.getId()).color(NamedTextColor.RED);
     }
     //Universal only for some special classes end or will continue
@@ -112,11 +112,11 @@ public final class Messages {
                 .color(NamedTextColor.RED);
     }
 
-    public static Component getZonesCreateEndCommandrunopParentEmptyError(Zone zone) {
+    public static Component getFailedToFindParentZone(Zone zone) {
         return Component.text("Could not find parent zone of " + zone.getParentId().orElse("None")).color(NamedTextColor.RED);
     }
 
-    public static Component getZonesCreateEndCommandrunZoneCreated(@SuppressWarnings("TypeMayBeWeakened") Zone zone) {
+    public static Component getCreatedZoneMessage(@SuppressWarnings("TypeMayBeWeakened") Zone zone) {
         return Component
                 .text("Created a new zone of ")
                 .append(Component
@@ -124,7 +124,7 @@ public final class Messages {
                                 .color(NamedTextColor.AQUA));
     }
 
-    public static Component getCommandLauncherrunMethodError1Else() {
+    public static Component getUnknownError() {
         return Component.text("Unknown error").color(NamedTextColor.RED);
     }
 

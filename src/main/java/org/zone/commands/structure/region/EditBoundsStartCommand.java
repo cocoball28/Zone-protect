@@ -60,7 +60,7 @@ public class EditBoundsStartCommand implements ArgumentCommand {
         }
         @NotNull Subject source = commandContext.getSource();
         if(!(source instanceof Player player)){
-            return CommandResult.error(Messages.getUniversalPlayerOnlyCommandError());
+            return CommandResult.error(Messages.getPlayerOnlyCommandError());
         }
 
         Optional<BoundedRegion> opRegion =

@@ -36,7 +36,7 @@ public interface CommandLauncher extends BaseCommandLauncher {
                         .collect(Collectors.toSet())
                         .forEach(e -> source.sendMessage(Identity.nil(), Messages.getCommandLaunhcerrunMethodError1(e)));
             } else {
-                source.sendMessage(Identity.nil(), Messages.getCommandLauncherrunMethodError1Else());
+                source.sendMessage(Identity.nil(), Messages.getUnknownError());
             }
             return CommandResult.success();
 

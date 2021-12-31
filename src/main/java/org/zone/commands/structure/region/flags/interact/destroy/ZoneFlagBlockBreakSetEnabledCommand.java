@@ -65,10 +65,10 @@ public class ZoneFlagBlockBreakSetEnabledCommand implements ArgumentCommand {
             commandContext
                     .getCause()
                     .sendMessage(Identity.nil(),
-                                 Messages.getUniversalUpdatedFlag(FlagTypes.BLOCK_BREAK));
+                                 Messages.getUpdatedFlag(FlagTypes.BLOCK_BREAK));
         } catch (ConfigurateException e) {
             e.printStackTrace();
-            return CommandResult.error(Messages.getUniversalZoneSavingError(e));
+            return CommandResult.error(Messages.getZoneSavingError(e));
         }
         return CommandResult.success();
     }
