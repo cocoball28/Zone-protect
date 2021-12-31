@@ -13,6 +13,8 @@
 
     <description>Protection plugin for Sponge</description>
     <properties>
+        <sonar.organization>zone-protect</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <java.version>16</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
