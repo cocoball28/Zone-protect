@@ -3,7 +3,7 @@ package org.zone.commands.structure.region.flags.prevention.player;
 import net.kyori.adventure.text.Component;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.configurate.ConfigurateException;
-import org.zone.misc.Messages;
+import org.zone.utils.Messages;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;

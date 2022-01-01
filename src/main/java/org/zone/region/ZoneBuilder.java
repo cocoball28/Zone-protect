@@ -1,19 +1,17 @@
 package org.zone.region;
 
-import net.kyori.adventure.pointer.Pointers;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.api.ResourceKey;
-import org.spongepowered.api.Sponge;
 import org.spongepowered.api.registry.RegistryTypes;
 import org.spongepowered.api.world.World;
-import org.spongepowered.api.world.client.ClientWorld;
 import org.spongepowered.api.world.server.ServerWorld;
 import org.spongepowered.api.world.volume.game.Region;
 import org.spongepowered.plugin.PluginContainer;
 import org.zone.region.bounds.ChildRegion;
 import org.zone.region.bounds.mode.BoundMode;
 import org.zone.region.bounds.mode.BoundModes;
+import org.zone.region.bounds.payment.BoundsPayment;
 import org.zone.region.flag.Flag;
 
 import java.util.Arrays;
@@ -33,6 +31,15 @@ public class ZoneBuilder {
     private String parentId;
     private BoundMode boundMode;
     private ResourceKey world;
+    private BoundsPayment payment;
+
+    public void setPayment(BoundsPayment payment) {
+        this.payment = payment;
+    }
+
+    public BoundsPayment getPayment() {
+        return this.payment;
+    }
 
     public ResourceKey getWorldKey() {
         return this.world;
@@ -48,8 +55,8 @@ public class ZoneBuilder {
         return this;
     }
 
-    public ZoneBuilder setWorld(Region<? extends World<?, ?>> world){
-        if(world instanceof ServerWorld sWorld){
+    public ZoneBuilder setWorld(Region<? extends World<?, ?>> world) {
+        if (world instanceof ServerWorld sWorld) {
             return this.setWorld(sWorld);
         }
         this.world = world.worldType().key(RegistryTypes.WORLD_TYPE);

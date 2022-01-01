@@ -1,17 +1,23 @@
 package org.zone.commands.system.arguments.zone;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.api.command.CommandCompletion;
+import org.spongepowered.api.data.Keys;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.item.ItemTypes;
+import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.service.permission.Subject;
+import org.zone.Identifiable;
 import org.zone.ZonePlugin;
-import org.zone.misc.Messages;
-import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.CommandArgumentResult;
+import org.zone.commands.system.GUICommandArgument;
 import org.zone.commands.system.ParseCommandArgument;
 import org.zone.commands.system.context.CommandArgumentContext;
 import org.zone.commands.system.context.CommandContext;
+import org.zone.utils.Messages;
 import org.zone.region.Zone;
 import org.zone.region.group.Group;
 import org.zone.region.group.key.GroupKey;
@@ -19,10 +25,12 @@ import org.zone.region.group.key.GroupKeys;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class ZoneArgument implements CommandArgument<Zone> {
+public class ZoneArgument implements GUICommandArgument<Zone> {
 
     private final @NotNull ZoneArgumentPropertiesBuilder builder;
     private final @NotNull String id;
@@ -104,7 +112,34 @@ public class ZoneArgument implements CommandArgument<Zone> {
     public CommandArgumentResult<Zone> parse(@NotNull CommandContext context,
                                              @NotNull CommandArgumentContext<Zone> argument) throws
             IOException {
-        Stream<Zone> zones = ZonePlugin.getZonesPlugin().getZoneManager().getZones().stream();
+        Zone result = this
+                .getZones(context)
+                .filter(zone -> zone.getId().equalsIgnoreCase(argument.getFocusArgument()))
+                .findAny()
+                .orElseThrow(() -> new IOException("Could not find zone of " +
+                                                           argument.getFocusArgument()));
+        return CommandArgumentResult.from(argument, result);
+    }
+
+    @Override
+    public Collection<CommandCompletion> suggest(@NotNull CommandContext context,
+                                                 @NotNull CommandArgumentContext<Zone> argument) {
+        return this.suggest(context, argument.getFocusArgument());
+    }
+
+    private ItemStack getItem(Zone zone) {
+        return ItemStack
+                .builder()
+                .quantity(1)
+                .itemType(ItemTypes.CAKE)
+                .add(Keys.DISPLAY_NAME, Component.text(zone.getName()))
+                .add(Keys.LORE, List.of(Component.text(zone.getId()).color(NamedTextColor.AQUA)))
+                .build();
+    }
+
+    private Stream<Zone> getZones(CommandContext context) {
+        Collection<Zone> collection = ZonePlugin.getZonesPlugin().getZoneManager().getZones();
+        Stream<Zone> zones = collection.stream();
         if (this.builder.isOnlyMainZones()) {
             zones = zones.filter(zone -> zone.getParent().isEmpty());
         }
@@ -125,51 +160,27 @@ public class ZoneArgument implements CommandArgument<Zone> {
                         if (this.builder.getLevel() == null) {
                             return true;
                         }
-                        return group.getAllKeys().contains(this.builder.getLevel());
-                    });
-                }
-            }
-        }
-        Zone result = zones
-                .filter(zone -> zone.getId().equalsIgnoreCase(argument.getFocusArgument()))
-                .findAny()
-                .orElseThrow(() -> new IOException("Could not find zone of " +
-                                                           argument.getFocusArgument()));
-        return CommandArgumentResult.from(argument, result);
-    }
-
-    @Override
-    public Collection<CommandCompletion> suggest(@NotNull CommandContext context,
-                                                 @NotNull CommandArgumentContext<Zone> argument) {
-        return this.suggest(context, argument.getFocusArgument());
-    }
-
-    private Collection<CommandCompletion> suggest(@NotNull CommandContext context,
-                                                  @NotNull String focus) {
-        Collection<Zone> collection = ZonePlugin.getZonesPlugin().getZoneManager().getZones();
-        Stream<Zone> zones = collection.stream();
-        if (this.builder.isOnlyMainZones()) {
-            zones = zones.filter(zone -> zone.getParent().isEmpty());
-        }
-        if (this.builder.getLevel() != null) {
-            Subject subject = context.getSource();
-            if (this.builder.getBypassSuggestionPermission() == null ||
-                    this.builder.getBypassSuggestionPermission() != null &&
-                            !subject.hasPermission(this.builder.getBypassSuggestionPermission())) {
-                if (subject instanceof Player player) {
-                    zones = zones.filter(zone -> {
-                        Group group = zone.getMembers().getGroup(player.uniqueId());
-                        if (this.builder.getLevel() == null) {
-                            return true;
-                        }
                         return group.contains(this.builder.getLevel());
                     });
                 }
             }
         }
-        return zones
+        return zones;
+    }
+
+    private Collection<CommandCompletion> suggest(@NotNull CommandContext context,
+                                                  @NotNull String focus) {
+
+        return this
+                .getZones(context)
                 .filter(zone -> zone.getId().toLowerCase().startsWith(focus.toLowerCase()))
-                .map(zone -> CommandCompletion.of(zone.getId(), Messages.getZoneArgumentReturnZonesName(zone)))
+                .map(zone -> CommandCompletion.of(zone.getId(),
+                                                  Messages.getZoneArgumentReturnZonesName(zone)))
                 .collect(Collectors.toSet());
+    }
+
+    @Override
+    public Map<ItemStack, String> createMenuOptions(CommandContext context) {
+        return this.getZones(context).collect(Collectors.toMap(this::getItem, Identifiable::getId));
     }
 }

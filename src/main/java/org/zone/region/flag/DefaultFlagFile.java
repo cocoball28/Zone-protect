@@ -5,7 +5,7 @@ import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
 import org.zone.ZonePlugin;
-import org.zone.misc.Messages;
+import org.zone.utils.Messages;
 
 import java.io.File;
 import java.io.IOException;
