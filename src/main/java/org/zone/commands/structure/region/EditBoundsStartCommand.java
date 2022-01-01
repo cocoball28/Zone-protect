@@ -6,6 +6,7 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.service.permission.Subject;
 import org.zone.Permissions;
+import org.zone.commands.structure.misc.Messages;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
@@ -55,11 +56,11 @@ public class EditBoundsStartCommand implements ArgumentCommand {
         Zone zone = commandContext.getArgument(this, ZONE);
         PositionType positionType = commandContext.getArgument(this, SIDE);
         if (zone.getFlag(FlagTypes.EDITING).isPresent()) {
-            return CommandResult.error(Component.text("Zone is already being edited"));
+            return CommandResult.error(Messages.getEditBoundsStartCommandBeingEditedError());
         }
         @NotNull Subject source = commandContext.getSource();
         if(!(source instanceof Player player)){
-            return CommandResult.error(Component.text("Player only command"));
+            return CommandResult.error(Messages.getPlayerCommandError());
         }
 
         Optional<BoundedRegion> opRegion =
@@ -67,7 +68,7 @@ public class EditBoundsStartCommand implements ArgumentCommand {
                 , false)).findAny();
 
         if(opRegion.isEmpty()){
-            return CommandResult.error(Component.text("Must be within the zone to start editing"));
+            return CommandResult.error(Messages.getEditBoundsStartCommandNotBeingInZoneError());
         }
 
         Flag flag = new EditingFlag(opRegion.get(), positionType, player.blockPosition()

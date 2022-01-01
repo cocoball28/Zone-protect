@@ -89,4 +89,8 @@ public class SimpleGroup implements Group {
         return group.getId().equals(this.getId());
     }
 
+    @Override
+    public int hashCode() {
+        return this.getId().hashCode();
+    }
 }

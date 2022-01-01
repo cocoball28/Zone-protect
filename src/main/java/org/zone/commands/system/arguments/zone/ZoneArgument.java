@@ -7,6 +7,7 @@ import org.spongepowered.api.command.CommandCompletion;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.service.permission.Subject;
 import org.zone.ZonePlugin;
+import org.zone.commands.structure.misc.Messages;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.CommandArgumentResult;
 import org.zone.commands.system.ParseCommandArgument;
@@ -169,7 +170,7 @@ public class ZoneArgument implements CommandArgument<Zone> {
         }
         return zones
                 .filter(zone -> zone.getId().toLowerCase().startsWith(focus.toLowerCase()))
-                .map(zone -> CommandCompletion.of(zone.getId(), Component.text(zone.getName())))
+                .map(zone -> CommandCompletion.of(zone.getId(), Messages.getZoneArgumentReturnZonesName(zone)))
                 .collect(Collectors.toSet());
     }
 }

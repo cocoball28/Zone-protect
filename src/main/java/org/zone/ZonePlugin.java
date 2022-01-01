@@ -1,8 +1,6 @@
 package org.zone;
 
 import com.google.inject.Inject;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.Server;
@@ -17,6 +15,7 @@ import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.plugin.PluginContainer;
 import org.spongepowered.plugin.builtin.jvm.Plugin;
 import org.zone.commands.structure.ZoneCommands;
+import org.zone.commands.structure.misc.Messages;
 import org.zone.event.listener.PlayerListener;
 import org.zone.memory.MemoryHolder;
 import org.zone.region.Zone;
@@ -34,7 +33,7 @@ import org.zone.region.group.key.GroupKeyManager;
 import java.io.File;
 
 /**
- * The zone plugin's boot and main class, use {@link ZonePlugin#getZonesPlugin()} to gain a
+ * The zone plugin's boot and main class, use {@link ZonePlugin#getZonesPlugin()} to gain an
  * instance of this class
  */
 @Plugin("zones")
@@ -129,11 +128,11 @@ public class ZonePlugin {
     public void onServerStarted(final StartedEngineEvent<Server> event) {
         Sponge
                 .systemSubject()
-                .sendMessage(Component.text("|---|Loading Zones|---|").color(NamedTextColor.AQUA));
+                .sendMessage(Messages.getLoadingZonesStart());
         File zonesFolder = new File("config/zone/zones/");
         Sponge
                 .systemSubject()
-                .sendMessage(Component.text("|- Loading from '" + zonesFolder.getPath() + "'"));
+                .sendMessage(Messages.getZonesLoadingfrom(zonesFolder.getPath()));
 
         for (PluginContainer container : Sponge.pluginManager().plugins()) {
             File keyFolder = new File(zonesFolder, container.metadata().id());
@@ -148,22 +147,14 @@ public class ZonePlugin {
                 } catch (ConfigurateException e) {
                     Sponge
                             .systemSubject()
-                            .sendMessage(Component
-                                                 .text("Could not load zone of '" +
-                                                               file.getPath() +
-                                                               "'. Below is details on why (this is not a crash)")
-                                                 .color(NamedTextColor.RED));
+                            .sendMessage(Messages.getZonesLoadingFail(file.getPath()));
                     e.printStackTrace();
                 }
             }
         }
         Sponge
                 .systemSubject()
-                .sendMessage(Component
-                                     .text("|---|Loaded " +
-                                                   this.zoneManager.getZones().size() +
-                                                   " Zones|---|")
-                                     .color(NamedTextColor.AQUA));
+                .sendMessage(Messages.getZonesLoaded(this.getZoneManager().getZones()));
     }
 
     @Listener

@@ -3,6 +3,7 @@ package org.zone.region.flag.meta.tag;
 import org.jetbrains.annotations.NotNull;
 import org.zone.region.flag.Flag;
 import org.zone.region.flag.FlagType;
+import org.zone.region.flag.FlagTypes;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -47,6 +48,6 @@ public class TagsFlag implements Flag {
 
     @Override
     public @NotNull FlagType<?> getType() {
-        return null;
+        return FlagTypes.TAGS;
     }
 }

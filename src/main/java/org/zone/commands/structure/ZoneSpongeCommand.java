@@ -2,7 +2,6 @@ package org.zone.commands.structure;
 
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.Command;
 import org.spongepowered.api.command.CommandCause;
@@ -10,6 +9,7 @@ import org.spongepowered.api.command.CommandCompletion;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.exception.CommandException;
 import org.spongepowered.api.command.parameter.ArgumentReader;
+import org.zone.commands.structure.misc.Messages;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.commands.system.context.ErrorContext;
@@ -92,30 +92,19 @@ public class ZoneSpongeCommand implements Command.Raw {
             Set<ErrorContext> errors = commandContext.getErrors();
             if (!errors.isEmpty()) {
                 ErrorContext error = errors.iterator().next();
-                cause.sendMessage(Identity.nil(),
-                                  Component.text(error.error()).color(NamedTextColor.RED));
+                cause.sendMessage(Identity.nil(), Messages.getZoneSpongeCommandError(error));
                 errors
                         .parallelStream()
                         .map(e -> e.argument().getUsage())
                         .collect(Collectors.toSet())
-                        .forEach(e -> cause.sendMessage(Identity.nil(),
-                                                        Component
-                                                                .text(e)
-                                                                .color(NamedTextColor.RED)));
+                        .forEach(e -> cause.sendMessage(Identity.nil(), Messages.getFormattedMessage(e)));
             } else {
-                cause.sendMessage(Identity.nil(),
-                                  Component.text("Unknown error").color(NamedTextColor.RED));
+                cause.sendMessage(Identity.nil(), Messages.getUnknownError());
             }
             return CommandResult.success();
         }
         if (!opCommand.get().hasPermission(cause)) {
-            cause.sendMessage(Identity.nil(),
-                              Component
-                                      .text(" You do not have permission for that command" +
-                                                    ". You" +
-                                                    " require " +
-                                                    opCommand.get().getPermissionNode())
-                                      .color(NamedTextColor.RED));
+            cause.sendMessage(Identity.nil(), Messages.getMissingPermissionForCommand(opCommand.get()));
             return CommandResult.success();
         }
         try {
@@ -126,7 +115,7 @@ public class ZoneSpongeCommand implements Command.Raw {
             if (message == null) {
                 message = "Unknown error";
             }
-            throw new CommandException(Component.text(message), e);
+            throw new CommandException(Messages.getFormattedMessage(message), e);
         }
     }
 

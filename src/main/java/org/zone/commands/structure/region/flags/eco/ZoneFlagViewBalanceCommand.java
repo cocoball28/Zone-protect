@@ -8,6 +8,7 @@ import org.spongepowered.api.command.CommandCause;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.service.economy.Currency;
 import org.spongepowered.api.service.economy.EconomyService;
+import org.zone.commands.structure.misc.Messages;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.CommandArgumentResult;
@@ -77,15 +78,7 @@ public class ZoneFlagViewBalanceCommand implements ArgumentCommand {
         Currency currency = commandContext.getArgument(this, CURRENCY);
         BigDecimal decimal = zone.getEconomy().getMoney(currency);
 
-        commandContext.sendMessage(Component
-                                           .text(zone.getName())
-                                           .color(NamedTextColor.AQUA)
-                                           .append(Component
-                                                           .text(" balance: ")
-                                                           .color(NamedTextColor.AQUA)
-                                                           .append(Component
-                                                                           .text(decimal.toString())
-                                                                           .color(NamedTextColor.GOLD))));
+        commandContext.sendMessage(Messages.getZoneFlagViewBalanceCommandBalanceMessage(zone, decimal));
         return CommandResult.success();
     }
 

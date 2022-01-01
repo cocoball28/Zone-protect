@@ -5,6 +5,7 @@ import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.configurate.ConfigurateException;
+import org.zone.commands.structure.misc.Messages;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
@@ -63,16 +64,17 @@ public class ZoneFlagInteractDoorGroupCommand implements ArgumentCommand {
         zone.getMembers().addKey(newGroup, flag.getRequiredKey());
         commandContext
                 .getCause()
-                .sendMessage(Identity.nil(), Component.text("Updated Door Interaction"));
+                .sendMessage(Identity.nil(),
+                             Messages.getUpdatedMessage(FlagTypes.DOOR_INTERACTION));
         zone.setFlag(flag);
         try {
             zone.save();
             commandContext
                     .getCause()
-                    .sendMessage(Identity.nil(), Component.text("Updated Door Interaction"));
+                    .sendMessage(Identity.nil(), Messages.getUpdatedMessage(FlagTypes.DOOR_INTERACTION));
         } catch (ConfigurateException e) {
             e.printStackTrace();
-            return CommandResult.error(Component.text("Could not save: " + e.getMessage()));
+            return CommandResult.error(Messages.getZoneSavingError(e));
         }
         return CommandResult.success();
     }
