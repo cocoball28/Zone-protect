@@ -56,7 +56,7 @@ public class ZoneCreateStartCommand implements ArgumentCommand {
     @Override
     public @NotNull CommandResult run(CommandContext context, String... args) {
         Subject subject = context.getSource();
-        if (!(subject instanceof ServerPlayer player)) {
+        if (!(subject instanceof Player player)) {
             return CommandResult.error(Component.text("Player only command"));
         }
 

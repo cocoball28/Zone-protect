@@ -1,9 +1,15 @@
 package org.zone.region;
 
+import net.kyori.adventure.pointer.Pointers;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.api.ResourceKey;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.registry.RegistryTypes;
+import org.spongepowered.api.world.World;
+import org.spongepowered.api.world.client.ClientWorld;
 import org.spongepowered.api.world.server.ServerWorld;
+import org.spongepowered.api.world.volume.game.Region;
 import org.spongepowered.plugin.PluginContainer;
 import org.zone.region.bounds.ChildRegion;
 import org.zone.region.bounds.mode.BoundMode;
@@ -39,6 +45,14 @@ public class ZoneBuilder {
 
     public ZoneBuilder setWorld(ServerWorld world) {
         this.world = world.key();
+        return this;
+    }
+
+    public ZoneBuilder setWorld(Region<? extends World<?, ?>> world){
+        if(world instanceof ServerWorld sWorld){
+            return this.setWorld(sWorld);
+        }
+        this.world = world.worldType().key(RegistryTypes.WORLD_TYPE);
         return this;
     }
 

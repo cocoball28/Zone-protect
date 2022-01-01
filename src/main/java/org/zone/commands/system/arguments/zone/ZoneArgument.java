@@ -31,8 +31,18 @@ public class ZoneArgument implements CommandArgument<Zone> {
 
         private @Nullable ParseCommandArgument<Zone> subZoneTo;
         private boolean onlyMainZones = true;
+        private boolean onlyPartOf;
         private @Nullable String bypassSuggestionPermission;
         private @Nullable GroupKey level = GroupKeys.OWNER;
+
+        public boolean isLimitedToOnlyPartOf() {
+            return this.onlyPartOf;
+        }
+
+        public ZoneArgumentPropertiesBuilder setLimitedToOnlyPartOf(boolean check) {
+            this.onlyPartOf = check;
+            return this;
+        }
 
         public @Nullable String getBypassSuggestionPermission() {
             return this.bypassSuggestionPermission;
@@ -97,6 +107,12 @@ public class ZoneArgument implements CommandArgument<Zone> {
         Stream<Zone> zones = ZonePlugin.getZonesPlugin().getZoneManager().getZones().stream();
         if (this.builder.isOnlyMainZones()) {
             zones = zones.filter(zone -> zone.getParent().isEmpty());
+        }
+        if (this.builder.isLimitedToOnlyPartOf() && context.getSource() instanceof Player player) {
+            zones = zones.filter(zone -> zone
+                    .getMembers()
+                    .getMembers()
+                    .contains(player.uniqueId()));
         }
         if (this.builder.getLevel() != null) {
             Subject subject = context.getSource();
