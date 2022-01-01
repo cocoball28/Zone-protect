@@ -9,7 +9,7 @@ import org.spongepowered.api.entity.living.player.server.ServerPlayer;
 import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.math.vector.Vector3i;
 import org.zone.ZonePlugin;
-import org.zone.commands.structure.misc.Messages;
+import org.zone.misc.Messages;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
@@ -53,7 +53,7 @@ public class ZoneCreateChunkStartCommand implements ArgumentCommand {
     public @NotNull CommandResult run(@NotNull CommandContext commandContext, @NotNull String... args) {
         Subject subject = commandContext.getSource();
         if (!(subject instanceof ServerPlayer player)) {
-            return CommandResult.error(Messages.getPlayerCommandError());
+            return CommandResult.error(Messages.getPlayerOnlyMessage());
         }
 
         String name = String.join(" ", commandContext.getArgument(this, NAME));

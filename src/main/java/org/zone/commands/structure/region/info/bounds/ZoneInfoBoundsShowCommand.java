@@ -11,7 +11,7 @@ import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.api.world.Locatable;
 import org.zone.Permissions;
 import org.zone.ZonePlugin;
-import org.zone.commands.structure.misc.Messages;
+import org.zone.misc.Messages;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
@@ -55,7 +55,7 @@ public class ZoneInfoBoundsShowCommand implements ArgumentCommand {
     public @NotNull CommandResult run(CommandContext context, String... args) {
         Subject subject = context.getSource();
         if (!(subject instanceof Viewer viewer && subject instanceof Locatable locatable)) {
-            return CommandResult.error(Messages.getPlayerCommandError());
+            return CommandResult.error(Messages.getPlayerOnlyMessage());
         }
 
         Zone zone = context.getArgument(this, ZONE);

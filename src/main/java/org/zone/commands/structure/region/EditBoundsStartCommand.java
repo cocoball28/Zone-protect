@@ -6,7 +6,7 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.service.permission.Subject;
 import org.zone.Permissions;
-import org.zone.commands.structure.misc.Messages;
+import org.zone.misc.Messages;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
@@ -60,7 +60,7 @@ public class EditBoundsStartCommand implements ArgumentCommand {
         }
         @NotNull Subject source = commandContext.getSource();
         if(!(source instanceof Player player)){
-            return CommandResult.error(Messages.getPlayerCommandError());
+            return CommandResult.error(Messages.getPlayerOnlyMessage());
         }
 
         Optional<BoundedRegion> opRegion =

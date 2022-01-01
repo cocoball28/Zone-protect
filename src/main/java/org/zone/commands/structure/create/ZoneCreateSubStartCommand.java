@@ -7,7 +7,7 @@ import org.spongepowered.api.entity.living.player.server.ServerPlayer;
 import org.spongepowered.api.service.permission.Subject;
 import org.zone.Permissions;
 import org.zone.ZonePlugin;
-import org.zone.commands.structure.misc.Messages;
+import org.zone.misc.Messages;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
@@ -63,7 +63,7 @@ public class ZoneCreateSubStartCommand implements ArgumentCommand {
     public @NotNull CommandResult run(CommandContext context, String... args) {
         Subject subject = context.getSource();
         if (!(subject instanceof ServerPlayer player)) {
-            return CommandResult.error(Messages.getPlayerCommandError());
+            return CommandResult.error(Messages.getPlayerOnlyMessage());
         }
         Zone zone = context.getArgument(this, ZONE);
         String name = String.join(" ", context.getArgument(this, NAME));

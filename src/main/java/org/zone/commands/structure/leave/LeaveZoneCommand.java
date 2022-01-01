@@ -9,6 +9,7 @@ import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.context.CommandContext;
+import org.zone.misc.Messages;
 import org.zone.region.Zone;
 
 import java.util.Arrays;
@@ -40,9 +41,11 @@ public class LeaveZoneCommand implements ArgumentCommand {
     public @NotNull CommandResult run(@NotNull CommandContext commandContext,
                                       @NotNull String... args) {
         if (!(commandContext.getSource() instanceof Player player)) {
-            return CommandResult.error(null);
+            return CommandResult.error(Messages.getPlayerOnlyMessage());
         }
         Zone zone = commandContext.getArgument(this, ZONE);
         zone.getMembers().removeMember(player.uniqueId());
+        player.sendMessage(Messages.getLeftZoneMembersMessage(zone));
+        return CommandResult.success();
     }
 }
