@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Nullable;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.plugin.PluginContainer;
+import org.zone.Identifiable;
 import org.zone.ZonePlugin;
 import org.zone.region.flag.FlagType;
 import org.zone.region.group.DefaultGroups;
@@ -112,10 +113,7 @@ public class MembersFlagType implements FlagType<MembersFlag> {
                                         .getGroupKeyManager()
                                         .getKeys()
                                         .parallelStream()
-                                        .filter(groupKey -> groupKey
-                                                .getId()
-                                                .asString()
-                                                .equals(keyId))
+                                        .filter(groupKey -> groupKey.getId().equals(keyId))
                                         .findFirst())
                                 .filter(Optional::isPresent)
                                 .map(Optional::get)
@@ -153,7 +151,7 @@ public class MembersFlagType implements FlagType<MembersFlag> {
                                  .getKey()
                                  .getKeys()
                                  .parallelStream()
-                                 .map(key -> key.getId().asString())
+                                 .map(Identifiable::getId)
                                  .collect(Collectors.toSet()));
             groupNode
                     .node("users")
