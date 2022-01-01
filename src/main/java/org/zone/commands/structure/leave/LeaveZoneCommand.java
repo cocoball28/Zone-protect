@@ -9,7 +9,7 @@ import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.context.CommandContext;
-import org.zone.misc.Messages;
+import org.zone.utils.Messages;
 import org.zone.region.Zone;
 
 import java.util.Arrays;

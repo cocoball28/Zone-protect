@@ -2,17 +2,23 @@ package org.zone.commands.system.arguments.operation;
 
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandCompletion;
+import org.spongepowered.api.item.ItemTypes;
+import org.spongepowered.api.item.inventory.Inventory;
+import org.spongepowered.api.item.inventory.ItemStack;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.CommandArgumentResult;
+import org.zone.commands.system.GUICommandArgument;
 import org.zone.commands.system.context.CommandArgumentContext;
 import org.zone.commands.system.context.CommandContext;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class ExactArgument implements CommandArgument<String> {
+public class ExactArgument implements GUICommandArgument<String> {
 
     private final String id;
     private final String[] lookup;
@@ -85,5 +91,12 @@ public class ExactArgument implements CommandArgument<String> {
                 .filter(look -> look.startsWith(finalArg))
                 .map(CommandCompletion::of)
                 .collect(Collectors.toSet());
+    }
+
+    @Override
+    public Map<ItemStack, String> createMenuOptions(CommandContext context) {
+        Map<ItemStack, String> map = new HashMap<>();
+        map.put(ItemStack.of(ItemTypes.ITEM_FRAME), this.lookup[0]);
+        return map;
     }
 }
