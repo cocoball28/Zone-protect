@@ -1,4 +1,4 @@
-package org.zone.commands.structure.misc;
+package org.zone.misc;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -26,9 +26,15 @@ public final class Messages {
     private Messages() {
         throw new RuntimeException("Could not construct class");
     }
-    //Universal Messages
-    public static Component getPlayerCommandError() {
+
+    public static Component getPlayerOnlyMessage() {
         return Component.text("Player only command").color(NamedTextColor.RED);
+    }
+
+    public static Component getLeftZoneMembersMessage(Identifiable identifiable) {
+        return Component
+                .text("You left the zone of " + identifiable.getName())
+                .color(NamedTextColor.RED);
     }
 
     public static Component getZoneSavingError(ConfigurateException ce) {
@@ -38,15 +44,11 @@ public final class Messages {
     public static Component getZoneRegionBuilderEnabled() {
         return Component
                 .text("Region builder mode enabled. Run ")
-                .append(Component
-                                .text("'/zone create end'")
-                                .color(NamedTextColor.AQUA));
+                .append(Component.text("'/zone create end'").color(NamedTextColor.AQUA));
     }
 
     public static Component getDuplicateNameError() {
-        return Component
-                .text("Cannot use that name")
-                .color(NamedTextColor.RED);
+        return Component.text("Cannot use that name").color(NamedTextColor.RED);
     }
 
     public static Component getMessageTag() {
@@ -54,7 +56,9 @@ public final class Messages {
     }
 
     public static Component getNoMessageSet() {
-        return getMessageTag().append(Component.text("No message set by user")).color(NamedTextColor.RED);
+        return getMessageTag()
+                .append(Component.text("No message set by user"))
+                .color(NamedTextColor.RED);
     }
 
     public static Component getFlagMessageView(Component message) {
@@ -64,6 +68,7 @@ public final class Messages {
     public static Component getUpdatedMessage(Identifiable type) {
         return Component.text("Updated " + type.getName()).color(NamedTextColor.AQUA);
     }
+
     //Universal Messages end
     //Universal only for some special classes
     public static Component getNotInRegion(@SuppressWarnings("TypeMayBeWeakened") Zone parent) {
@@ -71,9 +76,7 @@ public final class Messages {
     }
 
     public static Component getFormattedMessage(String e) {
-        return Component
-                .text(e)
-                .color(NamedTextColor.RED);
+        return Component.text(e).color(NamedTextColor.RED);
     }
 
     public static Component getUnknownError() {
@@ -87,7 +90,9 @@ public final class Messages {
     }
 
     public static Component getZonesLoadingfrom(String zonesFolderpath) {
-        return Component.text("|- Loading from '" + zonesFolderpath + "'").color(NamedTextColor.DARK_AQUA);
+        return Component
+                .text("|- Loading from '" + zonesFolderpath + "'")
+                .color(NamedTextColor.DARK_AQUA);
     }
 
     public static Component getZonesLoadingFail(String keyfilepath) {
@@ -114,20 +119,21 @@ public final class Messages {
     }
 
     public static Component getNoZoneCreatedError() {
-        return Component.text("A region needs to be started. Use /zone create bounds " + "<name...>")
+        return Component
+                .text("A region needs to be started. Use /zone create bounds " + "<name...>")
                 .color(NamedTextColor.RED);
     }
 
     public static Component getFailedToFindParentZone(Zone zone) {
-        return Component.text("Could not find parent zone of " + zone.getParentId().orElse("None")).color(NamedTextColor.RED);
+        return Component
+                .text("Could not find parent zone of " + zone.getParentId().orElse("None"))
+                .color(NamedTextColor.RED);
     }
 
     public static Component getCreatedZoneMessage(@SuppressWarnings("TypeMayBeWeakened") Zone zone) {
         return Component
                 .text("Created a new zone of ")
-                .append(Component
-                                .text(zone.getName())
-                                .color(NamedTextColor.AQUA));
+                .append(Component.text(zone.getName()).color(NamedTextColor.AQUA));
     }
 
     public static Component getFailedToLoadFlag(@SuppressWarnings("TypeMayBeWeakened") FlagType<?> type) {
@@ -145,18 +151,14 @@ public final class Messages {
         return Component
                 .text("Group: ")
                 .color(NamedTextColor.GOLD)
-                .append(Component
-                                .text(group.getName())
-                                .color(NamedTextColor.AQUA));
+                .append(Component.text(group.getName()).color(NamedTextColor.AQUA));
     }
 
     public static Component getZoneFlagMemberGroupViewCommandTotal(Collection<UUID> memberIds) {
         return Component
                 .text("Total: ")
                 .color(NamedTextColor.GOLD)
-                .append(Component
-                                .text(memberIds.size())
-                                .color(NamedTextColor.AQUA));
+                .append(Component.text(memberIds.size()).color(NamedTextColor.AQUA));
     }
 
     public static Component getZoneFlagMemberGroupViewCommandPages(int page) {
@@ -201,10 +203,12 @@ public final class Messages {
     public static Component getZoneFlagLeavingMessageViewCommandMessageViewMessage(LeavingFlag leavingFlag) {
         return Component
                 .text("Message: ")
-                .append(leavingFlag.getLeavingMessage()).color(NamedTextColor.AQUA);
+                .append(leavingFlag.getLeavingMessage())
+                .color(NamedTextColor.AQUA);
     }
 
-    public static Component getZoneFlagViewBalanceCommandBalanceMessage(@SuppressWarnings("TypeMayBeWeakened") Zone zone, BigDecimal decimal) {
+    public static Component getZoneFlagViewBalanceCommandBalanceMessage(@SuppressWarnings("TypeMayBeWeakened") Zone zone,
+                                                                        BigDecimal decimal) {
         return Component
                 .text(zone.getName())
                 .color(NamedTextColor.AQUA)
@@ -219,12 +223,14 @@ public final class Messages {
     public static Component getZoneFlagGreetingsSetMesssageCommandSetMessage(Component message) {
         return Component
                 .text("Zone greetings message set to: ")
-                .append(message).color(NamedTextColor.AQUA);
+                .append(message)
+                .color(NamedTextColor.AQUA);
     }
 
     public static Component getZoneFlagGreetingsRemoveCommandGreetingsRemovedMessage() {
-        return Component.text("Zone greetings message removed from this " +
-                                      "zone!").color(NamedTextColor.AQUA);
+        return Component
+                .text("Zone greetings message removed from this " + "zone!")
+                .color(NamedTextColor.AQUA);
     }
 
     public static Component getEditBoundsStartCommandBeingEditedError() {

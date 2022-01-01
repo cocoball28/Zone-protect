@@ -1,14 +1,13 @@
 package org.zone.commands.structure.region.flags.eco;
 
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandCause;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.service.economy.Currency;
 import org.spongepowered.api.service.economy.EconomyService;
-import org.zone.commands.structure.misc.Messages;
+import org.zone.misc.Messages;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.CommandArgumentResult;

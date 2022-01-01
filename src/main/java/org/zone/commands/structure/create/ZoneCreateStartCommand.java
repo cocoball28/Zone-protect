@@ -5,12 +5,11 @@ import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandCause;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.entity.living.player.server.ServerPlayer;
 import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.math.vector.Vector3i;
 import org.zone.Permissions;
 import org.zone.ZonePlugin;
-import org.zone.commands.structure.misc.Messages;
+import org.zone.misc.Messages;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
@@ -56,8 +55,8 @@ public class ZoneCreateStartCommand implements ArgumentCommand {
     @Override
     public @NotNull CommandResult run(CommandContext context, String... args) {
         Subject subject = context.getSource();
-        if (!(subject instanceof ServerPlayer player)) {
-            return CommandResult.error(Messages.getPlayerCommandError());
+        if (!(subject instanceof Player player)) {
+            return CommandResult.error(Messages.getPlayerOnlyMessage());
         }
 
         String name = String.join(" ", context.getArgument(this, NAME));

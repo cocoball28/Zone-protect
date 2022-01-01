@@ -7,7 +7,7 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.service.economy.EconomyService;
 import org.spongepowered.api.user.UserManager;
 import org.zone.Permissions;
-import org.zone.commands.structure.misc.Messages;
+import org.zone.misc.Messages;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;

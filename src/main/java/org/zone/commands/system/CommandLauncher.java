@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandCause;
 import org.spongepowered.api.command.CommandCompletion;
 import org.spongepowered.api.command.CommandResult;
-import org.zone.commands.structure.misc.Messages;
+import org.zone.misc.Messages;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.commands.system.context.ErrorContext;
 
