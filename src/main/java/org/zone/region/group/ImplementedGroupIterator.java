@@ -1,6 +1,7 @@
 package org.zone.region.group;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class ImplementedGroupIterator implements Iterator<Group> {
 
@@ -24,7 +25,7 @@ public class ImplementedGroupIterator implements Iterator<Group> {
     @Override
     public Group next() {
         if (this.targetGroup == null) {
-            throw new IllegalStateException("Out of next groups");
+            throw new NoSuchElementException("Out of next groups");
         }
         Group ret = this.targetGroup;
         this.targetGroup = ret.getParent().orElse(null);
