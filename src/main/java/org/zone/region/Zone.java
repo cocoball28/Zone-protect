@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.api.ResourceKey;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.event.Cause;
 import org.spongepowered.api.world.Locatable;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
@@ -12,6 +13,7 @@ import org.spongepowered.math.vector.Vector3d;
 import org.spongepowered.plugin.PluginContainer;
 import org.zone.Identifiable;
 import org.zone.ZonePlugin;
+import org.zone.event.zone.FlagChangeEvent;
 import org.zone.region.bounds.ChildRegion;
 import org.zone.region.flag.Flag;
 import org.zone.region.flag.FlagType;
@@ -143,7 +145,17 @@ public class Zone implements Identifiable {
      *
      * @return if the flag was removed
      */
-    public boolean removeFlag(@SuppressWarnings("TypeMayBeWeakened") @NotNull FlagType<?> type) {
+    public boolean removeFlag(@NotNull FlagType<?> type) {
+        FlagChangeEvent.RemoveFlag removeFlag = new FlagChangeEvent.RemoveFlag(this,
+                                                                               type,
+                                                                               Cause
+                                                                                       .builder()
+                                                                                       .build());
+        Sponge.eventManager().post(removeFlag);
+        if (removeFlag.isCancelled()) {
+            return false;
+        }
+
         Optional<Flag> opFlag = this.flags
                 .parallelStream()
                 .filter(flag -> type.getId().equals(flag.getType().getId()))
@@ -167,6 +179,15 @@ public class Zone implements Identifiable {
      * @return If the flag was added
      */
     public boolean addFlag(@NotNull Flag flag) {
+
+        FlagChangeEvent.AddFlag addFlag = new FlagChangeEvent.AddFlag(this,
+                                                                      flag,
+                                                                      Cause.builder().build());
+        Sponge.eventManager().post(addFlag);
+        if (addFlag.isCancelled()) {
+            return false;
+        }
+
         if (flag instanceof Flag.TaggedFlag tag) {
             return this.getTags().addTag(tag);
         }
