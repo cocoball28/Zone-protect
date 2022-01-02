@@ -14,6 +14,7 @@ import org.zone.commands.structure.region.flags.interact.itemframe.ZoneFlagInter
 import org.zone.commands.structure.region.flags.interact.itemframe.ZoneFlagInteractItemframesGroupCommand;
 import org.zone.commands.structure.region.flags.interact.itemframe.ZoneFlagInteractItemframesViewCommand;
 import org.zone.commands.structure.region.flags.player.entitydamage.ZoneFlagEntityDamagePlayerEnableDisable;
+import org.zone.commands.structure.region.flags.player.falldamage.ZoneFlagPlayerFallDamageEnableDisable;
 import org.zone.commands.structure.region.flags.prevention.player.ZoneFlagPreventionPlayerEnableDisableCommand;
 import org.zone.commands.structure.region.flags.interact.destroy.ZoneFlagBlockBreakSetEnabledCommand;
 import org.zone.commands.structure.region.flags.interact.destroy.ZoneFlagBlockBreakSetGroupCommand;
@@ -67,6 +68,7 @@ public interface ZoneCommands {
     ZoneFlagGreetingsViewCommand ZONE_FLAG_GREETINGS_VIEW_COMMAND = new ZoneFlagGreetingsViewCommand();
     ZoneFlagInteractItemframesViewCommand ZONE_FLAG_INTERACT_ITEMFRAMES_VIEW_COMMAND = new ZoneFlagInteractItemframesViewCommand();
 
+    ZoneFlagPlayerFallDamageEnableDisable ZONE_FLAG_PLAYER_FALL_DAMAGE_ENABLE_DISABLE = new ZoneFlagPlayerFallDamageEnableDisable();
     ZoneFlagEntityDamagePlayerEnableDisable ZONE_FLAG_ENTITY_DAMAGE_PLAYER_ENABLE_DISABLE = new ZoneFlagEntityDamagePlayerEnableDisable();
     ZoneFlagInteractItemframesEnableDisableCommand ZONE_FLAG_INTERACT_ITEMFRAMES_ENABLE_DISABLE_COMMAND = new ZoneFlagInteractItemframesEnableDisableCommand();
     ZoneFlagInteractItemframesGroupCommand ZONE_FLAG_INTERACT_ITEMFRAMES_GROUP_COMMAND = new ZoneFlagInteractItemframesGroupCommand();
