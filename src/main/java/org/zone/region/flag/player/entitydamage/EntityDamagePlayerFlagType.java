@@ -1,11 +1,11 @@
-package org.zone.region.flag.playerdamage;
+package org.zone.region.flag.player.entitydamage;
 
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.plugin.PluginContainer;
 import org.zone.ZonePlugin;
 import org.zone.region.flag.FlagType;
 
-public class PlayerDamageFlagType implements FlagType.TaggedFlagType<PlayerDamageFlag> {
+public class EntityDamagePlayerFlagType implements FlagType.TaggedFlagType<EntityDamagePlayerFlag> {
 
     @Override
     public @NotNull String getName() {
@@ -23,7 +23,7 @@ public class PlayerDamageFlagType implements FlagType.TaggedFlagType<PlayerDamag
     }
 
     @Override
-    public PlayerDamageFlag createCopyOfDefault() {
-        return new PlayerDamageFlag();
+    public EntityDamagePlayerFlag createCopyOfDefault() {
+        return new EntityDamagePlayerFlag();
     }
 }

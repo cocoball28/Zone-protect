@@ -15,7 +15,9 @@ public enum GroupKeys implements GroupKey {
     PLAYER_PREVENTION("prevent_players", "Prevent players from entering your zone"),
     INTERACT_ITEMFRAME("interact_itemframe", "Prevent players from interacting an itemframe in " +
             "your zone"),
-    DAMAGE("damage", "Prevent damage from any other entity");
+    ENTITY_DAMAGE_PLAYER("entity_damage_player", "Prevent damage from any other entity"),
+    PLAYER_FALL_DAMAGE("player_fall_damage", "Prevent player  fall damage");
+
     private final String name;
     private final String key;
 

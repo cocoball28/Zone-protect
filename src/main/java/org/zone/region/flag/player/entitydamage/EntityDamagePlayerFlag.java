@@ -1,4 +1,4 @@
-package org.zone.region.flag.playerdamage;
+package org.zone.region.flag.player.entitydamage;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -10,20 +10,20 @@ import org.zone.region.group.key.GroupKeys;
 
 import java.util.Optional;
 
-public class PlayerDamageFlag implements Flag.TaggedFlag, Flag.AffectsPlayer, Flag.Enabled {
+public class EntityDamagePlayerFlag implements Flag.TaggedFlag, Flag.AffectsPlayer, Flag.Enabled {
 
     public @Nullable Boolean enabled;
-    public static final PlayerDamageFlag ELSE = new PlayerDamageFlag(false);
+    public static final EntityDamagePlayerFlag ELSE = new EntityDamagePlayerFlag(false);
 
-    public PlayerDamageFlag(@NotNull PlayerDamageFlag flag) {
+    public EntityDamagePlayerFlag(@NotNull EntityDamagePlayerFlag flag) {
         this(flag.getEnabled().orElse(null));
     }
 
-    public PlayerDamageFlag() {
+    public EntityDamagePlayerFlag() {
         this((Boolean) null);
     }
 
-    public PlayerDamageFlag(@Nullable Boolean enabled) {
+    public EntityDamagePlayerFlag(@Nullable Boolean enabled) {
         this.enabled = enabled;
     }
 
@@ -44,11 +44,11 @@ public class PlayerDamageFlag implements Flag.TaggedFlag, Flag.AffectsPlayer, Fl
 
     @Override
     public @NotNull FlagType<?> getType() {
-        return FlagTypes.DAMAGE_FLAG_TYPE;
+        return FlagTypes.ENTITY_DAMAGE_PLAYER_FLAG_TYPE;
     }
 
     @Override
     public @NotNull GroupKey getRequiredKey() {
-        return GroupKeys.DAMAGE;
+        return GroupKeys.ENTITY_DAMAGE_PLAYER;
     }
 }

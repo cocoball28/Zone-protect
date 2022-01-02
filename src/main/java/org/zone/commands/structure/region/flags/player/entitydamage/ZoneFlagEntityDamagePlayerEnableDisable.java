@@ -1,4 +1,4 @@
-package org.zone.commands.structure.region.flags.playerdamage;
+package org.zone.commands.structure.region.flags.player.entitydamage;
 
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
@@ -12,14 +12,14 @@ import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.playerdamage.PlayerDamageFlag;
+import org.zone.region.flag.player.entitydamage.EntityDamagePlayerFlag;
 import org.zone.utils.Messages;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class ZoneFlagPlayerDamageEnableDisable implements ArgumentCommand {
+public class ZoneFlagEntityDamagePlayerEnableDisable implements ArgumentCommand {
     public static final ExactArgument REGION = new ExactArgument("region");
     public static final ExactArgument FLAG = new ExactArgument("flag");
     public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zone_value",
@@ -47,14 +47,14 @@ public class ZoneFlagPlayerDamageEnableDisable implements ArgumentCommand {
     public @NotNull CommandResult run(@NotNull CommandContext commandContext, @NotNull String... args) {
         boolean enable = commandContext.getArgument(this, ENABLEDISABLE);
         Zone zone = commandContext.getArgument(this, ZONE_VALUE);
-        PlayerDamageFlag playerDamageFlag = zone
-                .getFlag(FlagTypes.DAMAGE_FLAG_TYPE)
-                .orElse(new PlayerDamageFlag());
-        playerDamageFlag.setEnabled(enable);
-        zone.setFlag(playerDamageFlag);
+        EntityDamagePlayerFlag entityDamagePlayerFlag = zone
+                .getFlag(FlagTypes.ENTITY_DAMAGE_PLAYER_FLAG_TYPE)
+                .orElse(new EntityDamagePlayerFlag());
+        entityDamagePlayerFlag.setEnabled(enable);
+        zone.setFlag(entityDamagePlayerFlag);
         try {
             zone.save();
-            commandContext.sendMessage(Messages.getUpdatedMessage(FlagTypes.DAMAGE_FLAG_TYPE));
+            commandContext.sendMessage(Messages.getUpdatedMessage(FlagTypes.ENTITY_DAMAGE_PLAYER_FLAG_TYPE));
         }catch (ConfigurateException ce) {
             ce.printStackTrace();
             return CommandResult.error(Messages.getZoneSavingError(ce));
