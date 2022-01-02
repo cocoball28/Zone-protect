@@ -1,6 +1,7 @@
 package org.zone.region.flag;
 
 import org.jetbrains.annotations.NotNull;
+import org.zone.region.flag.playerdamage.PlayerDamageFlagType;
 import org.zone.region.flag.interact.block.destroy.BlockBreakFlagType;
 import org.zone.region.flag.interact.block.place.BlockPlaceFlagType;
 import org.zone.region.flag.interact.door.DoorInteractionFlagType;
@@ -36,6 +37,7 @@ public final class FlagTypes {
     public static final LeavingFlagType LEAVING = new LeavingFlagType();
     public static final TagsFlagType TAGS = new TagsFlagType();
     public static final ItemFrameInteractFlagType ITEM_FRAME_INTERACT = new ItemFrameInteractFlagType();
+    public static final PlayerDamageFlagType DAMAGE_FLAG_TYPE = new PlayerDamageFlagType();
 
 
     private FlagTypes() {
