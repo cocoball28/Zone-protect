@@ -39,8 +39,8 @@ public class IntegerArgument implements CommandArgument<Integer> {
     }
 
     @Override
-    public Set<CommandCompletion> suggest(@NotNull CommandContext commandContext,
-                                          @NotNull CommandArgumentContext<Integer> argument) {
+    public @NotNull Set<CommandCompletion> suggest(@NotNull CommandContext commandContext,
+                                                   @NotNull CommandArgumentContext<Integer> argument) {
         return Collections.emptySet();
     }
 }

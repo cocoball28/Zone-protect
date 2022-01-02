@@ -84,8 +84,8 @@ public class AccountCurrencyArgument implements CommandArgument<Currency> {
     }
 
     @Override
-    public Collection<CommandCompletion> suggest(@NotNull CommandContext commandContext,
-                                                 @NotNull CommandArgumentContext<Currency> argument) {
+    public @NotNull Collection<CommandCompletion> suggest(@NotNull CommandContext commandContext,
+                                                          @NotNull CommandArgumentContext<Currency> argument) {
         Optional<EconomyService> opService = Sponge.serviceProvider().provide(EconomyService.class);
         if (opService.isEmpty()) {
             return Collections.emptyList();

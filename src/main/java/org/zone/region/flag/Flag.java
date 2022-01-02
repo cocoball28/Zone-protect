@@ -31,14 +31,16 @@ public interface Flag {
 
     interface TaggedFlag extends Flag {
 
+    }
 
+    interface ValueStore extends Flag {
 
     }
 
     /**
      * If the flag can be enabled/disabled, then it should implement this to help other plugins to understand your flag
      */
-    interface Enabled extends Flag {
+    interface Enabled extends Flag.ValueStore {
 
         /**
          * Gets if the flag has been enabled

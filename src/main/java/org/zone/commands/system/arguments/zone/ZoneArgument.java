@@ -122,8 +122,8 @@ public class ZoneArgument implements GUICommandArgument<Zone> {
     }
 
     @Override
-    public Collection<CommandCompletion> suggest(@NotNull CommandContext context,
-                                                 @NotNull CommandArgumentContext<Zone> argument) {
+    public @NotNull Collection<CommandCompletion> suggest(@NotNull CommandContext context,
+                                                          @NotNull CommandArgumentContext<Zone> argument) {
         return this.suggest(context, argument.getFocusArgument());
     }
 

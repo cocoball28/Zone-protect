@@ -86,8 +86,8 @@ public class RemainingArgument<T> implements CommandArgument<List<T>> {
     }
 
     @Override
-    public Set<CommandCompletion> suggest(CommandContext context,
-                                          CommandArgumentContext<List<T>> argument) {
+    public @NotNull Set<CommandCompletion> suggest(@NotNull CommandContext context,
+                                                   @NotNull CommandArgumentContext<List<T>> argument) {
         int A = argument.getFirstArgument();
         while (A < context.getCommand().length) {
             final int B = A;
