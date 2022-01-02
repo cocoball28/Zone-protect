@@ -146,14 +146,20 @@ public class Zone implements Identifiable {
      * @return if the flag was removed
      */
     public boolean removeFlag(@NotNull FlagType<?> type) {
-        FlagChangeEvent.RemoveFlag removeFlag = new FlagChangeEvent.RemoveFlag(this,
-                                                                               type,
-                                                                               Cause
-                                                                                       .builder()
-                                                                                       .build());
-        Sponge.eventManager().post(removeFlag);
-        if (removeFlag.isCancelled()) {
-            return false;
+        return this.removeFlag(type, true);
+    }
+
+    private boolean removeFlag(@NotNull FlagType<?> type, boolean runEvent) {
+        if (runEvent) {
+            FlagChangeEvent.RemoveFlag removeFlag = new FlagChangeEvent.RemoveFlag(this,
+                                                                                   type,
+                                                                                   Cause
+                                                                                           .builder()
+                                                                                           .build());
+            Sponge.eventManager().post(removeFlag);
+            if (removeFlag.isCancelled()) {
+                return false;
+            }
         }
 
         Optional<Flag> opFlag = this.flags
@@ -179,13 +185,18 @@ public class Zone implements Identifiable {
      * @return If the flag was added
      */
     public boolean addFlag(@NotNull Flag flag) {
+        return this.addFlag(flag, true);
+    }
 
-        FlagChangeEvent.AddFlag addFlag = new FlagChangeEvent.AddFlag(this,
-                                                                      flag,
-                                                                      Cause.builder().build());
-        Sponge.eventManager().post(addFlag);
-        if (addFlag.isCancelled()) {
-            return false;
+    private boolean addFlag(@NotNull Flag flag, boolean runEvent) {
+        if (runEvent) {
+            FlagChangeEvent.AddFlag addFlag = new FlagChangeEvent.AddFlag(this,
+                                                                          flag,
+                                                                          Cause.builder().build());
+            Sponge.eventManager().post(addFlag);
+            if (addFlag.isCancelled()) {
+                return false;
+            }
         }
 
         if (flag instanceof Flag.TaggedFlag tag) {
@@ -203,8 +214,21 @@ public class Zone implements Identifiable {
      * @return If the flag was added
      */
     public boolean setFlag(@NotNull Flag flag) {
-        this.removeFlag(flag.getType());
-        return this.addFlag(flag);
+        Optional<?> opFlag = this.getFlag(flag.getType());
+        if (opFlag.isPresent()) {
+            FlagChangeEvent.UpdateFlag event = new FlagChangeEvent.UpdateFlag(this,
+                                                                              (Flag) opFlag.get(),
+                                                                              flag,
+                                                                              Cause
+                                                                                      .builder()
+                                                                                      .build());
+            Sponge.eventManager().post(event);
+            if (event.isCancelled()) {
+                return false;
+            }
+            this.removeFlag(flag.getType(), false);
+        }
+        return this.addFlag(flag, opFlag.isEmpty());
     }
 
     /**

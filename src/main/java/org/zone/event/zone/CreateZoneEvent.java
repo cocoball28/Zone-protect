@@ -1,5 +1,6 @@
 package org.zone.event.zone;
 
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.event.Cancellable;
 import org.spongepowered.api.event.Cause;
 import org.zone.region.Zone;
@@ -10,7 +11,7 @@ public class CreateZoneEvent implements ZoneEvent {
 
         private boolean isCancelled;
 
-        public Pre(Zone zone, Cause cause) {
+        public Pre(@NotNull Zone zone, @NotNull Cause cause) {
             super(zone, cause);
         }
 
@@ -27,26 +28,26 @@ public class CreateZoneEvent implements ZoneEvent {
 
     public static class Post extends CreateZoneEvent {
 
-        public Post(Zone zone, Cause cause) {
+        public Post(@NotNull Zone zone, @NotNull Cause cause) {
             super(zone, cause);
         }
     }
 
-    private final Zone zone;
-    private final Cause cause;
+    private final @NotNull Zone zone;
+    private final @NotNull Cause cause;
 
-    public CreateZoneEvent(Zone zone, Cause cause) {
+    public CreateZoneEvent(@NotNull Zone zone, @NotNull Cause cause) {
         this.zone = zone;
         this.cause = cause;
     }
 
     @Override
-    public Zone getZone() {
+    public @NotNull Zone getZone() {
         return this.zone;
     }
 
     @Override
-    public Cause cause() {
+    public @NotNull Cause cause() {
         return this.cause;
     }
 }
