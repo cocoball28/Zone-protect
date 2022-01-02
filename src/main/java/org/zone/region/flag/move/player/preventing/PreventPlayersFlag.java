@@ -33,7 +33,7 @@ public class PreventPlayersFlag implements Flag.Enabled, Flag.GroupKeyed {
     }
 
     @Override
-    public Optional<Boolean> getEnabled() {
+    public @NotNull Optional<Boolean> getEnabled() {
         return Optional.ofNullable(this.enabled);
     }
 

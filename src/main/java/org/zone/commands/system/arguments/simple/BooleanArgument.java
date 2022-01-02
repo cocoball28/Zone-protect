@@ -79,8 +79,8 @@ public class BooleanArgument implements GUICommandArgument<Boolean> {
     }
 
     @Override
-    public Set<CommandCompletion> suggest(CommandContext commandContext,
-                                          CommandArgumentContext<Boolean> argument) {
+    public @NotNull Set<CommandCompletion> suggest(CommandContext commandContext,
+                                                   CommandArgumentContext<Boolean> argument) {
         String peek = commandContext.getCommand()[argument.getFirstArgument()];
         Set<CommandCompletion> list = new HashSet<>();
         if (this.asTrue.startsWith(peek.toLowerCase())) {

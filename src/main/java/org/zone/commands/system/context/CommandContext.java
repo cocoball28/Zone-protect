@@ -134,7 +134,8 @@ public class CommandContext {
      * @throws IllegalArgumentException If the provided id argument is not part of the command
      * @throws IllegalStateException    Argument requested is asking for string requirements then what is provided
      */
-    public <T> @NotNull T getArgument(@NotNull ArgumentCommand command, @NotNull CommandArgument<T> id) {
+    public <T> @NotNull T getArgument(@NotNull ArgumentCommand command,
+                                      @NotNull CommandArgument<T> id) {
         return this.getArgument(command, id.getId());
     }
 
@@ -317,8 +318,8 @@ public class CommandContext {
     }
 
     private <T> @NotNull CommandArgumentResult<T> parse(@NotNull ArgumentCommand launcher,
-                                               @NotNull CommandArgument<T> arg,
-                                               int commandArgument) throws IOException {
+                                                        @NotNull CommandArgument<T> arg,
+                                                        int commandArgument) throws IOException {
         CommandArgumentContext<T> argContext = new CommandArgumentContext<>(launcher,
                                                                             arg,
                                                                             commandArgument,
@@ -326,9 +327,9 @@ public class CommandContext {
         return arg.parse(this, argContext);
     }
 
-    private <T> Collection<CommandCompletion> suggest(ArgumentCommand launcher,
-                                                      CommandArgument<T> arg,
-                                                      int commandArgument) {
+    private <T> @NotNull Collection<CommandCompletion> suggest(@NotNull ArgumentCommand launcher,
+                                                               @NotNull CommandArgument<T> arg,
+                                                               int commandArgument) {
         if (this.commands.length <= commandArgument) {
             return Collections.emptySet();
         }

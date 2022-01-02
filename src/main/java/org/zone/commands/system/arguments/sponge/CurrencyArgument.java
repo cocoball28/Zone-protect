@@ -69,8 +69,8 @@ public class CurrencyArgument implements CommandArgument<Currency> {
     }
 
     @Override
-    public Collection<CommandCompletion> suggest(@NotNull CommandContext commandContext,
-                                                 CommandArgumentContext<Currency> argument) {
+    public @NotNull Collection<CommandCompletion> suggest(@NotNull CommandContext commandContext,
+                                                          CommandArgumentContext<Currency> argument) {
         Collection<Currency> currencies;
         try {
             currencies = this.currencies
