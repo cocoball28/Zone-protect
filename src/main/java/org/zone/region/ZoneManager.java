@@ -211,6 +211,9 @@ public class ZoneManager {
             }
         }
         for (Map.Entry<FlagType<?>, ConfigurationNode> entry : types.entrySet()) {
+            if (entry.getKey() instanceof FlagType.TaggedFlagType) {
+                continue;
+            }
             try {
                 Flag flag = entry.getKey().load(entry.getValue());
                 builder.addFlags(flag);

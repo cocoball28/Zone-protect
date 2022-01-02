@@ -155,6 +155,8 @@ public class Zone implements Identifiable {
                                                                                    type,
                                                                                    Cause
                                                                                            .builder()
+                                                                                           .append(type)
+                                                                                           .append(this)
                                                                                            .build());
             Sponge.eventManager().post(removeFlag);
             if (removeFlag.isCancelled()) {
@@ -192,7 +194,11 @@ public class Zone implements Identifiable {
         if (runEvent) {
             FlagChangeEvent.AddFlag addFlag = new FlagChangeEvent.AddFlag(this,
                                                                           flag,
-                                                                          Cause.builder().build());
+                                                                          Cause
+                                                                                  .builder()
+                                                                                  .append(flag)
+                                                                                  .append(this)
+                                                                                  .build());
             Sponge.eventManager().post(addFlag);
             if (addFlag.isCancelled()) {
                 return false;
@@ -221,6 +227,8 @@ public class Zone implements Identifiable {
                                                                               flag,
                                                                               Cause
                                                                                       .builder()
+                                                                                      .append(flag)
+                                                                                      .append(this)
                                                                                       .build());
             Sponge.eventManager().post(event);
             if (event.isCancelled()) {

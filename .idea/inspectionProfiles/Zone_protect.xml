@@ -4,6 +4,7 @@
     <inspection_tool class="091614a1-8db5-3961-a80b-3fbdac9b018c" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
     <inspection_tool class="1453fff0-8113-381d-ae33-c1f3917f5b2c" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
     <inspection_tool class="25736eba-2721-3f08-9b29-144f0faa1b79" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
+    <inspection_tool class="2afeb6b3-56ee-3240-8a98-d367c8654ade" enabled="true" level="ERROR" enabled_by_default="true" />
     <inspection_tool class="5dff24b0-1ea7-3f58-8adc-4df10c433664" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
     <inspection_tool class="98f58be0-94b4-386b-baba-f30acc38cefb" enabled="true" level="ERROR" enabled_by_default="true" />
     <inspection_tool class="AbstractClassWithoutAbstractMethods" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
@@ -135,6 +136,11 @@
         <constraint name="zone" nameOfExprType="Zone" within="" contains="" />
         <constraint name="flag" nameOfExprType="Flag" exprTypeWithinHierarchy="true" within="" contains="" />
       </replaceConfiguration>
+      <searchConfiguration name="serialize-no-optional" problemDescriptor="Optional values cannot be saved" text="node($node$).set($value$);" recursive="false" caseInsensitive="false" type="JAVA" pattern_context="default">
+        <constraint name="__context__" within="" contains="" />
+        <constraint name="node" within="" contains="" />
+        <constraint name="value" target="true" within="" contains="" />
+      </searchConfiguration>
       <searchConfiguration name="String-Argument-prevent-use" suppressId="allow-string-argument" problemDescriptor="StringArgument can accept anything as valid, this may have issues with other commands, try using another argument where possible" text="new org.zone.commands.system.arguments.simple.StringArgument($id$)" recursive="false" caseInsensitive="false" type="JAVA" pattern_context="default">
         <constraint name="__context__" within="" contains="" />
         <constraint name="id" nameOfExprType="String" within="" contains="" />
