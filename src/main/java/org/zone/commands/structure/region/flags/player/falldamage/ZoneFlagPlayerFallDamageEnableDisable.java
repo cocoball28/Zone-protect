@@ -50,8 +50,9 @@ public class ZoneFlagPlayerFallDamageEnableDisable implements ArgumentCommand {
         Zone zone = commandContext.getArgument(this, ZONE_VALUE);
         PlayerFallDamageFlag playerFallDamageFlag = zone
                 .getFlag(FlagTypes.PLAYER_FALL_DAMAGE_FLAG_TYPE)
-                .orElse(new PlayerFallDamageFlag());
+                .orElse(PlayerFallDamageFlag.ELSE);
         playerFallDamageFlag.setEnabled(enable);
+        zone.setFlag(playerFallDamageFlag);
         try {
             zone.save();
             commandContext.sendMessage(Messages.getUpdatedMessage(FlagTypes.PLAYER_FALL_DAMAGE_FLAG_TYPE));

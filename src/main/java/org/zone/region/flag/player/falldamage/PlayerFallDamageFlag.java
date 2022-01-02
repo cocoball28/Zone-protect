@@ -5,24 +5,22 @@ import org.jetbrains.annotations.Nullable;
 import org.zone.region.flag.Flag;
 import org.zone.region.flag.FlagType;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.move.player.preventing.PreventPlayersFlag;
-import org.zone.region.group.key.GroupKey;
-import org.zone.region.group.key.GroupKeys;
 
 import java.util.Optional;
 
-public class PlayerFallDamageFlag implements Flag.TaggedFlag, Flag.Enabled, Flag.AffectsPlayer{
+public class PlayerFallDamageFlag implements Flag.TaggedFlag, Flag.Enabled{
 
     public @Nullable Boolean enabled;
     public static final PlayerFallDamageFlag ELSE = new PlayerFallDamageFlag(false);
 
-    public PlayerFallDamageFlag(@NotNull PreventPlayersFlag flag) {
+    public PlayerFallDamageFlag(@NotNull PlayerFallDamageFlag flag) {
         this(flag.getEnabled().orElse(null));
     }
 
     public PlayerFallDamageFlag() {
         this((Boolean) null);
     }
+
     public PlayerFallDamageFlag(@Nullable Boolean enabled) {
         this.enabled = enabled;
     }
@@ -40,11 +38,6 @@ public class PlayerFallDamageFlag implements Flag.TaggedFlag, Flag.Enabled, Flag
     @Override
     public void setEnabled(@Nullable Boolean flag) {
         this.enabled = flag;
-    }
-
-    @Override
-    public @NotNull GroupKey getRequiredKey() {
-        return GroupKeys.PLAYER_FALL_DAMAGE;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package org.zone.region.group.key;
 
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.plugin.PluginContainer;
 import org.zone.ZonePlugin;
 
@@ -21,7 +22,7 @@ public enum GroupKeys implements GroupKey {
     private final String name;
     private final String key;
 
-    GroupKeys(String key, String name) {
+    GroupKeys(@NotNull String key, @NotNull String name) {
         this.name = name;
         this.key = key;
     }

@@ -28,8 +28,7 @@ public class EntityDamagePlayerFlagListener {
         Zone zone = opZone.get();
         Group group = zone.getMembers().getGroup(player.uniqueId());
         if (group.contains(GroupKeys.ENTITY_DAMAGE_PLAYER)) {
-            return;
+            event.setCancelled(true);
          }
-        event.setCancelled(true);
     }
 }
