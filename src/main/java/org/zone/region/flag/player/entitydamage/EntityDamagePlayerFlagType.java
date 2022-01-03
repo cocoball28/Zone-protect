@@ -1,15 +1,15 @@
-package org.zone.region.flag.interact.itemframe;
+package org.zone.region.flag.player.entitydamage;
 
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.plugin.PluginContainer;
 import org.zone.ZonePlugin;
 import org.zone.region.flag.FlagType;
 
-public class ItemFrameInteractFlagType implements FlagType.TaggedFlagType<ItemFrameInteractFlag> {
+public class EntityDamagePlayerFlagType implements FlagType.TaggedFlagType<EntityDamagePlayerFlag> {
 
     @Override
     public @NotNull String getName() {
-        return "Item_frame Interact";
+        return "Damage Flag";
     }
 
     @Override
@@ -19,11 +19,11 @@ public class ItemFrameInteractFlagType implements FlagType.TaggedFlagType<ItemFr
 
     @Override
     public @NotNull String getKey() {
-        return "interact_item_frame";
+        return "damage_flag";
     }
 
     @Override
-    public ItemFrameInteractFlag createCopyOfDefault() {
-        return new ItemFrameInteractFlag();
+    public EntityDamagePlayerFlag createCopyOfDefault() {
+        return new EntityDamagePlayerFlag();
     }
 }

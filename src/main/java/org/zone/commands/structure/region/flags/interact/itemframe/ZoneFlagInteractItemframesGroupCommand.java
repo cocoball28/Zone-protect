@@ -53,7 +53,7 @@ public class ZoneFlagInteractItemframesGroupCommand implements ArgumentCommand {
         Zone zone = commandContext.getArgument(this, ZONE_VALUE);
         @NotNull ItemFrameInteractFlag interactItemframesFlag = zone
                 .getFlag(FlagTypes.ITEM_FRAME_INTERACT)
-                .orElseGet(() -> new ItemFrameInteractFlag(ItemFrameInteractFlag.ELSE));
+                .orElseGet(() -> FlagTypes.ITEM_FRAME_INTERACT.createCopyOfDefault());
         Group newGroup = commandContext.getArgument(this, GROUP);
         zone.getMembers().addKey(newGroup, interactItemframesFlag.getRequiredKey());
         commandContext

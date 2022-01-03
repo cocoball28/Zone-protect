@@ -1,6 +1,7 @@
 package org.zone.region.flag;
 
 import org.jetbrains.annotations.NotNull;
+import org.zone.region.flag.player.entitydamage.EntityDamagePlayerFlagType;
 import org.zone.region.flag.interact.block.destroy.BlockBreakFlagType;
 import org.zone.region.flag.interact.block.place.BlockPlaceFlagType;
 import org.zone.region.flag.interact.door.DoorInteractionFlagType;
@@ -13,6 +14,7 @@ import org.zone.region.flag.move.monster.PreventMonsterFlagType;
 import org.zone.region.flag.move.player.greetings.GreetingsFlagType;
 import org.zone.region.flag.move.player.leaving.LeavingFlagType;
 import org.zone.region.flag.move.player.preventing.PreventPlayersFlagType;
+import org.zone.region.flag.player.falldamage.PlayerFallDamageFlagType;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -36,7 +38,8 @@ public final class FlagTypes {
     public static final LeavingFlagType LEAVING = new LeavingFlagType();
     public static final TagsFlagType TAGS = new TagsFlagType();
     public static final ItemFrameInteractFlagType ITEM_FRAME_INTERACT = new ItemFrameInteractFlagType();
-
+    public static final EntityDamagePlayerFlagType ENTITY_DAMAGE_PLAYER_FLAG_TYPE = new EntityDamagePlayerFlagType();
+    public static final PlayerFallDamageFlagType PLAYER_FALL_DAMAGE_FLAG_TYPE = new PlayerFallDamageFlagType();
 
     private FlagTypes() {
         throw new RuntimeException("Should not init");

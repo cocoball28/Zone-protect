@@ -14,8 +14,10 @@ public enum GroupKeys implements GroupKey {
     BLOCK_PLACE("block_place", "Block Place"),
     INTERACT_DOOR("interact_door", "Interact with Door"),
     PLAYER_PREVENTION("prevent_players", "Prevent players from entering your zone"),
-    INTERACT_ITEMFRAME("interact_itemframe",
-                       "Prevent players from interacting an itemframe in your zone");
+    INTERACT_ITEMFRAME("interact_itemframe", "Prevent players from interacting an itemframe in " +
+            "your zone"),
+    ENTITY_DAMAGE_PLAYER("entity_damage_player", "Prevent damage from any other entity"),
+    PLAYER_FALL_DAMAGE("player_fall_damage", "Prevent player  fall damage");
 
     private final @NotNull String name;
     private final @NotNull String key;
