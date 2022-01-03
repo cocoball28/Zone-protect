@@ -73,8 +73,8 @@ public class OptionalArgument<T> implements CommandArgument<T> {
     }
 
     @Override
-    public Collection<CommandCompletion> suggest(@NotNull CommandContext commandContext,
-                                                 @NotNull CommandArgumentContext<T> argument) {
+    public @NotNull Collection<CommandCompletion> suggest(@NotNull CommandContext commandContext,
+                                                          @NotNull CommandArgumentContext<T> argument) {
         return this.arg.suggest(commandContext, argument);
     }
 }

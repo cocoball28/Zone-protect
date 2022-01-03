@@ -5,7 +5,6 @@ import org.jetbrains.annotations.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.plugin.PluginContainer;
 import org.zone.ZonePlugin;
-import org.zone.region.Zone;
 import org.zone.region.flag.FlagType;
 
 import java.io.IOException;
@@ -38,7 +37,8 @@ public class PreventPlayersFlagType implements FlagType<PreventPlayersFlag> {
     }
 
     @Override
-    public void save(@NotNull ConfigurationNode node, @Nullable PreventPlayersFlag save) throws IOException {
+    public void save(@NotNull ConfigurationNode node, @Nullable PreventPlayersFlag save) throws
+            IOException {
         if (save == null || save.getEnabled().isEmpty()) {
             node.set(null);
             return;
@@ -50,12 +50,7 @@ public class PreventPlayersFlagType implements FlagType<PreventPlayersFlag> {
     }
 
     @Override
-    public boolean canApply(Zone zone) {
-        return true;
-    }
-
-    @Override
-    public Optional<PreventPlayersFlag> createCopyOfDefaultFlag() {
+    public @NotNull Optional<PreventPlayersFlag> createCopyOfDefaultFlag() {
         return Optional.empty();
     }
 }

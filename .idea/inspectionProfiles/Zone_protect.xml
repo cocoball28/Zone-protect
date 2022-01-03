@@ -4,6 +4,7 @@
     <inspection_tool class="091614a1-8db5-3961-a80b-3fbdac9b018c" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
     <inspection_tool class="1453fff0-8113-381d-ae33-c1f3917f5b2c" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
     <inspection_tool class="25736eba-2721-3f08-9b29-144f0faa1b79" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
+    <inspection_tool class="2afeb6b3-56ee-3240-8a98-d367c8654ade" enabled="true" level="ERROR" enabled_by_default="true" />
     <inspection_tool class="5dff24b0-1ea7-3f58-8adc-4df10c433664" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
     <inspection_tool class="98f58be0-94b4-386b-baba-f30acc38cefb" enabled="true" level="ERROR" enabled_by_default="true" />
     <inspection_tool class="AbstractClassWithoutAbstractMethods" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
@@ -124,11 +125,22 @@
         <constraint name="__context__" within="" contains="" />
         <constraint name="zone" nameOfExprType="Zone" exprTypeWithinHierarchy="true" within="" contains="" />
       </replaceConfiguration>
+      <searchConfiguration name="Incompatible-flags" problemDescriptor="Taggable flags cannot store values" text="class $A$ implements $Interface1$, $Interface2$ {&#10;}" recursive="false" caseInsensitive="false" type="JAVA" pattern_context="default">
+        <constraint name="__context__" within="" contains="" />
+        <constraint name="A" within="" contains="" />
+        <constraint name="Interface1" regexp="org\.zone\.region\.flag\.Flag\.ValueStore" withinHierarchy="true" within="" contains="" />
+        <constraint name="Interface2" regexp="org\.zone\.region\.flag\.Flag\.TaggedFlag" withinHierarchy="true" target="true" within="" contains="" />
+      </searchConfiguration>
       <replaceConfiguration name="remove-add-should-be-set" suppressId="remove-add-flag" problemDescriptor="Simplify code" text="$zone$.removeFlag($flag$.getType());&#10;$zone$.addFlag($flag$);" recursive="false" caseInsensitive="false" type="JAVA" pattern_context="default" reformatAccordingToStyle="false" shortenFQN="false" replacement="$zone$.setFlag($flag$);">
         <constraint name="__context__" within="" contains="" />
         <constraint name="zone" nameOfExprType="Zone" within="" contains="" />
         <constraint name="flag" nameOfExprType="Flag" exprTypeWithinHierarchy="true" within="" contains="" />
       </replaceConfiguration>
+      <searchConfiguration name="serialize-no-optional" problemDescriptor="Optional values cannot be saved" text="node($node$).set($value$);" recursive="false" caseInsensitive="false" type="JAVA" pattern_context="default">
+        <constraint name="__context__" within="" contains="" />
+        <constraint name="node" within="" contains="" />
+        <constraint name="value" target="true" within="" contains="" />
+      </searchConfiguration>
       <searchConfiguration name="String-Argument-prevent-use" suppressId="allow-string-argument" problemDescriptor="StringArgument can accept anything as valid, this may have issues with other commands, try using another argument where possible" text="new org.zone.commands.system.arguments.simple.StringArgument($id$)" recursive="false" caseInsensitive="false" type="JAVA" pattern_context="default">
         <constraint name="__context__" within="" contains="" />
         <constraint name="id" nameOfExprType="String" within="" contains="" />
@@ -222,6 +234,7 @@
       <option name="ignoreClassesWithOnlyMain" value="false" />
     </inspection_tool>
     <inspection_tool class="ab6ee01e-062f-3c0b-a8fe-290fa10d9533" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
+    <inspection_tool class="b7a0d398-387b-34e2-b34c-bdb80d783d94" enabled="true" level="ERROR" enabled_by_default="true" />
     <inspection_tool class="c30ac1b3-2e27-330e-9141-3cccebb7a37a" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
     <inspection_tool class="d94dfbc5-0c9d-391b-9048-ad2ec035eb66" enabled="true" level="ERROR" enabled_by_default="true" />
     <inspection_tool class="dcfebccd-121b-320f-ac1f-b8c3d0cc9f4b" enabled="true" level="WEAK WARNING" enabled_by_default="true" />

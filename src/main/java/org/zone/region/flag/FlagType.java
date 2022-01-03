@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.zone.Identifiable;
 import org.zone.region.Zone;
+import org.zone.region.flag.meta.tag.TagsFlagType;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -23,19 +24,27 @@ public interface FlagType<F extends Flag> extends Identifiable, Comparable<FlagT
         @Override
         @Deprecated
         default @NotNull F load(@NotNull ConfigurationNode node) throws IOException {
-            throw new RuntimeException("Load by TagsFlag");
+            throw new RuntimeException("Taggable flag cannot be loaded on its own");
         }
 
         @Override
         @Deprecated
         default void save(@NotNull ConfigurationNode node, @Nullable F save) throws IOException {
-            throw new RuntimeException("Save by TagsFlag");
+            throw new RuntimeException("Taggable flag cannot save on its own");
         }
 
         @Override
         @Deprecated
         default @NotNull Optional<F> createCopyOfDefaultFlag() {
             return Optional.of(this.createCopyOfDefault());
+        }
+
+        @Override
+        default int compareTo(@NotNull FlagType<?> o) {
+            if (o instanceof TagsFlagType) {
+                return -1;
+            }
+            return FlagType.super.compareTo(o);
         }
     }
 

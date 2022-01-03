@@ -32,8 +32,8 @@ public class StringArgument implements CommandArgument<String> {
     }
 
     @Override
-    public Set<CommandCompletion> suggest(@NotNull CommandContext commandContext,
-                                          @NotNull CommandArgumentContext<String> argument) {
+    public @NotNull Set<CommandCompletion> suggest(@NotNull CommandContext commandContext,
+                                                   @NotNull CommandArgumentContext<String> argument) {
         return Collections.emptySet();
     }
 }

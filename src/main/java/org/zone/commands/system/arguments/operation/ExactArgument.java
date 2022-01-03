@@ -77,8 +77,8 @@ public class ExactArgument implements GUICommandArgument<String> {
     }
 
     @Override
-    public Set<CommandCompletion> suggest(CommandContext context,
-                                          CommandArgumentContext<String> argument) {
+    public @NotNull Set<CommandCompletion> suggest(CommandContext context,
+                                                   CommandArgumentContext<String> argument) {
         String arg = "";
         if (context.getCommand().length > argument.getFirstArgument()) {
             arg = context.getCommand()[argument.getFirstArgument()];

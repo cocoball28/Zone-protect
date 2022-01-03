@@ -30,7 +30,8 @@ public class ZoneFlagInteractItemframesViewCommand implements ArgumentCommand {
     public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zone_value");
     public static final ExactArgument INTERACT = new ExactArgument("interact");
     public static final ExactArgument ITEMFRAMES = new ExactArgument("itemframes");
-    public static final OptionalArgument VIEW = new OptionalArgument<>(new ExactArgument("view"), (String) null);
+    public static final OptionalArgument<String> VIEW = new OptionalArgument<>(new ExactArgument(
+            "view"), (String) null);
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
@@ -48,23 +49,25 @@ public class ZoneFlagInteractItemframesViewCommand implements ArgumentCommand {
     }
 
     @Override
-    public @NotNull CommandResult run(@NotNull CommandContext commandContext, @NotNull String... args) {
+    public @NotNull CommandResult run(@NotNull CommandContext commandContext,
+                                      @NotNull String... args) {
         Zone zone = commandContext.getArgument(this, ZONE_VALUE);
         @NotNull ItemFrameInteractFlag interactItemframesFlag = zone
                 .getFlag(FlagTypes.ITEM_FRAME_INTERACT)
                 .orElse(new ItemFrameInteractFlag(ItemFrameInteractFlag.ELSE));
         commandContext
                 .getCause()
-                .sendMessage(Identity.nil(), Component.text("Enabled: " + interactItemframesFlag.isEnabled()));
+                .sendMessage(Identity.nil(),
+                             Component.text("Enabled: " + interactItemframesFlag.isEnabled()));
         commandContext
                 .getCause()
                 .sendMessage(Identity.nil(),
                              Component.text("Group: " +
-                                     zone
-                                             .getMembers()
-                                             .getGroup(GroupKeys.INTERACT_ITEMFRAME)
-                                             .map(Identifiable::getName)
-                                             .orElse("None")));
+                                                    zone
+                                                            .getMembers()
+                                                            .getGroup(GroupKeys.INTERACT_ITEMFRAME)
+                                                            .map(Identifiable::getName)
+                                                            .orElse("None")));
         return CommandResult.success();
     }
 }
