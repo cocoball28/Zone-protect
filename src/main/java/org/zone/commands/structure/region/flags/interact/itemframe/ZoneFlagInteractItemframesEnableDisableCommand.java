@@ -52,8 +52,11 @@ public class ZoneFlagInteractItemframesEnableDisableCommand implements ArgumentC
         boolean enable = commandContext.getArgument(this, ENABLEDISABLE);
         Zone zone = commandContext.getArgument(this, ZONE_VALUE);
         ItemFrameInteractFlag interactItemframesFlag = zone.getFlag(FlagTypes.ITEM_FRAME_INTERACT).orElse(new ItemFrameInteractFlag());
-        interactItemframesFlag.setEnabled(enable);
-        zone.setFlag(interactItemframesFlag);
+        if (enable) {
+            zone.addFlag(interactItemframesFlag);
+        }else {
+            zone.removeFlag(FlagTypes.ITEM_FRAME_INTERACT);
+        }
         try {
             zone.save();
             commandContext.sendMessage(Messages.getUpdatedMessage(FlagTypes.ITEM_FRAME_INTERACT));

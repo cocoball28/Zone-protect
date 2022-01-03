@@ -26,11 +26,11 @@ public class ZoneFlagEntityDamagePlayerEnableDisable implements ArgumentCommand 
                                                                    new ZoneArgument.ZoneArgumentPropertiesBuilder());
     public static final ExactArgument PLAYER = new ExactArgument("player");
     public static final ExactArgument DAMAGE = new ExactArgument("damage");
-    public static final BooleanArgument ENABLEDISABLE = new BooleanArgument("enableValue",
+    public static final BooleanArgument ENABLE_DISABLE = new BooleanArgument("enableValue",
                                                                             "enable", "disable");
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
-        return Arrays.asList(REGION, FLAG, ZONE_VALUE, PLAYER, DAMAGE, ENABLEDISABLE);
+        return Arrays.asList(REGION, FLAG, ZONE_VALUE, PLAYER, DAMAGE, ENABLE_DISABLE);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class ZoneFlagEntityDamagePlayerEnableDisable implements ArgumentCommand 
 
     @Override
     public @NotNull CommandResult run(@NotNull CommandContext commandContext, @NotNull String... args) {
-        boolean enable = commandContext.getArgument(this, ENABLEDISABLE);
+        boolean enable = commandContext.getArgument(this, ENABLE_DISABLE);
         Zone zone = commandContext.getArgument(this, ZONE_VALUE);
         EntityDamagePlayerFlag entityDamagePlayerFlag = zone
                 .getFlag(FlagTypes.ENTITY_DAMAGE_PLAYER_FLAG_TYPE)
@@ -55,7 +55,6 @@ public class ZoneFlagEntityDamagePlayerEnableDisable implements ArgumentCommand 
         }else {
             zone.removeFlag(FlagTypes.ENTITY_DAMAGE_PLAYER_FLAG_TYPE);
         }
-        zone.setFlag(entityDamagePlayerFlag);
         try {
             zone.save();
             commandContext.sendMessage(Messages.getUpdatedMessage(FlagTypes.ENTITY_DAMAGE_PLAYER_FLAG_TYPE));

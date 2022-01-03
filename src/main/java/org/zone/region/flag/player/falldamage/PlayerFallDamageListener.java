@@ -13,6 +13,7 @@ import org.zone.region.group.key.GroupKeys;
 import java.util.Optional;
 
 public class PlayerFallDamageListener {
+
     @Listener
     public void onPlayerFallDamageEvent(CollideBlockEvent.Fall event) {
 
@@ -20,10 +21,9 @@ public class PlayerFallDamageListener {
             return;
         }
 
-        if (event.cause().first(DamageSource.class).isPresent()) {
-            if (!(event.cause().first(DamageSource.class).get().equals(DamageSources.FALLING))) {
-                return;
-            }
+        Optional<DamageSource> opDamageSource = event.cause().first(DamageSource.class);
+        if (opDamageSource.isEmpty() || opDamageSource.get().equals(DamageSources.FALLING)) {
+            return;
         }
 
         Optional<Zone> opZone = ZonePlugin

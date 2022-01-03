@@ -38,7 +38,7 @@ public enum GroupKeys implements GroupKey {
     }
 
     @Override
-    public PluginContainer getPlugin() {
+    public @NotNull PluginContainer getPlugin() {
         return ZonePlugin.getZonesPlugin().getPluginContainer();
     }
 }

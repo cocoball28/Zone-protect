@@ -12,6 +12,7 @@ import org.zone.commands.system.arguments.operation.OptionalArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.region.Zone;
+import org.zone.region.flag.Flag;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.interact.itemframe.ItemFrameInteractFlag;
 import org.zone.region.group.key.GroupKeys;
@@ -54,11 +55,11 @@ public class ZoneFlagInteractItemframesViewCommand implements ArgumentCommand {
         Zone zone = commandContext.getArgument(this, ZONE_VALUE);
         @NotNull ItemFrameInteractFlag interactItemframesFlag = zone
                 .getFlag(FlagTypes.ITEM_FRAME_INTERACT)
-                .orElse(new ItemFrameInteractFlag(ItemFrameInteractFlag.ELSE));
+                .orElse(FlagTypes.ITEM_FRAME_INTERACT.createCopyOfDefault());
         commandContext
                 .getCause()
                 .sendMessage(Identity.nil(),
-                             Component.text("Enabled: " + interactItemframesFlag.isEnabled()));
+                             Component.text("Enabled: " + zone.containsFlag(FlagTypes.ITEM_FRAME_INTERACT)));
         commandContext
                 .getCause()
                 .sendMessage(Identity.nil(),
