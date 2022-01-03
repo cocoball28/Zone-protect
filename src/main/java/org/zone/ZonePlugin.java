@@ -37,6 +37,8 @@ import org.zone.region.group.key.GroupKeyManager;
 
 import java.io.File;
 
+import static org.spongepowered.api.Sponge.eventManager;
+
 /**
  * The zone plugin's boot and main class, use {@link ZonePlugin#getZonesPlugin()} to gain an
  * instance of this class
@@ -115,7 +117,7 @@ public class ZonePlugin {
 
     private void registerListeners() {
 
-        EventManager eventManager = Sponge.eventManager();
+        EventManager eventManager = eventManager();
         eventManager.registerListeners(this.plugin, new PlayerListener());
         eventManager.registerListeners(this.plugin, new MonsterPreventionListener());
         eventManager.registerListeners(this.plugin, new DoorInteractListener());
@@ -124,8 +126,8 @@ public class ZonePlugin {
         eventManager.registerListeners(this.plugin, new PreventPlayersListener());
         eventManager.registerListeners(this.plugin, new LeavingFlagListener());
         eventManager.registerListeners(this.plugin, new ItemFrameInteractionListener());
-      Sponge.eventManager().registerListeners(this.plugin, new EntityDamagePlayerListener());
-        Sponge.eventManager().registerListeners(this.plugin, new PlayerFallDamageListener());
+        eventManager().registerListeners(this.plugin, new EntityDamagePlayerListener());
+        eventManager().registerListeners(this.plugin, new PlayerFallDamageListener());
     }
 
     @Listener
