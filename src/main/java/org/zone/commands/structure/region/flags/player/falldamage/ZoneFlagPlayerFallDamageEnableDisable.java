@@ -52,7 +52,7 @@ public class ZoneFlagPlayerFallDamageEnableDisable implements ArgumentCommand {
                 .getFlag(FlagTypes.PLAYER_FALL_DAMAGE_FLAG_TYPE)
                 .orElse(new PlayerFallDamageFlag());
         if (enable) {
-            zone.addFlag(FlagTypes.PLAYER_FALL_DAMAGE_FLAG_TYPE.createCopyOfDefault());
+            zone.addFlag(playerFallDamageFlag);
         }else {
             zone.removeFlag(FlagTypes.PLAYER_FALL_DAMAGE_FLAG_TYPE);
         }

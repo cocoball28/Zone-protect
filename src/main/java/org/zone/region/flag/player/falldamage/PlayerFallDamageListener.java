@@ -2,9 +2,9 @@ package org.zone.region.flag.player.falldamage;
 
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
-import org.spongepowered.api.event.block.CollideBlockEvent;
 import org.spongepowered.api.event.cause.entity.damage.source.DamageSource;
 import org.spongepowered.api.event.cause.entity.damage.source.DamageSources;
+import org.spongepowered.api.event.entity.DamageEntityEvent;
 import org.zone.ZonePlugin;
 import org.zone.region.Zone;
 import org.zone.region.group.Group;
@@ -15,9 +15,9 @@ import java.util.Optional;
 public class PlayerFallDamageListener {
 
     @Listener
-    public void onPlayerFallDamageEvent(CollideBlockEvent.Fall event) {
+    public void onPlayerFallDamageEvent(DamageEntityEvent event) {
 
-        if (!(event instanceof Player player)) {
+        if (!(event.entity() instanceof Player player)) {
             return;
         }
 
@@ -29,7 +29,7 @@ public class PlayerFallDamageListener {
         Optional<Zone> opZone = ZonePlugin
                 .getZonesPlugin()
                 .getZoneManager()
-                .getPriorityZone(((Player) event).world(), ((Player) event).position());
+                .getPriorityZone(event.entity().world(), event.entity().position());
         if (opZone.isEmpty()) {
             return;
         }

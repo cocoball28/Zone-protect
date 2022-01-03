@@ -51,7 +51,7 @@ public class ZoneFlagEntityDamagePlayerEnableDisable implements ArgumentCommand 
                 .getFlag(FlagTypes.ENTITY_DAMAGE_PLAYER_FLAG_TYPE)
                 .orElse(new EntityDamagePlayerFlag());
         if (enable) {
-            zone.addFlag(FlagTypes.ENTITY_DAMAGE_PLAYER_FLAG_TYPE.createCopyOfDefault());
+            zone.addFlag(entityDamagePlayerFlag);
         }else {
             zone.removeFlag(FlagTypes.ENTITY_DAMAGE_PLAYER_FLAG_TYPE);
         }

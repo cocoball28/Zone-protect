@@ -16,7 +16,7 @@ import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.plugin.PluginContainer;
 import org.spongepowered.plugin.builtin.jvm.Plugin;
 import org.zone.commands.structure.ZoneCommands;
-import org.zone.region.flag.player.entitydamage.EntityDamagePlayerFlagListener;
+import org.zone.region.flag.player.entitydamage.EntityDamagePlayerListener;
 import org.zone.region.flag.player.falldamage.PlayerFallDamageListener;
 import org.zone.utils.Messages;
 
@@ -34,7 +34,6 @@ import org.zone.region.flag.move.player.greetings.GreetingsFlagListener;
 import org.zone.region.flag.move.player.leaving.LeavingFlagListener;
 import org.zone.region.flag.move.player.preventing.PreventPlayersListener;
 import org.zone.region.group.key.GroupKeyManager;
-import org.zone.utils.Messages;
 
 import java.io.File;
 
@@ -125,7 +124,7 @@ public class ZonePlugin {
         eventManager.registerListeners(this.plugin, new PreventPlayersListener());
         eventManager.registerListeners(this.plugin, new LeavingFlagListener());
         eventManager.registerListeners(this.plugin, new ItemFrameInteractionListener());
-      Sponge.eventManager().registerListeners(this.plugin, new EntityDamagePlayerFlagListener());
+      Sponge.eventManager().registerListeners(this.plugin, new EntityDamagePlayerListener());
         Sponge.eventManager().registerListeners(this.plugin, new PlayerFallDamageListener());
     }
 

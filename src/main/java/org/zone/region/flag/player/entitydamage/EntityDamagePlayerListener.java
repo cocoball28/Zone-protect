@@ -10,9 +10,10 @@ import org.zone.region.group.key.GroupKeys;
 
 import java.util.Optional;
 
-public class EntityDamagePlayerFlagListener {
+public class EntityDamagePlayerListener {
     @Listener
     public void onEntityDamageEvent(DamageEntityEvent event) {
+
         if (!(event.entity() instanceof Player player)) {
             return;
         }
