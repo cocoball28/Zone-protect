@@ -47,8 +47,8 @@ public class ComponentRemainingArgument implements CommandArgument<Component> {
     }
 
     @Override
-    public Collection<CommandCompletion> suggest(CommandContext commandContext,
-                                                 CommandArgumentContext<Component> argument) {
+    public @NotNull Collection<CommandCompletion> suggest(CommandContext commandContext,
+                                                          CommandArgumentContext<Component> argument) {
         int first = argument.getFirstArgument();
         int length = commandContext.getCommand().length;
 

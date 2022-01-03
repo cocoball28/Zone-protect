@@ -55,8 +55,8 @@ public class UserArgument implements CommandArgument<GameProfile> {
     }
 
     @Override
-    public Collection<CommandCompletion> suggest(@NotNull CommandContext commandContext,
-                                                 @NotNull CommandArgumentContext<GameProfile> argument) {
+    public @NotNull Collection<CommandCompletion> suggest(@NotNull CommandContext commandContext,
+                                                          @NotNull CommandArgumentContext<GameProfile> argument) {
         UserManager manager;
         if (Sponge.isServerAvailable()) {
             manager = Sponge.server().userManager();

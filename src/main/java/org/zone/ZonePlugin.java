@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.Server;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.Command;
+import org.spongepowered.api.event.EventManager;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.lifecycle.ConstructPluginEvent;
 import org.spongepowered.api.event.lifecycle.RegisterCommandEvent;
@@ -18,6 +19,8 @@ import org.zone.commands.structure.ZoneCommands;
 import org.zone.region.flag.player.entitydamage.EntityDamagePlayerFlagListener;
 import org.zone.region.flag.player.falldamage.PlayerFallDamageListener;
 import org.zone.utils.Messages;
+
+
 import org.zone.event.listener.PlayerListener;
 import org.zone.memory.MemoryHolder;
 import org.zone.region.Zone;
@@ -27,10 +30,11 @@ import org.zone.region.flag.interact.block.destroy.BlockBreakListener;
 import org.zone.region.flag.interact.door.DoorInteractListener;
 import org.zone.region.flag.interact.itemframe.ItemFrameInteractionListener;
 import org.zone.region.flag.move.monster.MonsterPreventionListener;
-import org.zone.region.flag.move.player.preventing.PreventPlayersListener;
 import org.zone.region.flag.move.player.greetings.GreetingsFlagListener;
 import org.zone.region.flag.move.player.leaving.LeavingFlagListener;
+import org.zone.region.flag.move.player.preventing.PreventPlayersListener;
 import org.zone.region.group.key.GroupKeyManager;
+import org.zone.utils.Messages;
 
 import java.io.File;
 
@@ -111,15 +115,17 @@ public class ZonePlugin {
     }
 
     private void registerListeners() {
-        Sponge.eventManager().registerListeners(this.plugin, new PlayerListener());
-        Sponge.eventManager().registerListeners(this.plugin, new MonsterPreventionListener());
-        Sponge.eventManager().registerListeners(this.plugin, new DoorInteractListener());
-        Sponge.eventManager().registerListeners(this.plugin, new BlockBreakListener());
-        Sponge.eventManager().registerListeners(this.plugin, new GreetingsFlagListener());
-        Sponge.eventManager().registerListeners(this.plugin, new PreventPlayersListener());
-        Sponge.eventManager().registerListeners(this.plugin, new LeavingFlagListener());
-        Sponge.eventManager().registerListeners(this.plugin, new ItemFrameInteractionListener());
-        Sponge.eventManager().registerListeners(this.plugin, new EntityDamagePlayerFlagListener());
+
+        EventManager eventManager = Sponge.eventManager();
+        eventManager.registerListeners(this.plugin, new PlayerListener());
+        eventManager.registerListeners(this.plugin, new MonsterPreventionListener());
+        eventManager.registerListeners(this.plugin, new DoorInteractListener());
+        eventManager.registerListeners(this.plugin, new BlockBreakListener());
+        eventManager.registerListeners(this.plugin, new GreetingsFlagListener());
+        eventManager.registerListeners(this.plugin, new PreventPlayersListener());
+        eventManager.registerListeners(this.plugin, new LeavingFlagListener());
+        eventManager.registerListeners(this.plugin, new ItemFrameInteractionListener());
+      Sponge.eventManager().registerListeners(this.plugin, new EntityDamagePlayerFlagListener());
         Sponge.eventManager().registerListeners(this.plugin, new PlayerFallDamageListener());
     }
 
@@ -130,13 +136,9 @@ public class ZonePlugin {
 
     @Listener
     public void onServerStarted(final StartedEngineEvent<Server> event) {
-        Sponge
-                .systemSubject()
-                .sendMessage(Messages.getLoadingZonesStart());
+        Sponge.systemSubject().sendMessage(Messages.getLoadingZonesStart());
         File zonesFolder = new File("config/zone/zones/");
-        Sponge
-                .systemSubject()
-                .sendMessage(Messages.getZonesLoadingfrom(zonesFolder.getPath()));
+        Sponge.systemSubject().sendMessage(Messages.getZonesLoadingfrom(zonesFolder.getPath()));
 
         for (PluginContainer container : Sponge.pluginManager().plugins()) {
             File keyFolder = new File(zonesFolder, container.metadata().id());

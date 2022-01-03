@@ -7,8 +7,6 @@ import org.spongepowered.api.entity.living.player.server.ServerPlayer;
 import org.spongepowered.api.service.permission.Subject;
 import org.zone.Permissions;
 import org.zone.ZonePlugin;
-import org.zone.utils.Messages;
-import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.operation.RemainingArgument;
@@ -19,7 +17,9 @@ import org.zone.region.Zone;
 import org.zone.region.ZoneBuilder;
 import org.zone.region.bounds.BoundedRegion;
 import org.zone.region.bounds.ChildRegion;
-import org.zone.region.group.key.GroupKeys;
+import org.zone.region.bounds.mode.BoundMode;
+import org.zone.region.bounds.mode.BoundModes;
+import org.zone.utils.Messages;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -30,12 +30,9 @@ import java.util.Optional;
  * The command for zone bound creation start of sub regions. This command activates when in a valid zone.
  * <p>Command: "/zone create bounds start 'name'"</p>
  */
-public class ZoneCreateSubStartCommand implements ArgumentCommand {
+public class ZoneCreateSubStartCommand extends AbstractCreateZoneStartCommand {
 
-    private static final ZoneArgument ZONE = new ZoneArgument("zone",
-                                                              new ZoneArgument.ZoneArgumentPropertiesBuilder()
-                                                                      .setLevel(GroupKeys.OWNER)
-                                                                      .setOnlyMainZones(true));
+    private static final ZoneArgument ZONE = new ZoneArgument("zone");
 
     private static final RemainingArgument<String> NAME = new RemainingArgument<>(new StringArgument(
             "name"));
@@ -57,6 +54,24 @@ public class ZoneCreateSubStartCommand implements ArgumentCommand {
     @Override
     public @NotNull Optional<String> getPermissionNode() {
         return Optional.of(Permissions.REGION_CREATE_BOUNDS.getPermission());
+    }
+
+    @Override
+    protected String getNameArgument(CommandContext context) {
+        return String.join(" ", context.getArgument(this, NAME));
+    }
+
+    @Override
+    protected BoundMode getBoundMode() {
+        return BoundModes.BLOCK;
+    }
+
+    @Override
+    protected ZoneBuilder updateBuilder(CommandContext context,
+                                        String name,
+                                        BoundedRegion bounded,
+                                        ZoneBuilder builder) {
+        return builder.setParent(context.getArgument(this, ZONE));
     }
 
     @Override

@@ -53,8 +53,8 @@ public class RangeArgument<N extends Number> implements CommandArgument<N> {
     }
 
     @Override
-    public Collection<CommandCompletion> suggest(@NotNull CommandContext commandContext,
-                                                 @NotNull CommandArgumentContext<N> argument) {
+    public @NotNull Collection<CommandCompletion> suggest(@NotNull CommandContext commandContext,
+                                                          @NotNull CommandArgumentContext<N> argument) {
         try {
             N lowest = this.lower.parse(commandContext, argument).value();
             N highest = this.higher.parse(commandContext, argument).value();
