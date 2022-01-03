@@ -1,7 +1,13 @@
 package org.zone.region.flag.player.entitydamage;
 
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.event.EventContextKey;
+import org.spongepowered.api.event.EventContextKeys;
 import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.cause.entity.damage.DamageType;
+import org.spongepowered.api.event.cause.entity.damage.DamageTypes;
+import org.spongepowered.api.event.cause.entity.damage.source.DamageSource;
+import org.spongepowered.api.event.cause.entity.damage.source.DamageSources;
 import org.spongepowered.api.event.entity.DamageEntityEvent;
 import org.zone.ZonePlugin;
 import org.zone.region.Zone;
@@ -15,6 +21,11 @@ public class EntityDamagePlayerListener {
     public void onEntityDamageEvent(DamageEntityEvent event) {
 
         if (!(event.entity() instanceof Player player)) {
+            return;
+        }
+
+        Optional<DamageType> optEventContextKeys = event.context().get(EventContextKeys.DAMAGE_TYPE);
+        if (optEventContextKeys.isEmpty() || !(optEventContextKeys.get().equals(DamageTypes.ATTACK))) {
             return;
         }
 

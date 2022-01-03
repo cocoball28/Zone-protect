@@ -19,8 +19,8 @@ public enum GroupKeys implements GroupKey {
     ENTITY_DAMAGE_PLAYER("entity_damage_player", "Prevent damage from any other entity"),
     PLAYER_FALL_DAMAGE("player_fall_damage", "Prevent player  fall damage");
 
-    private final String name;
-    private final String key;
+    private final @NotNull String name;
+    private final @NotNull String key;
 
     GroupKeys(@NotNull String key, @NotNull String name) {
         this.name = name;
