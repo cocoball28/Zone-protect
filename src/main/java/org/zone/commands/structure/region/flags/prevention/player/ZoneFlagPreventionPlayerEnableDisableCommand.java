@@ -50,14 +50,19 @@ public class ZoneFlagPreventionPlayerEnableDisableCommand implements ArgumentCom
                                       @NotNull String... args) {
         boolean enable = commandContext.getArgument(this, ENABLE);
         Zone zone = commandContext.getArgument(this, ZONE_VALUE);
+
         PreventPlayersFlag preventPlayersFlag = zone
                 .getFlag(FlagTypes.PREVENT_PLAYERS)
                 .orElse(new PreventPlayersFlag());
+
         preventPlayersFlag.setEnabled(enable);
         zone.setFlag(preventPlayersFlag);
         try {
             zone.save();
-        } catch (ConfigurateException ce) {
+
+            commandContext.sendMessage(Messages.getUpdatedMessage(FlagTypes.PREVENT_PLAYERS));
+        }catch (ConfigurateException ce) {
+
             ce.printStackTrace();
             commandContext.sendMessage(Messages.getZoneSavingError(ce));
         }
