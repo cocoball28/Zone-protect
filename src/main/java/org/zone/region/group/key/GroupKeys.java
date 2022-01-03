@@ -28,12 +28,12 @@ public enum GroupKeys implements GroupKey {
     }
 
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return this.name;
     }
 
     @Override
-    public String getKey() {
+    public @NotNull String getKey() {
         return this.key;
     }
 
