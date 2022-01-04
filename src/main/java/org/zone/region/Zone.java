@@ -280,7 +280,13 @@ public class Zone implements Identifiable {
         if (type instanceof FlagType.TaggedFlagType<?> tagType) {
             return this.getTags().getTag(tagType).map(tag -> (F) tag);
         }
-        return ZonePlugin.getZonesPlugin().getFlagManager().getDefaultFlags().loadDefault(type);
+        Optional<F> defaultFlag = ZonePlugin
+                .getZonesPlugin()
+                .getFlagManager()
+                .getDefaultFlags()
+                .loadDefault(type);
+        defaultFlag.ifPresent(f -> this.addFlag(f, false));
+        return defaultFlag;
     }
 
     /**
@@ -304,17 +310,23 @@ public class Zone implements Identifiable {
      */
     public EcoFlag getEconomy() {
         //noinspection no-eco-method
-        return this
-                .getFlag(FlagTypes.ECO)
-                .orElseThrow(() -> new IllegalStateException("EcoFlag is missing in zone " +
-                                                                     this.getId()));
+        @NotNull Optional<EcoFlag> opEco = this.getFlag(FlagTypes.ECO);
+        if (opEco.isPresent()) {
+            return opEco.get();
+        }
+        EcoFlag flag = new EcoFlag();
+        this.addFlag(flag, false);
+        return flag;
     }
 
     public TagsFlag getTags() {
-        return this
-                .getFlag(FlagTypes.TAGS)
-                .orElseThrow(() -> new IllegalStateException("EcoFlag is missing in zone " +
-                                                                     this.getId()));
+        @NotNull Optional<TagsFlag> opTag = this.getFlag(FlagTypes.TAGS);
+        if (opTag.isPresent()) {
+            return opTag.get();
+        }
+        TagsFlag flag = new TagsFlag();
+        this.addFlag(flag, false);
+        return flag;
     }
 
 

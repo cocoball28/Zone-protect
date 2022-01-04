@@ -5,7 +5,6 @@ import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.configurate.ConfigurateException;
-import org.zone.utils.Messages;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
@@ -16,6 +15,7 @@ import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.interact.block.destroy.BlockBreakFlag;
 import org.zone.region.group.Group;
+import org.zone.utils.Messages;
 
 import java.util.Arrays;
 import java.util.List;
@@ -59,7 +59,6 @@ public class ZoneFlagBlockBreakSetGroupCommand implements ArgumentCommand {
                 .orElseGet(FlagTypes.BLOCK_BREAK::createCopyOfDefault);
         Group newGroup = commandContext.getArgument(this, GROUP);
         zone.getMembers().addKey(newGroup, flag.getRequiredKey());
-        zone.setFlag(flag);
         try {
             zone.save();
             commandContext
