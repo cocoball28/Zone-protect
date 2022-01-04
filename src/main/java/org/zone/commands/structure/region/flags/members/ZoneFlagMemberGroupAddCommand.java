@@ -73,7 +73,7 @@ public class ZoneFlagMemberGroupAddCommand implements ArgumentCommand {
                 .getCause()
                 .sendMessage(Identity.nil(),
                              Component.text("Moved " +
-                                                    profile.name() +
+                                                    profile.name().orElse("Unknown name") +
                                                     " from " +
                                                     previous.getName() +
                                                     " to " +

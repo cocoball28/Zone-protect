@@ -33,8 +33,13 @@ public final class DefaultGroups {
         HOME_OWNER.add(GroupKeys.HOME_OWNER);
         HOME_OWNER.add(GroupKeys.INTERACT_DOOR);
 
-        OWNER.add(GroupKeys.BLOCK_BREAK);
         OWNER.add(GroupKeys.OWNER);
+        OWNER.add(GroupKeys.BLOCK_BREAK);
+        OWNER.add(GroupKeys.BLOCK_PLACE);
+        OWNER.add(GroupKeys.PLAYER_PREVENTION);
+        OWNER.add(GroupKeys.INTERACT_ITEMFRAME);
+        OWNER.add(GroupKeys.ENTITY_DAMAGE_PLAYER);
+        OWNER.add(GroupKeys.PLAYER_FALL_DAMAGE);
     }
 
     private DefaultGroups() {
