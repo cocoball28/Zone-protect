@@ -16,13 +16,12 @@ import java.util.Optional;
 
 public class ZonePluginInfoCommand implements ArgumentCommand {
 
-    public static final ExactArgument ZONE = new ExactArgument("zone");
     public static final ExactArgument PLUGIN = new ExactArgument("plugin");
     public static final ExactArgument INFO = new ExactArgument("info");
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
-        return Arrays.asList(ZONE, PLUGIN, INFO);
+        return Arrays.asList(PLUGIN, INFO);
     }
 
     @Override
