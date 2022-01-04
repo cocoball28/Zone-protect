@@ -16,14 +16,14 @@ public enum Permissions {
     REMOVE_GREETINGS("zone.region.flag.greetings.message.remove"),
     SET_LEAVING_MESSAGE("zone.region.flag.leaving.message.set"),
     REMOVE_LEAVING_MESSAGE("zone.region.flag.leaving.message.remove"),
-    BYPASS_PLAYER_FALL_DAMAGE("zone.override.fall.damage.player"),
-    BYPASS_PLAYER_ENTITY_DAMAGE("zone.override.entity.damage.player"),
-    BYPASS_MONSTER_PREVENTION("zone.override.monster.prevention"),
-    BYPASS_GREETINGS("zone.override.greetings"),
-    BYPASS_LEAVING("zone.override.leaving"),
+    ENABLE_PLAYER_PREVENTION("zone.region.flag.player.prevention.enable"),
+    ENTITY_DAMAGE_PLAYER_ENABLE("zone.region.flag.pl"),
+    BYPASS_PLAYER_FALL_DAMAGE("zone.bypass.fall.damage.player"),
+    BYPASS_PLAYER_ENTITY_DAMAGE("zone.bypass.entity.damage.player"),
+    BYPASS_MONSTER_PREVENTION("zone.bypass.monster.prevention"),
     BYPASS_PLAYER_PREVENTION("zone.bypass.prevention.player"),
-    BYPASS_DOOR_INTERACTION("zone.override.interaction.door"),
-    BYPASS_ITEMFRAME_INTERACTION("zone.override.interaction.itemframe");
+    BYPASS_DOOR_INTERACTION("zone.bypass.interaction.door"),
+    BYPASS_ITEMFRAME_INTERACTION("zone.bypass.interaction.itemframe");
 
     private final @NotNull String permission;
 
