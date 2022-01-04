@@ -30,8 +30,7 @@ public class ZoneFlagInteractDoorEnabledCommand implements ArgumentCommand {
                                                              new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(
                                                                      GroupKeys.INTERACT_DOOR));
 
-    public static final OptionalArgument<Boolean> VALUE = new OptionalArgument<>(new BooleanArgument(
-            "enabledValue"), (Boolean) null);
+    public static final BooleanArgument VALUE = new BooleanArgument("enabledValue", "enable", "disable");
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {

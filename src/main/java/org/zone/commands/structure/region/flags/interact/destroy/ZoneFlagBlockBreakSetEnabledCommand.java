@@ -25,7 +25,8 @@ import java.util.Optional;
  */
 public class ZoneFlagBlockBreakSetEnabledCommand implements ArgumentCommand {
 
-    public static final BooleanArgument VALUE = new BooleanArgument("enabledValue");
+    public static final BooleanArgument VALUE = new BooleanArgument("enabledValue", "enable",
+                                                                    "disable");
     public static final ZoneArgument ZONE = new ZoneArgument("zoneId");
 
     @Override

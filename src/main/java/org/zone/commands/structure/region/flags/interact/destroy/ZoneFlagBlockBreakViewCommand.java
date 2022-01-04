@@ -62,11 +62,10 @@ public class ZoneFlagBlockBreakViewCommand implements ArgumentCommand {
                 .getCause()
                 .sendMessage(Identity.nil(),
                              Component.text("Group: " +
-                                                    opFlag.map(flag -> zone
+                                                    opFlag.flatMap(flag -> zone
                                                             .getMembers()
                                                             .getGroup(flag.getRequiredKey())
-                                                            .map(Identifiable::getName)
-                                                            .orElse("None"))));
+                                                            .map(Identifiable::getName)).orElse("None")));
         return CommandResult.success();
     }
 }

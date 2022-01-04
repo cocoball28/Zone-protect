@@ -8,7 +8,7 @@
     {
       "id": "zones",
       "name": "Zones",
-      "version": "${version}",
+      "version": "1.0.0",
       "entrypoint": "org.zone.ZonePlugin",
       "description": "Protection plugin for Sponge",
       "branding": {},
