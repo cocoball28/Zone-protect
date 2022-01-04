@@ -5,7 +5,6 @@ import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.configurate.ConfigurateException;
-import org.zone.utils.Messages;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
@@ -14,8 +13,9 @@ import org.zone.commands.system.arguments.zone.ZoneGroupArgument;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.interact.block.place.BlockPlaceFlag;
+import org.zone.region.flag.entity.player.interact.block.place.BlockPlaceFlag;
 import org.zone.region.group.Group;
+import org.zone.utils.Messages;
 
 import java.util.Arrays;
 import java.util.List;
@@ -37,6 +37,7 @@ public class ZoneFlagBlockPlaceSetGroupCommand implements ArgumentCommand {
                              new ExactArgument("interact"),
                              new ExactArgument("block"),
                              new ExactArgument("place"),
+                             new ExactArgument("set"),
                              new ExactArgument("group"),
                              GROUP);
     }

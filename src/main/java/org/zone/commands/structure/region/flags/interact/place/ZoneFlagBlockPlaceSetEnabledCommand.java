@@ -14,7 +14,7 @@ import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.interact.block.place.BlockPlaceFlag;
+import org.zone.region.flag.entity.player.interact.block.place.BlockPlaceFlag;
 
 import java.util.Arrays;
 import java.util.List;
@@ -38,7 +38,6 @@ public class ZoneFlagBlockPlaceSetEnabledCommand implements ArgumentCommand {
                              new ExactArgument("block"),
                              new ExactArgument("place"),
                              new ExactArgument("set"),
-                             new ExactArgument("enabled"),
                              VALUE);
     }
 

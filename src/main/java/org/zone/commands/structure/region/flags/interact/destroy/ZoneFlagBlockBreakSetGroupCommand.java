@@ -13,7 +13,7 @@ import org.zone.commands.system.arguments.zone.ZoneGroupArgument;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.interact.block.destroy.BlockBreakFlag;
+import org.zone.region.flag.entity.player.interact.block.destroy.BlockBreakFlag;
 import org.zone.region.group.Group;
 import org.zone.utils.Messages;
 
@@ -37,6 +37,7 @@ public class ZoneFlagBlockBreakSetGroupCommand implements ArgumentCommand {
                              new ExactArgument("interact"),
                              new ExactArgument("block"),
                              new ExactArgument("break"),
+                             new ExactArgument("set"),
                              new ExactArgument("group"),
                              GROUP);
     }

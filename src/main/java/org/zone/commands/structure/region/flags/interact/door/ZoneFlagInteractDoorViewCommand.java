@@ -15,7 +15,7 @@ import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.interact.door.DoorInteractionFlag;
+import org.zone.region.flag.entity.player.interact.door.DoorInteractionFlag;
 import org.zone.region.group.key.GroupKeys;
 
 import java.util.Arrays;
@@ -27,7 +27,7 @@ import java.util.Optional;
  */
 public class ZoneFlagInteractDoorViewCommand implements ArgumentCommand {
 
-    public static final ZoneArgument ZONE = new ZoneArgument("zoneId", new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(GroupKeys.OWNER));
+    public static final ZoneArgument ZONE = new ZoneArgument("zoneId");
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
@@ -52,11 +52,13 @@ public class ZoneFlagInteractDoorViewCommand implements ArgumentCommand {
     @Override
     public @NotNull CommandResult run(CommandContext commandContext, String... args) {
         Zone zone = commandContext.getArgument(this, ZONE);
-        Optional<DoorInteractionFlag> opFlag = zone
-                .getFlag(FlagTypes.DOOR_INTERACTION);
+        Optional<DoorInteractionFlag> opFlag = zone.getFlag(FlagTypes.DOOR_INTERACTION);
         commandContext
                 .getCause()
-                .sendMessage(Identity.nil(), Component.text("Enabled: " + opFlag.isPresent()).color(NamedTextColor.AQUA));
+                .sendMessage(Identity.nil(),
+                             Component
+                                     .text("Enabled: " + opFlag.isPresent())
+                                     .color(NamedTextColor.AQUA));
         commandContext
                 .getCause()
                 .sendMessage(Identity.nil(),

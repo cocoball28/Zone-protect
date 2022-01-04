@@ -12,9 +12,8 @@ import org.zone.commands.system.arguments.operation.OptionalArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.region.Zone;
-import org.zone.region.flag.Flag;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.interact.itemframe.ItemFrameInteractFlag;
+import org.zone.region.flag.entity.player.interact.itemframe.ItemFrameInteractFlag;
 import org.zone.region.group.key.GroupKeys;
 
 import java.util.Arrays;
@@ -26,17 +25,15 @@ import java.util.Optional;
  */
 public class ZoneFlagInteractItemframesViewCommand implements ArgumentCommand {
 
-    public static final ExactArgument REGION = new ExactArgument("region");
-    public static final ExactArgument FLAG = new ExactArgument("flag");
-    public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zone_value");
-    public static final ExactArgument INTERACT = new ExactArgument("interact");
-    public static final ExactArgument ITEMFRAMES = new ExactArgument("itemframes");
+    public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zoneId");
     public static final OptionalArgument<String> VIEW = new OptionalArgument<>(new ExactArgument(
             "view"), (String) null);
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
-        return Arrays.asList(REGION, FLAG, ZONE_VALUE, INTERACT, ITEMFRAMES, VIEW);
+        return Arrays.asList(new ExactArgument("region"), new ExactArgument("flag"), ZONE_VALUE,
+                             new ExactArgument("interact"), new ExactArgument("itemframes"),
+                             VIEW);
     }
 
     @Override

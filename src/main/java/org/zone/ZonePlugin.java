@@ -16,24 +16,23 @@ import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.plugin.PluginContainer;
 import org.spongepowered.plugin.builtin.jvm.Plugin;
 import org.zone.commands.structure.ZoneCommands;
-import org.zone.region.flag.player.entitydamage.EntityDamagePlayerListener;
-import org.zone.region.flag.player.falldamage.PlayerFallDamageListener;
-import org.zone.utils.Messages;
-
-
 import org.zone.event.listener.PlayerListener;
 import org.zone.memory.MemoryHolder;
 import org.zone.region.Zone;
 import org.zone.region.ZoneManager;
 import org.zone.region.flag.FlagManager;
-import org.zone.region.flag.interact.block.destroy.BlockBreakListener;
-import org.zone.region.flag.interact.door.DoorInteractListener;
-import org.zone.region.flag.interact.itemframe.ItemFrameInteractionListener;
-import org.zone.region.flag.move.monster.MonsterPreventionListener;
-import org.zone.region.flag.move.player.greetings.GreetingsFlagListener;
-import org.zone.region.flag.move.player.leaving.LeavingFlagListener;
-import org.zone.region.flag.move.player.preventing.PreventPlayersListener;
+import org.zone.region.flag.entity.monster.move.MonsterPreventionListener;
+import org.zone.region.flag.entity.player.damage.attack.EntityDamagePlayerListener;
+import org.zone.region.flag.entity.player.damage.fall.PlayerFallDamageListener;
+import org.zone.region.flag.entity.player.interact.block.destroy.BlockBreakListener;
+import org.zone.region.flag.entity.player.interact.block.place.BlockPlaceListener;
+import org.zone.region.flag.entity.player.interact.door.DoorInteractListener;
+import org.zone.region.flag.entity.player.interact.itemframe.ItemFrameInteractionListener;
+import org.zone.region.flag.entity.player.move.greetings.GreetingsFlagListener;
+import org.zone.region.flag.entity.player.move.leaving.LeavingFlagListener;
+import org.zone.region.flag.entity.player.move.preventing.PreventPlayersListener;
 import org.zone.region.group.key.GroupKeyManager;
+import org.zone.utils.Messages;
 
 import java.io.File;
 
@@ -120,6 +119,7 @@ public class ZonePlugin {
         eventManager.registerListeners(this.plugin, new MonsterPreventionListener());
         eventManager.registerListeners(this.plugin, new DoorInteractListener());
         eventManager.registerListeners(this.plugin, new BlockBreakListener());
+        eventManager.registerListeners(this.plugin, new BlockPlaceListener());
         eventManager.registerListeners(this.plugin, new GreetingsFlagListener());
         eventManager.registerListeners(this.plugin, new PreventPlayersListener());
         eventManager.registerListeners(this.plugin, new LeavingFlagListener());

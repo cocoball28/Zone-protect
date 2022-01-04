@@ -5,7 +5,6 @@ import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.configurate.ConfigurateException;
-import org.zone.utils.Messages;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
@@ -14,7 +13,8 @@ import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.interact.block.destroy.BlockBreakFlag;
+import org.zone.region.flag.entity.player.interact.block.destroy.BlockBreakFlag;
+import org.zone.utils.Messages;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,7 +25,8 @@ import java.util.Optional;
  */
 public class ZoneFlagBlockBreakSetEnabledCommand implements ArgumentCommand {
 
-    public static final BooleanArgument VALUE = new BooleanArgument("enabledValue", "enable",
+    public static final BooleanArgument VALUE = new BooleanArgument("enabledValue",
+                                                                    "enable",
                                                                     "disable");
     public static final ZoneArgument ZONE = new ZoneArgument("zoneId");
 
@@ -38,7 +39,6 @@ public class ZoneFlagBlockBreakSetEnabledCommand implements ArgumentCommand {
                              new ExactArgument("block"),
                              new ExactArgument("break"),
                              new ExactArgument("set"),
-                             new ExactArgument("enabled"),
                              VALUE);
     }
 
@@ -65,8 +65,7 @@ public class ZoneFlagBlockBreakSetEnabledCommand implements ArgumentCommand {
             zone.save();
             commandContext
                     .getCause()
-                    .sendMessage(Identity.nil(),
-                                 Messages.getUpdatedMessage(FlagTypes.BLOCK_BREAK));
+                    .sendMessage(Identity.nil(), Messages.getUpdatedMessage(FlagTypes.BLOCK_BREAK));
         } catch (ConfigurateException e) {
             e.printStackTrace();
             return CommandResult.error(Messages.getZoneSavingError(e));

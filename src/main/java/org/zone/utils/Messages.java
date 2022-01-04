@@ -11,7 +11,7 @@ import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.context.ErrorContext;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagType;
-import org.zone.region.flag.move.player.leaving.LeavingFlag;
+import org.zone.region.flag.entity.player.move.leaving.LeavingFlag;
 import org.zone.region.group.Group;
 
 import java.math.BigDecimal;

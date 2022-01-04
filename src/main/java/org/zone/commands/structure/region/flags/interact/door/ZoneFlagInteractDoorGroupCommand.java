@@ -5,7 +5,6 @@ import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.configurate.ConfigurateException;
-import org.zone.utils.Messages;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
@@ -14,9 +13,10 @@ import org.zone.commands.system.arguments.zone.ZoneGroupArgument;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.interact.door.DoorInteractionFlag;
+import org.zone.region.flag.entity.player.interact.door.DoorInteractionFlag;
 import org.zone.region.group.Group;
 import org.zone.region.group.key.GroupKeys;
+import org.zone.utils.Messages;
 
 import java.util.Arrays;
 import java.util.List;
@@ -40,6 +40,7 @@ public class ZoneFlagInteractDoorGroupCommand implements ArgumentCommand {
                              ZONE,
                              new ExactArgument("interact"),
                              new ExactArgument("door"),
+                             new ExactArgument("set"),
                              new ExactArgument("group"),
                              GROUP);
     }
@@ -71,7 +72,8 @@ public class ZoneFlagInteractDoorGroupCommand implements ArgumentCommand {
             zone.save();
             commandContext
                     .getCause()
-                    .sendMessage(Identity.nil(), Messages.getUpdatedMessage(FlagTypes.DOOR_INTERACTION));
+                    .sendMessage(Identity.nil(),
+                                 Messages.getUpdatedMessage(FlagTypes.DOOR_INTERACTION));
         } catch (ConfigurateException e) {
             e.printStackTrace();
             return CommandResult.error(Messages.getZoneSavingError(e));
