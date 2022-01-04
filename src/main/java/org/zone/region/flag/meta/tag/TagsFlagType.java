@@ -41,20 +41,20 @@ public class TagsFlagType implements FlagType<TagsFlag> {
         if (tags == null) {
             return new TagsFlag();
         }
-        Set<Flag.TaggedFlag> tagFlags = tags
-                .parallelStream()
-                .map(id -> ZonePlugin
-                        .getZonesPlugin()
-                        .getFlagManager()
-                        .getRegistered()
-                        .parallelStream()
-                        .filter(type -> type instanceof Flag.TaggedFlag)
-                        .filter(type -> type.getId().equals(id))
-                        .findAny()
-                        .map(type -> ((FlagType.TaggedFlagType<?>) type).createCopyOfDefault()))
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .collect(Collectors.toSet());
+        Set<Flag.TaggedFlag> tagFlags = tags.parallelStream().map(id -> {
+            Collection<FlagType<?>> types = ZonePlugin
+                    .getZonesPlugin()
+                    .getFlagManager()
+                    .getRegistered();
+
+            Optional<Flag.TaggedFlag> opTaggable = types
+                    .parallelStream()
+                    .filter(type -> type instanceof FlagType.TaggedFlagType)
+                    .filter(type -> type.getId().equals(id))
+                    .findAny()
+                    .map(type -> ((FlagType.TaggedFlagType<?>) type).createCopyOfDefault());
+            return opTaggable;
+        }).filter(Optional::isPresent).map(Optional::get).collect(Collectors.toSet());
 
         return new TagsFlag(tagFlags);
     }

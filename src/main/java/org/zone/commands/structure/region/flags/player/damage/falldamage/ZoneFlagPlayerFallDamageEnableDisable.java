@@ -1,4 +1,4 @@
-package org.zone.commands.structure.region.flags.prevention.player;
+package org.zone.commands.structure.region.flags.player.damage.falldamage;
 
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
@@ -12,32 +12,31 @@ import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.move.player.preventing.PreventPlayersFlag;
+import org.zone.region.flag.player.falldamage.PlayerFallDamageFlag;
 import org.zone.utils.Messages;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class ZoneFlagPreventionPlayerEnableDisableCommand implements ArgumentCommand {
+public class ZoneFlagPlayerFallDamageEnableDisable implements ArgumentCommand {
     public static final ExactArgument REGION = new ExactArgument("region");
     public static final ExactArgument FLAG = new ExactArgument("flag");
     public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zone_value",
                                                                    new ZoneArgument.ZoneArgumentPropertiesBuilder());
     public static final ExactArgument PLAYER = new ExactArgument("player");
-    public static final ExactArgument PREVENTION = new ExactArgument("prevention");
-    public static final BooleanArgument ENABLE = new BooleanArgument("enableValue",
-                                                                     "enable",
-                                                                     "disable");
-
+    public static final ExactArgument FALL = new ExactArgument("fall");
+    public static final ExactArgument DAMAGE = new ExactArgument("damage");
+    public static final BooleanArgument ENABLE_DISABLE = new BooleanArgument("enableValue",
+                                                                             "enable", "disable");
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
-        return Arrays.asList(REGION, FLAG, ZONE_VALUE, PLAYER, PREVENTION, ENABLE);
+        return Arrays.asList(REGION, FLAG, ZONE_VALUE, PLAYER, FALL, DAMAGE,ENABLE_DISABLE);
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Command to enable/disable Player Prevention");
+        return Component.text("Command to enable/disable the fall damage flag");
     }
 
     @Override
@@ -47,24 +46,22 @@ public class ZoneFlagPreventionPlayerEnableDisableCommand implements ArgumentCom
 
     @Override
     public @NotNull CommandResult run(@NotNull CommandContext commandContext, @NotNull String... args) {
-        boolean enable = commandContext.getArgument(this, ENABLE);
+        boolean enable = commandContext.getArgument(this, ENABLE_DISABLE);
         Zone zone = commandContext.getArgument(this, ZONE_VALUE);
-
-        PreventPlayersFlag preventPlayersFlag = zone
-                .getFlag(FlagTypes.PREVENT_PLAYERS)
-                .orElse(new PreventPlayersFlag());
+        PlayerFallDamageFlag playerFallDamageFlag = zone
+                .getFlag(FlagTypes.PLAYER_FALL_DAMAGE_FLAG_TYPE)
+                .orElse(new PlayerFallDamageFlag());
         if (enable) {
-            zone.addFlag(preventPlayersFlag);
+            zone.addFlag(playerFallDamageFlag);
         }else {
-            zone.removeFlag(FlagTypes.ITEM_FRAME_INTERACT);
+            zone.removeFlag(FlagTypes.PLAYER_FALL_DAMAGE_FLAG_TYPE);
         }
-        zone.setFlag(preventPlayersFlag);
         try {
             zone.save();
-            commandContext.sendMessage(Messages.getUpdatedMessage(FlagTypes.PREVENT_PLAYERS));
+            commandContext.sendMessage(Messages.getUpdatedMessage(FlagTypes.PLAYER_FALL_DAMAGE_FLAG_TYPE));
         }catch (ConfigurateException ce) {
             ce.printStackTrace();
-            commandContext.sendMessage(Messages.getZoneSavingError(ce));
+            return CommandResult.error(Messages.getZoneSavingError(ce));
         }
         return CommandResult.success();
     }

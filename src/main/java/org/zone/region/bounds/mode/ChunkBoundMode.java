@@ -25,4 +25,19 @@ public class ChunkBoundMode implements BoundMode {
         }
         return current.world().location(max);
     }
+
+    @Override
+    public @NotNull Location<? extends World<?, ?>, ?> shiftOther(Location<? extends World<?, ?>, ?> current) {
+        Vector3i chunkPos = current.chunkPosition();
+        WorldChunk chunk = current.world().chunk(chunkPos);
+        Vector3i min = chunk.min();
+        Vector3i max = chunk.max();
+        int minDistance = current.blockPosition().distanceSquared(min);
+        int maxDistance = current.blockPosition().distanceSquared(max);
+
+        if (minDistance < maxDistance) {
+            return current.world().location(min);
+        }
+        return current.world().location(max);
+    }
 }

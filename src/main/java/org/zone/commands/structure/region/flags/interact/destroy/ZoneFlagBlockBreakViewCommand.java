@@ -27,9 +27,7 @@ import java.util.Optional;
  */
 public class ZoneFlagBlockBreakViewCommand implements ArgumentCommand {
 
-    public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
-                                                             new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(
-                                                                     GroupKeys.OWNER));
+    public static final ZoneArgument ZONE = new ZoneArgument("zoneId");
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {

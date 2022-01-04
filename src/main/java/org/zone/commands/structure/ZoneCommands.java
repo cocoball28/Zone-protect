@@ -6,22 +6,20 @@ import org.zone.commands.structure.create.ZoneCreateSubStartCommand;
 import org.zone.commands.structure.create.chunk.ZoneCreateChunkStartCommand;
 import org.zone.commands.structure.create.chunk.ZoneCreateChunkSubStartCommand;
 import org.zone.commands.structure.info.ZonePluginInfoCommand;
+import org.zone.commands.structure.leave.LeaveZoneCommand;
 import org.zone.commands.structure.region.flags.eco.ZoneFlagViewBalanceCommand;
 import org.zone.commands.structure.region.flags.greetings.ZoneFlagGreetingsRemoveCommand;
 import org.zone.commands.structure.region.flags.greetings.ZoneFlagGreetingsSetMessageCommand;
 import org.zone.commands.structure.region.flags.greetings.ZoneFlagGreetingsViewCommand;
-import org.zone.commands.structure.region.flags.interact.itemframe.ZoneFlagInteractItemframesEnableDisableCommand;
-import org.zone.commands.structure.region.flags.interact.itemframe.ZoneFlagInteractItemframesGroupCommand;
-import org.zone.commands.structure.region.flags.interact.itemframe.ZoneFlagInteractItemframesViewCommand;
-import org.zone.commands.structure.region.flags.player.entitydamage.ZoneFlagEntityDamagePlayerEnableDisable;
-import org.zone.commands.structure.region.flags.player.falldamage.ZoneFlagPlayerFallDamageEnableDisable;
-import org.zone.commands.structure.region.flags.prevention.player.ZoneFlagPreventionPlayerEnableDisableCommand;
 import org.zone.commands.structure.region.flags.interact.destroy.ZoneFlagBlockBreakSetEnabledCommand;
 import org.zone.commands.structure.region.flags.interact.destroy.ZoneFlagBlockBreakSetGroupCommand;
 import org.zone.commands.structure.region.flags.interact.destroy.ZoneFlagBlockBreakViewCommand;
 import org.zone.commands.structure.region.flags.interact.door.ZoneFlagInteractDoorEnabledCommand;
 import org.zone.commands.structure.region.flags.interact.door.ZoneFlagInteractDoorGroupCommand;
 import org.zone.commands.structure.region.flags.interact.door.ZoneFlagInteractDoorViewCommand;
+import org.zone.commands.structure.region.flags.interact.itemframe.ZoneFlagInteractItemframesEnableDisableCommand;
+import org.zone.commands.structure.region.flags.interact.itemframe.ZoneFlagInteractItemframesGroupCommand;
+import org.zone.commands.structure.region.flags.interact.itemframe.ZoneFlagInteractItemframesViewCommand;
 import org.zone.commands.structure.region.flags.interact.place.ZoneFlagBlockPlaceSetEnabledCommand;
 import org.zone.commands.structure.region.flags.interact.place.ZoneFlagBlockPlaceSetGroupCommand;
 import org.zone.commands.structure.region.flags.interact.place.ZoneFlagBlockPlaceViewCommand;
@@ -30,6 +28,9 @@ import org.zone.commands.structure.region.flags.leaving.ZoneFlagLeavingSetMessag
 import org.zone.commands.structure.region.flags.leaving.ZoneFlagLeavingViewCommand;
 import org.zone.commands.structure.region.flags.members.ZoneFlagMemberGroupAddCommand;
 import org.zone.commands.structure.region.flags.members.ZoneFlagMemberGroupViewCommand;
+import org.zone.commands.structure.region.flags.player.damage.attack.ZoneFlagEntityDamagePlayerEnableDisable;
+import org.zone.commands.structure.region.flags.player.damage.falldamage.ZoneFlagPlayerFallDamageEnableDisable;
+import org.zone.commands.structure.region.flags.player.prevention.ZoneFlagPreventionPlayerEnableDisableCommand;
 import org.zone.commands.structure.region.info.ZoneInfoCommand;
 import org.zone.commands.structure.region.info.bounds.ZoneInfoBoundsShowCommand;
 import org.zone.commands.system.ArgumentCommand;
@@ -78,6 +79,7 @@ public interface ZoneCommands {
     ZoneFlagLeavingSetMessageCommand ZONE_FLAG_LEAVING_SET_MESSAGE_COMMAND = new ZoneFlagLeavingSetMessageCommand();
     ZoneFlagLeavingViewCommand ZONE_FLAG_LEAVING_VIEW_COMMAND = new ZoneFlagLeavingViewCommand();
     ZoneInfoCommand ZONE_INFO_COMMAND = new ZoneInfoCommand();
+    LeaveZoneCommand ZONE_LEAVE_COMMAND = new LeaveZoneCommand();
 
     static ZoneSpongeCommand createCommand() {
         Collection<ArgumentCommand> collection = Arrays
