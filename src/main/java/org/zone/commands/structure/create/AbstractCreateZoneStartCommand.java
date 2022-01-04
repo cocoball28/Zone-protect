@@ -40,9 +40,7 @@ public abstract class AbstractCreateZoneStartCommand implements ArgumentCommand 
         BoundMode boundMode = this.getBoundMode();
         Vector3i startVector = new Vector3i(vector3i.x(), 0, vector3i.z());
         Vector3i endVector = new Vector3i(vector3i.x(), 256, vector3i.z());
-        startVector = boundMode
-                .shift(player.world().location(startVector), endVector)
-                .blockPosition();
+        startVector = boundMode.shiftOther(player.world().location(startVector)).blockPosition();
         endVector = boundMode
                 .shift(player.world().location(endVector), startVector)
                 .blockPosition();

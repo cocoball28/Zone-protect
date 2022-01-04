@@ -14,4 +14,9 @@ public class BlockBoundMode implements BoundMode {
                                                              @NotNull Vector3i other) {
         return current;
     }
+
+    @Override
+    public @NotNull Location<? extends World<?, ?>, ?> shiftOther(Location<? extends World<?, ?>, ?> current) {
+        return current;
+    }
 }
