@@ -16,18 +16,14 @@ public enum Permissions {
     REMOVE_GREETINGS("zone.region.flag.greetings.message.remove"),
     SET_LEAVING_MESSAGE("zone.region.flag.leaving.message.set"),
     REMOVE_LEAVING_MESSAGE("zone.region.flag.leaving.message.remove"),
-    OVERRIDE_PLAYER_FALL_DAMAGE("zone.override.fall.damage.player"),
-    OVERRIDE_PLAYER_ENTITY_DAMAGE("zone.override.entity.damage.player"),
-    OVERRIDE_MONSTER_PREVENTION("zone.override.monster.prevention"),
-    OVERRIDE_GREETINGS("zone.override.greetings"),
-    OVERRIDE_LEAVING("zone.override.leaving"),
-    OVERRIDE_PLAYER_PREVENTION("zone.override.prevention.player"),
+    BYPASS_PLAYER_FALL_DAMAGE("zone.override.fall.damage.player"),
+    BYPASS_PLAYER_ENTITY_DAMAGE("zone.override.entity.damage.player"),
+    BYPASS_MONSTER_PREVENTION("zone.override.monster.prevention"),
+    BYPASS_GREETINGS("zone.override.greetings"),
+    BYPASS_LEAVING("zone.override.leaving"),
     BYPASS_PLAYER_PREVENTION("zone.bypass.prevention.player"),
-    OVERRIDE_DOOR_INTERACTION("zone.override.interaction.door"),
-    BYPASS_DOOR_INTERACTION("zone.bypass.interaction.door"),
-    OVERRIDE_ITEMFRAME_INTERACTION("zone.override.interaction.itemframe"),
-    BYPASS_ITEMFRAME_INTERACTION("zone.bypass.interaction.itemframe");
-
+    BYPASS_DOOR_INTERACTION("zone.override.interaction.door"),
+    BYPASS_ITEMFRAME_INTERACTION("zone.override.interaction.itemframe");
 
     private final @NotNull String permission;
 

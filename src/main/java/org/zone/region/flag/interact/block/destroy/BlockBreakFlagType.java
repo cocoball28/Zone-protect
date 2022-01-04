@@ -27,7 +27,7 @@ public class BlockBreakFlagType implements FlagType.TaggedFlagType<BlockBreakFla
 
     @Override
     public @NotNull String getKey() {
-        return "block_break";
+        return KEY;
     }
 
     @Override

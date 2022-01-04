@@ -59,7 +59,6 @@ public class ZoneFlagBlockBreakSetGroupCommand implements ArgumentCommand {
                 .orElseGet(FlagTypes.BLOCK_BREAK::createCopyOfDefault);
         Group newGroup = commandContext.getArgument(this, GROUP);
         zone.getMembers().addKey(newGroup, flag.getRequiredKey());
-        zone.setFlag(flag);
         try {
             zone.save();
             commandContext
