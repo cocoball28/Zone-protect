@@ -11,6 +11,10 @@ import org.zone.commands.structure.region.flags.damage.attack.ZoneFlagDamageAtta
 import org.zone.commands.structure.region.flags.damage.fall.ZoneFlagPlayerFallDamageSetGroup;
 import org.zone.commands.structure.region.flags.damage.fall.ZoneFlagPlayerFallDamageView;
 import org.zone.commands.structure.region.flags.eco.ZoneFlagViewBalanceCommand;
+import org.zone.commands.structure.region.flags.entry.monster.ZoneFlagMonsterEntryEnabledCommand;
+import org.zone.commands.structure.region.flags.entry.monster.ZoneFlagMonsterEntryViewCommand;
+import org.zone.commands.structure.region.flags.entry.player.ZoneFlagEntrySetGroupCommand;
+import org.zone.commands.structure.region.flags.entry.player.ZoneFlagEntryViewCommand;
 import org.zone.commands.structure.region.flags.messages.greetings.ZoneFlagGreetingsRemoveCommand;
 import org.zone.commands.structure.region.flags.messages.greetings.ZoneFlagGreetingsSetMessageCommand;
 import org.zone.commands.structure.region.flags.messages.greetings.ZoneFlagGreetingsViewCommand;
@@ -33,7 +37,7 @@ import org.zone.commands.structure.region.flags.members.ZoneFlagMemberGroupAddCo
 import org.zone.commands.structure.region.flags.members.ZoneFlagMemberGroupViewCommand;
 import org.zone.commands.structure.region.flags.damage.attack.ZoneFlagDamageAttackSetEnabledCommand;
 import org.zone.commands.structure.region.flags.damage.fall.ZoneFlagPlayerFallDamageEnableDisable;
-import org.zone.commands.structure.region.flags.entry.ZoneFlagEntrySetEnabledCommand;
+import org.zone.commands.structure.region.flags.entry.player.ZoneFlagEntrySetEnabledCommand;
 import org.zone.commands.structure.region.info.ZoneInfoCommand;
 import org.zone.commands.structure.region.info.bounds.ZoneInfoBoundsShowCommand;
 import org.zone.commands.system.ArgumentCommand;
@@ -72,6 +76,10 @@ public interface ZoneCommands {
     ZoneFlagGreetingsViewCommand ZONE_FLAG_GREETINGS_VIEW_COMMAND = new ZoneFlagGreetingsViewCommand();
     ZoneFlagInteractItemframesViewCommand ZONE_FLAG_INTERACT_ITEMFRAMES_VIEW_COMMAND = new ZoneFlagInteractItemframesViewCommand();
 
+    ZoneFlagMonsterEntryViewCommand ZONE_FLAG_MONSTER_ENTRY_VIEW_COMMAND = new ZoneFlagMonsterEntryViewCommand();
+    ZoneFlagMonsterEntryEnabledCommand ZONE_FLAG_MONSTER_ENTRY_ENABLED_COMMAND = new ZoneFlagMonsterEntryEnabledCommand();
+    ZoneFlagEntryViewCommand ZONE_FLAG_ENTRY_VIEW_COMMAND = new ZoneFlagEntryViewCommand();
+    ZoneFlagEntrySetGroupCommand ZONE_FLAG_ENTRY_SET_GROUP_COMMAND = new ZoneFlagEntrySetGroupCommand();
     ZoneFlagDamageAttackView ZONE_FLAG_DAMAGE_ATTACK_VIEW = new ZoneFlagDamageAttackView();
     ZoneFlagPlayerFallDamageView ZONE_FLAG_PLAYER_FALL_DAMAGE_VIEW = new ZoneFlagPlayerFallDamageView();
     ZoneFlagPlayerFallDamageSetGroup ZONE_FLAG_PLAYER_FALL_DAMAGE_SET_GROUP = new ZoneFlagPlayerFallDamageSetGroup();
