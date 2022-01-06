@@ -7,6 +7,9 @@ import org.zone.commands.structure.create.bounds.chunk.ZoneCreateChunkStartComma
 import org.zone.commands.structure.create.bounds.chunk.ZoneCreateChunkSubStartCommand;
 import org.zone.commands.structure.info.ZonePluginInfoCommand;
 import org.zone.commands.structure.leave.LeaveZoneCommand;
+import org.zone.commands.structure.region.flags.damage.attack.ZoneFlagDamageAttackView;
+import org.zone.commands.structure.region.flags.damage.fall.ZoneFlagPlayerFallDamageSetGroup;
+import org.zone.commands.structure.region.flags.damage.fall.ZoneFlagPlayerFallDamageView;
 import org.zone.commands.structure.region.flags.eco.ZoneFlagViewBalanceCommand;
 import org.zone.commands.structure.region.flags.messages.greetings.ZoneFlagGreetingsRemoveCommand;
 import org.zone.commands.structure.region.flags.messages.greetings.ZoneFlagGreetingsSetMessageCommand;
@@ -69,8 +72,11 @@ public interface ZoneCommands {
     ZoneFlagGreetingsViewCommand ZONE_FLAG_GREETINGS_VIEW_COMMAND = new ZoneFlagGreetingsViewCommand();
     ZoneFlagInteractItemframesViewCommand ZONE_FLAG_INTERACT_ITEMFRAMES_VIEW_COMMAND = new ZoneFlagInteractItemframesViewCommand();
 
+    ZoneFlagDamageAttackView ZONE_FLAG_DAMAGE_ATTACK_VIEW = new ZoneFlagDamageAttackView();
+    ZoneFlagPlayerFallDamageView ZONE_FLAG_PLAYER_FALL_DAMAGE_VIEW = new ZoneFlagPlayerFallDamageView();
+    ZoneFlagPlayerFallDamageSetGroup ZONE_FLAG_PLAYER_FALL_DAMAGE_SET_GROUP = new ZoneFlagPlayerFallDamageSetGroup();
     ZoneFlagPlayerFallDamageEnableDisable ZONE_FLAG_PLAYER_FALL_DAMAGE_ENABLE_DISABLE = new ZoneFlagPlayerFallDamageEnableDisable();
-    ZoneFlagDamageAttackSetEnabledCommand ZONE_FLAG_ENTITY_DAMAGE_PLAYER_ENABLE_DISABLE = new ZoneFlagDamageAttackSetEnabledCommand();
+    ZoneFlagDamageAttackSetEnabledCommand ZONE_FLAG_DAMAGE_ATTACK_SET_ENABLED_COMMAND = new ZoneFlagDamageAttackSetEnabledCommand();
     ZoneFlagInteractItemframesEnableDisableCommand ZONE_FLAG_INTERACT_ITEMFRAMES_ENABLE_DISABLE_COMMAND = new ZoneFlagInteractItemframesEnableDisableCommand();
     ZoneFlagInteractItemframesGroupCommand ZONE_FLAG_INTERACT_ITEMFRAMES_GROUP_COMMAND = new ZoneFlagInteractItemframesGroupCommand();
     ZoneFlagGreetingsRemoveCommand ZONE_FLAG_GREETINGS_REMOVE_COMMAND = new ZoneFlagGreetingsRemoveCommand();

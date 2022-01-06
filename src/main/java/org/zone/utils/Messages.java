@@ -52,13 +52,11 @@ public final class Messages {
     }
 
     public static Component getMessageTag() {
-        return Component.text("Message: ");
+        return Component.text("Message: ").color(NamedTextColor.AQUA);
     }
 
     public static Component getNoMessageSet() {
-        return getMessageTag()
-                .append(Component.text("No message set by user"))
-                .color(NamedTextColor.RED);
+        return Component.text("No message set by user").color(NamedTextColor.RED);
     }
 
     public static Component getFlagMessageView(Component message) {
