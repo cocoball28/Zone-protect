@@ -60,8 +60,8 @@ public class ZoneInfoBoundsShowCommand implements ArgumentCommand {
 
         Zone zone = context.getArgument(this, ZONE);
         zone.getRegion().getTrueChildren().forEach(region -> {
-            PlayerListener.runOnOutside(region,
-                                        locatable.blockPosition().y() - 1,
+        int y;
+            PlayerListener.runOnOutside(region, y = locatable.blockPosition().y() - 1,
                                         vector3i -> viewer.sendBlockChange(vector3i,
                                                                            BlockTypes.ORANGE_WOOL
                                                                                    .get()
@@ -74,10 +74,7 @@ public class ZoneInfoBoundsShowCommand implements ArgumentCommand {
                                     .builder()
                                     .plugin(ZonePlugin.getZonesPlugin().getPluginContainer())
                                     .delay(10, TimeUnit.SECONDS)
-                                    .execute(() -> PlayerListener.runOnOutside(region,
-                                                                               locatable
-                                                                                       .blockPosition()
-                                                                                       .y() - 1,
+                                    .execute(() -> PlayerListener.runOnOutside(region, y,
                                                                                viewer::resetBlockChange,
                                                                                zone
                                                                                        .getParentId()
