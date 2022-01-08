@@ -20,7 +20,9 @@ import org.zone.event.listener.PlayerListener;
 import org.zone.memory.MemoryHolder;
 import org.zone.region.Zone;
 import org.zone.region.ZoneManager;
+import org.zone.region.flag.Flag;
 import org.zone.region.flag.FlagManager;
+import org.zone.region.flag.FlagType;
 import org.zone.region.flag.entity.monster.move.MonsterPreventionListener;
 import org.zone.region.flag.entity.player.damage.attack.EntityDamagePlayerListener;
 import org.zone.region.flag.entity.player.damage.fall.PlayerFallDamageListener;
@@ -35,6 +37,8 @@ import org.zone.region.group.key.GroupKeyManager;
 import org.zone.utils.Messages;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.Optional;
 
 /**
  * The zone plugin's boot and main class, use {@link ZonePlugin#getZonesPlugin()} to gain an
@@ -113,7 +117,6 @@ public class ZonePlugin {
     }
 
     private void registerListeners() {
-
         EventManager eventManager = Sponge.eventManager();
         eventManager.registerListeners(this.plugin, new PlayerListener());
         eventManager.registerListeners(this.plugin, new MonsterPreventionListener());
@@ -135,6 +138,39 @@ public class ZonePlugin {
 
     @Listener
     public void onServerStarted(final StartedEngineEvent<Server> event) {
+        FlagManager manager = this.getFlagManager();
+        for (FlagType<?> type : this.getFlagManager().getRegistered()) {
+            if (type instanceof FlagType.TaggedFlagType) {
+                continue;
+            }
+            Optional<?> opDefault = manager.getDefaultFlags().loadDefault(type);
+            if (opDefault.isPresent()) {
+                continue;
+            }
+            Optional<?> opFlag = type.createCopyOfDefaultFlag();
+            if (opFlag.isEmpty()) {
+                continue;
+            }
+            try {
+                manager.getDefaultFlags().setDefault((Flag) opFlag.get());
+            } catch (IOException e) {
+                this
+                        .getLogger()
+                        .error("Could not set the defaults for '" +
+                                       type.getId() +
+                                       "' " +
+                                       "despite a copy of default found. Is saving done " +
+                                       "correctly?");
+                e.printStackTrace();
+            }
+        }
+        try {
+            manager.getDefaultFlags().save();
+        } catch (ConfigurateException e) {
+            this.getLogger().error("Could not save defaults file");
+            e.printStackTrace();
+        }
+
         Sponge.systemSubject().sendMessage(Messages.getLoadingZonesStart());
         File zonesFolder = new File("config/zone/zones/");
         Sponge.systemSubject().sendMessage(Messages.getZonesLoadingfrom(zonesFolder.getPath()));

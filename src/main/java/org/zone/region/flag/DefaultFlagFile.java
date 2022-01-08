@@ -9,6 +9,7 @@ import org.zone.utils.Messages;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Optional;
 
 /**
@@ -18,7 +19,7 @@ public class DefaultFlagFile {
 
     private final HoconConfigurationLoader loader;
     private final ConfigurationNode node;
-    public static final File FILE = new File("config/zones/DefaultZone.conf");
+    public static final File FILE = new File("config/zone/DefaultZone.conf");
 
     public DefaultFlagFile() {
         this.loader = HoconConfigurationLoader.builder().file(FILE).build();
@@ -26,6 +27,15 @@ public class DefaultFlagFile {
         ConfigurationNode node1;
         try {
             node1 = this.loader.load();
+            try {
+                this.createFile();
+            } catch (IOException e) {
+                ZonePlugin
+                        .getZonesPlugin()
+                        .getLogger()
+                        .error("Could not create default flags " + "file");
+                e.printStackTrace();
+            }
         } catch (ConfigurateException e) {
             node1 = this.loader.createNode();
             this.updateFile();
@@ -33,12 +43,16 @@ public class DefaultFlagFile {
         this.node = node1;
     }
 
+    private void createFile() throws IOException {
+        if (!FILE.exists()) {
+            Files.createDirectories(FILE.getParentFile().toPath());
+            Files.createFile(FILE.toPath());
+        }
+    }
+
     private void updateFile() {
         try {
-            if (!FILE.exists()) {
-                FILE.getParentFile().mkdirs();
-                FILE.createNewFile();
-            }
+            createFile();
             for (FlagType<? extends Flag> type : ZonePlugin
                     .getZonesPlugin()
                     .getFlagManager()
@@ -73,9 +87,7 @@ public class DefaultFlagFile {
         } catch (IOException e) {
             return type.createCopyOfDefaultFlag();
         } catch (Throwable e) {
-            Sponge
-                    .systemSubject()
-                    .sendMessage(Messages.getFailedToLoadFlag(type));
+            Sponge.systemSubject().sendMessage(Messages.getFailedToLoadFlag(type));
             e.printStackTrace();
             return Optional.empty();
         }

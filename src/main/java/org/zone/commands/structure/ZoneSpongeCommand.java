@@ -9,10 +9,10 @@ import org.spongepowered.api.command.CommandCompletion;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.exception.CommandException;
 import org.spongepowered.api.command.parameter.ArgumentReader;
-import org.zone.utils.Messages;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.commands.system.context.ErrorContext;
+import org.zone.utils.Messages;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -97,14 +97,16 @@ public class ZoneSpongeCommand implements Command.Raw {
                         .parallelStream()
                         .map(e -> e.argument().getUsage())
                         .collect(Collectors.toSet())
-                        .forEach(e -> cause.sendMessage(Identity.nil(), Messages.getFormattedMessage(e)));
+                        .forEach(e -> cause.sendMessage(Identity.nil(),
+                                                        Messages.getFormattedMessage(e)));
             } else {
                 cause.sendMessage(Identity.nil(), Messages.getUnknownError());
             }
             return CommandResult.success();
         }
         if (!opCommand.get().hasPermission(cause)) {
-            cause.sendMessage(Identity.nil(), Messages.getMissingPermissionForCommand(opCommand.get()));
+            cause.sendMessage(Identity.nil(),
+                              Messages.getMissingPermissionForCommand(opCommand.get()));
             return CommandResult.success();
         }
         try {
