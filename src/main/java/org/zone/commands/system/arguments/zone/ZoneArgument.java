@@ -175,7 +175,7 @@ public class ZoneArgument implements GUICommandArgument<Zone> {
                 .getZones(context)
                 .filter(zone -> zone.getId().toLowerCase().startsWith(focus.toLowerCase()))
                 .map(zone -> CommandCompletion.of(zone.getId(),
-                                                  Messages.getZoneArgumentReturnZonesName(zone)))
+                                                  Messages.getZoneNameInfo(zone)))
                 .collect(Collectors.toSet());
     }
 

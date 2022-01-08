@@ -3,7 +3,7 @@ package org.zone.utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import org.spongepowered.api.entity.living.player.User;
+import org.spongepowered.api.util.Nameable;
 import org.spongepowered.configurate.ConfigurateException;
 import org.zone.Identifiable;
 import org.zone.ZonePlugin;
@@ -33,8 +33,9 @@ public final class Messages {
 
     public static Component getLeftZoneMembersMessage(Identifiable identifiable) {
         return Component
-                .text("You left the zone of " + identifiable.getName())
-                .color(NamedTextColor.RED);
+                .text("You left the zone of ")
+                .color(NamedTextColor.AQUA)
+                .append(Component.text(identifiable.getName()).color(NamedTextColor.GOLD));
     }
 
     public static Component getZoneSavingError(ConfigurateException ce) {
@@ -44,7 +45,8 @@ public final class Messages {
     public static Component getZoneRegionBuilderEnabled() {
         return Component
                 .text("Region builder mode enabled. Run ")
-                .append(Component.text("'/zone create end'").color(NamedTextColor.AQUA));
+                .color(NamedTextColor.AQUA)
+                .append(Component.text("'/zone create bounds end'").color(NamedTextColor.GOLD));
     }
 
     public static Component getDuplicateNameError() {
@@ -66,41 +68,48 @@ public final class Messages {
     }
 
     public static Component getUpdatedMessage(Identifiable type) {
-        return Component.text("Updated " + type.getName()).color(NamedTextColor.AQUA);
+        return Component
+                .text("Updated ")
+                .color(NamedTextColor.AQUA)
+                .append(Component.text(type.getName()).color(NamedTextColor.GOLD));
     }
 
     //Universal Messages end
     //Universal only for some special classes
-    public static Component getNotInRegion(@SuppressWarnings("TypeMayBeWeakened") Zone parent) {
-        return Component.text("Region must be within " + parent.getId()).color(NamedTextColor.RED);
+    public static Component getNotInRegion(Identifiable parent) {
+        return Component
+                .text("Region must be within '" + parent.getId() + "'")
+                .color(NamedTextColor.RED);
     }
 
-    public static Component getFormattedMessage(String e) {
+    public static Component getFormattedErrorMessage(String e) {
         return Component.text(e).color(NamedTextColor.RED);
     }
 
     public static Component getUnknownError() {
         return Component.text("Unknown error").color(NamedTextColor.RED);
     }
-    //Universal only for some special classes end or will continue
 
-    //Custom messages
     public static Component getLoadingZonesStart() {
         return Component.text("|---|Loading Zones|---|").color(NamedTextColor.AQUA);
     }
 
-    public static Component getZonesLoadingfrom(String zonesFolderpath) {
+    public static Component getZonesLoadingFrom(String zonesFolderPath) {
         return Component
-                .text("|- Loading from '" + zonesFolderpath + "'")
-                .color(NamedTextColor.DARK_AQUA);
+                .text("|- Loading from '")
+                .color(NamedTextColor.DARK_AQUA)
+                .append(Component.text(zonesFolderPath).color(NamedTextColor.WHITE))
+                .append(Component.text("'").color(NamedTextColor.DARK_AQUA));
     }
 
-    public static Component getZonesLoadingFail(String keyfilepath) {
+    public static Component getZonesLoadingFail(String keyFilePath) {
         return Component
-                .text("Could not load zone of '" +
-                              keyfilepath +
-                              "'. Below is details on why (this is not a crash)")
-                .color(NamedTextColor.RED);
+                .text("Could not load zone of '")
+                .color(NamedTextColor.RED)
+                .append(Component.text(keyFilePath).color(NamedTextColor.DARK_RED))
+                .append(Component
+                                .text("'. Below is details on why (this is not a crash)")
+                                .color(NamedTextColor.RED));
     }
 
     public static Component getZonesLoaded(Collection<Zone> zoneCollection) {
@@ -111,144 +120,171 @@ public final class Messages {
 
     public static Component getMissingPermissionForCommand(ArgumentCommand argumentCommand) {
         return Component
-                .text(" You do not have permission for that command" +
-                              ". You" +
-                              " require " +
-                              argumentCommand.getPermissionNode())
-                .color(NamedTextColor.RED);
+                .text(" You do not have permission for that command" + ". You require '")
+                .color(NamedTextColor.RED)
+                .append(Component
+                                .text(argumentCommand.getPermissionNode().orElse("Unknown"))
+                                .color(NamedTextColor.DARK_RED))
+                .append(Component.text("'").color(NamedTextColor.RED));
     }
 
     public static Component getNoZoneCreatedError() {
         return Component
-                .text("A region needs to be started. Use /zone create bounds " + "<name...>")
-                .color(NamedTextColor.RED);
+                .text("A region needs to be started. Use ")
+                .color(NamedTextColor.RED)
+                .append(Component.text("'/zone create bounds ...'").color(NamedTextColor.DARK_RED));
     }
 
     public static Component getFailedToFindParentZone(Zone zone) {
         return Component
-                .text("Could not find parent zone of " + zone.getParentId().orElse("None"))
-                .color(NamedTextColor.RED);
+                .text("Could not find parent zone of ")
+                .color(NamedTextColor.RED)
+                .append(Component
+                                .text("'" + zone.getParentId().orElse("Unknown") + "'")
+                                .color(NamedTextColor.RED));
     }
 
     public static Component getCreatedZoneMessage(@SuppressWarnings("TypeMayBeWeakened") Zone zone) {
         return Component
                 .text("Created a new zone of ")
-                .append(Component.text(zone.getName()).color(NamedTextColor.AQUA));
+                .color(NamedTextColor.AQUA)
+                .append(Component.text(zone.getName()).color(NamedTextColor.GOLD));
     }
 
     public static Component getFailedToLoadFlag(@SuppressWarnings("TypeMayBeWeakened") FlagType<?> type) {
         return Component
-                .text("Failed to load flag of " + type.getId())
+                .text("Failed to load flag of ")
                 .color(NamedTextColor.RED)
-                .decorate(TextDecoration.BOLD);
+                .append(Component
+                                .text(type.getId())
+                                .color(NamedTextColor.DARK_RED)
+                                .decorate(TextDecoration.BOLD));
     }
 
     public static Component getPageTooLow() {
         return Component.text("Page needs to be 1 or more").color(NamedTextColor.RED);
     }
 
-    public static Component getZoneFlagMemberGroupViewCommand(@SuppressWarnings("TypeMayBeWeakened") Group group) {
-        return Component
-                .text("Group: ")
-                .color(NamedTextColor.GOLD)
-                .append(Component.text(group.getName()).color(NamedTextColor.AQUA));
+    public static Component getGroupInfo(@SuppressWarnings("TypeMayBeWeakened") Group group) {
+        return getGroupTag().append(Component.text(group.getName()).color(NamedTextColor.GOLD));
     }
 
-    public static Component getZoneFlagMemberGroupViewCommandTotal(Collection<UUID> memberIds) {
-        return Component
-                .text("Total: ")
-                .color(NamedTextColor.GOLD)
-                .append(Component.text(memberIds.size()).color(NamedTextColor.AQUA));
+    public static Component getTotalInfo(Collection<?> memberIds) {
+        return getTotalTag().append(Component.text(memberIds.size()).color(NamedTextColor.GOLD));
     }
 
-    public static Component getZoneFlagMemberGroupViewCommandPages(int page) {
-        return Component
-                .text("Page: ")
-                .color(NamedTextColor.GOLD)
-                .append(Component.text(page).color(NamedTextColor.AQUA));
+    public static Component getPagesInfo(int page) {
+        return getPageTag().append(Component.text(page).color(NamedTextColor.GOLD));
     }
 
-    public static Component getZoneInfoCommandZoneName(Identifiable zone) {
-        return Messages.getZonePluginInfoCommandPluginName(zone.getName());
+    private static Component getGroupTag() {
+        return Component.text("Group ").color(NamedTextColor.AQUA);
     }
 
-    public static Component getZoneInfoCommandZoneMembers(Collection<UUID> members) {
-        return Component.text("Members: " + members.size()).color(NamedTextColor.AQUA);
+    private static Component getTotalTag() {
+        return Component.text("Total: ").color(NamedTextColor.AQUA);
     }
 
-    public static Component getZonePluginInfoCommandPluginName(String pluginName) {
-        return Component.text("Name: " + pluginName).color(NamedTextColor.AQUA);
+    private static Component getPageTag() {
+        return Component.text("Page: ").color(NamedTextColor.AQUA);
     }
 
-    public static Component getZonePluginInfoCommandPluginVersion(String pluginVersion) {
-        return Component.text("Version: " + pluginVersion).color(NamedTextColor.AQUA);
+    private static Component getMemberTag() {
+        return Component.text("Members: ").color(NamedTextColor.AQUA);
     }
 
-    public static Component getZonePluginInfoCommandPluginGithub(String pluginGithub) {
-        return Component.text("Github: " + pluginGithub).color(NamedTextColor.AQUA);
+    private static Component getNameTag() {
+        return Component.text("Name: ").color(NamedTextColor.AQUA);
     }
 
-    public static Component getZonesPluginInfoCommandZonesNumber(String pluginZonesNumber) {
-        return Component.text("Zones: " + pluginZonesNumber).color(NamedTextColor.AQUA);
+    private static Component getVersionTag() {
+        return Component.text("Version: ").color(NamedTextColor.AQUA);
     }
 
-    public static Component getZoneFlagLeavingSetMessageCommandIfNoLeavingFlagFound() {
+    private static Component getSourceTag() {
+        return Component.text("Github: ").color(NamedTextColor.AQUA);
+    }
+
+    private static Component getZonesTag() {
+        return Component.text("Zones: ").color(NamedTextColor.AQUA);
+    }
+
+    private static Component getBalanceTag() {
+        return Component.text("Balance: ").color(NamedTextColor.AQUA);
+    }
+
+    public static Component getZoneNameInfo(Identifiable zone) {
+        return Messages.getNameInfo(zone.getName());
+    }
+
+    public static Component getMembersInfo(Collection<UUID> members) {
+        return getMemberTag().append(Component.text(members.size()).color(NamedTextColor.GOLD));
+    }
+
+    public static Component getNameInfo(String pluginName) {
+        return getNameTag().append(Component.text(pluginName).color(NamedTextColor.GOLD));
+    }
+
+    public static Component getVersionInfo(String pluginVersion) {
+        return getVersionTag().append(Component.text(pluginVersion).color(NamedTextColor.GOLD));
+    }
+
+    public static Component getSourceInfo(String pluginGithub) {
+        return getSourceTag().append(Component.text(pluginGithub).color(NamedTextColor.GOLD));
+    }
+
+    public static Component getZonesCountInfo(String amount) {
+        return getZonesTag().append(Component.text(amount).color(NamedTextColor.GOLD));
+    }
+
+    public static Component getEnterLeavingMessage() {
         return Component.text("Enter leaving message").color(NamedTextColor.RED);
     }
 
-    public static Component getZoneFlagLeavingSetMessageCommandLeavingMessageSaved(Component message) {
-        return Component.text("Leaving message is now ").append(message).color(NamedTextColor.AQUA);
-    }
-
-    public static Component getZoneFlagLeavingMessageViewCommandMessageViewMessage(LeavingFlag leavingFlag) {
+    public static Component getZoneFlagLeavingMessageSet(Component message) {
         return Component
-                .text("Message: ")
-                .append(leavingFlag.getLeavingMessage())
-                .color(NamedTextColor.AQUA);
-    }
-
-    public static Component getZoneFlagViewBalanceCommandBalanceMessage(@SuppressWarnings("TypeMayBeWeakened") Zone zone,
-                                                                        BigDecimal decimal) {
-        return Component
-                .text(zone.getName())
+                .text("Leaving message is now: ")
                 .color(NamedTextColor.AQUA)
-                .append(Component
-                                .text(" balance: ")
-                                .color(NamedTextColor.AQUA)
-                                .append(Component
-                                                .text(decimal.toString())
-                                                .color(NamedTextColor.GOLD)));
+                .append(message);
     }
 
-    public static Component getZoneFlagGreetingsSetMesssageCommandSetMessage(Component message) {
+    public static Component getLeavingMessage(LeavingFlag leavingFlag) {
+        return getMessageTag().append(leavingFlag.getLeavingMessage());
+    }
+
+    public static Component getBalance(BigDecimal decimal) {
+        return getBalanceTag().append(Component
+                                              .text(decimal.toString())
+                                              .color(NamedTextColor.GOLD));
+
+    }
+
+    public static Component getGreetingMessageSet(Component message) {
         return Component
                 .text("Zone greetings message set to: ")
-                .append(message)
-                .color(NamedTextColor.AQUA);
+                .color(NamedTextColor.AQUA)
+                .append(message);
     }
 
-    public static Component getZoneFlagGreetingsRemoveCommandGreetingsRemovedMessage() {
+    public static Component getGreetingsMessageRemoved() {
         return Component
-                .text("Zone greetings message removed from this " + "zone!")
+                .text("Zone greetings message removed from this zone!")
                 .color(NamedTextColor.AQUA);
     }
 
-    public static Component getEditBoundsStartCommandBeingEditedError() {
+    public static Component getAlreadyBeingEditedError() {
         return Component.text("Zone is already being edited").color(NamedTextColor.RED);
     }
 
-    public static Component getEditBoundsStartCommandNotBeingInZoneError() {
+    public static Component getMustBeWithinZoneToEditError() {
         return Component.text("Must be within the zone to start editing").color(NamedTextColor.RED);
     }
 
-    //More Custom messages to come ;)
-
-    //Not useful if yes will create an issue
-    public static Component getZoneFlagMemberGroupViewCommandUserName(@SuppressWarnings("TypeMayBeWeakened") User user) {
+    public static Component getEntryName(Nameable user) {
         return Component.text("- " + user.name()).color(NamedTextColor.AQUA);
     }
 
-    public static Component getZoneFlagMemberZoneViewCommandMessage1(@SuppressWarnings("TypeMayBeWeakened") Zone zone) {
+    public static Component getGroupStart(Identifiable zone) {
         return Component
                 .text("----====[")
                 .color(NamedTextColor.RED)
@@ -258,17 +294,11 @@ public final class Messages {
                                 .append(Component.text("]====----").color(NamedTextColor.RED)));
     }
 
-    public static Component getZoneArgumentReturnZonesName(@SuppressWarnings("TypeMayBeWeakened") Zone zone) {
+    public static Component getName(Identifiable zone) {
         return Component.text(zone.getName()).color(NamedTextColor.AQUA);
     }
 
-    public static Component getCommandLauncherrunMethodEmptyErrorError(ErrorContext error) {
+    public static Component getError(ErrorContext error) {
         return Component.text(error.error()).color(NamedTextColor.RED);
     }
-
-    public static Component getZoneSpongeCommandError(ErrorContext error) {
-        return Component.text(error.error()).color(NamedTextColor.RED);
-    }
-
-    //Unuseful messages end or will continue
 }

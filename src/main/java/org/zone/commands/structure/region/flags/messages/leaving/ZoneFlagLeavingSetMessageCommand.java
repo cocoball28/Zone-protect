@@ -4,7 +4,6 @@ import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.configurate.ConfigurateException;
-import org.zone.utils.Messages;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
@@ -14,6 +13,7 @@ import org.zone.commands.system.context.CommandContext;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.entity.player.move.leaving.LeavingFlag;
+import org.zone.utils.Messages;
 
 import java.util.Arrays;
 import java.util.List;
@@ -54,13 +54,13 @@ public class ZoneFlagLeavingSetMessageCommand implements ArgumentCommand {
 
         LeavingFlag flag = zone
                 .getFlag(FlagTypes.LEAVING)
-                .orElse(new LeavingFlag(Messages.getZoneFlagLeavingSetMessageCommandIfNoLeavingFlagFound()));
+                .orElse(new LeavingFlag(Messages.getEnterLeavingMessage()));
 
         flag.setLeavingMessage(message);
         zone.setFlag(flag);
         try {
             zone.save();
-            commandContext.sendMessage(Messages.getZoneFlagLeavingSetMessageCommandLeavingMessageSaved(message));
+            commandContext.sendMessage(Messages.getZoneFlagLeavingMessageSet(message));
         } catch (ConfigurateException e) {
             e.printStackTrace();
             return CommandResult.error(Messages.getZoneSavingError(e));

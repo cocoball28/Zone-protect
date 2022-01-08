@@ -6,7 +6,6 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.service.permission.Subject;
 import org.zone.Permissions;
-import org.zone.utils.Messages;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
@@ -20,6 +19,7 @@ import org.zone.region.bounds.mode.BoundModes;
 import org.zone.region.flag.Flag;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.meta.edit.EditingFlag;
+import org.zone.utils.Messages;
 
 import java.util.Arrays;
 import java.util.List;
@@ -56,23 +56,29 @@ public class EditBoundsStartCommand implements ArgumentCommand {
         Zone zone = commandContext.getArgument(this, ZONE);
         PositionType positionType = commandContext.getArgument(this, SIDE);
         if (zone.getFlag(FlagTypes.EDITING).isPresent()) {
-            return CommandResult.error(Messages.getEditBoundsStartCommandBeingEditedError());
+            return CommandResult.error(Messages.getAlreadyBeingEditedError());
         }
         @NotNull Subject source = commandContext.getSource();
-        if(!(source instanceof Player player)){
+        if (!(source instanceof Player player)) {
             return CommandResult.error(Messages.getPlayerOnlyMessage());
         }
 
-        Optional<BoundedRegion> opRegion =
-                zone.getRegion().getTrueChildren().stream().filter(r -> r.contains(player.blockPosition()
-                , false)).findAny();
+        Optional<BoundedRegion> opRegion = zone
+                .getRegion()
+                .getTrueChildren()
+                .stream()
+                .filter(r -> r.contains(player.blockPosition(), false))
+                .findAny();
 
-        if(opRegion.isEmpty()){
-            return CommandResult.error(Messages.getEditBoundsStartCommandNotBeingInZoneError());
+        if (opRegion.isEmpty()) {
+            return CommandResult.error(Messages.getMustBeWithinZoneToEditError());
         }
 
-        Flag flag = new EditingFlag(opRegion.get(), positionType, player.blockPosition()
-                , BoundModes.BLOCK, player.uniqueId());
+        Flag flag = new EditingFlag(opRegion.get(),
+                                    positionType,
+                                    player.blockPosition(),
+                                    BoundModes.BLOCK,
+                                    player.uniqueId());
         zone.addFlag(flag);
         return CommandResult.success();
     }

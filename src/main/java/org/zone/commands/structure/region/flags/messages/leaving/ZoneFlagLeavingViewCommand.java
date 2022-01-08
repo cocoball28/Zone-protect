@@ -3,7 +3,6 @@ package org.zone.commands.structure.region.flags.messages.leaving;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandResult;
-import org.zone.utils.Messages;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
@@ -12,6 +11,7 @@ import org.zone.commands.system.context.CommandContext;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.entity.player.move.leaving.LeavingFlag;
+import org.zone.utils.Messages;
 
 import java.util.Arrays;
 import java.util.List;
@@ -49,7 +49,8 @@ public class ZoneFlagLeavingViewCommand implements ArgumentCommand {
             commandContext.sendMessage(Messages.getNoMessageSet());
             return CommandResult.success();
         }
-        commandContext.sendMessage(Messages.getZoneFlagLeavingMessageViewCommandMessageViewMessage(opFlag.get()));
+        commandContext.sendMessage(Messages.getLeavingMessage(opFlag.get()));
         return CommandResult.success();
     }
 }
+

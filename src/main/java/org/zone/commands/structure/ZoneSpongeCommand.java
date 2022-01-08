@@ -92,13 +92,13 @@ public class ZoneSpongeCommand implements Command.Raw {
             Set<ErrorContext> errors = commandContext.getErrors();
             if (!errors.isEmpty()) {
                 ErrorContext error = errors.iterator().next();
-                cause.sendMessage(Identity.nil(), Messages.getZoneSpongeCommandError(error));
+                cause.sendMessage(Identity.nil(), Messages.getError(error));
                 errors
                         .parallelStream()
                         .map(e -> e.argument().getUsage())
                         .collect(Collectors.toSet())
                         .forEach(e -> cause.sendMessage(Identity.nil(),
-                                                        Messages.getFormattedMessage(e)));
+                                                        Messages.getFormattedErrorMessage(e)));
             } else {
                 cause.sendMessage(Identity.nil(), Messages.getUnknownError());
             }
@@ -117,7 +117,7 @@ public class ZoneSpongeCommand implements Command.Raw {
             if (message == null) {
                 message = "Unknown error";
             }
-            throw new CommandException(Messages.getFormattedMessage(message), e);
+            throw new CommandException(Messages.getFormattedErrorMessage(message), e);
         }
     }
 
