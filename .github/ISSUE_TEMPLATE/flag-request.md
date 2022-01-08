@@ -2,7 +2,7 @@
 name: Flag Request
 about: Want a custom modifier for a zone? Here is the place to report
 title: "[Flag]"
-labels: bug
+labels: flag
 assignees: ''
 
 ---
