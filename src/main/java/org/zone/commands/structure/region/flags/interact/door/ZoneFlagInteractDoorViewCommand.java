@@ -1,11 +1,8 @@
 package org.zone.commands.structure.region.flags.interact.door;
 
-import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandResult;
-import org.zone.Identifiable;
 import org.zone.Permissions;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
@@ -17,6 +14,7 @@ import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.entity.player.interact.door.DoorInteractionFlag;
 import org.zone.region.group.key.GroupKeys;
+import org.zone.utils.Messages;
 
 import java.util.Arrays;
 import java.util.List;
@@ -53,21 +51,11 @@ public class ZoneFlagInteractDoorViewCommand implements ArgumentCommand {
     public @NotNull CommandResult run(CommandContext commandContext, String... args) {
         Zone zone = commandContext.getArgument(this, ZONE);
         Optional<DoorInteractionFlag> opFlag = zone.getFlag(FlagTypes.DOOR_INTERACTION);
-        commandContext
-                .getCause()
-                .sendMessage(Identity.nil(),
-                             Component
-                                     .text("Enabled: " + opFlag.isPresent())
-                                     .color(NamedTextColor.AQUA));
-        commandContext
-                .getCause()
-                .sendMessage(Identity.nil(),
-                             Component.text("Group: " +
-                                                    zone
-                                                            .getMembers()
-                                                            .getGroup(GroupKeys.INTERACT_DOOR)
-                                                            .map(Identifiable::getName)
-                                                            .orElse("None")));
+        commandContext.sendMessage(Messages.getEnabledInfo(opFlag.isPresent()));
+        zone
+                .getMembers()
+                .getGroup(GroupKeys.INTERACT_DOOR)
+                .ifPresent(group -> commandContext.sendMessage(Messages.getGroupInfo(group)));
         return CommandResult.success();
     }
 }

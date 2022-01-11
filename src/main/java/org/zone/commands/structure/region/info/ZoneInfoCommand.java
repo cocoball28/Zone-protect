@@ -7,7 +7,6 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.service.economy.EconomyService;
 import org.spongepowered.api.user.UserManager;
 import org.zone.Permissions;
-import org.zone.utils.Messages;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
@@ -17,6 +16,7 @@ import org.zone.region.Zone;
 import org.zone.region.flag.meta.eco.EcoFlag;
 import org.zone.region.flag.meta.member.MembersFlag;
 import org.zone.region.group.key.GroupKeys;
+import org.zone.utils.Messages;
 
 import java.util.Collection;
 import java.util.List;
@@ -50,18 +50,15 @@ public class ZoneInfoCommand implements ArgumentCommand {
         EcoFlag ecoFlag = zone.getEconomy();
         @NotNull Collection<UUID> members = membersFlag.getMembers();
 
-        commandContext.sendMessage(Messages.getZoneInfoCommandZoneName(zone));
-        commandContext.sendMessage(Messages.getZoneInfoCommandZoneMembers(members));
+        commandContext.sendMessage(Messages.getZoneNameInfo(zone));
+        commandContext.sendMessage(Messages.getMembersInfo(members));
         if (Sponge.serviceProvider().provide(EconomyService.class).isPresent()) {
-            commandContext.sendMessage(Component.text("Balance: "));
+            commandContext.sendMessage(Messages.getBalanceTag());
             ecoFlag
                     .getMoney()
-                    .forEach((currency, bigDecimal) -> commandContext.sendMessage(Component
-                                                                                          .text("- ")
-                                                                                          .append(currency.symbol())
-                                                                                          .append(Component.text(
-                                                                                                  " " +
-                                                                                                          bigDecimal.toString()))));
+                    .forEach((currency, bigDecimal) -> commandContext.sendMessage(Messages.getBalanceEntry(
+                            currency,
+                            bigDecimal)));
         }
 
 
@@ -73,14 +70,13 @@ public class ZoneInfoCommand implements ArgumentCommand {
                 .flatMap(e -> e.getValue().parallelStream())
                 .collect(Collectors.toSet());
         UserManager userManager = Sponge.server().userManager();
-        commandContext.sendMessage(Component.text("Owners: "));
+        commandContext.sendMessage(Messages.getOwnerTag());
         ownerIds.forEach(uuid -> userManager
                 .streamAll()
                 .filter(profile -> profile.uuid().equals(uuid))
-                .forEach(profile -> commandContext.sendMessage(Component.text("- " +
-                                                                                      profile
-                                                                                              .name()
-                                                                                              .orElse("Unknown")))));
+                .forEach(profile -> commandContext.sendMessage(Messages.getEntry(profile
+                                                                                         .name()
+                                                                                         .orElse("Unknown")))));
         return CommandResult.success();
     }
 }

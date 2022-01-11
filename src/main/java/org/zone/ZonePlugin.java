@@ -173,7 +173,7 @@ public class ZonePlugin {
 
         Sponge.systemSubject().sendMessage(Messages.getLoadingZonesStart());
         File zonesFolder = new File("config/zone/zones/");
-        Sponge.systemSubject().sendMessage(Messages.getZonesLoadingfrom(zonesFolder.getPath()));
+        Sponge.systemSubject().sendMessage(Messages.getZonesLoadingFrom(zonesFolder.getPath()));
 
         for (PluginContainer container : Sponge.pluginManager().plugins()) {
             File keyFolder = new File(zonesFolder, container.metadata().id());

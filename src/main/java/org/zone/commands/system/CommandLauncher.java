@@ -5,9 +5,9 @@ import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandCause;
 import org.spongepowered.api.command.CommandCompletion;
 import org.spongepowered.api.command.CommandResult;
-import org.zone.utils.Messages;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.commands.system.context.ErrorContext;
+import org.zone.utils.Messages;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -25,7 +25,7 @@ public interface CommandLauncher extends BaseCommandLauncher {
             Set<ErrorContext> errors = commandContext.getErrors();
             if (!errors.isEmpty()) {
                 ErrorContext error = errors.iterator().next();
-                source.sendMessage(Identity.nil(), Messages.getCommandLauncherrunMethodEmptyErrorError(error));
+                source.sendMessage(Identity.nil(), Messages.getError(error));
                 if (errors.size() > 8) {
                     return CommandResult.success();
                 }
@@ -34,7 +34,8 @@ public interface CommandLauncher extends BaseCommandLauncher {
                         .parallelStream()
                         .map(e -> e.argument().getUsage())
                         .collect(Collectors.toSet())
-                        .forEach(e -> source.sendMessage(Identity.nil(), Messages.getFormattedMessage(e)));
+                        .forEach(e -> source.sendMessage(Identity.nil(),
+                                                         Messages.getFormattedErrorMessage(e)));
             } else {
                 source.sendMessage(Identity.nil(), Messages.getUnknownError());
             }

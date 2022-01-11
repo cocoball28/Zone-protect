@@ -45,7 +45,7 @@ public class ZoneFlagGreetingsRemoveCommand implements ArgumentCommand {
         zone.removeFlag(FlagTypes.GREETINGS);
         try {
             zone.save();
-            commandContext.sendMessage(Messages.getZoneFlagGreetingsRemoveCommandGreetingsRemovedMessage());
+            commandContext.sendMessage(Messages.getGreetingsMessageRemoved());
         } catch (ConfigurateException e) {
             e.printStackTrace();
             return CommandResult.error(Messages.getZoneSavingError(e));

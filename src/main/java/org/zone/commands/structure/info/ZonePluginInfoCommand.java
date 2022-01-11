@@ -4,11 +4,11 @@ import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandResult;
 import org.zone.ZonePlugin;
-import org.zone.utils.Messages;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.context.CommandContext;
+import org.zone.utils.Messages;
 
 import java.util.Arrays;
 import java.util.List;
@@ -57,10 +57,10 @@ public class ZonePluginInfoCommand implements ArgumentCommand {
                 .stream()
                 .filter(zone -> zone.getParentId().isEmpty())
                 .count() + "";
-        commandContext.sendMessage(Messages.getZonePluginInfoCommandPluginName(pluginName));
-        commandContext.sendMessage(Messages.getZonePluginInfoCommandPluginVersion(pluginVersion));
-        commandContext.sendMessage(Messages.getZonePluginInfoCommandPluginGithub(pluginGithub));
-        commandContext.sendMessage(Messages.getZonesPluginInfoCommandZonesNumber(pluginZonesNumber));
+        commandContext.sendMessage(Messages.getNameInfo(pluginName));
+        commandContext.sendMessage(Messages.getVersionInfo(pluginVersion));
+        commandContext.sendMessage(Messages.getSourceInfo(pluginGithub));
+        commandContext.sendMessage(Messages.getZonesCountInfo(pluginZonesNumber));
         return CommandResult.success();
     }
 

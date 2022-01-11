@@ -7,7 +7,6 @@ import org.spongepowered.api.command.CommandCause;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.service.economy.Currency;
 import org.spongepowered.api.service.economy.EconomyService;
-import org.zone.utils.Messages;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.CommandArgumentResult;
@@ -18,6 +17,7 @@ import org.zone.commands.system.context.CommandArgumentContext;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.region.Zone;
 import org.zone.region.group.key.GroupKeys;
+import org.zone.utils.Messages;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -30,7 +30,9 @@ import java.util.Optional;
  */
 public class ZoneFlagViewBalanceCommand implements ArgumentCommand {
 
-    public static final ZoneArgument ZONE = new ZoneArgument("zone_value", new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(GroupKeys.OWNER));
+    public static final ZoneArgument ZONE = new ZoneArgument("zone_value",
+                                                             new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(
+                                                                     GroupKeys.OWNER));
 
     public static final CurrencyArgument CURRENCY = new CurrencyArgument("currency_value",
                                                                          (context, argument) -> {
@@ -76,8 +78,7 @@ public class ZoneFlagViewBalanceCommand implements ArgumentCommand {
         Zone zone = commandContext.getArgument(this, ZONE);
         Currency currency = commandContext.getArgument(this, CURRENCY);
         BigDecimal decimal = zone.getEconomy().getMoney(currency);
-
-        commandContext.sendMessage(Messages.getZoneFlagViewBalanceCommandBalanceMessage(zone, decimal));
+        commandContext.sendMessage(Messages.getBalance(decimal));
         return CommandResult.success();
     }
 

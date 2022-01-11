@@ -8,7 +8,6 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.user.UserManager;
 import org.zone.Permissions;
-import org.zone.utils.Messages;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.CommandArgumentResult;
@@ -21,6 +20,7 @@ import org.zone.commands.system.arguments.zone.ZoneGroupArgument;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.region.Zone;
 import org.zone.region.group.Group;
+import org.zone.utils.Messages;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -72,18 +72,10 @@ public class ZoneFlagMemberGroupViewCommand implements ArgumentCommand {
 
         Collection<UUID> memberIds = zone.getMembers().getMembers(group);
         UserManager userManager = Sponge.server().userManager();
-        commandContext
-                .getCause()
-                .sendMessage(Identity.nil(), Messages.getZoneFlagMemberZoneViewCommandMessage1(zone));
-        commandContext
-                .getCause()
-                .sendMessage(Identity.nil(), Messages.getZoneFlagMemberGroupViewCommand(group));
-        commandContext
-                .getCause()
-                .sendMessage(Identity.nil(), Messages.getZoneFlagMemberGroupViewCommandTotal(memberIds));
-        commandContext
-                .getCause()
-                .sendMessage(Identity.nil(), Messages.getZoneFlagMemberGroupViewCommandPages(page));
+        commandContext.getCause().sendMessage(Identity.nil(), Messages.getGroupStart(zone));
+        commandContext.getCause().sendMessage(Identity.nil(), Messages.getGroupInfo(group));
+        commandContext.getCause().sendMessage(Identity.nil(), Messages.getTotalInfo(memberIds));
+        commandContext.getCause().sendMessage(Identity.nil(), Messages.getPagesInfo(page));
         int count = 0;
         int pageStart = (page - 1) * 10;
         int pageEnd = (page) * 10;
@@ -98,8 +90,7 @@ public class ZoneFlagMemberGroupViewCommand implements ArgumentCommand {
             CompletableFuture<Optional<User>> loader = userManager.load(uuid);
             loader.thenAccept(opUser -> opUser.ifPresent(user -> commandContext
                     .getCause()
-                    .sendMessage(Identity.nil(),
-                                 Messages.getZoneFlagMemberGroupViewCommandUserName(user))));
+                    .sendMessage(Identity.nil(), Messages.getEntryName(user))));
         }
         return CommandResult.success();
     }
