@@ -30,8 +30,8 @@ public class ZoneFlagMonsterEntryViewCommand implements ArgumentCommand {
         return Arrays.asList(new ExactArgument("region"),
                              new ExactArgument("flag"),
                              ZONE_VALUE,
-                             new ExactArgument("monster"),
                              new ExactArgument("entry"),
+                             new ExactArgument("monster"),
                              VIEW);
     }
 

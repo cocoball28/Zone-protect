@@ -39,7 +39,7 @@ public class MonsterPreventionListener {
     }
 
     @Listener
-    public void onMonsterSpawnEvent(SpawnEntityEvent event, Monster monster) {
+    public void onMonsterSpawnEvent(SpawnEntityEvent event) {
         boolean contains = event
                 .entities()
                 .stream()
@@ -49,7 +49,7 @@ public class MonsterPreventionListener {
                  Optional<Zone> opZone = ZonePlugin
                     .getZonesPlugin()
                     .getZoneManager()
-                    .getPriorityZone(monster.world(), monster.position());
+                    .getPriorityZone(entity.world(), entity.position());
                  return opZone.isPresent();
         });
         if(contains){

@@ -20,7 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class ZoneFlagEntryViewCommand implements ArgumentCommand {
+public class ZoneFlagPlayerEntryViewCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zoneId");
     public static final OptionalArgument<String> VIEW = new OptionalArgument<>(new ExactArgument(
@@ -29,7 +29,7 @@ public class ZoneFlagEntryViewCommand implements ArgumentCommand {
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"), new ExactArgument("flag"), ZONE_VALUE,
-                             new ExactArgument("player"), new ExactArgument("entry"), VIEW);
+                             new ExactArgument("entry"), new ExactArgument("player"), VIEW);
     }
 
     @Override

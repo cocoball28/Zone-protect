@@ -70,50 +70,13 @@ public class PreventPlayersListener {
             return;
         }
 
-        if (!(opZone.get().containsFlag(FlagTypes.PREVENT_PLAYERS))) {
-            return;
-        }
-
         Optional<PreventPlayersFlag> flag = opZone
                 .get()
                 .getFlag(FlagTypes.PREVENT_PLAYERS);
         if (flag.isEmpty()) {
             return;
         }
-        if (flag.get().hasPermission(opZone.get(),serverPlayer.uniqueId())) {
-            Optional<Vector3i> opTeleportPos = opZone
-                    .get()
-                    .getRegion()
-                    .getTrueChildren()
-                    .stream()
-                    .filter(boundedRegion -> {
-                        Vector3i position = boundedRegion.getMin().add(-1, 0, -1);
-                        position = serverPlayer
-                                .world()
-                                .highestPositionAt(position);
-                        final Vector3i finalPosition = position;
-                        //check if in any zone
-                        return !ZonePlugin
-                                .getZonesPlugin()
-                                .getZoneManager()
-                                .getZones()
-                                .stream()
-                                .anyMatch(zone -> zone.inRegion(serverPlayer.world() ,
-                                                                finalPosition.toDouble()));
-                    })
-                    .findAny()
-                    .map(boundedRegion -> {
-                        Vector3i position = boundedRegion.getMin().add(-1, 0, -1);
-                        return serverPlayer
-                                .world()
-                                .highestPositionAt(position);
-                    });
-            if (opTeleportPos.isPresent()) {
-                serverPlayer.setPosition(opTeleportPos.get().toDouble());
-            }else {
-                serverPlayer.setPosition(serverPlayer.world().properties().spawnPosition().toDouble());
-            }
-        }else {
+        if (!flag.get().hasPermission(opZone.get(),serverPlayer.uniqueId())) {
             return;
         }
     }

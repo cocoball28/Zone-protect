@@ -13,8 +13,8 @@ import org.zone.commands.structure.region.flags.damage.fall.ZoneFlagPlayerFallDa
 import org.zone.commands.structure.region.flags.eco.ZoneFlagViewBalanceCommand;
 import org.zone.commands.structure.region.flags.entry.monster.ZoneFlagMonsterEntryEnabledCommand;
 import org.zone.commands.structure.region.flags.entry.monster.ZoneFlagMonsterEntryViewCommand;
-import org.zone.commands.structure.region.flags.entry.player.ZoneFlagEntrySetGroupCommand;
-import org.zone.commands.structure.region.flags.entry.player.ZoneFlagEntryViewCommand;
+import org.zone.commands.structure.region.flags.entry.player.ZoneFlagPlayerEntrySetGroupCommand;
+import org.zone.commands.structure.region.flags.entry.player.ZoneFlagPlayerEntryViewCommand;
 import org.zone.commands.structure.region.flags.messages.greetings.ZoneFlagGreetingsRemoveCommand;
 import org.zone.commands.structure.region.flags.messages.greetings.ZoneFlagGreetingsSetMessageCommand;
 import org.zone.commands.structure.region.flags.messages.greetings.ZoneFlagGreetingsViewCommand;
@@ -37,7 +37,7 @@ import org.zone.commands.structure.region.flags.members.ZoneFlagMemberGroupAddCo
 import org.zone.commands.structure.region.flags.members.ZoneFlagMemberGroupViewCommand;
 import org.zone.commands.structure.region.flags.damage.attack.ZoneFlagDamageAttackSetEnabledCommand;
 import org.zone.commands.structure.region.flags.damage.fall.ZoneFlagPlayerFallDamageEnableDisable;
-import org.zone.commands.structure.region.flags.entry.player.ZoneFlagEntrySetEnabledCommand;
+import org.zone.commands.structure.region.flags.entry.player.ZoneFlagPlayerEntrySetEnabledCommand;
 import org.zone.commands.structure.region.info.ZoneInfoCommand;
 import org.zone.commands.structure.region.info.bounds.ZoneInfoBoundsShowCommand;
 import org.zone.commands.system.ArgumentCommand;
@@ -78,8 +78,8 @@ public interface ZoneCommands {
 
     ZoneFlagMonsterEntryViewCommand ZONE_FLAG_MONSTER_ENTRY_VIEW_COMMAND = new ZoneFlagMonsterEntryViewCommand();
     ZoneFlagMonsterEntryEnabledCommand ZONE_FLAG_MONSTER_ENTRY_ENABLED_COMMAND = new ZoneFlagMonsterEntryEnabledCommand();
-    ZoneFlagEntryViewCommand ZONE_FLAG_ENTRY_VIEW_COMMAND = new ZoneFlagEntryViewCommand();
-    ZoneFlagEntrySetGroupCommand ZONE_FLAG_ENTRY_SET_GROUP_COMMAND = new ZoneFlagEntrySetGroupCommand();
+    ZoneFlagPlayerEntryViewCommand ZONE_FLAG_ENTRY_VIEW_COMMAND = new ZoneFlagPlayerEntryViewCommand();
+    ZoneFlagPlayerEntrySetGroupCommand ZONE_FLAG_ENTRY_SET_GROUP_COMMAND = new ZoneFlagPlayerEntrySetGroupCommand();
     ZoneFlagDamageAttackView ZONE_FLAG_DAMAGE_ATTACK_VIEW = new ZoneFlagDamageAttackView();
     ZoneFlagPlayerFallDamageView ZONE_FLAG_PLAYER_FALL_DAMAGE_VIEW = new ZoneFlagPlayerFallDamageView();
     ZoneFlagPlayerFallDamageSetGroup ZONE_FLAG_PLAYER_FALL_DAMAGE_SET_GROUP = new ZoneFlagPlayerFallDamageSetGroup();
@@ -88,7 +88,7 @@ public interface ZoneCommands {
     ZoneFlagInteractItemframesEnableDisableCommand ZONE_FLAG_INTERACT_ITEMFRAMES_ENABLE_DISABLE_COMMAND = new ZoneFlagInteractItemframesEnableDisableCommand();
     ZoneFlagInteractItemframesGroupCommand ZONE_FLAG_INTERACT_ITEMFRAMES_GROUP_COMMAND = new ZoneFlagInteractItemframesGroupCommand();
     ZoneFlagGreetingsRemoveCommand ZONE_FLAG_GREETINGS_REMOVE_COMMAND = new ZoneFlagGreetingsRemoveCommand();
-    ZoneFlagEntrySetEnabledCommand ZONE_FLAG_PREVENTION_PLAYER_ENABLED_COMMAND = new ZoneFlagEntrySetEnabledCommand();
+    ZoneFlagPlayerEntrySetEnabledCommand ZONE_FLAG_PREVENTION_PLAYER_ENABLED_COMMAND = new ZoneFlagPlayerEntrySetEnabledCommand();
     ZoneFlagLeavingRemoveCommand ZONE_FLAG_LEAVING_REMOVE_COMMAND = new ZoneFlagLeavingRemoveCommand();
     ZoneFlagLeavingSetMessageCommand ZONE_FLAG_LEAVING_SET_MESSAGE_COMMAND = new ZoneFlagLeavingSetMessageCommand();
     ZoneFlagLeavingViewCommand ZONE_FLAG_LEAVING_VIEW_COMMAND = new ZoneFlagLeavingViewCommand();

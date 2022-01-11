@@ -19,7 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class ZoneFlagEntrySetEnabledCommand implements ArgumentCommand {
+public class ZoneFlagPlayerEntrySetEnabledCommand implements ArgumentCommand {
     public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zone_value",
                                                                    new ZoneArgument.ZoneArgumentPropertiesBuilder());
     public static final BooleanArgument ENABLE = new BooleanArgument("enableValue",
@@ -31,8 +31,8 @@ public class ZoneFlagEntrySetEnabledCommand implements ArgumentCommand {
         return Arrays.asList(new ExactArgument("region"),
                              new ExactArgument("flag"),
                              ZONE_VALUE,
-                             new ExactArgument("player"),
                              new ExactArgument("entry"),
+                             new ExactArgument("player"),
                              new ExactArgument("set"),
                              ENABLE);
     }
