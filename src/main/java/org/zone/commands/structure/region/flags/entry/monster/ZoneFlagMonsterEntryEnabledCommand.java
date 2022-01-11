@@ -1,4 +1,4 @@
-package org.zone.commands.structure.region.flags.entry;
+package org.zone.commands.structure.region.flags.entry.monster;
 
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
@@ -12,19 +12,19 @@ import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.entity.player.move.preventing.PreventPlayersFlag;
+import org.zone.region.flag.entity.monster.move.PreventMonsterFlag;
 import org.zone.utils.Messages;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class ZoneFlagEntrySetEnabledCommand implements ArgumentCommand {
-    public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zone_value",
+public class ZoneFlagMonsterEntryEnabledCommand implements ArgumentCommand {
+
+    public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zoneId",
                                                                    new ZoneArgument.ZoneArgumentPropertiesBuilder());
-    public static final BooleanArgument ENABLE = new BooleanArgument("enableValue",
-                                                                     "enable",
-                                                                     "disable");
+    public static final BooleanArgument ENABLED = new BooleanArgument("enabledValue", "enable",
+                                                                      "disable");
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
@@ -32,13 +32,13 @@ public class ZoneFlagEntrySetEnabledCommand implements ArgumentCommand {
                              new ExactArgument("flag"),
                              ZONE_VALUE,
                              new ExactArgument("entry"),
-                             new ExactArgument("set"),
-                             ENABLE);
+                             new ExactArgument("monster"),
+                             ENABLED);
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Command to enable/disable Player Prevention");
+        return Component.text("Command to enable/disable monster prevention flag");
     }
 
     @Override
@@ -49,23 +49,21 @@ public class ZoneFlagEntrySetEnabledCommand implements ArgumentCommand {
     @Override
     public @NotNull CommandResult run(@NotNull CommandContext commandContext,
                                       @NotNull String... args) {
-        boolean enable = commandContext.getArgument(this, ENABLE);
-        Zone zone = commandContext.getArgument(this, ZONE_VALUE);
-
-        PreventPlayersFlag preventPlayersFlag = zone
-                .getFlag(FlagTypes.PREVENT_PLAYERS)
-                .orElse(new PreventPlayersFlag());
+        boolean enable = commandContext.getArgument(this, ENABLED);
+        Zone zone = commandContext.getArgument(this,  ZONE_VALUE);
+        PreventMonsterFlag preventMonsterFlag = zone
+                .getFlag(FlagTypes.PREVENT_MONSTER)
+                .orElse(FlagTypes.PREVENT_MONSTER.createCopyOfDefault());
         if (enable) {
-            zone.addFlag(preventPlayersFlag);
-        } else {
-            zone.removeFlag(FlagTypes.PREVENT_PLAYERS);
+            zone.addFlag(preventMonsterFlag);
+        }else {
+            zone.removeFlag(FlagTypes.PREVENT_MONSTER);
         }
         try {
             zone.save();
-            commandContext.sendMessage(Messages.getUpdatedMessage(FlagTypes.PREVENT_PLAYERS));
-        } catch (ConfigurateException ce) {
-            ce.printStackTrace();
-            commandContext.sendMessage(Messages.getZoneSavingError(ce));
+            commandContext.sendMessage(Messages.getUpdatedMessage(FlagTypes.PREVENT_MONSTER));
+        }catch (ConfigurateException ce) {
+            return CommandResult.error(Messages.getZoneSavingError(ce));
         }
         return CommandResult.success();
     }

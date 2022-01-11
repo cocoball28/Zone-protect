@@ -22,7 +22,7 @@ public class EntityDamagePlayerListener {
         }
 
         Optional<DamageType> optEventContextKeys = event.context().get(EventContextKeys.DAMAGE_TYPE);
-        if (optEventContextKeys.isEmpty() || !(optEventContextKeys.get().equals(DamageTypes.ATTACK))) {
+        if (optEventContextKeys.isEmpty() || !(optEventContextKeys.get().equals(DamageTypes.ATTACK.get()))) {
             return;
         }
 

@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.entity.living.Monster;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.entity.MoveEntityEvent;
+import org.spongepowered.api.event.entity.SpawnEntityEvent;
 import org.spongepowered.api.event.filter.Getter;
 import org.zone.ZonePlugin;
 import org.zone.region.Zone;
@@ -35,5 +36,24 @@ public class MonsterPreventionListener {
             return;
         }
         event.setCancelled(true);
+    }
+
+    @Listener
+    public void onMonsterSpawnEvent(SpawnEntityEvent event) {
+        boolean contains = event
+                .entities()
+                .stream()
+                .filter(entity ->
+                                entity instanceof Monster)
+                .anyMatch(entity -> {
+                 Optional<Zone> opZone = ZonePlugin
+                    .getZonesPlugin()
+                    .getZoneManager()
+                    .getPriorityZone(entity.world(), entity.position());
+                 return opZone.isPresent();
+        });
+        if(contains){
+            event.setCancelled(true);
+        }
     }
 }
