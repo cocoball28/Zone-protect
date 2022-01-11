@@ -3,6 +3,7 @@ package org.zone.utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import org.spongepowered.api.service.economy.Currency;
 import org.spongepowered.api.util.Nameable;
 import org.spongepowered.configurate.ConfigurateException;
 import org.zone.Identifiable;
@@ -181,36 +182,40 @@ public final class Messages {
         return Component.text("Group ").color(NamedTextColor.AQUA);
     }
 
-    private static Component getTotalTag() {
+    public static Component getTotalTag() {
         return Component.text("Total: ").color(NamedTextColor.AQUA);
     }
 
-    private static Component getPageTag() {
+    public static Component getPageTag() {
         return Component.text("Page: ").color(NamedTextColor.AQUA);
     }
 
-    private static Component getMemberTag() {
+    public static Component getMemberTag() {
         return Component.text("Members: ").color(NamedTextColor.AQUA);
     }
 
-    private static Component getNameTag() {
+    public static Component getNameTag() {
         return Component.text("Name: ").color(NamedTextColor.AQUA);
     }
 
-    private static Component getVersionTag() {
+    public static Component getVersionTag() {
         return Component.text("Version: ").color(NamedTextColor.AQUA);
     }
 
-    private static Component getSourceTag() {
+    public static Component getSourceTag() {
         return Component.text("Github: ").color(NamedTextColor.AQUA);
     }
 
-    private static Component getZonesTag() {
+    public static Component getZonesTag() {
         return Component.text("Zones: ").color(NamedTextColor.AQUA);
     }
 
-    private static Component getBalanceTag() {
+    public static Component getBalanceTag() {
         return Component.text("Balance: ").color(NamedTextColor.AQUA);
+    }
+
+    public static Component getOwnerTag() {
+        return Component.text("Owner: ").color(NamedTextColor.AQUA);
     }
 
     public static Component getZoneNameInfo(Identifiable zone) {
@@ -281,7 +286,20 @@ public final class Messages {
     }
 
     public static Component getEntryName(Nameable user) {
-        return Component.text("- " + user.name()).color(NamedTextColor.AQUA);
+        return getEntry(user.name());
+    }
+
+    public static Component getEntry(String name) {
+        return Component.text("- " + name).color(NamedTextColor.AQUA);
+
+    }
+
+    public static Component getBalanceEntry(Currency currency, BigDecimal amount) {
+        return Component
+                .text("- ")
+                .color(NamedTextColor.AQUA)
+                .append(currency.symbol())
+                .append(Component.text(" " + amount.toString()).color(NamedTextColor.AQUA));
     }
 
     public static Component getGroupStart(Identifiable zone) {
@@ -300,5 +318,13 @@ public final class Messages {
 
     public static Component getError(ErrorContext error) {
         return Component.text(error.error()).color(NamedTextColor.RED);
+    }
+
+    public static Component getEnabledTag() {
+        return Component.text("Enabled: ").color(NamedTextColor.AQUA);
+    }
+
+    public static Component getEnabledInfo(boolean check) {
+        return getEnabledTag().append(Component.text(check).color(NamedTextColor.GOLD));
     }
 }

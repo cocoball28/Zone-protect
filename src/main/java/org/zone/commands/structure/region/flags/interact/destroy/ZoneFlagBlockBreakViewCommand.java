@@ -1,11 +1,8 @@
 package org.zone.commands.structure.region.flags.interact.destroy;
 
-import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandResult;
-import org.zone.Identifiable;
 import org.zone.Permissions;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
@@ -16,6 +13,7 @@ import org.zone.commands.system.context.CommandContext;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.entity.player.interact.block.destroy.BlockBreakFlag;
+import org.zone.utils.Messages;
 
 import java.util.Arrays;
 import java.util.List;
@@ -53,18 +51,10 @@ public class ZoneFlagBlockBreakViewCommand implements ArgumentCommand {
     public @NotNull CommandResult run(CommandContext commandContext, String... args) {
         Zone zone = commandContext.getArgument(this, ZONE);
         Optional<BlockBreakFlag> opFlag = zone.getFlag(FlagTypes.BLOCK_BREAK);
-        commandContext
-                .getCause()
-                .sendMessage(Identity.nil(), Component.text("Enabled: " + opFlag.isPresent()).color(NamedTextColor.AQUA));
-        //Will change if open issue
-        commandContext
-                .getCause()
-                .sendMessage(Identity.nil(),
-                             Component.text("Group: " +
-                                                    opFlag.flatMap(flag -> zone
-                                                            .getMembers()
-                                                            .getGroup(flag.getRequiredKey())
-                                                            .map(Identifiable::getName)).orElse("None")));
+        commandContext.sendMessage(Messages.getEnabledInfo(opFlag.isPresent()));
+        opFlag
+                .flatMap(flag -> zone.getMembers().getGroup(flag.getRequiredKey()))
+                .ifPresent(Messages::getGroupInfo);
         return CommandResult.success();
     }
 }

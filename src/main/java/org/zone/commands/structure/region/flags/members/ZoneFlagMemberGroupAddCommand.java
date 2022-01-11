@@ -2,7 +2,6 @@ package org.zone.commands.structure.region.flags.members;
 
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandResult;
@@ -18,6 +17,7 @@ import org.zone.commands.system.context.CommandContext;
 import org.zone.region.Zone;
 import org.zone.region.group.DefaultGroups;
 import org.zone.region.group.Group;
+import org.zone.utils.Messages;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -99,15 +99,8 @@ public class ZoneFlagMemberGroupAddCommand implements ArgumentCommand {
         try {
             zone.save();
         } catch (IOException e) {
-            context
-                    .getCause()
-                    .sendMessage(Identity.nil(),
-                                 Component
-                                         .text("Could not save zone. Console log will show" +
-                                                       " more " +
-                                                       "info on " +
-                                                       "why")
-                                         .color(NamedTextColor.RED));
+            e.printStackTrace();
+            context.sendMessage(Messages.getFormattedErrorMessage(e.getMessage()));
         }
     }
 }
