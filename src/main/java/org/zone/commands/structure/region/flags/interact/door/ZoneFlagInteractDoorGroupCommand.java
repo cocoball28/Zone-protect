@@ -63,11 +63,6 @@ public class ZoneFlagInteractDoorGroupCommand implements ArgumentCommand {
                 .orElseGet(FlagTypes.DOOR_INTERACTION::createCopyOfDefault);
         Group newGroup = commandContext.getArgument(this, GROUP);
         zone.getMembers().addKey(newGroup, flag.getRequiredKey());
-        commandContext
-                .getCause()
-                .sendMessage(Identity.nil(),
-                             Messages.getUpdatedMessage(FlagTypes.DOOR_INTERACTION));
-        zone.setFlag(flag);
         try {
             zone.save();
             commandContext

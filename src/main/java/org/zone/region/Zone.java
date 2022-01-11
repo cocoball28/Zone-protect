@@ -381,7 +381,7 @@ public class Zone implements Identifiable {
      *
      * @param locatable The locatable to compare
      *
-     * @return tre if found within the zone
+     * @return true if found within the zone
      */
     public boolean inRegion(@NotNull Locatable locatable) {
         return this.inRegion(locatable.location());

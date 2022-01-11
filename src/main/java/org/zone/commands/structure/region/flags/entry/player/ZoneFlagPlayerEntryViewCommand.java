@@ -1,4 +1,4 @@
-package org.zone.commands.structure.region.flags.interact.itemframe;
+package org.zone.commands.structure.region.flags.entry.player;
 
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
@@ -13,17 +13,14 @@ import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.entity.player.interact.itemframe.ItemFrameInteractFlag;
+import org.zone.region.flag.entity.player.move.preventing.PreventPlayersFlag;
 import org.zone.region.group.key.GroupKeys;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Used to view the details of {@link ItemFrameInteractFlag}
- */
-public class ZoneFlagInteractItemframesViewCommand implements ArgumentCommand {
+public class ZoneFlagPlayerEntryViewCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zoneId");
     public static final OptionalArgument<String> VIEW = new OptionalArgument<>(new ExactArgument(
@@ -32,13 +29,12 @@ public class ZoneFlagInteractItemframesViewCommand implements ArgumentCommand {
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"), new ExactArgument("flag"), ZONE_VALUE,
-                             new ExactArgument("interact"), new ExactArgument("itemframes"),
-                             VIEW);
+                             new ExactArgument("entry"), new ExactArgument("player"), VIEW);
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("View the details of Interact Itemframe");
+        return Component.text("View the details of  Fall damage flag");
     }
 
     @Override
@@ -53,14 +49,14 @@ public class ZoneFlagInteractItemframesViewCommand implements ArgumentCommand {
         commandContext
                 .getCause()
                 .sendMessage(Identity.nil(),
-                             Component.text("Enabled: " + zone.containsFlag(FlagTypes.ITEM_FRAME_INTERACT)));
+                             Component.text("Enabled: " + zone.containsFlag(FlagTypes.PREVENT_PLAYERS)));
         commandContext
                 .getCause()
                 .sendMessage(Identity.nil(),
                              Component.text("Group: " +
                                                     zone
                                                             .getMembers()
-                                                            .getGroup(GroupKeys.INTERACT_ITEMFRAME)
+                                                            .getGroup(GroupKeys.PLAYER_PREVENTION)
                                                             .map(Identifiable::getName)
                                                             .orElse("None")));
         return CommandResult.success();

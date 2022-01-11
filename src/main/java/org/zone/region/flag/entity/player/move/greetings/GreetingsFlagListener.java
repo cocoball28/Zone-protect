@@ -2,6 +2,7 @@ package org.zone.region.flag.entity.player.move.greetings;
 
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.Order;
 import org.spongepowered.api.event.entity.MoveEntityEvent;
 import org.spongepowered.api.event.filter.Getter;
 import org.zone.ZonePlugin;
@@ -11,7 +12,7 @@ import org.zone.region.flag.FlagTypes;
 import java.util.Optional;
 
 public class GreetingsFlagListener {
-    @Listener
+    @Listener(order = Order.POST)
     public void onPlayerMove(MoveEntityEvent event, @Getter("entity") Player player) {
         if (event.originalPosition().toInt().equals(event.destinationPosition().toInt())) {
             //ignores this event if the player didn't move, but instead rotated
