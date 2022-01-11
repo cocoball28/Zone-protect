@@ -49,9 +49,6 @@ public class ZoneFlagMonsterEntryViewCommand implements ArgumentCommand {
     public @NotNull CommandResult run(@NotNull CommandContext commandContext,
                                       @NotNull String... args) {
         Zone zone = commandContext.getArgument(this, ZONE_VALUE);
-        PreventMonsterFlag preventMonsterFlag = zone
-                .getFlag(FlagTypes.PREVENT_MONSTER)
-                .orElse(FlagTypes.PREVENT_MONSTER.createCopyOfDefault());
         commandContext
                 .getCause()
                 .sendMessage(Identity.nil(),

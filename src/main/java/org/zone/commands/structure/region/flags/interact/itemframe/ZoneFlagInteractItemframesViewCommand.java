@@ -50,9 +50,6 @@ public class ZoneFlagInteractItemframesViewCommand implements ArgumentCommand {
     public @NotNull CommandResult run(@NotNull CommandContext commandContext,
                                       @NotNull String... args) {
         Zone zone = commandContext.getArgument(this, ZONE_VALUE);
-        @NotNull ItemFrameInteractFlag interactItemframesFlag = zone
-                .getFlag(FlagTypes.ITEM_FRAME_INTERACT)
-                .orElse(FlagTypes.ITEM_FRAME_INTERACT.createCopyOfDefault());
         commandContext
                 .getCause()
                 .sendMessage(Identity.nil(),

@@ -47,9 +47,6 @@ public class ZoneFlagDamageAttackView implements ArgumentCommand {
     public @NotNull CommandResult run(@NotNull CommandContext commandContext,
                                       @NotNull String... args) {
         Zone zone = commandContext.getArgument(this, ZONE_VALUE);
-        @NotNull PlayerFallDamageFlag playerFallDamageFlag = zone
-                .getFlag(FlagTypes.PLAYER_FALL_DAMAGE_FLAG_TYPE)
-                .orElse(FlagTypes.PLAYER_FALL_DAMAGE_FLAG_TYPE.createCopyOfDefault());
         commandContext
                 .getCause()
                 .sendMessage(Identity.nil(),

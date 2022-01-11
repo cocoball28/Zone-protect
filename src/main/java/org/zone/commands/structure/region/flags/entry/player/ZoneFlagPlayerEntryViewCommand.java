@@ -46,9 +46,6 @@ public class ZoneFlagPlayerEntryViewCommand implements ArgumentCommand {
     public @NotNull CommandResult run(@NotNull CommandContext commandContext,
                                       @NotNull String... args) {
         Zone zone = commandContext.getArgument(this, ZONE_VALUE);
-        @NotNull PreventPlayersFlag preventPlayersFlag = zone
-                .getFlag(FlagTypes.PREVENT_PLAYERS)
-                .orElse(FlagTypes.PREVENT_PLAYERS.createCopyOfDefault());
         commandContext
                 .getCause()
                 .sendMessage(Identity.nil(),
