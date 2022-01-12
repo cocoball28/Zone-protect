@@ -2,6 +2,7 @@ package org.zone.commands.structure.region.flags.members;
 
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandResult;
@@ -76,7 +77,7 @@ public class ZoneFlagMemberGroupAddCommand implements ArgumentCommand {
                                                     " from " +
                                                     previous.getName() +
                                                     " to " +
-                                                    group.getName()));
+                                                    group.getName()).color(NamedTextColor.AQUA));
         if (Sponge.isServerAvailable()) {
             Optional<ServerPlayer> opPlayer = Sponge
                     .server()

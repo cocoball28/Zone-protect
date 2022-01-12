@@ -13,8 +13,6 @@ import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.entity.player.damage.attack.EntityDamagePlayerFlag;
-import org.zone.region.flag.entity.player.damage.fall.PlayerFallDamageFlag;
 import org.zone.region.group.key.GroupKeys;
 
 import java.util.Arrays;
@@ -30,7 +28,7 @@ public class ZoneFlagPlayerFallDamageView implements ArgumentCommand {
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"), new ExactArgument("flag"), ZONE_VALUE,
-                             new ExactArgument("damage"), new ExactArgument("player"),
+                             new ExactArgument("damage"), new ExactArgument("fall"),
                              VIEW);
     }
 
