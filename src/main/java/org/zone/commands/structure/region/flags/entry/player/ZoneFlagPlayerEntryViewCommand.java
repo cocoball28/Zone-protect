@@ -2,6 +2,7 @@ package org.zone.commands.structure.region.flags.entry.player;
 
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandResult;
 import org.zone.Identifiable;
@@ -13,7 +14,6 @@ import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.entity.player.move.preventing.PreventPlayersFlag;
 import org.zone.region.group.key.GroupKeys;
 
 import java.util.Arrays;
@@ -49,7 +49,8 @@ public class ZoneFlagPlayerEntryViewCommand implements ArgumentCommand {
         commandContext
                 .getCause()
                 .sendMessage(Identity.nil(),
-                             Component.text("Enabled: " + zone.containsFlag(FlagTypes.PREVENT_PLAYERS)));
+                             Component.text("Enabled: " + zone.containsFlag(FlagTypes.PREVENT_PLAYERS))
+                                     .color(NamedTextColor.AQUA));
         commandContext
                 .getCause()
                 .sendMessage(Identity.nil(),
@@ -58,7 +59,8 @@ public class ZoneFlagPlayerEntryViewCommand implements ArgumentCommand {
                                                             .getMembers()
                                                             .getGroup(GroupKeys.PLAYER_PREVENTION)
                                                             .map(Identifiable::getName)
-                                                            .orElse("None")));
+                                                            .orElse("None"))
+                                     .color(NamedTextColor.AQUA));
         return CommandResult.success();
     }
 }
