@@ -13,8 +13,8 @@ import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.entity.player.damage.fall.PlayerFallDamageFlag;
 import org.zone.region.group.key.GroupKeys;
+import org.zone.utils.Messages;
 
 import java.util.Arrays;
 import java.util.List;
@@ -29,7 +29,8 @@ public class ZoneFlagDamageAttackView implements ArgumentCommand {
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"), new ExactArgument("flag"), ZONE_VALUE,
-                             new ExactArgument("fall"), new ExactArgument("damage"),
+                             new ExactArgument("damage"), new ExactArgument("attack"),
+                             new ExactArgument("player"),
                              VIEW);
     }
 
@@ -50,7 +51,7 @@ public class ZoneFlagDamageAttackView implements ArgumentCommand {
         commandContext
                 .getCause()
                 .sendMessage(Identity.nil(),
-                             Component.text("Enabled: " + zone.containsFlag(FlagTypes.PLAYER_FALL_DAMAGE_FLAG_TYPE)));
+                             Messages.getEnabledInfo(zone.containsFlag(FlagTypes.ENTITY_DAMAGE_PLAYER_FLAG_TYPE)));
         commandContext
                 .getCause()
                 .sendMessage(Identity.nil(),
