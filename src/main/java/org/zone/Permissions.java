@@ -3,6 +3,7 @@ package org.zone;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.service.permission.Subject;
 
+@Deprecated(forRemoval = true)
 public enum Permissions {
 
     REGION_CREATE_BOUNDS("zone.region.create.bounds"),
