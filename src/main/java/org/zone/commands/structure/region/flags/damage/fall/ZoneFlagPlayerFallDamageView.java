@@ -14,6 +14,7 @@ import org.zone.commands.system.context.CommandContext;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.group.key.GroupKeys;
+import org.zone.utils.Messages;
 
 import java.util.Arrays;
 import java.util.List;
@@ -49,7 +50,7 @@ public class ZoneFlagPlayerFallDamageView implements ArgumentCommand {
         commandContext
                 .getCause()
                 .sendMessage(Identity.nil(),
-                             Component.text("Enabled: " + zone.containsFlag(FlagTypes.ENTITY_DAMAGE_PLAYER_FLAG_TYPE)));
+                             Messages.getEnabledInfo(zone.containsFlag(FlagTypes.PLAYER_FALL_DAMAGE_FLAG_TYPE)));
         commandContext
                 .getCause()
                 .sendMessage(Identity.nil(),
