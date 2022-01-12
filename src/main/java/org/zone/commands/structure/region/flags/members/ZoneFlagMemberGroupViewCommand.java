@@ -34,7 +34,7 @@ public class ZoneFlagMemberGroupViewCommand implements ArgumentCommand {
             "page"), (c, a) -> CommandArgumentResult.from(a, 1), (c, a) -> {
         Zone zone = c.getArgument(this, ZONE);
         Group group = c.getArgument(this, GROUP);
-        int pages = zone.getMembers().getMembers(group).size() / 10;
+        int pages = (zone.getMembers().getMembers(group).size() / 10) + 1;
         return CommandArgumentResult.from(a, pages);
 
     }), 1);
