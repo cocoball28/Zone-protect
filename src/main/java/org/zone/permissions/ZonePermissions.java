@@ -1,7 +1,7 @@
 package org.zone.permissions;
 
 @SuppressWarnings("unused")
-public enum Permissions implements Permission {
+public enum ZonePermissions implements ZonePermission {
     //meta region
     REGION_CREATE_BOUNDS_EXACT(false, "zone", "region", "create", "bounds", "exact"),
     REGION_CREATE_BOUNDS_CHUNK(false, "zone", "region", "create", "bounds", "chunk"),
@@ -27,7 +27,7 @@ public enum Permissions implements Permission {
                                         "create",
                                         "bounds",
                                         "chunk"),
-    OVERRIDE_REGION_BASIC_INFO(true, "zone", "override", "region", "info", "basic"),
+    OVERRIDE_REGION_BASIC_INFO(false, "zone", "override", "region", "info", "basic"),
     OVERRIDE_REGION_ADMIN_INFO(false, "zone", "override", "region", "info", "admin"),
     OVERRIDE_REGION_EDIT_BOUNDS_EXACT(false,
                                       "zone",
@@ -73,7 +73,7 @@ public enum Permissions implements Permission {
                                            "group"),
 
     //place block override
-    OVERRIDE_FLAG_BLOCK_INTERACTION_PLACE_ENABLE(true,
+    OVERRIDE_FLAG_BLOCK_INTERACTION_PLACE_ENABLE(false,
                                                  "zone",
                                                  "override",
                                                  "region",
@@ -82,7 +82,7 @@ public enum Permissions implements Permission {
                                                  "interaction",
                                                  "place",
                                                  "enable"),
-    OVERRIDE_FLAG_BLOCK_INTERACTION_PLACE_VIEW(true,
+    OVERRIDE_FLAG_BLOCK_INTERACTION_PLACE_VIEW(false,
                                                "zone",
                                                "override",
                                                "region",
@@ -91,7 +91,7 @@ public enum Permissions implements Permission {
                                                "interaction",
                                                "place",
                                                "view"),
-    OVERRIDE_FLAG_BLOCK_INTERACTION_PLACE_SET_GROUP(true,
+    OVERRIDE_FLAG_BLOCK_INTERACTION_PLACE_SET_GROUP(false,
                                                     "zone",
                                                     "override",
                                                     "region",
@@ -102,7 +102,33 @@ public enum Permissions implements Permission {
                                                     "group"),
 
     //break block
-    OVERRIDE_FLAG_BLOCK_INTERACTION_BREAK_ENABLE(true,
+    OFLAG_BLOCK_INTERACTION_BREAK_ENABLE(true,
+                                         "zone",
+                                         "region",
+                                         "flag",
+                                         "block",
+                                         "interaction",
+                                         "break",
+                                         "enable"),
+    FLAG_BLOCK_INTERACTION_BREAK_VIEW(true,
+                                      "zone",
+                                      "region",
+                                      "flag",
+                                      "block",
+                                      "interaction",
+                                      "break",
+                                      "view"),
+    FLAG_BLOCK_INTERACTION_BREAK_SET_GROUP(true,
+                                           "zone",
+                                           "region",
+                                           "flag",
+                                           "block",
+                                           "interaction",
+                                           "break",
+                                           "group"),
+
+    //break block override
+    OVERRIDE_FLAG_BLOCK_INTERACTION_BREAK_ENABLE(false,
                                                  "zone",
                                                  "override",
                                                  "region",
@@ -111,7 +137,7 @@ public enum Permissions implements Permission {
                                                  "interaction",
                                                  "break",
                                                  "enable"),
-    OVERRIDE_FLAG_BLOCK_INTERACTION_BREAK_VIEW(true,
+    OVERRIDE_FLAG_BLOCK_INTERACTION_BREAK_VIEW(false,
                                                "zone",
                                                "override",
                                                "region",
@@ -120,7 +146,7 @@ public enum Permissions implements Permission {
                                                "interaction",
                                                "break",
                                                "view"),
-    OVERRIDE_FLAG_BLOCK_INTERACTION_BREAK_SET_GROUP(true,
+    OVERRIDE_FLAG_BLOCK_INTERACTION_BREAK_SET_GROUP(false,
                                                     "zone",
                                                     "override",
                                                     "region",
@@ -309,7 +335,7 @@ public enum Permissions implements Permission {
     FLAG_ENTRY_PLAYER_ENABLE(true, "zone", "region", "flag", "entry", "player", "enable"),
 
     //entry player override
-    OVERRIDE_FLAG_ENTRY_PLAYER_SET_GROUP(true,
+    OVERRIDE_FLAG_ENTRY_PLAYER_SET_GROUP(false,
                                          "zone",
                                          "override",
                                          "region",
@@ -318,7 +344,7 @@ public enum Permissions implements Permission {
                                          "player",
                                          "set",
                                          "group"),
-    OVERRIDE_FLAG_ENTRY_PLAYER_VIEW(true,
+    OVERRIDE_FLAG_ENTRY_PLAYER_VIEW(false,
                                     "zone",
                                     "override",
                                     "region",
@@ -326,7 +352,7 @@ public enum Permissions implements Permission {
                                     "entry",
                                     "player",
                                     "view"),
-    OVERRIDE_FLAG_ENTRY_PLAYER_ENABLE(true,
+    OVERRIDE_FLAG_ENTRY_PLAYER_ENABLE(false,
                                       "zone",
                                       "override",
                                       "region",
@@ -445,7 +471,7 @@ public enum Permissions implements Permission {
     private final String[] nodes;
     private final boolean isDefault;
 
-    Permissions(boolean isDefault, String... nodes) {
+    ZonePermissions(boolean isDefault, String... nodes) {
         this.isDefault = isDefault;
         this.nodes = nodes;
     }

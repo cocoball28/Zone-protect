@@ -6,7 +6,7 @@ import org.spongepowered.api.service.permission.Subject;
 
 import java.util.Optional;
 
-public interface Permission {
+public interface ZonePermission {
 
     String[] getPermissionNode();
 
