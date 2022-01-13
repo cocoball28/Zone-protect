@@ -16,7 +16,9 @@ import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
+import org.zone.region.flag.entity.player.move.preventing.PreventPlayersFlag;
 import org.zone.region.group.key.GroupKeys;
+import org.zone.utils.Messages;
 
 import java.util.Arrays;
 import java.util.List;
@@ -56,22 +58,11 @@ public class ZoneFlagPlayerEntryViewCommand implements ArgumentCommand {
         Zone zone = commandContext.getArgument(this, ZONE_VALUE);
         commandContext
                 .getCause()
-                .sendMessage(Identity.nil(),
-                             Component
-                                     .text("Enabled: " +
-                                                   zone.containsFlag(FlagTypes.PREVENT_PLAYERS))
-                                     .color(NamedTextColor.AQUA));
-        commandContext
-                .getCause()
-                .sendMessage(Identity.nil(),
-                             Component
-                                     .text("Group: " +
-                                                   zone
-                                                           .getMembers()
-                                                           .getGroup(GroupKeys.PLAYER_PREVENTION)
-                                                           .map(Identifiable::getName)
-                                                           .orElse("None"))
-                                     .color(NamedTextColor.AQUA));
+                .sendMessage(Identity.nil(), Messages.getEnabledInfo(zone.containsFlag(FlagTypes.PREVENT_PLAYERS)));
+        zone
+                .getMembers()
+                .getGroup(GroupKeys.PLAYER_PREVENTION)
+                .ifPresent(group -> commandContext.sendMessage(Messages.getGroupInfo(group)));
         return CommandResult.success();
     }
 }

@@ -15,6 +15,7 @@ import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
+import org.zone.utils.Messages;
 
 import java.util.Arrays;
 import java.util.List;
@@ -54,11 +55,7 @@ public class ZoneFlagMonsterEntryViewCommand implements ArgumentCommand {
         Zone zone = commandContext.getArgument(this, ZONE_VALUE);
         commandContext
                 .getCause()
-                .sendMessage(Identity.nil(),
-                             Component
-                                     .text("Enabled: " +
-                                                   zone.containsFlag(FlagTypes.PREVENT_MONSTER))
-                                     .color(NamedTextColor.AQUA));
+                .sendMessage(Identity.nil(), Messages.getEnabledInfo(zone.containsFlag(FlagTypes.PREVENT_MONSTER)));
         return CommandResult.success();
     }
 }

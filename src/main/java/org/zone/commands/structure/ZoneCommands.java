@@ -16,9 +16,6 @@ import org.zone.commands.structure.region.flags.entry.monster.ZoneFlagMonsterEnt
 import org.zone.commands.structure.region.flags.entry.monster.ZoneFlagMonsterEntryViewCommand;
 import org.zone.commands.structure.region.flags.entry.player.ZoneFlagPlayerEntrySetGroupCommand;
 import org.zone.commands.structure.region.flags.entry.player.ZoneFlagPlayerEntryViewCommand;
-import org.zone.commands.structure.region.flags.messages.greetings.ZoneFlagGreetingsRemoveCommand;
-import org.zone.commands.structure.region.flags.messages.greetings.ZoneFlagGreetingsSetMessageCommand;
-import org.zone.commands.structure.region.flags.messages.greetings.ZoneFlagGreetingsViewCommand;
 import org.zone.commands.structure.region.flags.interact.destroy.ZoneFlagBlockBreakSetEnabledCommand;
 import org.zone.commands.structure.region.flags.interact.destroy.ZoneFlagBlockBreakSetGroupCommand;
 import org.zone.commands.structure.region.flags.interact.destroy.ZoneFlagBlockBreakViewCommand;
@@ -31,6 +28,9 @@ import org.zone.commands.structure.region.flags.interact.itemframe.ZoneFlagInter
 import org.zone.commands.structure.region.flags.interact.place.ZoneFlagBlockPlaceSetEnabledCommand;
 import org.zone.commands.structure.region.flags.interact.place.ZoneFlagBlockPlaceSetGroupCommand;
 import org.zone.commands.structure.region.flags.interact.place.ZoneFlagBlockPlaceViewCommand;
+import org.zone.commands.structure.region.flags.messages.greetings.ZoneFlagGreetingsRemoveCommand;
+import org.zone.commands.structure.region.flags.messages.greetings.ZoneFlagGreetingsSetMessageCommand;
+import org.zone.commands.structure.region.flags.messages.greetings.ZoneFlagGreetingsViewCommand;
 import org.zone.commands.structure.region.flags.messages.leaving.ZoneFlagLeavingRemoveCommand;
 import org.zone.commands.structure.region.flags.messages.leaving.ZoneFlagLeavingSetMessageCommand;
 import org.zone.commands.structure.region.flags.messages.leaving.ZoneFlagLeavingViewCommand;

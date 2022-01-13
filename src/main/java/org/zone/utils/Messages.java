@@ -181,7 +181,7 @@ public final class Messages {
     }
 
     private static Component getGroupTag() {
-        return Component.text("Group ").color(NamedTextColor.AQUA);
+        return Component.text("Group: ").color(NamedTextColor.AQUA);
     }
 
     public static Component getTotalTag() {

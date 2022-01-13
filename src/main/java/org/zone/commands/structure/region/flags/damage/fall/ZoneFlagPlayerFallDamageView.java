@@ -15,6 +15,7 @@ import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
+import org.zone.region.flag.entity.player.damage.fall.PlayerFallDamageFlag;
 import org.zone.region.group.key.GroupKeys;
 import org.zone.utils.Messages;
 
@@ -58,15 +59,10 @@ public class ZoneFlagPlayerFallDamageView implements ArgumentCommand {
                 .getCause()
                 .sendMessage(Identity.nil(),
                              Messages.getEnabledInfo(zone.containsFlag(FlagTypes.PLAYER_FALL_DAMAGE_FLAG_TYPE)));
-        commandContext
-                .getCause()
-                .sendMessage(Identity.nil(),
-                             Component.text("Group: " +
-                                                    zone
-                                                            .getMembers()
-                                                            .getGroup(GroupKeys.ENTITY_DAMAGE_PLAYER)
-                                                            .map(Identifiable::getName)
-                                                            .orElse("None")));
+        zone
+                .getMembers()
+                .getGroup(GroupKeys.PLAYER_FALL_DAMAGE)
+                .ifPresent(group -> commandContext.sendMessage(Messages.getGroupInfo(group)));
         return CommandResult.success();
     }
 }
