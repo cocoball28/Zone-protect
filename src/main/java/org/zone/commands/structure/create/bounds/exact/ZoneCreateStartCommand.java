@@ -25,7 +25,7 @@ import java.util.Optional;
 public class ZoneCreateStartCommand extends AbstractCreateZoneStartCommand {
 
     private static final RemainingArgument<String> NAME = new RemainingArgument<>(new StringArgument(
-            "key"));
+            "name"));
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
