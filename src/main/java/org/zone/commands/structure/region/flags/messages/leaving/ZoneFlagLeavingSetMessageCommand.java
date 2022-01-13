@@ -32,8 +32,8 @@ public class ZoneFlagLeavingSetMessageCommand implements ArgumentCommand {
                              new ExactArgument("flag"),
                              ZONE,
                              new ExactArgument("leaving"),
-                             new ExactArgument("set"),
                              new ExactArgument("message"),
+                             new ExactArgument("set"),
                              MESSAGE);
     }
 

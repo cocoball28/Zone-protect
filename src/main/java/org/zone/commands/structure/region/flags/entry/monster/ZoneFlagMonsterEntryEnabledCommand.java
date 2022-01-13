@@ -33,6 +33,7 @@ public class ZoneFlagMonsterEntryEnabledCommand implements ArgumentCommand {
                              ZONE_VALUE,
                              new ExactArgument("entry"),
                              new ExactArgument("monster"),
+                             new ExactArgument("set"),
                              ENABLED);
     }
 
