@@ -27,10 +27,10 @@ jobs:
       with:
         files: target/zones-${{ steps.pom-version.outputs.version }}.jar
         tag_name: ${{ steps.pom-version.outputs.version }}-snapshot
-        body: 'This is a automatic build for testing"'
+        body: 'This is a automatic build, please visit the ORE page "Coming soon"'
         token: ${{secrets.GITHUB_TOKEN}}
         draft: false
-        prerelease: true
+        prerelease: false
         fail_on_unmatched_files: true
         
     
