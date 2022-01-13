@@ -5,7 +5,7 @@ name: Javadocs
 
 on:
   push:
-    branches: [master]
+    branches: [beta-release]
   workflow_dispatch:
     
 

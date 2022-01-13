@@ -4,8 +4,6 @@
 name: Build plugin API 9
 
 on:
-  push:
-    branches: [ master ]
   pull_request:
     branches: [ master ]
 

@@ -4,10 +4,8 @@
 name: Build plugin Java 17 - API 8
 
 on:
-  push:
-    branches: [ master ]
   pull_request:
-    branches: [ master ]
+    branches: [ master, beta-release ]
 
 jobs:
   build:
