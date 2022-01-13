@@ -11,6 +11,8 @@ import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.operation.OptionalArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.context.CommandContext;
+import org.zone.permissions.ZonePermission;
+import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
 
@@ -20,7 +22,9 @@ import java.util.Optional;
 
 public class ZoneFlagMonsterEntryViewCommand implements ArgumentCommand {
 
-    public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zoneId");
+    public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zoneId",
+                                                                   new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
+                                                                           ZonePermissions.OVERRIDE_FLAG_ENTRY_MONSTER_VIEW));
     public static final OptionalArgument<String> VIEW = new OptionalArgument<>(new ExactArgument(
             "view"), (String) null);
 
@@ -40,8 +44,8 @@ public class ZoneFlagMonsterEntryViewCommand implements ArgumentCommand {
     }
 
     @Override
-    public @NotNull Optional<String> getPermissionNode() {
-        return Optional.empty();
+    public @NotNull Optional<ZonePermission> getPermissionNode() {
+        return Optional.of(ZonePermissions.FLAG_ENTRY_MONSTER_VIEW);
     }
 
     @Override
@@ -51,7 +55,9 @@ public class ZoneFlagMonsterEntryViewCommand implements ArgumentCommand {
         commandContext
                 .getCause()
                 .sendMessage(Identity.nil(),
-                             Component.text("Enabled: " + zone.containsFlag(FlagTypes.PREVENT_MONSTER))
+                             Component
+                                     .text("Enabled: " +
+                                                   zone.containsFlag(FlagTypes.PREVENT_MONSTER))
                                      .color(NamedTextColor.AQUA));
         return CommandResult.success();
     }

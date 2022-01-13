@@ -8,6 +8,7 @@ import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.context.CommandContext;
+import org.zone.permissions.ZonePermission;
 import org.zone.utils.Messages;
 
 import java.util.Arrays;
@@ -30,7 +31,7 @@ public class ZonePluginInfoCommand implements ArgumentCommand {
     }
 
     @Override
-    public @NotNull Optional<String> getPermissionNode() {
+    public @NotNull Optional<ZonePermission> getPermissionNode() {
         return Optional.empty();
     }
 

@@ -11,6 +11,8 @@ import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.arguments.zone.ZoneGroupArgument;
 import org.zone.commands.system.context.CommandContext;
+import org.zone.permissions.ZonePermission;
+import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.entity.player.interact.block.place.BlockPlaceFlag;
@@ -26,7 +28,9 @@ import java.util.Optional;
  */
 public class ZoneFlagBlockPlaceSetGroupCommand implements ArgumentCommand {
 
-    public static final ZoneArgument ZONE = new ZoneArgument("zoneId");
+    public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
+                                                             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
+                                                                     ZonePermissions.OVERRIDE_FLAG_BLOCK_INTERACTION_PLACE_SET_GROUP));
     public static final ZoneGroupArgument GROUP = new ZoneGroupArgument("groupId", ZONE);
 
     @Override
@@ -48,8 +52,8 @@ public class ZoneFlagBlockPlaceSetGroupCommand implements ArgumentCommand {
     }
 
     @Override
-    public @NotNull Optional<String> getPermissionNode() {
-        return Optional.empty();
+    public @NotNull Optional<ZonePermission> getPermissionNode() {
+        return Optional.of(ZonePermissions.FLAG_BLOCK_INTERACTION_PLACE_SET_GROUP);
     }
 
     @Override

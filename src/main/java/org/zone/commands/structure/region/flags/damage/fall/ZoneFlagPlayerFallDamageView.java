@@ -11,6 +11,8 @@ import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.operation.OptionalArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.context.CommandContext;
+import org.zone.permissions.ZonePermission;
+import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.group.key.GroupKeys;
@@ -22,14 +24,19 @@ import java.util.Optional;
 
 public class ZoneFlagPlayerFallDamageView implements ArgumentCommand {
 
-    public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zoneId");
+    public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zoneId",
+                                                                   new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
+                                                                           ZonePermissions.OVERRIDE_FLAG_DAMAGE_FALL_VIEW));
     public static final OptionalArgument<String> VIEW = new OptionalArgument<>(new ExactArgument(
             "view"), (String) null);
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
-        return Arrays.asList(new ExactArgument("region"), new ExactArgument("flag"), ZONE_VALUE,
-                             new ExactArgument("damage"), new ExactArgument("fall"),
+        return Arrays.asList(new ExactArgument("region"),
+                             new ExactArgument("flag"),
+                             ZONE_VALUE,
+                             new ExactArgument("damage"),
+                             new ExactArgument("fall"),
                              VIEW);
     }
 
@@ -39,8 +46,8 @@ public class ZoneFlagPlayerFallDamageView implements ArgumentCommand {
     }
 
     @Override
-    public @NotNull Optional<String> getPermissionNode() {
-        return Optional.empty();
+    public @NotNull Optional<ZonePermission> getPermissionNode() {
+        return Optional.of(ZonePermissions.FLAG_DAMAGE_FALL_VIEW);
     }
 
     @Override

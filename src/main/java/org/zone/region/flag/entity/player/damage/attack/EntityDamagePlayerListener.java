@@ -6,7 +6,9 @@ import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.cause.entity.damage.DamageType;
 import org.spongepowered.api.event.cause.entity.damage.DamageTypes;
 import org.spongepowered.api.event.entity.DamageEntityEvent;
+import org.spongepowered.api.service.permission.Subject;
 import org.zone.ZonePlugin;
+import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.group.Group;
 import org.zone.region.group.key.GroupKeys;
@@ -16,13 +18,21 @@ import java.util.Optional;
 public class EntityDamagePlayerListener {
     @Listener
     public void onEntityDamageEvent(DamageEntityEvent event) {
-
         if (!(event.entity() instanceof Player player)) {
             return;
         }
 
-        Optional<DamageType> optEventContextKeys = event.context().get(EventContextKeys.DAMAGE_TYPE);
-        if (optEventContextKeys.isEmpty() || !(optEventContextKeys.get().equals(DamageTypes.ATTACK.get()))) {
+        if (player instanceof Subject subject) {
+            if (ZonePermissions.BYPASS_DAMAGE_ATTACK.hasPermission(subject)) {
+                return;
+            }
+        }
+
+        Optional<DamageType> optEventContextKeys = event
+                .context()
+                .get(EventContextKeys.DAMAGE_TYPE);
+        if (optEventContextKeys.isEmpty() ||
+                !(optEventContextKeys.get().equals(DamageTypes.ATTACK.get()))) {
             return;
         }
 
@@ -38,6 +48,6 @@ public class EntityDamagePlayerListener {
         Group group = zone.getMembers().getGroup(player.uniqueId());
         if (group.contains(GroupKeys.ENTITY_DAMAGE_PLAYER)) {
             event.setCancelled(true);
-         }
+        }
     }
 }

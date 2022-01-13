@@ -11,11 +11,12 @@ import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.arguments.zone.ZoneGroupArgument;
 import org.zone.commands.system.context.CommandContext;
+import org.zone.permissions.ZonePermission;
+import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.entity.player.interact.door.DoorInteractionFlag;
 import org.zone.region.group.Group;
-import org.zone.region.group.key.GroupKeys;
 import org.zone.utils.Messages;
 
 import java.util.Arrays;
@@ -28,8 +29,8 @@ import java.util.Optional;
 public class ZoneFlagInteractDoorGroupCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
-                                                             new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(
-                                                                     GroupKeys.OWNER));
+                                                             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
+                                                                     ZonePermissions.OVERRIDE_FLAG_DOOR_INTERACTION_SET_GROUP));
 
     public static final ZoneGroupArgument GROUP = new ZoneGroupArgument("groupId", ZONE);
 
@@ -51,8 +52,8 @@ public class ZoneFlagInteractDoorGroupCommand implements ArgumentCommand {
     }
 
     @Override
-    public @NotNull Optional<String> getPermissionNode() {
-        return Optional.empty();
+    public @NotNull Optional<ZonePermission> getPermissionNode() {
+        return Optional.of(ZonePermissions.FLAG_DOOR_INTERACTION_SET_GROUP);
     }
 
     @Override

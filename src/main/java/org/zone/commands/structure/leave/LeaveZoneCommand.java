@@ -10,6 +10,8 @@ import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.context.CommandContext;
+import org.zone.permissions.ZonePermission;
+import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.utils.Messages;
 
@@ -34,8 +36,8 @@ public class LeaveZoneCommand implements ArgumentCommand {
     }
 
     @Override
-    public @NotNull Optional<String> getPermissionNode() {
-        return Optional.empty();
+    public @NotNull Optional<ZonePermission> getPermissionNode() {
+        return Optional.of(ZonePermissions.REGION_LEAVE);
     }
 
     @Override

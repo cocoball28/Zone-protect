@@ -15,6 +15,8 @@ import org.zone.commands.system.arguments.sponge.UserArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.arguments.zone.ZoneGroupArgument;
 import org.zone.commands.system.context.CommandContext;
+import org.zone.permissions.ZonePermission;
+import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.group.DefaultGroups;
 import org.zone.region.group.Group;
@@ -30,7 +32,9 @@ import java.util.Optional;
  */
 public class ZoneFlagMemberGroupAddCommand implements ArgumentCommand {
 
-    public static final ZoneArgument ZONE = new ZoneArgument("zoneId");
+    public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
+                                                             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
+                                                                     ZonePermissions.OVERRIDE_FLAG_MEMBER_CHANGE));
     public static final ZoneGroupArgument GROUP = new ZoneGroupArgument("groupId", ZONE);
     public static final UserArgument USER = new UserArgument("user");
 
@@ -50,8 +54,8 @@ public class ZoneFlagMemberGroupAddCommand implements ArgumentCommand {
     }
 
     @Override
-    public @NotNull Optional<String> getPermissionNode() {
-        return Optional.empty();
+    public @NotNull Optional<ZonePermission> getPermissionNode() {
+        return Optional.of(ZonePermissions.FLAG_MEMBER_CHANGE);
     }
 
     @Override
@@ -72,12 +76,14 @@ public class ZoneFlagMemberGroupAddCommand implements ArgumentCommand {
         context
                 .getCause()
                 .sendMessage(Identity.nil(),
-                             Component.text("Moved " +
-                                                    profile.name().orElse("Unknown name") +
-                                                    " from " +
-                                                    previous.getName() +
-                                                    " to " +
-                                                    group.getName()).color(NamedTextColor.AQUA));
+                             Component
+                                     .text("Moved " +
+                                                   profile.name().orElse("Unknown name") +
+                                                   " from " +
+                                                   previous.getName() +
+                                                   " to " +
+                                                   group.getName())
+                                     .color(NamedTextColor.AQUA));
         if (Sponge.isServerAvailable()) {
             Optional<ServerPlayer> opPlayer = Sponge
                     .server()

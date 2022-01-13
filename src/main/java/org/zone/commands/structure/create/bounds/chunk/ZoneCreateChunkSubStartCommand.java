@@ -9,6 +9,8 @@ import org.zone.commands.system.arguments.operation.RemainingArgument;
 import org.zone.commands.system.arguments.simple.StringArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.context.CommandContext;
+import org.zone.permissions.ZonePermission;
+import org.zone.permissions.ZonePermissions;
 import org.zone.region.ZoneBuilder;
 import org.zone.region.bounds.BoundedRegion;
 import org.zone.region.bounds.mode.BoundMode;
@@ -24,7 +26,9 @@ public class ZoneCreateChunkSubStartCommand extends AbstractCreateZoneStartComma
     public static final ExactArgument SUB = new ExactArgument("sub");
     public static final ExactArgument BOUNDS = new ExactArgument("bounds");
     public static final ExactArgument CHUNK = new ExactArgument("chunk");
-    public static final ZoneArgument ZONE = new ZoneArgument("zone");
+    public static final ZoneArgument ZONE = new ZoneArgument("zone",
+                                                             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
+                                                                     ZonePermissions.OEVRRIDE_REGION_CREATE_SUB_BOUNDS_CHUNK));
     public static final RemainingArgument<String> NAME = new RemainingArgument<>(new StringArgument(
             "name"));
 
@@ -39,8 +43,8 @@ public class ZoneCreateChunkSubStartCommand extends AbstractCreateZoneStartComma
     }
 
     @Override
-    public @NotNull Optional<String> getPermissionNode() {
-        return Optional.empty();
+    public @NotNull Optional<ZonePermission> getPermissionNode() {
+        return Optional.of(ZonePermissions.REGION_CREATE_SUB_BOUNDS_CHUNK);
     }
 
     @Override
