@@ -10,6 +10,8 @@ import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.sponge.ComponentRemainingArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.context.CommandContext;
+import org.zone.permissions.ZonePermission;
+import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.entity.player.move.leaving.LeavingFlag;
@@ -22,7 +24,8 @@ import java.util.Optional;
 public class ZoneFlagLeavingSetMessageCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE = new ZoneArgument("zone_value",
-                                                             new ZoneArgument.ZoneArgumentPropertiesBuilder());
+                                                             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
+                                                                     ZonePermissions.OVERRIDE_FLAG_LEAVING_SET));
     public static final ComponentRemainingArgument MESSAGE = new ComponentRemainingArgument(
             "message_value");
 
@@ -43,8 +46,8 @@ public class ZoneFlagLeavingSetMessageCommand implements ArgumentCommand {
     }
 
     @Override
-    public @NotNull Optional<String> getPermissionNode() {
-        return Optional.empty();
+    public @NotNull Optional<ZonePermission> getPermissionNode() {
+        return Optional.of(ZonePermissions.FLAG_LEAVING_SET);
     }
 
     @Override

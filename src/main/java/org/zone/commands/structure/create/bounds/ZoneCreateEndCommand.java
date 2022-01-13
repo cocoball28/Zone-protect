@@ -10,7 +10,6 @@ import org.spongepowered.api.event.Cause;
 import org.spongepowered.api.event.Event;
 import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.configurate.ConfigurateException;
-import org.zone.Permissions;
 import org.zone.ZonePlugin;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
@@ -18,6 +17,7 @@ import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.event.listener.PlayerListener;
 import org.zone.event.zone.CreateZoneEvent;
+import org.zone.permissions.ZonePermission;
 import org.zone.region.Zone;
 import org.zone.region.ZoneBuilder;
 import org.zone.region.bounds.BoundedRegion;
@@ -50,8 +50,8 @@ public class ZoneCreateEndCommand implements ArgumentCommand {
     }
 
     @Override
-    public @NotNull Optional<String> getPermissionNode() {
-        return Optional.of(Permissions.REGION_CREATE_BOUNDS.getPermission());
+    public @NotNull Optional<ZonePermission> getPermissionNode() {
+        return Optional.empty();
     }
 
     @Override

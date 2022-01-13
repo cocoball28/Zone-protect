@@ -17,11 +17,12 @@ import org.zone.commands.system.GUICommandArgument;
 import org.zone.commands.system.ParseCommandArgument;
 import org.zone.commands.system.context.CommandArgumentContext;
 import org.zone.commands.system.context.CommandContext;
-import org.zone.utils.Messages;
+import org.zone.permissions.ZonePermission;
 import org.zone.region.Zone;
 import org.zone.region.group.Group;
 import org.zone.region.group.key.GroupKey;
 import org.zone.region.group.key.GroupKeys;
+import org.zone.utils.Messages;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -40,7 +41,7 @@ public class ZoneArgument implements GUICommandArgument<Zone> {
         private @Nullable ParseCommandArgument<Zone> subZoneTo;
         private boolean onlyMainZones = true;
         private boolean onlyPartOf;
-        private @Nullable String bypassSuggestionPermission;
+        private @Nullable ZonePermission bypassSuggestionPermission;
         private @Nullable GroupKey level = GroupKeys.OWNER;
 
         public boolean isLimitedToOnlyPartOf() {
@@ -52,11 +53,11 @@ public class ZoneArgument implements GUICommandArgument<Zone> {
             return this;
         }
 
-        public @Nullable String getBypassSuggestionPermission() {
+        public @Nullable ZonePermission getBypassSuggestionPermission() {
             return this.bypassSuggestionPermission;
         }
 
-        public ZoneArgumentPropertiesBuilder setBypassSuggestionPermission(String bypassSuggestionPermission) {
+        public ZoneArgumentPropertiesBuilder setBypassSuggestionPermission(ZonePermission bypassSuggestionPermission) {
             this.bypassSuggestionPermission = bypassSuggestionPermission;
             return this;
         }
@@ -153,7 +154,7 @@ public class ZoneArgument implements GUICommandArgument<Zone> {
             Subject subject = context.getSource();
             if (this.builder.getBypassSuggestionPermission() == null ||
                     this.builder.getBypassSuggestionPermission() != null &&
-                            !subject.hasPermission(this.builder.getBypassSuggestionPermission())) {
+                            !this.builder.getBypassSuggestionPermission().hasPermission(subject)) {
                 if (subject instanceof Player player) {
                     zones = zones.filter(zone -> {
                         Group group = zone.getMembers().getGroup(player.uniqueId());
@@ -174,8 +175,7 @@ public class ZoneArgument implements GUICommandArgument<Zone> {
         return this
                 .getZones(context)
                 .filter(zone -> zone.getId().toLowerCase().startsWith(focus.toLowerCase()))
-                .map(zone -> CommandCompletion.of(zone.getId(),
-                                                  Messages.getZoneNameInfo(zone)))
+                .map(zone -> CommandCompletion.of(zone.getId(), Messages.getZoneNameInfo(zone)))
                 .collect(Collectors.toSet());
     }
 

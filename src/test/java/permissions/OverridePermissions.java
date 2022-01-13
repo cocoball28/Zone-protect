@@ -24,6 +24,11 @@ public class OverridePermissions {
     @Test
     public void testAllCommandsHaveOverrides() {
         for (ZonePermissions permission : ZonePermissions.values()) {
+            if (permission == ZonePermissions.REGION_LEAVE) {
+                continue;
+            }
+
+
             String[] node = permission.getPermissionNode();
             if (node.length <= 2) {
                 continue;
@@ -41,9 +46,20 @@ public class OverridePermissions {
             }
 
             String[] overrideNode = overridePermission.getPermissionNode();
-            Assertions.assertEquals(overrideNode.length, node.length + 1);
-            for (int i = 2; i < overrideNode.length; i++) {
-                Assertions.assertEquals(overrideNode[i],
+            Assertions.assertEquals(overrideNode.length,
+                                    node.length + 1,
+                                    "permissions do not " +
+                                            "match between " +
+                                            permission.name() +
+                                            " and " +
+                                            overridePermission.name() +
+                                            " - Node: '" +
+                                            permission.getPermission() +
+                                            "' vs '" +
+                                            overridePermission.getPermission() +
+                                            "'");
+            for (int i = 2; i < overrideNode.length - 1; i++) {
+                Assertions.assertEquals(overrideNode[i + 1],
                                         node[i],
                                         "permission of " +
                                                 permission.name() +
@@ -52,7 +68,17 @@ public class OverridePermissions {
                                                 overridePermission.name() +
                                                 " with the exception of pos2 being override. " +
                                                 "difference found at pos " +
-                                                (i + 1));
+                                                (i + 1) +
+                                                "- '" +
+                                                node[i] +
+                                                "' - '" +
+                                                overrideNode[i + 1] +
+                                                "' - '" +
+                                                permission.getPermission() +
+                                                "'" +
+                                                " vs '" +
+                                                overridePermission.getPermission() +
+                                                "'");
             }
         }
     }

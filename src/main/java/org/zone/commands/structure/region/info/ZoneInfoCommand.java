@@ -6,12 +6,13 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.service.economy.EconomyService;
 import org.spongepowered.api.user.UserManager;
-import org.zone.Permissions;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.context.CommandContext;
+import org.zone.permissions.ZonePermission;
+import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.meta.eco.EcoFlag;
 import org.zone.region.flag.meta.member.MembersFlag;
@@ -26,7 +27,9 @@ import java.util.stream.Collectors;
 
 public class ZoneInfoCommand implements ArgumentCommand {
 
-    public static final ZoneArgument ZONE = new ZoneArgument("zoneId");
+    public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
+                                                             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
+                                                                     ZonePermissions.OVERRIDE_REGION_BASIC_INFO));
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
@@ -39,8 +42,8 @@ public class ZoneInfoCommand implements ArgumentCommand {
     }
 
     @Override
-    public @NotNull Optional<String> getPermissionNode() {
-        return Optional.of(Permissions.REGION_ADMIN_INFO.getPermission());
+    public @NotNull Optional<ZonePermission> getPermissionNode() {
+        return Optional.of(ZonePermissions.REGION_BASIC_INFO);
     }
 
     @Override

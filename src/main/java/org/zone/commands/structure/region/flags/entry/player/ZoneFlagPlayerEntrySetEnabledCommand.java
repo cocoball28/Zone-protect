@@ -10,6 +10,8 @@ import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.simple.BooleanArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.context.CommandContext;
+import org.zone.permissions.ZonePermission;
+import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.entity.player.move.preventing.PreventPlayersFlag;
@@ -21,7 +23,8 @@ import java.util.Optional;
 
 public class ZoneFlagPlayerEntrySetEnabledCommand implements ArgumentCommand {
     public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zone_value",
-                                                                   new ZoneArgument.ZoneArgumentPropertiesBuilder());
+                                                                   new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
+                                                                           ZonePermissions.OVERRIDE_FLAG_ENTRY_PLAYER_ENABLE));
     public static final BooleanArgument ENABLE = new BooleanArgument("enableValue",
                                                                      "enable",
                                                                      "disable");
@@ -43,8 +46,8 @@ public class ZoneFlagPlayerEntrySetEnabledCommand implements ArgumentCommand {
     }
 
     @Override
-    public @NotNull Optional<String> getPermissionNode() {
-        return Optional.empty();
+    public @NotNull Optional<ZonePermission> getPermissionNode() {
+        return Optional.of(ZonePermissions.FLAG_ENTRY_PLAYER_ENABLE);
     }
 
     @Override

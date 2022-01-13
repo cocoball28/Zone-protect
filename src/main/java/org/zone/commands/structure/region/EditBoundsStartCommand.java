@@ -5,13 +5,14 @@ import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.service.permission.Subject;
-import org.zone.Permissions;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.simple.EnumArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.context.CommandContext;
+import org.zone.permissions.ZonePermission;
+import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.bounds.BoundedRegion;
 import org.zone.region.bounds.PositionType;
@@ -27,7 +28,9 @@ import java.util.Optional;
 
 public class EditBoundsStartCommand implements ArgumentCommand {
 
-    public static final ZoneArgument ZONE = new ZoneArgument("zoneId");
+    public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
+                                                             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
+                                                                     ZonePermissions.OVERRIDE_REGION_EDIT_BOUNDS_EXACT));
     public static final EnumArgument<PositionType> SIDE = new EnumArgument<>("side",
                                                                              PositionType.class);
 
@@ -46,8 +49,8 @@ public class EditBoundsStartCommand implements ArgumentCommand {
     }
 
     @Override
-    public @NotNull Optional<String> getPermissionNode() {
-        return Optional.of(Permissions.REGION_EDIT_BOUNDS.getPermission());
+    public @NotNull Optional<ZonePermission> getPermissionNode() {
+        return Optional.of(ZonePermissions.REGION_EDIT_BOUNDS_EXACT);
     }
 
     @Override

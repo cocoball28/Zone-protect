@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandCause;
 import org.spongepowered.api.command.CommandResult;
 import org.zone.commands.system.context.CommandContext;
+import org.zone.permissions.ZonePermission;
 
 import java.util.List;
 import java.util.Optional;
@@ -38,7 +39,7 @@ public interface ArgumentCommand {
      *
      * @return The permission to the command
      */
-    @NotNull Optional<String> getPermissionNode();
+    @NotNull Optional<ZonePermission> getPermissionNode();
 
     /**
      * Runs the command
@@ -58,8 +59,8 @@ public interface ArgumentCommand {
      * @return If the source has permission to run the command
      */
     default boolean hasPermission(@NotNull CommandCause source) {
-        Optional<String> opNode = this.getPermissionNode();
-        return opNode.map(source::hasPermission).orElse(true);
+        Optional<ZonePermission> opNode = this.getPermissionNode();
+        return opNode.map(permission -> permission.hasPermission(source.subject())).orElse(true);
     }
 
     default boolean canApply(@NotNull CommandContext context) {

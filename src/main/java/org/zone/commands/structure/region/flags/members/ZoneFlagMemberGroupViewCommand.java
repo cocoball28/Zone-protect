@@ -7,7 +7,6 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.user.UserManager;
-import org.zone.Permissions;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.CommandArgumentResult;
@@ -18,6 +17,8 @@ import org.zone.commands.system.arguments.simple.number.RangeArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.arguments.zone.ZoneGroupArgument;
 import org.zone.commands.system.context.CommandContext;
+import org.zone.permissions.ZonePermission;
+import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.group.Group;
 import org.zone.utils.Messages;
@@ -38,7 +39,9 @@ public class ZoneFlagMemberGroupViewCommand implements ArgumentCommand {
         return CommandArgumentResult.from(a, pages);
 
     }), 1);
-    public static final ZoneArgument ZONE = new ZoneArgument("zoneId");
+    public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
+                                                             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
+                                                                     ZonePermissions.OVERRIDE_FLAG_MEMBERS_VIEW));
     public static final ZoneGroupArgument GROUP = new ZoneGroupArgument("groupId", ZONE);
 
     @Override
@@ -57,8 +60,8 @@ public class ZoneFlagMemberGroupViewCommand implements ArgumentCommand {
     }
 
     @Override
-    public @NotNull Optional<String> getPermissionNode() {
-        return Optional.of(Permissions.REGION_ADMIN_INFO.getPermission());
+    public @NotNull Optional<ZonePermission> getPermissionNode() {
+        return Optional.of(ZonePermissions.FLAG_MEMBERS_VIEW);
     }
 
     @Override

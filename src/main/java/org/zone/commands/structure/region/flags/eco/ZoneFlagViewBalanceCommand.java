@@ -15,8 +15,9 @@ import org.zone.commands.system.arguments.sponge.CurrencyArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.context.CommandArgumentContext;
 import org.zone.commands.system.context.CommandContext;
+import org.zone.permissions.ZonePermission;
+import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
-import org.zone.region.group.key.GroupKeys;
 import org.zone.utils.Messages;
 
 import java.math.BigDecimal;
@@ -31,8 +32,8 @@ import java.util.Optional;
 public class ZoneFlagViewBalanceCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE = new ZoneArgument("zone_value",
-                                                             new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(
-                                                                     GroupKeys.OWNER));
+                                                             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
+                                                                     ZonePermissions.OVERRIDE_FLAG_BALANCE_VIEW));
 
     public static final CurrencyArgument CURRENCY = new CurrencyArgument("currency_value",
                                                                          (context, argument) -> {
@@ -69,8 +70,8 @@ public class ZoneFlagViewBalanceCommand implements ArgumentCommand {
     }
 
     @Override
-    public @NotNull Optional<String> getPermissionNode() {
-        return Optional.empty();
+    public @NotNull Optional<ZonePermission> getPermissionNode() {
+        return Optional.of(ZonePermissions.FLAG_BALANCE_VIEW);
     }
 
     @Override

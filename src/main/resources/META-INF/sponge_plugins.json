@@ -18,6 +18,10 @@
         {
           "name": "mosemister",
           "description": "Author"
+        },
+        {
+          "name": "Lukamon24",
+          "description": "Contributors"
         }
       ],
       "dependencies": [

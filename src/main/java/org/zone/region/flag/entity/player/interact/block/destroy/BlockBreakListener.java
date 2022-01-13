@@ -9,8 +9,8 @@ import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.block.ChangeBlockEvent;
 import org.spongepowered.api.event.filter.cause.First;
 import org.spongepowered.api.world.server.ServerLocation;
-import org.zone.Permissions;
 import org.zone.ZonePlugin;
+import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.group.Group;
@@ -28,7 +28,7 @@ public class BlockBreakListener {
     @Listener
     public void onPlayerBlockChangeEvent(ChangeBlockEvent.All event, @First Player player) {
         if (player instanceof ServerPlayer sPlayer &&
-                sPlayer.hasPermission(Permissions.BYPASS_INTERACTION_BLOCK.getPermission())) {
+                ZonePermissions.BYPASS_BLOCK_INTERACTION_BREAK.hasPermission(sPlayer)) {
             return;
         }
         Map<BlockTransaction, Zone> inZone = event

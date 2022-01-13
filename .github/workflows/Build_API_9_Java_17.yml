@@ -1,7 +1,7 @@
 # This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
 
-name: Build plugin Java 16 - API 8
+name: Build plugin API 9
 
 on:
   push:
@@ -16,11 +16,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Set up JDK 16
+    - name: Set up JDK 17
       uses: actions/setup-java@v2
       with:
-        java-version: '16'
+        java-version: '17'
         distribution: 'adopt'
         cache: maven
     - name: Build with Maven
-      run: mvn clean package
+      run: mvn -f "pom-future-api9.xml" clean package

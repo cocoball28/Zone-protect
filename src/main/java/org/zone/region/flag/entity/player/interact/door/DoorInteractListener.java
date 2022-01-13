@@ -8,8 +8,8 @@ import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.block.InteractBlockEvent;
 import org.spongepowered.api.event.filter.cause.First;
 import org.spongepowered.api.tag.BlockTypeTags;
-import org.zone.Permissions;
 import org.zone.ZonePlugin;
+import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.group.key.GroupKeys;
@@ -39,7 +39,7 @@ public class DoorInteractListener {
                 return;
             }
             if (player instanceof ServerPlayer sPlayer &&
-                    sPlayer.hasPermission(Permissions.BYPASS_INTERACTION_DOOR.getPermission())) {
+                    ZonePermissions.BYPASS_DOOR_INTERACTION.hasPermission(sPlayer)) {
                 return;
             }
             if (zone.getParentId().isPresent() &&
