@@ -5,7 +5,6 @@ import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.entity.living.player.server.ServerPlayer;
 import org.spongepowered.api.service.permission.Subject;
-import org.zone.Permissions;
 import org.zone.ZonePlugin;
 import org.zone.commands.structure.create.bounds.AbstractCreateZoneStartCommand;
 import org.zone.commands.system.CommandArgument;
@@ -14,6 +13,8 @@ import org.zone.commands.system.arguments.operation.RemainingArgument;
 import org.zone.commands.system.arguments.simple.StringArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.context.CommandContext;
+import org.zone.permissions.ZonePermission;
+import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.ZoneBuilder;
 import org.zone.region.bounds.BoundedRegion;
@@ -33,7 +34,9 @@ import java.util.Optional;
  */
 public class ZoneCreateSubStartCommand extends AbstractCreateZoneStartCommand {
 
-    private static final ZoneArgument ZONE = new ZoneArgument("zone");
+    private static final ZoneArgument ZONE = new ZoneArgument("zone",
+                                                              new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
+                                                                      ZonePermissions.OVERRIDE_REGION_CREATE_SUB_BOUNDS_EXACT));
 
     private static final RemainingArgument<String> NAME = new RemainingArgument<>(new StringArgument(
             "name"));
@@ -55,8 +58,8 @@ public class ZoneCreateSubStartCommand extends AbstractCreateZoneStartCommand {
     }
 
     @Override
-    public @NotNull Optional<String> getPermissionNode() {
-        return Optional.of(Permissions.REGION_CREATE_BOUNDS.getPermission());
+    public @NotNull Optional<ZonePermission> getPermissionNode() {
+        return Optional.of(ZonePermissions.REGION_CREATE_SUB_BOUNDS_EXACT);
     }
 
     @Override

@@ -9,6 +9,8 @@ import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.context.CommandContext;
+import org.zone.permissions.ZonePermission;
+import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
 import org.zone.utils.Messages;
@@ -20,7 +22,9 @@ import java.util.Optional;
 public class ZoneFlagGreetingsRemoveCommand implements ArgumentCommand {
     public static final ExactArgument REGION = new ExactArgument("region");
     public static final ExactArgument FLAGS = new ExactArgument("flag");
-    public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zone_value");
+    public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zone_value",
+                                                                   new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
+                                                                           ZonePermissions.OVERRIDE_FLAG_GREETINGS_REMOVE));
     public static final ExactArgument GREETINGS = new ExactArgument("greetings");
     public static final ExactArgument REMOVE = new ExactArgument("remove");
 
@@ -35,8 +39,8 @@ public class ZoneFlagGreetingsRemoveCommand implements ArgumentCommand {
     }
 
     @Override
-    public @NotNull Optional<String> getPermissionNode() {
-        return Optional.empty();
+    public @NotNull Optional<ZonePermission> getPermissionNode() {
+        return Optional.of(ZonePermissions.FLAG_GREETINGS_REMOVE);
     }
 
     @Override

@@ -10,6 +10,7 @@ import org.zone.Identifiable;
 import org.zone.ZonePlugin;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.context.ErrorContext;
+import org.zone.permissions.ZonePermission;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagType;
 import org.zone.region.flag.entity.player.move.leaving.LeavingFlag;
@@ -122,7 +123,10 @@ public final class Messages {
                 .text(" You do not have permission for that command" + ". You require '")
                 .color(NamedTextColor.RED)
                 .append(Component
-                                .text(argumentCommand.getPermissionNode().orElse("Unknown"))
+                                .text(argumentCommand
+                                              .getPermissionNode()
+                                              .map(ZonePermission::getPermission)
+                                              .orElse("Unknown"))
                                 .color(NamedTextColor.DARK_RED))
                 .append(Component.text("'").color(NamedTextColor.RED));
     }

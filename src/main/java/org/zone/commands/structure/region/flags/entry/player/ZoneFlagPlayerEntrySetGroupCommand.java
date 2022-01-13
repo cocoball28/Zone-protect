@@ -10,6 +10,8 @@ import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.arguments.zone.ZoneGroupArgument;
 import org.zone.commands.system.context.CommandContext;
+import org.zone.permissions.ZonePermission;
+import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.entity.player.move.preventing.PreventPlayersFlag;
@@ -23,7 +25,8 @@ import java.util.Optional;
 public class ZoneFlagPlayerEntrySetGroupCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zone_value",
-                                                                   new ZoneArgument.ZoneArgumentPropertiesBuilder());
+                                                                   new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
+                                                                           ZonePermissions.OVERRIDE_FLAG_ENTRY_PLAYER_SET_GROUP));
     public static final ZoneGroupArgument GROUP = new ZoneGroupArgument("groupId", ZONE_VALUE);
 
     @Override
@@ -44,8 +47,8 @@ public class ZoneFlagPlayerEntrySetGroupCommand implements ArgumentCommand {
     }
 
     @Override
-    public @NotNull Optional<String> getPermissionNode() {
-        return Optional.empty();
+    public @NotNull Optional<ZonePermission> getPermissionNode() {
+        return Optional.of(ZonePermissions.FLAG_ENTRY_PLAYER_SET_GROUP);
     }
 
     @Override

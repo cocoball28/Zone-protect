@@ -7,9 +7,11 @@ import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.entity.MoveEntityEvent;
 import org.spongepowered.api.event.filter.Getter;
 import org.spongepowered.api.event.network.ServerSideConnectionEvent;
+import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.api.world.Locatable;
 import org.spongepowered.math.vector.Vector3i;
 import org.zone.ZonePlugin;
+import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
 
@@ -17,10 +19,16 @@ import java.util.Optional;
 
 public class PreventPlayersListener {
     @Listener
-    public void onPlayerMove(MoveEntityEvent event, @Getter("entity") Player player){
+    public void onPlayerMove(MoveEntityEvent event, @Getter("entity") Player player) {
         if (event.originalPosition().toInt().equals(event.destinationPosition().toInt())) {
             //ignores this event if the player didn't move, but instead rotated
             return;
+        }
+
+        if (player instanceof Subject subject) {
+            if (ZonePermissions.BYPASS_ENTRY.hasPermission(subject)) {
+                return;
+            }
         }
 
         Optional<Zone> opPreviousZone = ZonePlugin
@@ -28,7 +36,7 @@ public class PreventPlayersListener {
                 .getZoneManager()
                 .getPriorityZone(event.entity().world(), event.originalPosition());
 
-        if(opPreviousZone.isPresent()){
+        if (opPreviousZone.isPresent()) {
             /*
              Player is already in a zone. No need to prevent from them entering unless they are
              coming from one zone to another, that is out of scope of this tutorial
@@ -41,14 +49,14 @@ public class PreventPlayersListener {
                 .getZoneManager()
                 .getPriorityZone(event.entity().world(), event.destinationPosition());
 
-        if(opNextZone.isEmpty()){
+        if (opNextZone.isEmpty()) {
             //player is not moving into a zone, ignore this flag
             return;
         }
 
         Zone zone = opNextZone.get();
         Optional<PreventPlayersFlag> opFlag = zone.getFlag(FlagTypes.PREVENT_PLAYERS);
-        if(opFlag.isEmpty()){
+        if (opFlag.isEmpty()) {
             return;
         }
 
@@ -70,49 +78,41 @@ public class PreventPlayersListener {
             return;
         }
 
-        Optional<PreventPlayersFlag> flag = opZone
-                .get()
-                .getFlag(FlagTypes.PREVENT_PLAYERS);
+        Optional<PreventPlayersFlag> flag = opZone.get().getFlag(FlagTypes.PREVENT_PLAYERS);
         if (flag.isEmpty()) {
             return;
         }
-        if (!flag.get().hasPermission(opZone.get(),serverPlayer.uniqueId())) {
+        if (!flag.get().hasPermission(opZone.get(), serverPlayer.uniqueId())) {
             return;
         }
+        Optional<Vector3i> opPos = this.tpPos(opZone.get(), serverPlayer);
+        if (opPos.isPresent()) {
+            serverPlayer.setPosition(opPos.get().toDouble());
+            return;
+        }
+        serverPlayer.setPosition(serverPlayer.world().properties().spawnPosition().toDouble());
     }
 
     private Optional<Vector3i> tpPos(@NotNull Zone zoneOne, @NotNull Locatable player) {
-        return zoneOne
-                .getRegion()
-                .getTrueChildren()
-                .stream()
-                .filter(boundedRegion -> {
-                    Vector3i position = boundedRegion.getMin().add(-1, 0, -1);
-                    position = player
-                            .world()
-                            .highestPositionAt(position);
-                    final Vector3i finalPosition = position;
-                    //check if in any zone
-                    return !ZonePlugin
-                            .getZonesPlugin()
-                            .getZoneManager()
-                            .getZones()
-                            .stream()
-                            .anyMatch(zone -> zone.inRegion(player.world() ,
-                                                            finalPosition.toDouble()));
-                })
-                .findAny()
-                .map(boundedRegion -> {
-                    Vector3i position = boundedRegion.getMin().add(-1, 0, -1);
-                    return player
-                            .world()
-                            .highestPositionAt(position);
-                });
+        return zoneOne.getRegion().getTrueChildren().stream().filter(boundedRegion -> {
+            Vector3i position = boundedRegion.getMin().add(-1, 0, -1);
+            position = player.world().highestPositionAt(position);
+            final Vector3i finalPosition = position;
+            //check if in any zone
+            return ZonePlugin
+                    .getZonesPlugin()
+                    .getZoneManager()
+                    .getZones()
+                    .stream()
+                    .noneMatch(zone -> zone.inRegion(player.world(), finalPosition.toDouble()));
+        }).findAny().map(boundedRegion -> {
+            Vector3i position = boundedRegion.getMin().add(-1, 0, -1);
+            return player.world().highestPositionAt(position);
+        });
     }
 
     @Listener
     public void onEntityMoveEvent(MoveEntityEvent event, @Getter("entity") Player player) {
-
         Optional<Zone> opPreviousZone = ZonePlugin
                 .getZonesPlugin()
                 .getZoneManager()
@@ -131,7 +131,7 @@ public class PreventPlayersListener {
 
         Zone zone = opNextZone.get();
         Optional<PreventPlayersFlag> opFlag = zone.getFlag(FlagTypes.PREVENT_PLAYERS);
-        if(opFlag.isEmpty()){
+        if (opFlag.isEmpty()) {
             return;
         }
 
@@ -141,7 +141,7 @@ public class PreventPlayersListener {
 
         Zone previousZone = opPreviousZone.get();
         Optional<PreventPlayersFlag> opPreviousFlag = previousZone.getFlag(FlagTypes.PREVENT_PLAYERS);
-        if(opPreviousFlag.isEmpty()){
+        if (opPreviousFlag.isEmpty()) {
             return;
         }
 
@@ -153,10 +153,9 @@ public class PreventPlayersListener {
 
         if (opTpPos.isPresent()) {
             event.setDestinationPosition(opTpPos.get().toDouble());
-        }else {
-            event.setDestinationPosition(player.world().properties().spawnPosition().toDouble());
+            return;
         }
-
+        event.setDestinationPosition(player.world().properties().spawnPosition().toDouble());
     }
 
 }

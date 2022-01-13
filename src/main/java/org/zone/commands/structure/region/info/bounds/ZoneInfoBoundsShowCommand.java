@@ -9,16 +9,17 @@ import org.spongepowered.api.effect.Viewer;
 import org.spongepowered.api.scheduler.Task;
 import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.api.world.Locatable;
-import org.zone.Permissions;
 import org.zone.ZonePlugin;
-import org.zone.utils.Messages;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.event.listener.PlayerListener;
+import org.zone.permissions.ZonePermission;
+import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
+import org.zone.utils.Messages;
 
 import java.util.Arrays;
 import java.util.List;
@@ -30,7 +31,9 @@ import java.util.concurrent.TimeUnit;
  */
 public class ZoneInfoBoundsShowCommand implements ArgumentCommand {
 
-    public static final ZoneArgument ZONE = new ZoneArgument("zoneId");
+    public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
+                                                             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
+                                                                     ZonePermissions.OVERRIDE_REGION_BASIC_INFO));
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
@@ -47,8 +50,8 @@ public class ZoneInfoBoundsShowCommand implements ArgumentCommand {
     }
 
     @Override
-    public @NotNull Optional<String> getPermissionNode() {
-        return Optional.of(Permissions.REGION_ADMIN_INFO.getPermission());
+    public @NotNull Optional<ZonePermission> getPermissionNode() {
+        return Optional.of(ZonePermissions.REGION_BASIC_INFO);
     }
 
     @Override
@@ -60,8 +63,9 @@ public class ZoneInfoBoundsShowCommand implements ArgumentCommand {
 
         Zone zone = context.getArgument(this, ZONE);
         zone.getRegion().getTrueChildren().forEach(region -> {
-        int y = locatable.blockPosition().y() - 1;
-            PlayerListener.runOnOutside(region, y,
+            int y = locatable.blockPosition().y() - 1;
+            PlayerListener.runOnOutside(region,
+                                        y,
                                         vector3i -> viewer.sendBlockChange(vector3i,
                                                                            BlockTypes.ORANGE_WOOL
                                                                                    .get()
@@ -74,7 +78,8 @@ public class ZoneInfoBoundsShowCommand implements ArgumentCommand {
                                     .builder()
                                     .plugin(ZonePlugin.getZonesPlugin().getPluginContainer())
                                     .delay(10, TimeUnit.SECONDS)
-                                    .execute(() -> PlayerListener.runOnOutside(region, y,
+                                    .execute(() -> PlayerListener.runOnOutside(region,
+                                                                               y,
                                                                                viewer::resetBlockChange,
                                                                                zone
                                                                                        .getParentId()

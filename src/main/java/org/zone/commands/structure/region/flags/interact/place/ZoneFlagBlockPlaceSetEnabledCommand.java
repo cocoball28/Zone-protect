@@ -5,16 +5,18 @@ import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.configurate.ConfigurateException;
-import org.zone.utils.Messages;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.simple.BooleanArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.context.CommandContext;
+import org.zone.permissions.ZonePermission;
+import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.entity.player.interact.block.place.BlockPlaceFlag;
+import org.zone.utils.Messages;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,9 +27,12 @@ import java.util.Optional;
  */
 public class ZoneFlagBlockPlaceSetEnabledCommand implements ArgumentCommand {
 
-    public static final BooleanArgument VALUE = new BooleanArgument("enabledValue", "enable",
+    public static final BooleanArgument VALUE = new BooleanArgument("enabledValue",
+                                                                    "enable",
                                                                     "disable");
-    public static final ZoneArgument ZONE = new ZoneArgument("zoneId");
+    public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
+                                                             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
+                                                                     ZonePermissions.OVERRIDE_FLAG_BLOCK_INTERACTION_PLACE_ENABLE));
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
@@ -47,8 +52,8 @@ public class ZoneFlagBlockPlaceSetEnabledCommand implements ArgumentCommand {
     }
 
     @Override
-    public @NotNull Optional<String> getPermissionNode() {
-        return Optional.empty();
+    public @NotNull Optional<ZonePermission> getPermissionNode() {
+        return Optional.of(ZonePermissions.FLAG_BLOCK_INTERACTION_PLACE_ENABLE);
     }
 
     @Override
