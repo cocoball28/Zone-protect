@@ -37,7 +37,7 @@ public enum ZonePermissions implements ZonePermission {
                                             "sub",
                                             "bounds",
                                             "exact"),
-    OEVRRIDE_REGION_CREATE_SUB_BOUNDS_CHUNK(false,
+    OVERRIDE_REGION_CREATE_SUB_BOUNDS_CHUNK(false,
                                             "zone",
                                             "override",
                                             "region",
@@ -210,6 +210,7 @@ public enum ZonePermissions implements ZonePermission {
                                              "flag",
                                              "door",
                                              "interaction",
+                                             "set",
                                              "group"),
 
     //itemframe interaction

@@ -41,9 +41,6 @@ public class OverridePermissions {
             }
             ZonePermissions overridePermission = ZonePermissions.valueOf("OVERRIDE_" +
                                                                                  permission.name());
-            if (overridePermission == null) {
-                Assertions.fail("No override permission found for " + permission.name());
-            }
 
             String[] overrideNode = overridePermission.getPermissionNode();
             Assertions.assertEquals(overrideNode.length,
