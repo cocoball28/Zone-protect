@@ -17,14 +17,20 @@ body:
       required: true
     attributes:
       label: Sponge API version
-      options: ["8.0.0", "8.1.0", "9.0.0"]
+      options:
+        - label: 8.0.0
+        - label: 8.1.0
+        - label: 9.0.0
   - type: checkboxes
     id: sponge-impl
     validations:
       required: true
     attributes:
       label: Sponge type
-      options: ["Vanilla", "Forge", "Lantern"]
+      options:
+        - label: Vanilla
+        - label: Forge
+        - label: Lantern
   - type: textarea
     id: description
     validations:
