@@ -3,15 +3,10 @@ description: Want a new feature that doesn't fit into any other category, try th
 labels: ["feature"]
 title: "[Feature] "
 body:
-  - type: markdown
+  - type: textarea
     id: feature
     validations:
       required: true
     attributes:
       value: feature request
-  - type: input
-    id: version
-    attributes:
-      label: Aiming for Zones version
-      placeholder: 1.1.0
     
