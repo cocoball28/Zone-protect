@@ -1,0 +1,10 @@
+name: Feature request
+description: Want a new feature that doesn't fit into any other category, try this
+labels: ["feature"]
+title: "[Feature] "
+body:
+  - type: markdown
+    validations:
+      required: true
+    attributes:
+      value: feature request
