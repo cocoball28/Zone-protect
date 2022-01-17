@@ -8,5 +8,5 @@ body:
     validations:
       required: true
     attributes:
-      value: feature request
+      label: feature request
     

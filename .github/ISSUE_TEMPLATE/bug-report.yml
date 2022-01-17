@@ -12,6 +12,7 @@ body:
       multiple: false
       options:
         - 1.0.0
+        - 1.0.1
   - type: checkboxes
     id: sponge-version
     validations:
@@ -20,6 +21,8 @@ body:
       label: Sponge API version
       options:
         - 8.0.0
+        - 8.1.0
+        - 9.0.0
   - type: checkboxes
     id: sponge-impl
     validations:
