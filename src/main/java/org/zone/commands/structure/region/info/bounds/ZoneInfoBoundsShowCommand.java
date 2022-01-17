@@ -32,16 +32,16 @@ import java.util.stream.Collectors;
 public class ZoneInfoBoundsShowCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
-                                                             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
-                                                                     ZonePermissions.OVERRIDE_REGION_BASIC_INFO));
+            new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
+                    ZonePermissions.OVERRIDE_REGION_BASIC_INFO));
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
-                             new ExactArgument("info"),
-                             ZONE,
-                             new ExactArgument("bounds"),
-                             new ExactArgument("show"));
+                new ExactArgument("info"),
+                ZONE,
+                new ExactArgument("bounds"),
+                new ExactArgument("show"));
     }
 
     @Override
@@ -92,24 +92,21 @@ public class ZoneInfoBoundsShowCommand implements ArgumentCommand {
             zone.getRegion().getTrueChildren().forEach(region -> {
                 int y = locatable.blockPosition().y() - 1;
                 PlayerListener.runOnOutside(region,
-                                            y,
-                                            vector3i -> viewer.sendBlockChange(vector3i,
-                                                                               finalColour.defaultState()),
-                                            zone.getParentId().isPresent());
+                        y,
+                        vector3i -> viewer.sendBlockChange(vector3i, finalColour.defaultState()),
+                        zone.getParentId().isPresent());
                 Sponge
                         .server()
                         .scheduler()
                         .submit(Task
-                                        .builder()
-                                        .plugin(ZonePlugin.getZonesPlugin().getPluginContainer())
-                                        .delay(10, TimeUnit.SECONDS)
-                                        .execute(() -> PlayerListener.runOnOutside(region,
-                                                                                   y,
-                                                                                   viewer::resetBlockChange,
-                                                                                   zone
-                                                                                           .getParentId()
-                                                                                           .isPresent()))
-                                        .build());
+                                .builder()
+                                .plugin(ZonePlugin.getZonesPlugin().getPluginContainer())
+                                .delay(10, TimeUnit.SECONDS)
+                                .execute(() -> PlayerListener.runOnOutside(region,
+                                        y,
+                                        viewer::resetBlockChange,
+                                        zone.getParentId().isPresent()))
+                                .build());
             });
         });
         return CommandResult.success();

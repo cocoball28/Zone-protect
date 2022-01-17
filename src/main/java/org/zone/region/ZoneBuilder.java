@@ -33,12 +33,12 @@ public class ZoneBuilder {
     private ResourceKey world;
     private BoundsPayment payment;
 
-    public void setPayment(BoundsPayment payment) {
-        this.payment = payment;
-    }
-
     public BoundsPayment getPayment() {
         return this.payment;
+    }
+
+    public void setPayment(BoundsPayment payment) {
+        this.payment = payment;
     }
 
     public ResourceKey getWorldKey() {
