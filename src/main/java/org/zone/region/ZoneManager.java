@@ -30,6 +30,7 @@ import java.util.stream.Collectors;
 public class ZoneManager {
 
     private final @NotNull Collection<Zone> zones = new TreeSet<>(Comparator.comparing(Identifiable::getId));
+    private boolean isBeingWrittenTo;
 
     private static final Object[] NAME = {"Name"};
     private static final Object[] FLAGS = {"Flags"};
@@ -43,6 +44,12 @@ public class ZoneManager {
      * @return A collection of the zones
      */
     public @NotNull Collection<Zone> getZones() {
+        while (this.isBeingWrittenTo) {
+            /*this bit of code allows the zones to be updated on another thread without causing a
+            concurrent error*/
+            //noinspection UnnecessaryContinue
+            continue;
+        }
         return Collections.unmodifiableCollection(this.zones);
     }
 
@@ -136,8 +143,10 @@ public class ZoneManager {
      *
      * @param zone The zone to add
      */
-    public void register(@NotNull Zone zone) {
+    public synchronized void register(@NotNull Zone zone) {
+        this.isBeingWrittenTo = true;
         this.zones.add(zone);
+        this.isBeingWrittenTo = false;
     }
 
     /**
@@ -149,7 +158,7 @@ public class ZoneManager {
      *
      * @throws ConfigurateException If you couldn't load
      */
-    public @NotNull Zone load(File file) throws ConfigurateException {
+    public synchronized @NotNull Zone load(File file) throws ConfigurateException {
         HoconConfigurationLoader loader = HoconConfigurationLoader.builder().file(file).build();
         ConfigurationNode node = loader.load();
         String name = node.node(NAME).getString();
@@ -241,7 +250,7 @@ public class ZoneManager {
      *
      * @throws ConfigurateException if fails to save
      */
-    public File save(Zone zone) throws ConfigurateException {
+    public synchronized File save(Zone zone) throws ConfigurateException {
         File file = new File("config/zone/zones/" +
                                      zone.getPlugin().metadata().id() +
                                      "/" +

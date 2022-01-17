@@ -28,7 +28,7 @@ public class ZoneCreateChunkSubStartCommand extends AbstractCreateZoneStartComma
     public static final ExactArgument CHUNK = new ExactArgument("chunk");
     public static final ZoneArgument ZONE = new ZoneArgument("zone",
                                                              new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
-                                                                     ZonePermissions.OEVRRIDE_REGION_CREATE_SUB_BOUNDS_CHUNK));
+                                                                     ZonePermissions.OVERRIDE_REGION_CREATE_SUB_BOUNDS_CHUNK));
     public static final RemainingArgument<String> NAME = new RemainingArgument<>(new StringArgument(
             "name"));
 

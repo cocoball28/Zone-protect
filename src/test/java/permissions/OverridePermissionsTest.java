@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.zone.permissions.ZonePermissions;
 
-public class OverridePermissions {
+public class OverridePermissionsTest {
 
     @Test
     public void testAllOverridesAreDefaultFalse() {
@@ -12,12 +12,12 @@ public class OverridePermissions {
             if (!permission.name().startsWith("OVERRIDE_")) {
                 continue;
             }
-            if (permission.isDefaultAllowed()) {
-                Assertions.fail("The override permission of " +
-                                        permission.name() +
-                                        " should not " +
-                                        "have a default value of true");
-            }
+            Assertions.assertFalse(permission.isDefaultAllowed(),
+                                   "The override permission of " +
+                                           permission.name() +
+                                           " should not " +
+                                           "have a default value of true");
+
         }
     }
 
@@ -41,9 +41,6 @@ public class OverridePermissions {
             }
             ZonePermissions overridePermission = ZonePermissions.valueOf("OVERRIDE_" +
                                                                                  permission.name());
-            if (overridePermission == null) {
-                Assertions.fail("No override permission found for " + permission.name());
-            }
 
             String[] overrideNode = overridePermission.getPermissionNode();
             Assertions.assertEquals(overrideNode.length,
