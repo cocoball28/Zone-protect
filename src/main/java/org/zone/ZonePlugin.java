@@ -16,6 +16,7 @@ import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.plugin.PluginContainer;
 import org.spongepowered.plugin.builtin.jvm.Plugin;
 import org.zone.commands.structure.ZoneCommands;
+import org.zone.config.ZoneConfig;
 import org.zone.event.listener.PlayerListener;
 import org.zone.memory.MemoryHolder;
 import org.zone.region.Zone;
@@ -52,6 +53,7 @@ public class ZonePlugin {
     private FlagManager flagManager;
     private ZoneManager zoneManager;
     private GroupKeyManager groupKeyManager;
+    private ZoneConfig config;
     private MemoryHolder memoryHolder;
     private static ZonePlugin zonePlugin;
 
@@ -61,6 +63,10 @@ public class ZonePlugin {
         zonePlugin = this;
         this.plugin = plugin;
         this.logger = logger;
+    }
+
+    public @NotNull ZoneConfig getConfig() {
+        return this.config;
     }
 
     /**
