@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
  */
 public class ZoneManager {
 
-    private final @NotNull Collection<Zone> zones = new TreeSet<>(Comparator.comparing(Identifiable::getId));
+    private final @NotNull Collection<Zone> zones = new LinkedHashSet<>();
     private boolean isBeingWrittenTo;
 
     private static final Object[] NAME = {"Name"};
@@ -121,10 +121,7 @@ public class ZoneManager {
         if (zones.isEmpty()) {
             return Optional.empty();
         }
-        Iterator<Zone> zoneIterator = zones.iterator();
-        //noinspection WhileLoopReplaceableByForEach
-        while (zoneIterator.hasNext()) {
-            Zone zone = zoneIterator.next();
+        for (Zone zone : zones) {
             if (zone.getParent().isPresent()) {
                 zones.remove(zone.getParent().get());
             }

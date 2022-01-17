@@ -80,10 +80,6 @@ public class PlayerListener {
                 }
                 if (showHeight) {
                     for (int usingY = min.y(); usingY <= max.y(); usingY++) {
-                        if (x == -195 && usingY == 78 && z == 229) {
-                            System.out.println("Hello");
-                        }
-
                         if (min.y() == usingY && (min.x() == x || max.x() == x)) {
                             consumer.accept(new Vector3i(x, usingY, z));
                         }
