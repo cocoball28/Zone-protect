@@ -3,6 +3,7 @@ package org.zone.utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import org.spongepowered.api.profile.GameProfile;
 import org.spongepowered.api.service.economy.Currency;
 import org.spongepowered.api.util.Nameable;
 import org.spongepowered.configurate.ConfigurateException;
@@ -329,4 +330,28 @@ public final class Messages {
     public static Component getEnabledInfo(boolean check) {
         return getEnabledTag().append(Component.text(check).color(NamedTextColor.GOLD));
     }
+
+    @SuppressWarnings("TypeMayBeWeakened")
+    public static Component getMovedGroupInfo(GameProfile profile, Group previous, Group group) {
+        return Component
+                .text("Moved " +
+                              profile.name().orElse("Unknown name") +
+                              " from " +
+                              previous.getName() +
+                              " to " +
+                              group.getName()).color(NamedTextColor.AQUA);
+    }
+
+    @SuppressWarnings("TypeMayBeWeakened")
+    public static Component getPlayerMovedGroupInfo(Zone zone, Group previous, Group group) {
+        return Component.text(
+                "You have been moved in '" +
+                        zone.getName() +
+                        "' from '" +
+                        previous.getName() +
+                        "' to '" +
+                        group.getName() +
+                        "'").color(NamedTextColor.AQUA);
+    }
+
 }

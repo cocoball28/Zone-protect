@@ -75,15 +75,7 @@ public class ZoneFlagMemberGroupAddCommand implements ArgumentCommand {
         }
         context
                 .getCause()
-                .sendMessage(Identity.nil(),
-                             Component
-                                     .text("Moved " +
-                                                   profile.name().orElse("Unknown name") +
-                                                   " from " +
-                                                   previous.getName() +
-                                                   " to " +
-                                                   group.getName())
-                                     .color(NamedTextColor.AQUA));
+                .sendMessage(Identity.nil(), Messages.getMovedGroupInfo(profile, previous, group));
         if (Sponge.isServerAvailable()) {
             Optional<ServerPlayer> opPlayer = Sponge
                     .server()
@@ -91,15 +83,9 @@ public class ZoneFlagMemberGroupAddCommand implements ArgumentCommand {
                     .stream()
                     .filter(p -> p.uniqueId().equals(profile.uuid()))
                     .findAny();
-            opPlayer.ifPresent(player -> player.sendMessage(Identity.nil(),
-                                                            Component.text(
-                                                                    "You have been moved in '" +
-                                                                            zone.getName() +
-                                                                            "' from '" +
-                                                                            previous.getName() +
-                                                                            "' to '" +
-                                                                            group.getName() +
-                                                                            "'")));
+            opPlayer.ifPresent(player -> player.sendMessage(Identity.nil(), Messages.getPlayerMovedGroupInfo(
+                    zone, previous, group
+            )));
         }
 
         zone.getMembers().addMember(group, profile.uniqueId());

@@ -7,6 +7,7 @@ import org.zone.commands.structure.create.bounds.chunk.ZoneCreateChunkStartComma
 import org.zone.commands.structure.create.bounds.chunk.ZoneCreateChunkSubStartCommand;
 import org.zone.commands.structure.info.ZonePluginInfoCommand;
 import org.zone.commands.structure.leave.LeaveZoneCommand;
+import org.zone.commands.structure.region.EditBoundsStartCommand;
 import org.zone.commands.structure.region.flags.damage.attack.ZoneFlagDamageAttackSetGroupCommand;
 import org.zone.commands.structure.region.flags.damage.attack.ZoneFlagDamageAttackView;
 import org.zone.commands.structure.region.flags.damage.fall.ZoneFlagPlayerFallDamageSetGroup;
@@ -77,6 +78,7 @@ public interface ZoneCommands {
     ZoneFlagGreetingsViewCommand ZONE_FLAG_GREETINGS_VIEW_COMMAND = new ZoneFlagGreetingsViewCommand();
     ZoneFlagInteractItemframesViewCommand ZONE_FLAG_INTERACT_ITEMFRAMES_VIEW_COMMAND = new ZoneFlagInteractItemframesViewCommand();
 
+    EditBoundsStartCommand EDIT_BOUNDS_START_COMMAND = new EditBoundsStartCommand();
     ZoneFlagPlayerFallDamageSetGroup ZONE_FLAG_PLAYER_FALL_DAMAGE_SET_GROUP = new ZoneFlagPlayerFallDamageSetGroup();
     ZoneFlagDamageAttackSetGroupCommand ZONE_FLAG_DAMAGE_ATTACK_SET_GROUP_COMMAND = new ZoneFlagDamageAttackSetGroupCommand();
     ZoneFlagMonsterEntryViewCommand ZONE_FLAG_MONSTER_ENTRY_VIEW_COMMAND = new ZoneFlagMonsterEntryViewCommand();
