@@ -2,7 +2,6 @@ package org.zone.commands.structure.region.flags.entry.monster;
 
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandResult;
 import org.zone.commands.system.ArgumentCommand;

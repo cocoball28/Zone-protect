@@ -7,6 +7,7 @@ import org.zone.commands.structure.create.bounds.chunk.ZoneCreateChunkStartComma
 import org.zone.commands.structure.create.bounds.chunk.ZoneCreateChunkSubStartCommand;
 import org.zone.commands.structure.info.ZonePluginInfoCommand;
 import org.zone.commands.structure.leave.LeaveZoneCommand;
+import org.zone.commands.structure.region.EditBoundsStartCommand;
 import org.zone.commands.structure.region.flags.damage.attack.ZoneFlagDamageAttackSetGroupCommand;
 import org.zone.commands.structure.region.flags.damage.attack.ZoneFlagDamageAttackView;
 import org.zone.commands.structure.region.flags.damage.fall.ZoneFlagPlayerFallDamageSetGroup;
