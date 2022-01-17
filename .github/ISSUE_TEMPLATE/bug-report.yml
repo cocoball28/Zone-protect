@@ -11,8 +11,8 @@ body:
       label: Zone-Version
       multiple: false
       options:
-        - 1.0.0
-        - 1.0.1
+        - "1.0.0"
+        - "1.0.1"
   - type: checkboxes
     id: sponge-version
     validations:
@@ -20,9 +20,9 @@ body:
     attributes:
       label: Sponge API version
       options:
-        - 8.0.0
-        - 8.1.0
-        - 9.0.0
+        - "8.0.0"
+        - "8.1.0"
+        - "9.0.0"
   - type: checkboxes
     id: sponge-impl
     validations:
@@ -30,9 +30,9 @@ body:
     attributes:
       label: Sponge type
       options:
-        - Vanilla
-        - Forge
-        - Lantern
+        - "Vanilla"
+        - "Forge"
+        - "Lantern"
   - type: textarea
     id: description
     validations:
