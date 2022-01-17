@@ -331,8 +331,8 @@ public final class Messages {
         return getEnabledTag().append(Component.text(check).color(NamedTextColor.GOLD));
     }
 
-    @SuppressWarnings("TypeMayBeWeakened")
-    public static Component getMovedGroupInfo(GameProfile profile, Group previous, Group group) {
+    public static Component getMovedGroupInfo(GameProfile profile, Identifiable previous,
+                                              Identifiable group) {
         return Component
                 .text("Moved " +
                               profile.name().orElse("Unknown name") +
@@ -342,8 +342,8 @@ public final class Messages {
                               group.getName()).color(NamedTextColor.AQUA);
     }
 
-    @SuppressWarnings("TypeMayBeWeakened")
-    public static Component getPlayerMovedGroupInfo(Zone zone, Group previous, Group group) {
+    public static Component getPlayerMovedGroupInfo(Identifiable zone, Identifiable previous,
+                                                    Identifiable group) {
         return Component.text(
                 "You have been moved in '" +
                         zone.getName() +
