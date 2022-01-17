@@ -84,7 +84,7 @@ public class ZoneManager {
                 .getZones()
                 .stream()
                 .filter(zone -> zone.inRegion(world, worldPos))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toUnmodifiableSet());
     }
 
     /**
@@ -110,15 +110,19 @@ public class ZoneManager {
      */
     public @NotNull Optional<Zone> getPriorityZone(@Nullable World<?, ?> world,
                                                    @NotNull Vector3d worldPos) {
-        Collection<Zone> zones = this.getZone(world, worldPos);
+        Collection<Zone> zones = new HashSet<>(this.getZone(world, worldPos));
         if (zones.isEmpty()) {
             return Optional.empty();
         }
-        for (Zone zone : zones) {
+        Iterator<Zone> zoneIterator = zones.iterator();
+        //noinspection WhileLoopReplaceableByForEach
+        while (zoneIterator.hasNext()) {
+            Zone zone = zoneIterator.next();
             if (zone.getParent().isPresent()) {
                 zones.remove(zone.getParent().get());
             }
         }
+
         if (zones.size() == 1) {
             return Optional.of(zones.iterator().next());
         }

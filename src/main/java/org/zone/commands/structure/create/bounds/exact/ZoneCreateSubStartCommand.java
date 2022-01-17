@@ -34,7 +34,7 @@ import java.util.Optional;
  */
 public class ZoneCreateSubStartCommand extends AbstractCreateZoneStartCommand {
 
-    private static final ZoneArgument ZONE = new ZoneArgument("zone",
+    private static final ZoneArgument ZONE = new ZoneArgument("zoneId",
                                                               new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
                                                                       ZonePermissions.OVERRIDE_REGION_CREATE_SUB_BOUNDS_EXACT));
 
@@ -44,10 +44,10 @@ public class ZoneCreateSubStartCommand extends AbstractCreateZoneStartCommand {
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("create"),
-                             new ExactArgument("bounds"),
-                             new ExactArgument("block"),
                              new ExactArgument("sub"),
-                             new ExactArgument("region"),
+                             new ExactArgument("bounds"),
+                             new ExactArgument("exact"),
+                             new ExactArgument("zone"),
                              ZONE,
                              NAME);
     }

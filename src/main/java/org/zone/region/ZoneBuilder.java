@@ -134,8 +134,9 @@ public class ZoneBuilder {
         return this;
     }
 
-    public ZoneBuilder setParent(@SuppressWarnings("TypeMayBeWeakened") Zone parent) {
+    public ZoneBuilder setParent(Zone parent) {
         this.parentId = parent.getId();
+        parent.getWorldKey().ifPresent(this::setWorld);
         return this;
     }
 

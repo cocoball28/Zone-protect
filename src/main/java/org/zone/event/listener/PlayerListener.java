@@ -80,10 +80,32 @@ public class PlayerListener {
                 }
                 if (showHeight) {
                     for (int usingY = min.y(); usingY <= max.y(); usingY++) {
-                        if (min.y() == usingY && (min.x() == x || min.z() == z)) {
+                        if (x == -195 && usingY == 78 && z == 229) {
+                            System.out.println("Hello");
+                        }
+
+                        if (min.y() == usingY && (min.x() == x || max.x() == x)) {
                             consumer.accept(new Vector3i(x, usingY, z));
                         }
-                        if (max.y() == usingY && (max.x() == x || max.z() == z)) {
+                        if (max.y() == usingY && (min.x() == x || max.x() == x)) {
+                            consumer.accept(new Vector3i(x, usingY, z));
+                        }
+                        if (min.y() == usingY && (min.z() == z || max.z() == z)) {
+                            consumer.accept(new Vector3i(x, usingY, z));
+                        }
+                        if (max.y() == usingY && (min.z() == z || max.z() == z)) {
+                            consumer.accept(new Vector3i(x, usingY, z));
+                        }
+                        if (max.x() == x && max.z() == z) {
+                            consumer.accept(new Vector3i(x, usingY, z));
+                        }
+                        if (min.x() == x && max.z() == z) {
+                            consumer.accept(new Vector3i(x, usingY, z));
+                        }
+                        if (max.x() == x && min.z() == z) {
+                            consumer.accept(new Vector3i(x, usingY, z));
+                        }
+                        if (min.x() == x && min.z() == z) {
                             consumer.accept(new Vector3i(x, usingY, z));
                         }
                     }
