@@ -1,6 +1,7 @@
 package org.zone.region.bounds;
 
 import org.jetbrains.annotations.NotNull;
+import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 import org.spongepowered.configurate.ConfigurationNode;
@@ -99,6 +100,5 @@ public interface Region {
                              boolean ignoreY) {
         return this.contains(location.position(), ignoreY);
     }
-
 
 }

@@ -1,6 +1,7 @@
 package org.zone.region.bounds;
 
 import org.jetbrains.annotations.NotNull;
+import org.spongepowered.api.util.AABB;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.math.vector.Vector3d;
@@ -21,6 +22,19 @@ public class BoundedRegion implements Region {
     public BoundedRegion(@NotNull Vector3i position1, @NotNull Vector3i position2) {
         this.position1 = position1;
         this.position2 = position2;
+    }
+
+    public @NotNull AABB asAABB() {
+        return AABB.of(this.getMax(), this.getMin());
+    }
+
+    public Vector3i getCenter() {
+        Vector3i min = this.getMin();
+        Vector3i max = this.getMax();
+        int offsetX = (max.x() - min.x()) / 2;
+        int offsetY = (max.y() - min.y()) / 2;
+        int offsetZ = (max.z() - min.z()) / 2;
+        return min.add(offsetX, offsetY, offsetZ);
     }
 
     public @NotNull Vector3i getPosition(@NotNull PositionType type) {
