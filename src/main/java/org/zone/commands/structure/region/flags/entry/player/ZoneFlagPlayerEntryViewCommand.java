@@ -24,19 +24,19 @@ import java.util.Optional;
 public class ZoneFlagPlayerEntryViewCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zoneId",
-                                                                   new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
-                                                                           ZonePermissions.OVERRIDE_FLAG_ENTRY_PLAYER_VIEW));
+            new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
+                    ZonePermissions.OVERRIDE_FLAG_ENTRY_PLAYER_VIEW));
     public static final OptionalArgument<String> VIEW = new OptionalArgument<>(new ExactArgument(
             "view"), (String) null);
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
-                             new ExactArgument("flag"),
-                             ZONE_VALUE,
-                             new ExactArgument("entry"),
-                             new ExactArgument("player"),
-                             VIEW);
+                new ExactArgument("flag"),
+                ZONE_VALUE,
+                new ExactArgument("entry"),
+                new ExactArgument("player"),
+                VIEW);
     }
 
     @Override
@@ -50,12 +50,13 @@ public class ZoneFlagPlayerEntryViewCommand implements ArgumentCommand {
     }
 
     @Override
-    public @NotNull CommandResult run(@NotNull CommandContext commandContext,
-                                      @NotNull String... args) {
+    public @NotNull CommandResult run(
+            @NotNull CommandContext commandContext, @NotNull String... args) {
         Zone zone = commandContext.getArgument(this, ZONE_VALUE);
         commandContext
                 .getCause()
-                .sendMessage(Identity.nil(), Messages.getEnabledInfo(zone.containsFlag(FlagTypes.PREVENT_PLAYERS)));
+                .sendMessage(Identity.nil(),
+                        Messages.getEnabledInfo(zone.containsFlag(FlagTypes.PREVENT_PLAYERS)));
         zone
                 .getMembers()
                 .getGroup(GroupKeys.PLAYER_PREVENTION)
