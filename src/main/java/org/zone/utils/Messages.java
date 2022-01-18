@@ -109,8 +109,8 @@ public final class Messages {
                 .color(NamedTextColor.RED)
                 .append(Component.text(keyFilePath).color(NamedTextColor.DARK_RED))
                 .append(Component
-                                .text("'. Below is details on why (this is not a crash)")
-                                .color(NamedTextColor.RED));
+                        .text("'. Below is details on why (this is not a crash)")
+                        .color(NamedTextColor.RED));
     }
 
     public static Component getZonesLoaded(Collection<Zone> zoneCollection) {
@@ -124,11 +124,11 @@ public final class Messages {
                 .text(" You do not have permission for that command" + ". You require '")
                 .color(NamedTextColor.RED)
                 .append(Component
-                                .text(argumentCommand
-                                              .getPermissionNode()
-                                              .map(ZonePermission::getPermission)
-                                              .orElse("Unknown"))
-                                .color(NamedTextColor.DARK_RED))
+                        .text(argumentCommand
+                                .getPermissionNode()
+                                .map(ZonePermission::getPermission)
+                                .orElse("Unknown"))
+                        .color(NamedTextColor.DARK_RED))
                 .append(Component.text("'").color(NamedTextColor.RED));
     }
 
@@ -144,8 +144,8 @@ public final class Messages {
                 .text("Could not find parent zone of ")
                 .color(NamedTextColor.RED)
                 .append(Component
-                                .text("'" + zone.getParentId().orElse("Unknown") + "'")
-                                .color(NamedTextColor.RED));
+                        .text("'" + zone.getParentId().orElse("Unknown") + "'")
+                        .color(NamedTextColor.RED));
     }
 
     public static Component getCreatedZoneMessage(@SuppressWarnings("TypeMayBeWeakened") Zone zone) {
@@ -160,9 +160,9 @@ public final class Messages {
                 .text("Failed to load flag of ")
                 .color(NamedTextColor.RED)
                 .append(Component
-                                .text(type.getId())
-                                .color(NamedTextColor.DARK_RED)
-                                .decorate(TextDecoration.BOLD));
+                        .text(type.getId())
+                        .color(NamedTextColor.DARK_RED)
+                        .decorate(TextDecoration.BOLD));
     }
 
     public static Component getPageTooLow() {
@@ -262,8 +262,8 @@ public final class Messages {
 
     public static Component getBalance(BigDecimal decimal) {
         return getBalanceTag().append(Component
-                                              .text(decimal.toString())
-                                              .color(NamedTextColor.GOLD));
+                .text(decimal.toString())
+                .color(NamedTextColor.GOLD));
 
     }
 
@@ -310,9 +310,9 @@ public final class Messages {
                 .text("----====[")
                 .color(NamedTextColor.RED)
                 .append(Component
-                                .text(zone.getName())
-                                .color(NamedTextColor.AQUA)
-                                .append(Component.text("]====----").color(NamedTextColor.RED)));
+                        .text(zone.getName())
+                        .color(NamedTextColor.AQUA)
+                        .append(Component.text("]====----").color(NamedTextColor.RED)));
     }
 
     public static Component getName(Identifiable zone) {

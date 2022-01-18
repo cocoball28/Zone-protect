@@ -168,12 +168,8 @@ public class Zone implements Identifiable {
     private boolean removeFlag(@NotNull FlagType<?> type, boolean runEvent) {
         if (runEvent) {
             FlagChangeEvent.RemoveFlag removeFlag = new FlagChangeEvent.RemoveFlag(this,
-                                                                                   type,
-                                                                                   Cause
-                                                                                           .builder()
-                                                                                           .append(type)
-                                                                                           .append(this)
-                                                                                           .build());
+                    type,
+                    Cause.builder().append(type).append(this).build());
             Sponge.eventManager().post(removeFlag);
             if (removeFlag.isCancelled()) {
                 return false;
@@ -209,12 +205,8 @@ public class Zone implements Identifiable {
     private boolean addFlag(@NotNull Flag flag, boolean runEvent) {
         if (runEvent) {
             FlagChangeEvent.AddFlag addFlag = new FlagChangeEvent.AddFlag(this,
-                                                                          flag,
-                                                                          Cause
-                                                                                  .builder()
-                                                                                  .append(flag)
-                                                                                  .append(this)
-                                                                                  .build());
+                    flag,
+                    Cause.builder().append(flag).append(this).build());
             Sponge.eventManager().post(addFlag);
             if (addFlag.isCancelled()) {
                 return false;
@@ -239,13 +231,9 @@ public class Zone implements Identifiable {
         Optional<?> opFlag = this.getFlag(flag.getType());
         if (opFlag.isPresent()) {
             FlagChangeEvent.UpdateFlag event = new FlagChangeEvent.UpdateFlag(this,
-                                                                              (Flag) opFlag.get(),
-                                                                              flag,
-                                                                              Cause
-                                                                                      .builder()
-                                                                                      .append(flag)
-                                                                                      .append(this)
-                                                                                      .build());
+                    (Flag) opFlag.get(),
+                    flag,
+                    Cause.builder().append(flag).append(this).build());
             Sponge.eventManager().post(event);
             if (event.isCancelled()) {
                 return false;
@@ -315,7 +303,7 @@ public class Zone implements Identifiable {
         return this
                 .getFlag(FlagTypes.MEMBERS)
                 .orElseThrow(() -> new IllegalStateException("MembersFlag is missing in zone: " +
-                                                                     this.getId()));
+                        this.getId()));
     }
 
     /**

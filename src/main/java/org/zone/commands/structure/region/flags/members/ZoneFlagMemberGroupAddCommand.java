@@ -2,7 +2,6 @@ package org.zone.commands.structure.region.flags.members;
 
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandResult;
@@ -33,19 +32,19 @@ import java.util.Optional;
 public class ZoneFlagMemberGroupAddCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
-                                                             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
-                                                                     ZonePermissions.OVERRIDE_FLAG_MEMBER_CHANGE));
+            new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
+                    ZonePermissions.OVERRIDE_FLAG_MEMBER_CHANGE));
     public static final ZoneGroupArgument GROUP = new ZoneGroupArgument("groupId", ZONE);
     public static final UserArgument USER = new UserArgument("user");
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
-                             new ExactArgument("member"),
-                             ZONE,
-                             new ExactArgument("set", false, "set", "change", "apply", "add"),
-                             USER,
-                             GROUP);
+                new ExactArgument("member"),
+                ZONE,
+                new ExactArgument("set", false, "set", "change", "apply", "add"),
+                USER,
+                GROUP);
     }
 
     @Override
@@ -83,9 +82,8 @@ public class ZoneFlagMemberGroupAddCommand implements ArgumentCommand {
                     .stream()
                     .filter(p -> p.uniqueId().equals(profile.uuid()))
                     .findAny();
-            opPlayer.ifPresent(player -> player.sendMessage(Identity.nil(), Messages.getPlayerMovedGroupInfo(
-                    zone, previous, group
-            )));
+            opPlayer.ifPresent(player -> player.sendMessage(Identity.nil(),
+                    Messages.getPlayerMovedGroupInfo(zone, previous, group)));
         }
 
         zone.getMembers().addMember(group, profile.uniqueId());

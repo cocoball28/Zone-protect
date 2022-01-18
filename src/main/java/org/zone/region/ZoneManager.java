@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
  */
 public class ZoneManager {
 
-    private final @NotNull Collection<Zone> zones = new TreeSet<>(Comparator.comparing(Identifiable::getId));
+    private final @NotNull Collection<Zone> zones = new LinkedHashSet<>();
     private boolean isBeingWrittenTo;
 
     private static final Object[] NAME = {"Name"};
@@ -87,8 +87,8 @@ public class ZoneManager {
      *
      * @return A collection of all the zones found that contain that location
      */
-    public @NotNull Collection<Zone> getZone(@Nullable World<?, ?> world,
-                                             @NotNull Vector3d worldPos) {
+    public @NotNull Collection<Zone> getZone(
+            @Nullable World<?, ?> world, @NotNull Vector3d worldPos) {
         return this
                 .getZones()
                 .stream()
@@ -141,9 +141,9 @@ public class ZoneManager {
      *
      * @return The zone to use. {@link Optional#empty()} when no zone was found at the position
      */
-    public @NotNull Optional<Zone> getPriorityZone(@Nullable World<?, ?> world,
-                                                   @NotNull Vector3d worldPos) {
-        Collection<Zone> zones = this.getZone(world, worldPos);
+    public @NotNull Optional<Zone> getPriorityZone(
+            @Nullable World<?, ?> world, @NotNull Vector3d worldPos) {
+        Collection<Zone> zones = new HashSet<>(this.getZone(world, worldPos));
         if (zones.isEmpty()) {
             return Optional.empty();
         }
@@ -152,6 +152,7 @@ public class ZoneManager {
                 zones.remove(zone.getParent().get());
             }
         }
+
         if (zones.size() == 1) {
             return Optional.of(zones.iterator().next());
         }
@@ -232,15 +233,15 @@ public class ZoneManager {
                             .getZonesPlugin()
                             .getLogger()
                             .error("Could not load flag: Unknown flag Id of '" +
-                                           flagPluginNode.getKey().toString() +
-                                           ":" +
-                                           keyNode.getValue().key() +
-                                           "'");
+                                    flagPluginNode.getKey().toString() +
+                                    ":" +
+                                    keyNode.getValue().key() +
+                                    "'");
                     continue;
                 }
                 if (types.containsKey(opFlag.get())) {
                     throw new IllegalStateException("Two or more flag keys found to be the same: " +
-                                                            opFlag.get());
+                            opFlag.get());
                 }
                 types.put(opFlag.get(), keyNode.getValue());
             }
@@ -274,10 +275,10 @@ public class ZoneManager {
      */
     public synchronized File save(Zone zone) throws ConfigurateException {
         File file = new File("config/zone/zones/" +
-                                     zone.getPlugin().metadata().id() +
-                                     "/" +
-                                     zone.getKey() +
-                                     ".conf");
+                zone.getPlugin().metadata().id() +
+                "/" +
+                zone.getKey() +
+                ".conf");
         HoconConfigurationLoader loader = HoconConfigurationLoader.builder().file(file).build();
         ConfigurationNode node = loader.createNode();
 

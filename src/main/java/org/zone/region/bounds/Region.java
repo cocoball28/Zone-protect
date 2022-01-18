@@ -30,6 +30,8 @@ public interface Region {
      */
     boolean contains(@NotNull Vector3d location, boolean ignoreY);
 
+    Collection<? extends Entity> getEntities(World<?, ?> world);
+
     /**
      * Gets the location within the region that is nearest to the provided block position
      *
@@ -96,8 +98,8 @@ public interface Region {
      *
      * @return if true, the position is contained
      */
-    default boolean contains(@NotNull Location<? extends World<?, ?>, ?> location,
-                             boolean ignoreY) {
+    default boolean contains(
+            @NotNull Location<? extends World<?, ?>, ?> location, boolean ignoreY) {
         return this.contains(location.position(), ignoreY);
     }
 

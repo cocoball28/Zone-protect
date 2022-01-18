@@ -14,6 +14,7 @@ import org.spongepowered.api.event.lifecycle.*;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.plugin.PluginContainer;
 import org.spongepowered.plugin.builtin.jvm.Plugin;
+import org.zone.ai.HumanAIListener;
 import org.zone.commands.structure.ZoneCommands;
 import org.zone.config.ZoneConfig;
 import org.zone.event.listener.PlayerListener;
@@ -135,6 +136,7 @@ public class ZonePlugin {
         eventManager.registerListeners(this.plugin, new ItemFrameInteractionListener());
         eventManager.registerListeners(this.plugin, new EntityDamagePlayerListener());
         eventManager.registerListeners(this.plugin, new PlayerFallDamageListener());
+        eventManager.registerListeners(this.plugin, new HumanAIListener());
     }
 
     @Listener
@@ -163,10 +165,10 @@ public class ZonePlugin {
                 this
                         .getLogger()
                         .error("Could not set the defaults for '" +
-                                       type.getId() +
-                                       "' " +
-                                       "despite a copy of default found. Is saving done " +
-                                       "correctly?");
+                                type.getId() +
+                                "' " +
+                                "despite a copy of default found. Is saving done " +
+                                "correctly?");
                 e.printStackTrace();
             }
         }
@@ -207,11 +209,11 @@ public class ZonePlugin {
     @Listener
     public void onRegisterCommands(@SuppressWarnings("BoundedWildcard") final RegisterCommandEvent<Command.Raw> event) {
         event.register(this.plugin,
-                       ZoneCommands.createCommand(),
-                       "zone",
-                       "region",
-                       "claim",
-                       "protect");
+                ZoneCommands.createCommand(),
+                "zone",
+                "region",
+                "claim",
+                "protect");
     }
 
     @Listener

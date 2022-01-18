@@ -12,7 +12,7 @@ public class PermissionsTest {
             String permissionNode = permission.getPermission();
             for (int i = 0; i < permissionNode.length(); i++) {
                 Assertions.assertFalse(Character.isUpperCase(permissionNode.charAt(i)),
-                                       "Node found upper character in " + permission.name());
+                        "Node found upper character in " + permission.name());
             }
         }
     }
@@ -25,11 +25,8 @@ public class PermissionsTest {
                     continue;
                 }
                 Assertions.assertNotEquals(permission.getPermission(),
-                                           compare.getPermission(),
-                                           "Found duped node in both " +
-                                                   permission.name() +
-                                                   " and " +
-                                                   compare.name());
+                        compare.getPermission(),
+                        "Found duped node in both " + permission.name() + " and " + compare.name());
 
             }
         }
