@@ -1,11 +1,14 @@
 package org.zone.region.flag.meta.member;
 
 import org.jetbrains.annotations.NotNull;
+import org.zone.ZonePlugin;
+import org.zone.config.node.ZoneNodes;
 import org.zone.region.flag.Flag;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.group.DefaultGroups;
 import org.zone.region.group.Group;
 import org.zone.region.group.key.GroupKey;
+import org.zone.region.group.key.GroupKeys;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -84,18 +87,25 @@ public class MembersFlag implements Flag {
      * @param group The group to use
      * @param uuid  the UUID of the player
      */
-    public void addMember(@NotNull Group group, @NotNull UUID uuid) {
+    public boolean addMember(@NotNull Group group, @NotNull UUID uuid) {
+        if (group.contains(GroupKeys.OWNER)) {
+            int size = this.getMembers(group).size() + 1;
+            if (ZonePlugin.getZonesPlugin().getConfig().getOrElse(ZoneNodes.MAX_OWNER) < size) {
+                return false;
+            }
+        }
         this.removeMember(uuid);
         if (group.equals(DefaultGroups.VISITOR)) {
-            return;
+            return false;
         }
         Collection<UUID> set = this.groups.getOrDefault(group, new HashSet<>());
         set.add(uuid);
         if (this.groups.containsKey(group)) {
             this.groups.replace(group, set);
-            return;
+            return true;
         }
         this.groups.put(group, set);
+        return true;
     }
 
     /**

@@ -103,5 +103,4 @@ public interface Region {
         return this.contains(location.position(), ignoreY);
     }
 
-
 }

@@ -4,6 +4,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.api.ResourceKey;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.util.AABB;
+import org.spongepowered.api.world.Locatable;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 import org.spongepowered.configurate.ConfigurateException;
@@ -92,6 +94,30 @@ public class ZoneManager {
                 .stream()
                 .filter(zone -> zone.inRegion(world, worldPos))
                 .collect(Collectors.toUnmodifiableSet());
+    }
+
+    public @NotNull Collection<Zone> getZonesIntersecting(AABB area) {
+        @NotNull Collection<Zone> zones = this.getZones();
+        return zones
+                .parallelStream()
+                .filter(zone -> zone
+                        .getRegion()
+                        .getTrueChildren()
+                        .parallelStream()
+                        .anyMatch(region -> region.asAABB().intersects(area)))
+                .collect(Collectors.toSet());
+    }
+
+    /**
+     * Gets the zone that should be used with interactions with the provided locatable, such as
+     * using the sub zone rather then the parent
+     *
+     * @param locatable The locatable object such as a entity
+     *
+     * @return The zone to use
+     */
+    public @NotNull Optional<Zone> getPriorityZone(Locatable locatable) {
+        return this.getPriorityZone(locatable.location());
     }
 
     /**

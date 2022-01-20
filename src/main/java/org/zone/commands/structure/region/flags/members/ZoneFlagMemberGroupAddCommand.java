@@ -2,7 +2,6 @@ package org.zone.commands.structure.region.flags.members;
 
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandResult;
@@ -83,9 +82,8 @@ public class ZoneFlagMemberGroupAddCommand implements ArgumentCommand {
                     .stream()
                     .filter(p -> p.uniqueId().equals(profile.uuid()))
                     .findAny();
-            opPlayer.ifPresent(player -> player.sendMessage(Identity.nil(), Messages.getPlayerMovedGroupInfo(
-                    zone, previous, group
-            )));
+            opPlayer.ifPresent(player -> player.sendMessage(Identity.nil(),
+                    Messages.getPlayerMovedGroupInfo(zone, previous, group)));
         }
 
         zone.getMembers().addMember(group, profile.uniqueId());

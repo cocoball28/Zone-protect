@@ -6,17 +6,19 @@ import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.Server;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.Command;
+import org.spongepowered.api.data.DataRegistration;
+import org.spongepowered.api.entity.living.Human;
 import org.spongepowered.api.event.EventManager;
 import org.spongepowered.api.event.Listener;
-import org.spongepowered.api.event.lifecycle.ConstructPluginEvent;
-import org.spongepowered.api.event.lifecycle.RegisterCommandEvent;
-import org.spongepowered.api.event.lifecycle.StartedEngineEvent;
-import org.spongepowered.api.event.lifecycle.StartingEngineEvent;
+import org.spongepowered.api.event.lifecycle.*;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.plugin.PluginContainer;
 import org.spongepowered.plugin.builtin.jvm.Plugin;
+import org.zone.ai.HumanAIListener;
 import org.zone.commands.structure.ZoneCommands;
+import org.zone.config.ZoneConfig;
 import org.zone.event.listener.PlayerListener;
+import org.zone.keys.ZoneKeys;
 import org.zone.memory.MemoryHolder;
 import org.zone.region.Zone;
 import org.zone.region.ZoneManager;
@@ -52,6 +54,7 @@ public class ZonePlugin {
     private FlagManager flagManager;
     private ZoneManager zoneManager;
     private GroupKeyManager groupKeyManager;
+    private ZoneConfig config;
     private MemoryHolder memoryHolder;
     private static ZonePlugin zonePlugin;
 
@@ -61,6 +64,10 @@ public class ZonePlugin {
         zonePlugin = this;
         this.plugin = plugin;
         this.logger = logger;
+    }
+
+    public @NotNull ZoneConfig getConfig() {
+        return this.config;
     }
 
     /**
@@ -129,6 +136,7 @@ public class ZonePlugin {
         eventManager.registerListeners(this.plugin, new ItemFrameInteractionListener());
         eventManager.registerListeners(this.plugin, new EntityDamagePlayerListener());
         eventManager.registerListeners(this.plugin, new PlayerFallDamageListener());
+        eventManager.registerListeners(this.plugin, new HumanAIListener());
     }
 
     @Listener
@@ -206,6 +214,11 @@ public class ZonePlugin {
                 "region",
                 "claim",
                 "protect");
+    }
+
+    @Listener
+    public void onRegisterData(RegisterDataEvent event) {
+        event.register(DataRegistration.of(ZoneKeys.HUMAN_AI_ATTACHED_ZONE_ID, Human.class));
     }
 
     /**
