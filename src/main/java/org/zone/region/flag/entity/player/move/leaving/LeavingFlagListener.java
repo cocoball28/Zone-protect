@@ -16,13 +16,13 @@ import java.util.Optional;
 
 public class LeavingFlagListener {
 
-    @Listener(order = Order.LAST)
+    @Listener(order = Order.POST)
     public void onPlayerMove(MoveEntityEvent event, @Getter("entity") Player player) {
         ZoneManager manager = ZonePlugin.getZonesPlugin().getZoneManager();
         @NotNull Optional<Zone> opOriginalZone = manager.getPriorityZone(player.world(),
-                                                                         event.originalPosition());
+                event.originalPosition());
         Optional<Zone> opNextZone = manager.getPriorityZone(player.world(),
-                                                            event.destinationPosition());
+                event.destinationPosition());
         if (opNextZone.isPresent()) {
             return;
         }
