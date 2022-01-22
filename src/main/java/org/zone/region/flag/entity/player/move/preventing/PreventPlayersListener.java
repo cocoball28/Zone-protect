@@ -93,8 +93,7 @@ public class PreventPlayersListener {
         serverPlayer.setPosition(serverPlayer.world().properties().spawnPosition().toDouble());
     }
 
-    public static Optional<Vector3i> getOutsidePosition(
-            @NotNull Zone zoneOne, @NotNull Locatable player) {
+    public static Optional<Vector3i> getOutsidePosition(@NotNull Zone zoneOne, @NotNull Locatable player) {
         return zoneOne.getRegion().getTrueChildren().stream().filter(boundedRegion -> {
             Vector3i position = boundedRegion.getMin().add(-1, 0, -1);
             position = player.world().highestPositionAt(position);
