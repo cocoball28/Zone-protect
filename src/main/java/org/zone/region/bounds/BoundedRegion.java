@@ -6,6 +6,7 @@ import org.spongepowered.api.util.AABB;
 import org.spongepowered.api.world.World;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.serialize.SerializationException;
+import org.spongepowered.math.vector.Vector2i;
 import org.spongepowered.math.vector.Vector3d;
 import org.spongepowered.math.vector.Vector3i;
 
@@ -98,6 +99,27 @@ public class BoundedRegion implements Region {
             z = max.z();
         }
         return Optional.of(new Vector3i(x, y, z));
+    }
+
+    @Override
+    public Optional<Vector2i> getNearestPosition(Vector2i vector2i) {
+        Vector3i min = this.getMin();
+        Vector3i max = this.getMax();
+        int x = vector2i.x();
+        int z = vector2i.y();
+        if (vector2i.x() < min.x()) {
+            x = min.x();
+        }
+        if (vector2i.x() > max.x()) {
+            x = max.x();
+        }
+        if (vector2i.y() < min.z()) {
+            z = min.z();
+        }
+        if (vector2i.y() > max.z()) {
+            z = max.z();
+        }
+        return Optional.of(new Vector2i(x, z));
     }
 
     @Override
