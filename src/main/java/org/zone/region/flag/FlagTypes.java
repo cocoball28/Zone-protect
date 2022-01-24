@@ -11,7 +11,8 @@ import org.zone.region.flag.entity.player.interact.itemframe.ItemFrameInteractFl
 import org.zone.region.flag.entity.player.move.greetings.GreetingsFlagType;
 import org.zone.region.flag.entity.player.move.leaving.LeavingFlagType;
 import org.zone.region.flag.entity.player.move.preventing.PreventPlayersFlagType;
-import org.zone.region.flag.meta.eco.EcoFlagType;
+import org.zone.region.flag.meta.eco.balance.BalanceFlagType;
+import org.zone.region.flag.meta.eco.payment.buy.BuyFlagType;
 import org.zone.region.flag.meta.edit.EditingFlagType;
 import org.zone.region.flag.meta.member.MembersFlagType;
 import org.zone.region.flag.meta.tag.TagsFlagType;
@@ -30,7 +31,7 @@ public final class FlagTypes {
     public static final MembersFlagType MEMBERS = new MembersFlagType();
     public static final DoorInteractionFlagType DOOR_INTERACTION = new DoorInteractionFlagType();
     public static final BlockBreakFlagType BLOCK_BREAK = new BlockBreakFlagType();
-    public static final EcoFlagType ECO = new EcoFlagType();
+    public static final BalanceFlagType ECO = new BalanceFlagType();
     public static final EditingFlagType EDITING = new EditingFlagType();
     public static final BlockPlaceFlagType BLOCK_PLACE = new BlockPlaceFlagType();
     public static final GreetingsFlagType GREETINGS = new GreetingsFlagType();
@@ -38,8 +39,9 @@ public final class FlagTypes {
     public static final LeavingFlagType LEAVING = new LeavingFlagType();
     public static final TagsFlagType TAGS = new TagsFlagType();
     public static final ItemFrameInteractFlagType ITEM_FRAME_INTERACT = new ItemFrameInteractFlagType();
-    public static final EntityDamagePlayerFlagType ENTITY_DAMAGE_PLAYER_FLAG_TYPE = new EntityDamagePlayerFlagType();
-    public static final PlayerFallDamageFlagType PLAYER_FALL_DAMAGE_FLAG_TYPE = new PlayerFallDamageFlagType();
+    public static final EntityDamagePlayerFlagType ENTITY_DAMAGE_PLAYER = new EntityDamagePlayerFlagType();
+    public static final PlayerFallDamageFlagType PLAYER_FALL_DAMAGE = new PlayerFallDamageFlagType();
+    public static final BuyFlagType BUY = new BuyFlagType();
 
     private FlagTypes() {
         throw new RuntimeException("Should not init");

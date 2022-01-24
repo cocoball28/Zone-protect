@@ -56,16 +56,16 @@ public class ZoneFlagPlayerFallDamageEnableDisable implements ArgumentCommand {
         boolean enable = commandContext.getArgument(this, ENABLED);
         Zone zone = commandContext.getArgument(this, ZONE_VALUE);
         PlayerFallDamageFlag playerFallDamageFlag = zone
-                .getFlag(FlagTypes.PLAYER_FALL_DAMAGE_FLAG_TYPE)
+                .getFlag(FlagTypes.PLAYER_FALL_DAMAGE)
                 .orElse(new PlayerFallDamageFlag());
         if (enable) {
             zone.addFlag(playerFallDamageFlag);
         } else {
-            zone.removeFlag(FlagTypes.PLAYER_FALL_DAMAGE_FLAG_TYPE);
+            zone.removeFlag(FlagTypes.PLAYER_FALL_DAMAGE);
         }
         try {
             zone.save();
-            commandContext.sendMessage(Messages.getUpdatedMessage(FlagTypes.PLAYER_FALL_DAMAGE_FLAG_TYPE));
+            commandContext.sendMessage(Messages.getUpdatedMessage(FlagTypes.PLAYER_FALL_DAMAGE));
         } catch (ConfigurateException ce) {
             ce.printStackTrace();
             return CommandResult.error(Messages.getZoneSavingError(ce));

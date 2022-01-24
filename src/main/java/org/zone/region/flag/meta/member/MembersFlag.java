@@ -46,6 +46,15 @@ public class MembersFlag implements Flag {
     }
 
     /**
+     * Gets the power level this zone has
+     *
+     * @return The power level this zone has
+     */
+    public long getPowerLevel() {
+        return this.groups.values().parallelStream().flatMap(Collection::parallelStream).count();
+    }
+
+    /**
      * Gets a group by a specified GroupKey, {@link Optional#empty()} if no group holds that key
      *
      * @param key The key to check

@@ -1,4 +1,4 @@
-package org.zone.region.flag.meta.eco;
+package org.zone.region.flag.meta.eco.balance;
 
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.Sponge;
@@ -21,15 +21,15 @@ import java.util.stream.Collectors;
 /**
  * Flag used to hold the zones balance
  */
-public class EcoFlag implements Flag {
+public class BalanceFlag implements Flag {
 
     private final @NotNull Map<Currency, BigDecimal> money = new HashMap<>();
 
-    public EcoFlag() {
+    public BalanceFlag() {
         this(new HashMap<>());
     }
 
-    public EcoFlag(Map<? extends Currency, ? extends Number> money) {
+    public BalanceFlag(Map<? extends Currency, ? extends Number> money) {
         this.money.putAll(money
                 .entrySet()
                 .stream()
@@ -147,7 +147,7 @@ public class EcoFlag implements Flag {
     }
 
     @Override
-    public @NotNull EcoFlagType getType() {
+    public @NotNull BalanceFlagType getType() {
         return FlagTypes.ECO;
     }
 }

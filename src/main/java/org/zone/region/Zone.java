@@ -18,7 +18,7 @@ import org.zone.region.bounds.ChildRegion;
 import org.zone.region.flag.Flag;
 import org.zone.region.flag.FlagType;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.meta.eco.EcoFlag;
+import org.zone.region.flag.meta.eco.balance.BalanceFlag;
 import org.zone.region.flag.meta.member.MembersFlag;
 import org.zone.region.flag.meta.tag.TagsFlag;
 
@@ -296,13 +296,13 @@ public class Zone implements Identifiable {
      *
      * @return The economy flag
      */
-    public EcoFlag getEconomy() {
+    public BalanceFlag getEconomy() {
         //noinspection no-eco-method
-        @NotNull Optional<EcoFlag> opEco = this.getFlag(FlagTypes.ECO);
+        @NotNull Optional<BalanceFlag> opEco = this.getFlag(FlagTypes.ECO);
         if (opEco.isPresent()) {
             return opEco.get();
         }
-        EcoFlag flag = new EcoFlag();
+        BalanceFlag flag = new BalanceFlag();
         this.addFlag(flag, false);
         return flag;
     }

@@ -11,7 +11,7 @@ public class EntityDamagePlayerFlag implements Flag.TaggedFlag, Flag.AffectsPlay
 
     @Override
     public @NotNull FlagType<?> getType() {
-        return FlagTypes.ENTITY_DAMAGE_PLAYER_FLAG_TYPE;
+        return FlagTypes.ENTITY_DAMAGE_PLAYER;
     }
 
     @Override

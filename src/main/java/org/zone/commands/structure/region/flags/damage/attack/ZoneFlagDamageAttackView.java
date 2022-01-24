@@ -57,7 +57,7 @@ public class ZoneFlagDamageAttackView implements ArgumentCommand {
         commandContext
                 .getCause()
                 .sendMessage(Identity.nil(),
-                        Messages.getEnabledInfo(zone.containsFlag(FlagTypes.ENTITY_DAMAGE_PLAYER_FLAG_TYPE)));
+                        Messages.getEnabledInfo(zone.containsFlag(FlagTypes.ENTITY_DAMAGE_PLAYER)));
         zone
                 .getMembers()
                 .getGroup(GroupKeys.ENTITY_DAMAGE_PLAYER)

@@ -56,7 +56,7 @@ public class ZoneFlagPlayerFallDamageView implements ArgumentCommand {
         commandContext
                 .getCause()
                 .sendMessage(Identity.nil(),
-                        Messages.getEnabledInfo(zone.containsFlag(FlagTypes.PLAYER_FALL_DAMAGE_FLAG_TYPE)));
+                        Messages.getEnabledInfo(zone.containsFlag(FlagTypes.PLAYER_FALL_DAMAGE)));
         zone
                 .getMembers()
                 .getGroup(GroupKeys.PLAYER_FALL_DAMAGE)
