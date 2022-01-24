@@ -354,4 +354,19 @@ public final class Messages {
                         "'").color(NamedTextColor.AQUA);
     }
 
+    public static Component getZoneConfigReloadedInfo() {
+        return Component.text("Reloaded the Config successfully!").color(NamedTextColor.AQUA);
+    }
+
+    public static Component getZonesReloadedInfo() {
+        return Component.text("Reloaded the config of the available zones successfully!")
+                .color(NamedTextColor.AQUA);
+    }
+
+    public static Component getZoneConfigReloadFail() {
+        return Component
+                .text("Couldn't reload config! Below is the cause of the error")
+                .color(NamedTextColor.RED);
+    }
+
 }

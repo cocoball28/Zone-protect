@@ -1,6 +1,7 @@
 package org.zone;
 
 import com.google.inject.Inject;
+import net.kyori.adventure.audience.Audience;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.Server;
@@ -26,6 +27,7 @@ import org.zone.region.flag.Flag;
 import org.zone.region.flag.FlagManager;
 import org.zone.region.flag.FlagType;
 import org.zone.region.flag.entity.monster.move.MonsterPreventionListener;
+import org.zone.region.flag.entity.nonliving.tnt.TnTDefuseListener;
 import org.zone.region.flag.entity.player.damage.attack.EntityDamagePlayerListener;
 import org.zone.region.flag.entity.player.damage.fall.PlayerFallDamageListener;
 import org.zone.region.flag.entity.player.interact.block.destroy.BlockBreakListener;
@@ -136,6 +138,7 @@ public class ZonePlugin {
         eventManager.registerListeners(this.plugin, new ItemFrameInteractionListener());
         eventManager.registerListeners(this.plugin, new EntityDamagePlayerListener());
         eventManager.registerListeners(this.plugin, new PlayerFallDamageListener());
+        eventManager.registerListeners(this.plugin, new TnTDefuseListener());
         eventManager.registerListeners(this.plugin, new HumanAIListener());
     }
 
@@ -219,6 +222,21 @@ public class ZonePlugin {
     @Listener
     public void onRegisterData(RegisterDataEvent event) {
         event.register(DataRegistration.of(ZoneKeys.HUMAN_AI_ATTACHED_ZONE_ID, Human.class));
+    }
+
+    @Listener
+    public void onReload(RefreshGameEvent event) {
+        Optional<Audience> cSender = event.cause().first(Audience.class);
+        try {
+            this.config.getLoader().load();
+            cSender.ifPresent(audience -> audience.sendMessage(Messages.getZoneConfigReloadedInfo()));
+            this.zoneManager.load(this.zoneManager.zonesReload());
+            cSender.ifPresent(audience -> audience.sendMessage(Messages.getZonesReloadedInfo()));
+        }catch (ConfigurateException ce) {
+            cSender.ifPresent(audience -> audience.sendMessage(Messages.getZoneConfigReloadFail()));
+            ce.printStackTrace();
+            this.logger.error("Event terminated!");
+        }
     }
 
     /**

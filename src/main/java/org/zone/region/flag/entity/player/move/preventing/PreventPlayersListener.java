@@ -114,11 +114,11 @@ public class PreventPlayersListener {
 
     @Listener
     public void onEntityStuck(MoveEntityEvent event, @Getter("entity") Player player) {
-        /*if (player instanceof Subject subject) {
+        if (player instanceof Subject subject) {
             if (ZonePermissions.BYPASS_ENTRY.hasPermission(subject)) {
                 return;
             }
-        }*/
+        }
         Optional<Zone> opPreviousZone = ZonePlugin
                 .getZonesPlugin()
                 .getZoneManager()

@@ -20,6 +20,7 @@ import org.zone.region.bounds.ChildRegion;
 import org.zone.region.bounds.Region;
 import org.zone.region.flag.Flag;
 import org.zone.region.flag.FlagType;
+import org.zone.utils.Messages;
 
 import java.io.File;
 import java.io.IOException;
@@ -305,5 +306,30 @@ public class ZoneManager {
         region.save(node.node(REGION));
         loader.save(node);
         return file;
+    }
+
+    public File zonesReload() {
+        File zonesFolder = new File("config/zone/zones/");
+        Sponge.systemSubject().sendMessage(Messages.getZonesLoadingFrom(zonesFolder.getPath()));
+
+        for (PluginContainer container : Sponge.pluginManager().plugins()) {
+            File keyFolder = new File(zonesFolder, container.metadata().id());
+            File[] keyFiles = keyFolder.listFiles();
+            if (keyFiles == null) {
+                continue;
+            }
+            for (File file : keyFiles) {
+                try {
+                    Zone zone = this.load(file);
+                    this.register(zone);
+                } catch (ConfigurateException e) {
+                    Sponge
+                            .systemSubject()
+                            .sendMessage(Messages.getZonesLoadingFail(file.getPath()));
+                    e.printStackTrace();
+                }
+            }
+        }
+        return zonesFolder;
     }
 }
