@@ -17,6 +17,7 @@ import org.zone.region.flag.FlagTypes;
 import java.util.Optional;
 
 public class TnTDefuseListener {
+
     @Listener
     public void onTntSpawnEvent(SpawnEntityEvent event) {
         boolean contains = event
@@ -77,6 +78,14 @@ public class TnTDefuseListener {
         Optional<Zone> opZone = ZonePlugin
                 .getZonesPlugin()
                 .getZoneManager()
-                .getPriorityZone()
+                .getPriorityZone(player.location().world(), event.interactionPoint());
+        if (opZone.isEmpty()) {
+            return;
+        }
+
+        if (opZone.get().containsFlag(FlagTypes.TNT_DEFUSE_FLAG_TYPE)) {
+            event.setCancelled(true);
+        }
+
     }
 }
