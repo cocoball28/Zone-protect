@@ -24,7 +24,7 @@ import java.util.Optional;
 
 public class ZoneFlagDamageAttackSetGroupCommand implements ArgumentCommand {
 
-    public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zone_value",
+    public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zoneId",
             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
                     ZonePermissions.OVERRIDE_FLAG_DAMAGE_ATTACK_SET_GROUP));
     public static final ZoneGroupArgument GROUP = new ZoneGroupArgument("groupId", ZONE_VALUE);

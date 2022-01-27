@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class ZoneFlagTntDefuseView implements ArgumentCommand {
-    public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zone_value",
+    public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zoneId",
             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
                     ZonePermissions.FLAG_TNT_DEFUSE_VIEW));
     public static final OptionalArgument<String> VIEW = new OptionalArgument<>(new ExactArgument(
