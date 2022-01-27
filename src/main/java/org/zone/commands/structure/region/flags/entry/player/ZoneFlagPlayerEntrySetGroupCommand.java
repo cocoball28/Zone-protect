@@ -26,7 +26,7 @@ import java.util.Optional;
 
 public class ZoneFlagPlayerEntrySetGroupCommand implements ArgumentCommand {
 
-    public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zone_value",
+    public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zoneId",
             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
                     ZonePermissions.OVERRIDE_FLAG_ENTRY_PLAYER_SET_GROUP));
     public static final ZoneGroupArgument GROUP = new ZoneGroupArgument("groupId", ZONE_VALUE);

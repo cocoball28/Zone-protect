@@ -2,7 +2,6 @@ package org.zone.commands.structure.region.flags.members;
 
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandResult;
@@ -75,15 +74,7 @@ public class ZoneFlagMemberGroupAddCommand implements ArgumentCommand {
         }
         context
                 .getCause()
-                .sendMessage(Identity.nil(),
-                        Component
-                                .text("Moved " +
-                                        profile.name().orElse("Unknown name") +
-                                        " from " +
-                                        previous.getName() +
-                                        " to " +
-                                        group.getName())
-                                .color(NamedTextColor.AQUA));
+                .sendMessage(Identity.nil(), Messages.getMovedGroupInfo(profile, previous, group));
         if (Sponge.isServerAvailable()) {
             Optional<ServerPlayer> opPlayer = Sponge
                     .server()
@@ -92,13 +83,7 @@ public class ZoneFlagMemberGroupAddCommand implements ArgumentCommand {
                     .filter(p -> p.uniqueId().equals(profile.uuid()))
                     .findAny();
             opPlayer.ifPresent(player -> player.sendMessage(Identity.nil(),
-                    Component.text("You have been moved in '" +
-                            zone.getName() +
-                            "' from '" +
-                            previous.getName() +
-                            "' to '" +
-                            group.getName() +
-                            "'")));
+                    Messages.getPlayerMovedGroupInfo(zone, previous, group)));
         }
 
         zone.getMembers().addMember(group, profile.uniqueId());

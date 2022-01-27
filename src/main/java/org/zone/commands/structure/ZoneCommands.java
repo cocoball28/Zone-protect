@@ -14,6 +14,8 @@ import org.zone.commands.structure.region.flags.damage.attack.ZoneFlagDamageAtta
 import org.zone.commands.structure.region.flags.damage.fall.ZoneFlagPlayerFallDamageEnableDisable;
 import org.zone.commands.structure.region.flags.damage.fall.ZoneFlagPlayerFallDamageSetGroup;
 import org.zone.commands.structure.region.flags.damage.fall.ZoneFlagPlayerFallDamageView;
+import org.zone.commands.structure.region.flags.damage.tnt.ZoneFlagTntDefuseSetEnableDisableCommand;
+import org.zone.commands.structure.region.flags.damage.tnt.ZoneFlagTntDefuseView;
 import org.zone.commands.structure.region.flags.eco.ZoneFlagViewBalanceCommand;
 import org.zone.commands.structure.region.flags.entry.monster.ZoneFlagMonsterEntryEnabledCommand;
 import org.zone.commands.structure.region.flags.entry.monster.ZoneFlagMonsterEntryViewCommand;
@@ -79,6 +81,8 @@ public interface ZoneCommands {
     ZoneFlagGreetingsViewCommand ZONE_FLAG_GREETINGS_VIEW_COMMAND = new ZoneFlagGreetingsViewCommand();
     ZoneFlagInteractItemframesViewCommand ZONE_FLAG_INTERACT_ITEMFRAMES_VIEW_COMMAND = new ZoneFlagInteractItemframesViewCommand();
 
+    ZoneFlagTntDefuseSetEnableDisableCommand ZONE_FLAG_TNT_DEFUSE_SET_ENABLE_DISABLE_COMMAND = new ZoneFlagTntDefuseSetEnableDisableCommand();
+    ZoneFlagTntDefuseView ZONE_FLAG_TNT_DEFUSE_VIEW = new ZoneFlagTntDefuseView();
     ZoneFlagPlayerFallDamageSetGroup ZONE_FLAG_PLAYER_FALL_DAMAGE_SET_GROUP = new ZoneFlagPlayerFallDamageSetGroup();
     ZoneFlagDamageAttackSetGroupCommand ZONE_FLAG_DAMAGE_ATTACK_SET_GROUP_COMMAND = new ZoneFlagDamageAttackSetGroupCommand();
     ZoneFlagMonsterEntryViewCommand ZONE_FLAG_MONSTER_ENTRY_VIEW_COMMAND = new ZoneFlagMonsterEntryViewCommand();

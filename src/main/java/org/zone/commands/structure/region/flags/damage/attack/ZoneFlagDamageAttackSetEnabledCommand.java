@@ -23,7 +23,7 @@ import java.util.Optional;
 
 public class ZoneFlagDamageAttackSetEnabledCommand implements ArgumentCommand {
 
-    public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zone_value",
+    public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zoneId",
             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
                     ZonePermissions.OVERRIDE_FLAG_DAMAGE_ATTACK_ENABLE));
     public static final BooleanArgument ENABLED = new BooleanArgument("enableValue",
@@ -37,6 +37,8 @@ public class ZoneFlagDamageAttackSetEnabledCommand implements ArgumentCommand {
                 ZONE_VALUE,
                 new ExactArgument("damage"),
                 new ExactArgument("attack"),
+                new ExactArgument("towards"),
+                new ExactArgument("player"),
                 new ExactArgument("set"),
                 ENABLED);
     }

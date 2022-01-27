@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class ZoneFlagPlayerEntrySetEnabledCommand implements ArgumentCommand {
-    public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zone_value",
+    public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zoneId",
             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
                     ZonePermissions.OVERRIDE_FLAG_ENTRY_PLAYER_ENABLE));
     public static final BooleanArgument ENABLE = new BooleanArgument("enableValue",
