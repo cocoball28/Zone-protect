@@ -2,6 +2,7 @@ package org.zone.region.flag.entity.player.move.preventing;
 
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.data.Keys;
 import org.spongepowered.api.effect.particle.ParticleEffect;
 import org.spongepowered.api.effect.particle.ParticleOptions;
@@ -204,8 +205,10 @@ public class PreventPlayersListener {
                             .execute(() -> zones.forEach((block, zone) -> player.spawnParticles(
                                     ParticleEffect
                                             .builder()
-                                            .type(ParticleTypes.BARRIER)
+                                            .type(ParticleTypes.BLOCK)
                                             .quantity(1)
+                                            .option(ParticleOptions.BLOCK_STATE,
+                                                    BlockTypes.BARRIER.get().defaultState())
                                             .option(ParticleOptions.VELOCITY,
                                                     new Vector3d(0, 0.1, 0))
                                             .build(),
