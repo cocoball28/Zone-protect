@@ -230,7 +230,6 @@ public class ZonePlugin {
         try {
             this.config.getLoader().load();
             cSender.ifPresent(audience -> audience.sendMessage(Messages.getZoneConfigReloadedInfo()));
-            this.zoneManager.load(this.zoneManager.zonesReload());
             cSender.ifPresent(audience -> audience.sendMessage(Messages.getZonesReloadedInfo()));
         }catch (ConfigurateException ce) {
             cSender.ifPresent(audience -> audience.sendMessage(Messages.getZoneConfigReloadFail()));
