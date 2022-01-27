@@ -2,6 +2,10 @@ package org.zone.region.flag.entity.player.move.preventing;
 
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.data.Keys;
+import org.spongepowered.api.effect.particle.ParticleEffect;
+import org.spongepowered.api.effect.particle.ParticleOptions;
+import org.spongepowered.api.effect.particle.ParticleTypes;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.server.ServerPlayer;
 import org.spongepowered.api.event.Listener;
@@ -13,13 +17,19 @@ import org.spongepowered.api.scheduler.Task;
 import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.api.util.Ticks;
 import org.spongepowered.api.world.Locatable;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.math.vector.Vector3d;
 import org.spongepowered.math.vector.Vector3i;
 import org.zone.ZonePlugin;
 import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
+import org.zone.region.group.key.GroupKeys;
 
+import java.util.AbstractMap;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class PreventPlayersListener {
 
@@ -160,6 +170,49 @@ public class PreventPlayersListener {
                         .delay(Ticks.of(0))
                         .build());
 
+    }
+
+    @Listener
+    public void onNear(MoveEntityEvent event, @Getter("entity") Player player) {
+        final Location<?, ?> loc = player.location().add(new Vector3i(0, 2, 0));
+        int distance = player.get(Keys.VIEW_DISTANCE).map(view -> view * 16).orElse(10);
+        Sponge.asyncScheduler().submit(Task.builder().delay(Ticks.of(0)).execute(() -> {
+            Map<Vector3i, Zone> zones = ZonePlugin
+                    .getZonesPlugin()
+                    .getZoneManager()
+                    .getZones()
+                    .stream()
+                    .map(zone -> new AbstractMap.SimpleEntry<>(zone
+                            .getRegion()
+                            .getNearestPosition(loc.blockPosition(), zone.getParentId().isEmpty()),
+                            zone))
+                    .filter(entry -> entry.getKey().isPresent())
+                    .filter(entry -> entry.getKey().get().distance(loc.blockPosition()) <= distance)
+                    .filter(entry -> !entry
+                            .getValue()
+                            .getMembers()
+                            .getGroup(player.uniqueId())
+                            .contains(GroupKeys.PLAYER_PREVENTION))
+                    .collect(Collectors.toMap(entry -> entry.getKey().get(),
+                            AbstractMap.SimpleEntry::getValue));
+            Sponge
+                    .server()
+                    .scheduler()
+                    .submit(Task
+                            .builder()
+                            .delay(Ticks.of(0))
+                            .execute(() -> zones.forEach((block, zone) -> player.spawnParticles(
+                                    ParticleEffect
+                                            .builder()
+                                            .type(ParticleTypes.BARRIER)
+                                            .quantity(1)
+                                            .option(ParticleOptions.VELOCITY,
+                                                    new Vector3d(0, 0.1, 0))
+                                            .build(),
+                                    block.toDouble())))
+                            .plugin(ZonePlugin.getZonesPlugin().getPluginContainer())
+                            .build());
+        }).plugin(ZonePlugin.getZonesPlugin().getPluginContainer()).build());
     }
 
     public static Optional<Vector3i> getOutsidePosition(

@@ -5,6 +5,7 @@ import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.world.World;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.serialize.SerializationException;
+import org.spongepowered.math.vector.Vector2i;
 import org.spongepowered.math.vector.Vector3d;
 import org.spongepowered.math.vector.Vector3i;
 
@@ -67,11 +68,33 @@ public class ChildRegion implements Region {
                 .map(Optional::get)
                 .collect(Collectors.toSet());
         Vector3i closes = null;
-        double closesDistance = Double.MAX_VALUE;
+        double closesDistance = Integer.MAX_VALUE;
 
         for (Vector3i position : nearestPositions) {
             double distance = vector3i.distance(position);
-            if (closesDistance < distance) {
+            if (closes == null || closesDistance < distance) {
+                closesDistance = distance;
+                closes = position;
+            }
+        }
+        return Optional.ofNullable(closes);
+    }
+
+    @Override
+    public Optional<Vector2i> getNearestPosition(Vector2i vector2i) {
+        Set<Vector2i> nearestPositions = this
+                .getTrueChildren()
+                .stream()
+                .map(region -> region.getNearestPosition(vector2i))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toSet());
+        Vector2i closes = null;
+        double closesDistance = Integer.MAX_VALUE;
+
+        for (Vector2i position : nearestPositions) {
+            double distance = vector2i.distance(position);
+            if (closes == null || closesDistance < distance) {
                 closesDistance = distance;
                 closes = position;
             }
