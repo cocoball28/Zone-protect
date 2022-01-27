@@ -23,10 +23,10 @@ import java.util.Optional;
 
 public class ZoneFlagTntDefuseSetEnableDisableCommand implements ArgumentCommand {
 
-    public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zoneID",
+    public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zone_value",
             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
                     ZonePermissions.OVERRIDE_FLAG_TNT_DEFUSE_ENABLE));
-    public static final BooleanArgument ENABLE_DISABLE = new BooleanArgument("enabledValie",
+    public static final BooleanArgument ENABLE_DISABLE = new BooleanArgument("enabledValue",
             "enable",
             "disable");
 
