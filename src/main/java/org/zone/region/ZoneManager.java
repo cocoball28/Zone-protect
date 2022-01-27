@@ -168,6 +168,7 @@ public class ZoneManager {
      * @param zone The zone to add
      */
     public synchronized void register(@NotNull Zone zone) {
+        this.zones.clear();
         this.isBeingWrittenTo = true;
         this.zones.add(zone);
         this.isBeingWrittenTo = false;
