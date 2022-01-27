@@ -456,6 +456,28 @@ public enum ZonePermissions implements ZonePermission {
             "fall",
             "enable"),
 
+    //tnt defuse
+    FLAG_TNT_DEFUSE_ENABLE(false, "zone", "region", "flag", "tnt", "defuse", "enable"),
+    FLAG_TNT_DEFUSE_VIEW(false, "zone", "region", "flag", "tnt", "defuse", "view"),
+
+    //tnt defuse override
+    OVERRIDE_FLAG_TNT_DEFUSE_ENABLE(false,
+            "zone",
+            "override",
+            "region",
+            "flag",
+            "tnt",
+            "defuse",
+            "enable"),
+    OVERRIDE_FLAG_TNT_DEFUSE_VIEW(false,
+            "zone",
+            "override",
+            "region",
+            "flag",
+            "tnt",
+            "defuse",
+            "view"),
+
     //balance
     FLAG_BALANCE_VIEW(true, "zone", "region", "flag", "balance", "view"),
 

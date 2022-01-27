@@ -24,7 +24,6 @@ import org.zone.ZonePlugin;
 import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.group.DefaultGroups;
 import org.zone.region.group.key.GroupKeys;
 
 import java.util.AbstractMap;
@@ -189,8 +188,11 @@ public class PreventPlayersListener {
                             zone))
                     .filter(entry -> entry.getKey().isPresent())
                     .filter(entry -> entry.getKey().get().distance(loc.blockPosition()) <= distance)
-                    .filter(entry -> !entry.getValue().getMembers().getGroup(player.uniqueId()).contains(
-                            GroupKeys.PLAYER_PREVENTION))
+                    .filter(entry -> !entry
+                            .getValue()
+                            .getMembers()
+                            .getGroup(player.uniqueId())
+                            .contains(GroupKeys.PLAYER_PREVENTION))
                     .collect(Collectors.toMap(entry -> entry.getKey().get(),
                             AbstractMap.SimpleEntry::getValue));
             Sponge

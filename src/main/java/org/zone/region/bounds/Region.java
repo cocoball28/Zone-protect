@@ -135,5 +135,4 @@ public interface Region {
         }
         return this.getNearestPosition(vector);
     }
-
 }

@@ -27,6 +27,19 @@ public class BoundedRegion implements Region {
         this.position2 = position2;
     }
 
+    public @NotNull AABB asAABB() {
+        return AABB.of(this.getMax(), this.getMin());
+    }
+
+    public Vector3i getCenter() {
+        Vector3i min = this.getMin();
+        Vector3i max = this.getMax();
+        int offsetX = (max.x() - min.x()) / 2;
+        int offsetY = (max.y() - min.y()) / 2;
+        int offsetZ = (max.z() - min.z()) / 2;
+        return min.add(offsetX, offsetY, offsetZ);
+    }
+
     public @NotNull Vector3i getPosition(@NotNull PositionType type) {
         return switch (type) {
             case ONE -> this.position1;
@@ -69,7 +82,7 @@ public class BoundedRegion implements Region {
     }
 
     @Override
-    public Collection<? extends Entity> getEntities(World world) {
+    public Collection<? extends Entity> getEntities(World<?, ?> world) {
         return world.entities(AABB.of(this.position1, this.position2));
     }
 

@@ -4,6 +4,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.api.ResourceKey;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.util.AABB;
+import org.spongepowered.api.world.Locatable;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 import org.spongepowered.configurate.ConfigurateException;
@@ -18,6 +20,7 @@ import org.zone.region.bounds.ChildRegion;
 import org.zone.region.bounds.Region;
 import org.zone.region.flag.Flag;
 import org.zone.region.flag.FlagType;
+import org.zone.utils.Messages;
 
 import java.io.File;
 import java.io.IOException;
@@ -73,7 +76,7 @@ public class ZoneManager {
      * @return The zone that has the provided id
      */
     public @NotNull Optional<Zone> getZone(String id) {
-        return this.getZones().parallelStream().filter(zone -> zone.getId().equals(id)).findAny();
+        return this.getZones().stream().filter(zone -> zone.getId().equals(id)).findAny();
     }
 
     /**
@@ -92,6 +95,30 @@ public class ZoneManager {
                 .stream()
                 .filter(zone -> zone.inRegion(world, worldPos))
                 .collect(Collectors.toUnmodifiableSet());
+    }
+
+    public @NotNull Collection<Zone> getZonesIntersecting(AABB area) {
+        @NotNull Collection<Zone> zones = this.getZones();
+        return zones
+                .parallelStream()
+                .filter(zone -> zone
+                        .getRegion()
+                        .getTrueChildren()
+                        .parallelStream()
+                        .anyMatch(region -> region.asAABB().intersects(area)))
+                .collect(Collectors.toSet());
+    }
+
+    /**
+     * Gets the zone that should be used with interactions with the provided locatable, such as
+     * using the sub zone rather then the parent
+     *
+     * @param locatable The locatable object such as a entity
+     *
+     * @return The zone to use
+     */
+    public @NotNull Optional<Zone> getPriorityZone(Locatable locatable) {
+        return this.getPriorityZone(locatable.location());
     }
 
     /**
@@ -279,5 +306,31 @@ public class ZoneManager {
         region.save(node.node(REGION));
         loader.save(node);
         return file;
+    }
+
+    public File zonesReload() {
+        this.zones.clear();
+        File zonesFolder = new File("config/zone/zones/");
+        Sponge.systemSubject().sendMessage(Messages.getZonesLoadingFrom(zonesFolder.getPath()));
+
+        for (PluginContainer container : Sponge.pluginManager().plugins()) {
+            File keyFolder = new File(zonesFolder, container.metadata().id());
+            File[] keyFiles = keyFolder.listFiles();
+            if (keyFiles == null) {
+                continue;
+            }
+            for (File file : keyFiles) {
+                try {
+                    Zone zone = this.load(file);
+                    this.register(zone);
+                } catch (ConfigurateException e) {
+                    Sponge
+                            .systemSubject()
+                            .sendMessage(Messages.getZonesLoadingFail(file.getPath()));
+                    e.printStackTrace();
+                }
+            }
+        }
+        return zonesFolder;
     }
 }

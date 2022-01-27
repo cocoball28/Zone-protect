@@ -3,6 +3,7 @@ package org.zone.utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import org.spongepowered.api.profile.GameProfile;
 import org.spongepowered.api.service.economy.Currency;
 import org.spongepowered.api.util.Nameable;
 import org.spongepowered.configurate.ConfigurateException;
@@ -329,4 +330,43 @@ public final class Messages {
     public static Component getEnabledInfo(boolean check) {
         return getEnabledTag().append(Component.text(check).color(NamedTextColor.GOLD));
     }
+
+    public static Component getMovedGroupInfo(GameProfile profile, Identifiable previous,
+                                              Identifiable group) {
+        return Component
+                .text("Moved " +
+                              profile.name().orElse("Unknown name") +
+                              " from " +
+                              previous.getName() +
+                              " to " +
+                              group.getName()).color(NamedTextColor.AQUA);
+    }
+
+    public static Component getPlayerMovedGroupInfo(Identifiable zone, Identifiable previous,
+                                                    Identifiable group) {
+        return Component.text(
+                "You have been moved in '" +
+                        zone.getName() +
+                        "' from '" +
+                        previous.getName() +
+                        "' to '" +
+                        group.getName() +
+                        "'").color(NamedTextColor.AQUA);
+    }
+
+    public static Component getZoneConfigReloadedInfo() {
+        return Component.text("Reloaded the Config successfully!").color(NamedTextColor.AQUA);
+    }
+
+    public static Component getZonesReloadedInfo() {
+        return Component.text("Reloaded the config of the available zones successfully!")
+                .color(NamedTextColor.AQUA);
+    }
+
+    public static Component getZoneConfigReloadFail() {
+        return Component
+                .text("Couldn't reload config! Below is the cause of the error")
+                .color(NamedTextColor.RED);
+    }
+
 }

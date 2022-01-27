@@ -31,7 +31,7 @@ import java.util.Optional;
  */
 public class ZoneFlagViewBalanceCommand implements ArgumentCommand {
 
-    public static final ZoneArgument ZONE = new ZoneArgument("zone_value",
+    public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
                     ZonePermissions.OVERRIDE_FLAG_BALANCE_VIEW));
 
