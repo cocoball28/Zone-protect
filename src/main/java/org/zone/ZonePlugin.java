@@ -1,22 +1,25 @@
 package org.zone;
 
 import com.google.inject.Inject;
+import net.kyori.adventure.audience.Audience;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.Server;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.Command;
+import org.spongepowered.api.data.DataRegistration;
+import org.spongepowered.api.entity.living.Human;
 import org.spongepowered.api.event.EventManager;
 import org.spongepowered.api.event.Listener;
-import org.spongepowered.api.event.lifecycle.ConstructPluginEvent;
-import org.spongepowered.api.event.lifecycle.RegisterCommandEvent;
-import org.spongepowered.api.event.lifecycle.StartedEngineEvent;
-import org.spongepowered.api.event.lifecycle.StartingEngineEvent;
+import org.spongepowered.api.event.lifecycle.*;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.plugin.PluginContainer;
 import org.spongepowered.plugin.builtin.jvm.Plugin;
+import org.zone.ai.HumanAIListener;
 import org.zone.commands.structure.ZoneCommands;
+import org.zone.config.ZoneConfig;
 import org.zone.event.listener.PlayerListener;
+import org.zone.keys.ZoneKeys;
 import org.zone.memory.MemoryHolder;
 import org.zone.region.Zone;
 import org.zone.region.ZoneManager;
@@ -24,6 +27,7 @@ import org.zone.region.flag.Flag;
 import org.zone.region.flag.FlagManager;
 import org.zone.region.flag.FlagType;
 import org.zone.region.flag.entity.monster.move.MonsterPreventionListener;
+import org.zone.region.flag.entity.nonliving.tnt.TnTDefuseListener;
 import org.zone.region.flag.entity.player.damage.attack.EntityDamagePlayerListener;
 import org.zone.region.flag.entity.player.damage.fall.PlayerFallDamageListener;
 import org.zone.region.flag.entity.player.interact.block.destroy.BlockBreakListener;
@@ -52,6 +56,7 @@ public class ZonePlugin {
     private FlagManager flagManager;
     private ZoneManager zoneManager;
     private GroupKeyManager groupKeyManager;
+    private ZoneConfig config;
     private MemoryHolder memoryHolder;
     private static ZonePlugin zonePlugin;
 
@@ -61,6 +66,10 @@ public class ZonePlugin {
         zonePlugin = this;
         this.plugin = plugin;
         this.logger = logger;
+    }
+
+    public @NotNull ZoneConfig getConfig() {
+        return this.config;
     }
 
     /**
@@ -129,6 +138,8 @@ public class ZonePlugin {
         eventManager.registerListeners(this.plugin, new ItemFrameInteractionListener());
         eventManager.registerListeners(this.plugin, new EntityDamagePlayerListener());
         eventManager.registerListeners(this.plugin, new PlayerFallDamageListener());
+        eventManager.registerListeners(this.plugin, new TnTDefuseListener());
+        eventManager.registerListeners(this.plugin, new HumanAIListener());
     }
 
     @Listener
@@ -206,6 +217,26 @@ public class ZonePlugin {
                 "region",
                 "claim",
                 "protect");
+    }
+
+    @Listener
+    public void onRegisterData(RegisterDataEvent event) {
+        event.register(DataRegistration.of(ZoneKeys.HUMAN_AI_ATTACHED_ZONE_ID, Human.class));
+    }
+
+    @Listener
+    public void onReload(RefreshGameEvent event) {
+        Optional<Audience> cSender = event.cause().first(Audience.class);
+        try {
+            this.config.getLoader().load();
+            cSender.ifPresent(audience -> audience.sendMessage(Messages.getZoneConfigReloadedInfo()));
+            this.zoneManager.zonesReload();
+            cSender.ifPresent(audience -> audience.sendMessage(Messages.getZonesReloadedInfo()));
+        }catch (ConfigurateException ce) {
+            cSender.ifPresent(audience -> audience.sendMessage(Messages.getZoneConfigReloadFail()));
+            ce.printStackTrace();
+            this.logger.error("Event terminated!");
+        }
     }
 
     /**

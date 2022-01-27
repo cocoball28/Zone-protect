@@ -52,7 +52,7 @@ public class DefaultFlagFile {
 
     private void updateFile() {
         try {
-            createFile();
+            this.createFile();
             for (FlagType<? extends Flag> type : ZonePlugin
                     .getZonesPlugin()
                     .getFlagManager()

@@ -23,7 +23,7 @@ import java.util.Optional;
 
 public class ZoneFlagLeavingSetMessageCommand implements ArgumentCommand {
 
-    public static final ZoneArgument ZONE = new ZoneArgument("zone_value",
+    public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
                     ZonePermissions.OVERRIDE_FLAG_LEAVING_SET));
     public static final ComponentRemainingArgument MESSAGE = new ComponentRemainingArgument(
