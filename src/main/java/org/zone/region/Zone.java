@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.api.ResourceKey;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.event.Cause;
 import org.spongepowered.api.world.Locatable;
 import org.spongepowered.api.world.Location;
@@ -23,6 +24,7 @@ import org.zone.region.flag.meta.member.MembersFlag;
 import org.zone.region.flag.meta.tag.TagsFlag;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * A area that follows specific rules
@@ -50,6 +52,20 @@ public class Zone implements Identifiable {
         if (this.world == null && !Sponge.isClientAvailable()) {
             throw new IllegalArgumentException("World is needed to be set when in server mode");
         }
+    }
+
+    /**
+     * Gets all the entities found in the regions of the zone
+     * @return a collection of entities found within the region
+     */
+    public Collection<Entity> getEntities(){
+        Optional<? extends World<?, ?>> opWorld = this.getWorld();
+        if(opWorld.isEmpty()){
+            return Collections.emptyList();
+        }
+        World<?, ?> world = opWorld.get();
+        return this.getRegion().getTrueChildren().stream().flatMap(region -> world.entities(region.asAABB()).stream()).collect(
+                Collectors.toSet());
     }
 
     /**

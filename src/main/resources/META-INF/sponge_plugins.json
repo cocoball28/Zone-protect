@@ -6,9 +6,9 @@
   "license": "GNU GPL 3.0",
   "plugins": [
     {
-      "id": "zones",
-      "name": "Zones",
-      "version": "1.0.0",
+      "id": "zone-protect",
+      "name": "zone-protect",
+      "version": "1.0.1",
       "entrypoint": "org.zone.ZonePlugin",
       "description": "Protection plugin for Sponge",
       "branding": {},

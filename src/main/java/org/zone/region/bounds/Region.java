@@ -6,6 +6,7 @@ import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.serialize.SerializationException;
+import org.spongepowered.math.vector.Vector2i;
 import org.spongepowered.math.vector.Vector3d;
 import org.spongepowered.math.vector.Vector3i;
 import org.zone.region.Zone;
@@ -40,6 +41,18 @@ public interface Region {
      * @return The closes block position, if {@link Optional#empty()} then the closes could not be found. This is highly unlikely but is possible
      */
     Optional<Vector3i> getNearestPosition(@NotNull Vector3i vector3i);
+
+    /**
+     * Gets the location within the region that is nearest to the provided block position,
+     * this version of the method ignores the y position
+     *
+     * @param vector the block position to compare ignoring the y
+     *
+     * @return the closes block to the provided position (without y), if {@link Optional#empty()}
+     * then the
+     * closes could not be found
+     */
+    Optional<Vector2i> getNearestPosition(Vector2i vector);
 
     /**
      * Serializes the region to the provided node
@@ -103,5 +116,23 @@ public interface Region {
         return this.contains(location.position(), ignoreY);
     }
 
-
+    /**
+     * Gets the location within the region that is nearest to the provided block position,
+     * this version of the method ignores the y position
+     *
+     * @param vector the block position to compare ignoring the y
+     *
+     * @return the closes block to the provided position (maining the y position), if
+     * {@link Optional#empty()}
+     * then the
+     * closes could not be found
+     */
+    default Optional<Vector3i> getNearestPosition(Vector3i vector, boolean ignoreHeight) {
+        if (ignoreHeight) {
+            return this
+                    .getNearestPosition(new Vector2i(vector.x(), vector.z()))
+                    .map(vector2i -> new Vector3i(vector2i.x(), vector.y(), vector2i.y()));
+        }
+        return this.getNearestPosition(vector);
+    }
 }

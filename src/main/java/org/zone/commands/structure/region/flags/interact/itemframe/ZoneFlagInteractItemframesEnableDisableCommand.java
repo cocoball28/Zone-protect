@@ -27,7 +27,7 @@ import java.util.Optional;
 
 public class ZoneFlagInteractItemframesEnableDisableCommand implements ArgumentCommand {
 
-    public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zone_value",
+    public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zoneId",
             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
                     ZonePermissions.OVERRIDE_FLAG_ITEM_FRAME_INTERACTION_ENABLE));
     public static final BooleanArgument ENABLED = new BooleanArgument("enableValue",

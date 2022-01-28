@@ -6,6 +6,7 @@ import org.spongepowered.api.util.AABB;
 import org.spongepowered.api.world.World;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.serialize.SerializationException;
+import org.spongepowered.math.vector.Vector2i;
 import org.spongepowered.math.vector.Vector3d;
 import org.spongepowered.math.vector.Vector3i;
 
@@ -24,6 +25,19 @@ public class BoundedRegion implements Region {
     public BoundedRegion(@NotNull Vector3i position1, @NotNull Vector3i position2) {
         this.position1 = position1;
         this.position2 = position2;
+    }
+
+    public @NotNull AABB asAABB() {
+        return AABB.of(this.getMax(), this.getMin());
+    }
+
+    public Vector3i getCenter() {
+        Vector3i min = this.getMin();
+        Vector3i max = this.getMax();
+        int offsetX = (max.x() - min.x()) / 2;
+        int offsetY = (max.y() - min.y()) / 2;
+        int offsetZ = (max.z() - min.z()) / 2;
+        return min.add(offsetX, offsetY, offsetZ);
     }
 
     public @NotNull Vector3i getPosition(@NotNull PositionType type) {
@@ -68,7 +82,7 @@ public class BoundedRegion implements Region {
     }
 
     @Override
-    public Collection<? extends Entity> getEntities(World world) {
+    public Collection<? extends Entity> getEntities(World<?, ?> world) {
         return world.entities(AABB.of(this.position1, this.position2));
     }
 
@@ -98,6 +112,27 @@ public class BoundedRegion implements Region {
             z = max.z();
         }
         return Optional.of(new Vector3i(x, y, z));
+    }
+
+    @Override
+    public Optional<Vector2i> getNearestPosition(Vector2i vector2i) {
+        Vector3i min = this.getMin();
+        Vector3i max = this.getMax();
+        int x = vector2i.x();
+        int z = vector2i.y();
+        if (vector2i.x() < min.x()) {
+            x = min.x();
+        }
+        if (vector2i.x() > max.x()) {
+            x = max.x();
+        }
+        if (vector2i.y() < min.z()) {
+            z = min.z();
+        }
+        if (vector2i.y() > max.z()) {
+            z = max.z();
+        }
+        return Optional.of(new Vector2i(x, z));
     }
 
     @Override

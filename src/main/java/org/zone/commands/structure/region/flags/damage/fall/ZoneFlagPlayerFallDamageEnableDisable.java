@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class ZoneFlagPlayerFallDamageEnableDisable implements ArgumentCommand {
-    public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zone_value",
+    public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zoneId",
             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
                     ZonePermissions.OVERRIDE_FLAG_DAMAGE_FALL_ENABLE));
     public static final BooleanArgument ENABLED = new BooleanArgument("enableValue",

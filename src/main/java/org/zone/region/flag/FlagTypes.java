@@ -2,6 +2,7 @@ package org.zone.region.flag;
 
 import org.jetbrains.annotations.NotNull;
 import org.zone.region.flag.entity.monster.move.PreventMonsterFlagType;
+import org.zone.region.flag.entity.nonliving.tnt.TnTDefuseFlagType;
 import org.zone.region.flag.entity.player.damage.attack.EntityDamagePlayerFlagType;
 import org.zone.region.flag.entity.player.damage.fall.PlayerFallDamageFlagType;
 import org.zone.region.flag.entity.player.interact.block.destroy.BlockBreakFlagType;
@@ -42,6 +43,7 @@ public final class FlagTypes {
     public static final EntityDamagePlayerFlagType ENTITY_DAMAGE_PLAYER = new EntityDamagePlayerFlagType();
     public static final PlayerFallDamageFlagType PLAYER_FALL_DAMAGE = new PlayerFallDamageFlagType();
     public static final BuyFlagType BUY = new BuyFlagType();
+    public static final TnTDefuseFlagType TNT_DEFUSE = new TnTDefuseFlagType();
 
     private FlagTypes() {
         throw new RuntimeException("Should not init");

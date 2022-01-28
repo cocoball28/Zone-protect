@@ -22,7 +22,7 @@ import java.util.Optional;
 public class ZoneFlagGreetingsViewCommand implements ArgumentCommand {
     public static final ExactArgument REGION = new ExactArgument("region");
     public static final ExactArgument FLAGS = new ExactArgument("flag");
-    public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zone_value",
+    public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zoneId",
             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
                     ZonePermissions.OVERRIDE_FLAG_GREETINGS_VIEW));
     public static final ExactArgument GREETINGS = new ExactArgument("greetings");
