@@ -26,6 +26,10 @@ import java.util.UUID;
  */
 public final class Messages {
 
+    /**
+     * Constructor of the {@link Messages} class
+     * @throws RuntimeException if it couldn't construct the class
+     */
     private Messages() {
         throw new RuntimeException("Could not construct class");
     }
@@ -65,7 +69,7 @@ public final class Messages {
     }
 
     public static Component getFlagMessageView(Component message) {
-        return getMessageTag().append(message);
+        return getMessageTag().append(message.color(NamedTextColor.GOLD));
     }
 
     public static Component getUpdatedMessage(Identifiable type) {
@@ -75,8 +79,6 @@ public final class Messages {
                 .append(Component.text(type.getName()).color(NamedTextColor.GOLD));
     }
 
-    //Universal Messages end
-    //Universal only for some special classes
     public static Component getNotInRegion(Identifiable parent) {
         return Component
                 .text("Region must be within '" + parent.getId() + "'")
@@ -253,7 +255,7 @@ public final class Messages {
         return Component
                 .text("Leaving message is now: ")
                 .color(NamedTextColor.AQUA)
-                .append(message);
+                .append(message.color(NamedTextColor.GOLD));
     }
 
     public static Component getLeavingMessage(LeavingFlag leavingFlag) {

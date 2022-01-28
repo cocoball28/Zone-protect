@@ -478,6 +478,38 @@ public enum ZonePermissions implements ZonePermission {
             "defuse",
             "view"),
 
+    //fire damage
+    FLAG_FIRE_DAMAGE_ENABLE(false, "zone", "region", "flag", "damage", "fire", "enable"),
+    FLAG_FIRE_DAMAGE_SET_GROUP(false, "zone", "region", "flag", "damage", "fire", "set", "group"),
+    FLAG_FIRE_DAMAGE_VIEW(false, "zone", "region", "flag", "damage", "fire", "view"),
+
+    //fire damage override
+    OVERRIDE_FLAG_FIRE_DAMAGE_ENABLE(false,
+            "zone",
+            "override",
+            "region",
+            "flag",
+            "damage",
+            "fire",
+            "enable"),
+    OVERRIDE_FLAG_FIRE_DAMAGE_SET_GROUP(false,
+            "zone",
+            "override",
+            "region",
+            "flag",
+            "damage",
+            "fire",
+            "set",
+            "group"),
+    OVERRIDE_FLAG_FIRE_DAMAGE_VIEW(false,
+            "zone",
+            "override",
+            "region",
+            "flag",
+            "damage",
+            "fire",
+            "view"),
+
     //balance
     FLAG_BALANCE_VIEW(true, "zone", "region", "flag", "balance", "view"),
 
@@ -491,7 +523,8 @@ public enum ZonePermissions implements ZonePermission {
     BYPASS_ITEM_FRAME_INTERACTION(false, "zone", "bypass", "interaction", "itemframe"),
     BYPASS_DAMAGE_FALL(false, "zone", "bypass", "damage", "fall"),
     BYPASS_DAMAGE_ATTACK(false, "zone", "bypass", "damage", "attack"),
-    BYPASS_ENTRY(false, "zone", "bypass", "entry");
+    BYPASS_ENTRY(false, "zone", "bypass", "entry"),
+    BYPASS_DAMAGE_FIRE(false, "zone", "bypass", "damage", "fire");
 
     private final String[] nodes;
     private final boolean isDefault;
