@@ -1,5 +1,8 @@
 package org.zone.event.listener;
 
+import net.kyori.adventure.bossbar.BossBar;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.spongepowered.api.effect.particle.ParticleEffect;
 import org.spongepowered.api.effect.particle.ParticleTypes;
 import org.spongepowered.api.entity.living.player.Player;
@@ -9,18 +12,25 @@ import org.spongepowered.api.event.filter.Getter;
 import org.spongepowered.math.vector.Vector3d;
 import org.spongepowered.math.vector.Vector3i;
 import org.zone.ZonePlugin;
+import org.zone.config.node.ZoneNodes;
 import org.zone.region.ZoneBuilder;
 import org.zone.region.bounds.BoundedRegion;
 import org.zone.region.bounds.ChildRegion;
 import org.zone.region.bounds.PositionType;
+import org.zone.region.flag.meta.eco.price.Price;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.function.Consumer;
 
 /**
  * The listener for all none flag related sponge listeners
  */
 public class PlayerListener {
+
+    private static final Map<UUID, BossBar> BOSS_BARS = new HashMap<>();
 
     @Listener
     public void onPlayerRegionCreateMove(MoveEntityEvent event, @Getter("entity") Player player) {
@@ -46,6 +56,13 @@ public class PlayerListener {
                         .shift(player.world().location(event.destinationPosition()),
                                 r.getPosition(PositionType.ONE))
                         .blockPosition());
+
+        Optional<Price<?, ?>> configNode = ZonePlugin.getZonesPlugin().getConfig().get(ZoneNodes.PRICE_FOR_LAND);
+        configNode.ifPresent(price -> this.t(player,
+                price,
+                opRegionBuilder.get(),
+                r.getBlockCount(true)));
+
         runOnOutside(r,
                 (int) (event.destinationPosition().y() + 3),
                 vector -> player.spawnParticles(ParticleEffect
@@ -55,6 +72,32 @@ public class PlayerListener {
                         .scale(2.0)
                         .build(), vector.toDouble()),
                 regionBuilder.getParentId() != null);
+
+    }
+
+    private <N extends Number> void t(Player player, Price<?, N> price, ZoneBuilder builder, int amount){
+        double cost = price.getAmount().doubleValue() * amount;
+        Price<?, N> costPrice = price.createNewByDouble(cost);
+        float percent = 0;
+        if(costPrice instanceof Price.PlayerPrice playerCost){
+            percent = ((Price.PlayerPrice<N>)playerCost).getPercentLeft(player);
+        }else if(costPrice instanceof Price.ZonePrice zoneCost){
+            percent = ((Price.ZonePrice<N>)zoneCost).getPercentLeft(builder.build());
+        }
+
+        BossBar bar = BOSS_BARS.getOrDefault(player.uniqueId(), BossBar.bossBar(Component.text(""),
+                percent,
+                BossBar.Color.BLUE, BossBar.Overlay.PROGRESS));
+        bar.name(costPrice.getDisplayName());
+        bar.progress(percent);
+        bar.color(percent <= 0.0 ? BossBar.Color.RED : BossBar.Color.GREEN);
+
+        if(BOSS_BARS.containsKey(player.uniqueId())){
+            BOSS_BARS.replace(player.uniqueId(), bar);
+            return;
+        }
+        BOSS_BARS.put(player.uniqueId(), bar);
+        player.showBossBar(bar);
 
     }
 
