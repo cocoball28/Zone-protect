@@ -16,5 +16,7 @@ public interface Price<O> {
 
     boolean hasEnough(O player);
 
+    float getPercentLeft(O player);
+
     Component getDisplayName();
 }
