@@ -31,6 +31,10 @@ public final class Messages {
         throw new RuntimeException("Could not construct class");
     }
 
+    public static Component getNotEnough() {
+        return Component.text("You do not have enough for that").color(NamedTextColor.RED);
+    }
+
     public static Component getInvalidPriceType(PriceType type) {
         return Component
                 .text("Cannot accept price type of " + type.name())

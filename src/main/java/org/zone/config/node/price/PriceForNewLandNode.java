@@ -25,7 +25,7 @@ import org.zone.utils.Messages;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class PriceForLandNode implements ZoneNode<Price<?, ?>> {
+public class PriceForNewLandNode implements ZoneNode<Price.PlayerPrice<?>> {
 
     class TypeConfigCommandNode implements ConfigCommandNode<PriceType> {
 
@@ -57,7 +57,7 @@ public class PriceForLandNode implements ZoneNode<Price<?, ?>> {
                         .setAmount(0)
                         .setCurrency(opCurrency.orElse(null));
                 try {
-                    PriceForLandNode.this.set(config, builder.buildPlayer());
+                    PriceForNewLandNode.this.set(config, builder.buildPlayer());
                 } catch (RuntimeException e) {
                     return CommandResult.error(Messages.getInvalidPriceType(newValue));
                 }
@@ -86,7 +86,7 @@ public class PriceForLandNode implements ZoneNode<Price<?, ?>> {
 
     @Override
     public void set(
-            CommentedConfigurationNode node, Price<?, ?> price) throws SerializationException {
+            CommentedConfigurationNode node, Price.PlayerPrice<?> price) throws SerializationException {
         node.node("type").set(price.getType().name());
         node.node("amount").set(price.getAmount().doubleValue());
         if (price instanceof Price.EcoPrice) {
@@ -95,7 +95,7 @@ public class PriceForLandNode implements ZoneNode<Price<?, ?>> {
     }
 
     @Override
-    public Optional<Price<?, ?>> get(CommentedConfigurationNode node) {
+    public Optional<Price.PlayerPrice<?>> get(CommentedConfigurationNode node) {
         String priceTypeString = node.node("type").getString();
         double amount = node.node("amount").getDouble();
         String currencyString = node.node("currency").getString();

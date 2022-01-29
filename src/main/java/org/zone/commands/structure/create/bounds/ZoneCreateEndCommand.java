@@ -15,6 +15,7 @@ import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.context.CommandContext;
+import org.zone.config.node.ZoneNodes;
 import org.zone.event.listener.PlayerListener;
 import org.zone.event.zone.CreateZoneEvent;
 import org.zone.permissions.ZonePermission;
@@ -23,6 +24,7 @@ import org.zone.region.ZoneBuilder;
 import org.zone.region.bounds.BoundedRegion;
 import org.zone.region.bounds.ChildRegion;
 import org.zone.region.bounds.Region;
+import org.zone.region.flag.meta.eco.price.Price;
 import org.zone.region.flag.meta.member.MembersFlag;
 import org.zone.region.group.DefaultGroups;
 import org.zone.utils.Messages;
@@ -105,6 +107,20 @@ public class ZoneCreateEndCommand implements ArgumentCommand {
 
         if (preEvent.isCancelled()) {
             return CommandResult.error(Component.empty());
+        }
+
+        Optional<Price.PlayerPrice<?>> opPriceForLand = ZonePlugin
+                .getZonesPlugin()
+                .getConfig()
+                .get(ZoneNodes.PRICE_FOR_LAND);
+        if (opPriceForLand.isPresent()) {
+            Price.PlayerPrice<?> price = opPriceForLand.get();
+            if(!price.hasEnough(player)){
+                return CommandResult.error(Messages.getNotEnough());
+            }
+            if (!price.withdraw(player)){
+                return CommandResult.error(Messages.getNotEnough());
+            }
         }
 
 
