@@ -53,7 +53,7 @@ public class PlayerListener {
                                 r.getPosition(PositionType.ONE))
                         .blockPosition());
 
-        Optional<Price<?, ?>> configNode = ZonePlugin
+        Optional<Price.PlayerPrice<?>> configNode = ZonePlugin
                 .getZonesPlugin()
                 .getConfig()
                 .get(ZoneNodes.PRICE_FOR_LAND);
