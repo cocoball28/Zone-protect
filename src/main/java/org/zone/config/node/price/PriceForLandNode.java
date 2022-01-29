@@ -22,9 +22,8 @@ import org.zone.region.flag.meta.eco.price.PriceType;
 import org.zone.region.flag.meta.eco.price.player.PlayerLevelPrice;
 import org.zone.utils.Messages;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class PriceForLandNode implements ZoneNode<Price<?, ?>> {
 
@@ -37,7 +36,11 @@ public class PriceForLandNode implements ZoneNode<Price<?, ?>> {
 
         @Override
         public CommandArgument<PriceType> getCommandArgument() {
-            return new EnumArgument<>("type", PriceType.class);
+            return new EnumArgument<>("type",
+                    EnumSet.copyOf(Arrays
+                            .stream(PriceType.values())
+                            .filter(type -> type.getPlayerClass().isPresent())
+                            .collect(Collectors.toSet())));
         }
 
         @Override
@@ -56,7 +59,7 @@ public class PriceForLandNode implements ZoneNode<Price<?, ?>> {
                 try {
                     PriceForLandNode.this.set(config, builder.buildPlayer());
                 } catch (RuntimeException e) {
-                    PriceForLandNode.this.set(config, builder.buildZone());
+                    return CommandResult.error(Messages.getInvalidPriceType(newValue));
                 }
                 return CommandResult.success();
             } catch (SerializationException e) {
@@ -68,7 +71,7 @@ public class PriceForLandNode implements ZoneNode<Price<?, ?>> {
 
     @Override
     public Object[] getNode() {
-        return new Object[]{"zone", "region", "claim", "price", "perBlock"};
+        return new Object[]{"zone", "region", "claim", "create", "price", "perBlock"};
     }
 
     @Override
@@ -123,7 +126,7 @@ public class PriceForLandNode implements ZoneNode<Price<?, ?>> {
         try {
             return Optional.of(builder.buildPlayer());
         } catch (RuntimeException e) {
-            return Optional.of(builder.buildZone());
+            return Optional.empty();
         }
     }
 }

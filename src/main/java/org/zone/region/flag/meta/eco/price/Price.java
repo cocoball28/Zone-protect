@@ -25,6 +25,8 @@ public interface Price<O, N extends Number> {
 
     boolean hasEnough(@NotNull O player);
 
+    boolean withdraw(O player);
+
     float getPercentLeft(@NotNull O player);
 
     N getAmount();
@@ -33,7 +35,7 @@ public interface Price<O, N extends Number> {
 
     @NotNull Component getDisplayName();
 
-    default PriceBuilder asBuilder(){
+    default PriceBuilder asBuilder() {
         return new PriceBuilder().setType(this.getType()).setAmount(this.getAmount().doubleValue());
     }
 

@@ -7,6 +7,7 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.service.economy.Currency;
 import org.spongepowered.api.service.economy.EconomyService;
 import org.spongepowered.api.service.economy.account.UniqueAccount;
+import org.spongepowered.api.service.economy.transaction.ResultType;
 import org.zone.region.flag.meta.eco.price.Price;
 import org.zone.region.flag.meta.eco.price.PriceBuilder;
 import org.zone.region.flag.meta.eco.price.PriceType;
@@ -53,6 +54,26 @@ public class PlayerEcoPrice implements Price.PlayerPrice<BigDecimal>, Price.EcoP
             return false;
         }
         return opAccount.get().balance(this.currency).compareTo(this.amount) > 0;
+    }
+
+    @Override
+    public boolean withdraw(Player player) {
+        Optional<EconomyService> opService = Sponge.serviceProvider().provide(EconomyService.class);
+        if (opService.isEmpty()) {
+            return false;
+        }
+        if (!opService.get().hasAccount(player.uniqueId())) {
+            return false;
+        }
+        Optional<UniqueAccount> opAccount = opService.get().findOrCreateAccount(player.uniqueId());
+        if (opAccount.isEmpty()) {
+            return false;
+        }
+        UniqueAccount account = opAccount.get();
+        if (account.balance(this.currency).compareTo(this.amount) < 0) {
+            return false;
+        }
+        return account.withdraw(this.currency, this.amount).result() == ResultType.SUCCESS;
     }
 
     @Override

@@ -8,6 +8,7 @@ import org.zone.region.flag.meta.eco.balance.BalanceFlag;
 import org.zone.region.flag.meta.eco.price.Price;
 import org.zone.region.flag.meta.eco.price.PriceBuilder;
 import org.zone.region.flag.meta.eco.price.PriceType;
+import org.zone.region.flag.meta.eco.transaction.TransactionState;
 
 import java.math.BigDecimal;
 
@@ -40,6 +41,15 @@ public class ZoneEcoPrice implements Price.ZonePrice<BigDecimal>, Price.EcoPrice
     public boolean hasEnough(@NotNull Zone zone) {
         BalanceFlag flag = zone.getEconomy();
         return flag.hasBalance(this.currency, this.amount);
+    }
+
+    @Override
+    public boolean withdraw(Zone zone) {
+        BalanceFlag flag = zone.getEconomy();
+        if (!flag.hasBalance(this.currency, this.amount)) {
+            return false;
+        }
+        return flag.withdraw(this.currency, this.amount).getState() == TransactionState.SUCCESS;
     }
 
     @Override

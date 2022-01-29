@@ -25,6 +25,17 @@ public class PlayerExpPrice implements Price.PlayerPrice<Integer> {
     }
 
     @Override
+    public boolean withdraw(Player player) {
+        int exp = player.get(Keys.EXPERIENCE).orElse(0);
+        if (exp < this.exp) {
+            return false;
+        }
+        int difference = exp - this.exp;
+        player.offer(Keys.EXPERIENCE, difference);
+        return true;
+    }
+
+    @Override
     public float getPercentLeft(@NotNull Player player) {
         int exp = player.get(Keys.EXPERIENCE).orElse(0);
         if (this.exp == 0) {

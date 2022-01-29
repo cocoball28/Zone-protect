@@ -22,16 +22,18 @@ public class ZonePowerPrice implements Price.ZonePrice<Long> {
     }
 
     @Override
+    public boolean withdraw(Zone player) {
+        return true;
+    }
+
+    @Override
     public float getPercentLeft(@NotNull Zone zone) {
         long total = zone.getMembers().getPowerLevel();
         if (total == 0) {
             return 0;
         }
         long difference = total - this.price;
-
-        System.out.println("Total: " + total + " | Diff: " + difference);
-        float percent = (float) (difference * 100.0 / total);
-        return percent;
+        return (float) (difference * 100.0 / total);
     }
 
     @Override
