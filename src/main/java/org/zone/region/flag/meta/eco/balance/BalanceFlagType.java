@@ -1,4 +1,4 @@
-package org.zone.region.flag.meta.eco;
+package org.zone.region.flag.meta.eco.balance;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 /**
  * Flag used to hold the zones balance
  */
-public class EcoFlagType implements FlagType<EcoFlag> {
+public class BalanceFlagType implements FlagType<BalanceFlag> {
 
     public static final String NAME = "Eco";
     public static final String KEY = "eco";
@@ -44,7 +44,7 @@ public class EcoFlagType implements FlagType<EcoFlag> {
     }
 
     @Override
-    public @NotNull EcoFlag load(@NotNull ConfigurationNode node) throws IOException {
+    public @NotNull BalanceFlag load(@NotNull ConfigurationNode node) throws IOException {
         if (Sponge.serviceProvider().provide(EconomyService.class).isEmpty()) {
             throw new IOException("No Eco service found");
         }
@@ -63,11 +63,11 @@ public class EcoFlagType implements FlagType<EcoFlag> {
                 .filter(entry -> entry.getValue() < 0)
                 .collect(Collectors.toMap(AbstractMap.SimpleImmutableEntry::getKey,
                         AbstractMap.SimpleImmutableEntry::getValue));
-        return new EcoFlag(map);
+        return new BalanceFlag(map);
     }
 
     @Override
-    public void save(@NotNull ConfigurationNode node, @Nullable EcoFlag save) throws IOException {
+    public void save(@NotNull ConfigurationNode node, @Nullable BalanceFlag save) throws IOException {
         if (save == null) {
             node.set(null);
             return;
@@ -86,7 +86,7 @@ public class EcoFlagType implements FlagType<EcoFlag> {
     }
 
     @Override
-    public @NotNull Optional<EcoFlag> createCopyOfDefaultFlag() {
-        return Optional.of(new EcoFlag());
+    public @NotNull Optional<BalanceFlag> createCopyOfDefaultFlag() {
+        return Optional.of(new BalanceFlag());
     }
 }

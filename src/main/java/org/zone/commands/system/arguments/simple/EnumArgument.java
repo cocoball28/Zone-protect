@@ -25,7 +25,7 @@ public class EnumArgument<T extends Enum<T>> implements GUICommandArgument<T> {
         this.set = set;
     }
 
-    public EnumArgument(@NotNull String id, Class<T> enumClass) {
+    public EnumArgument(@NotNull String id, @NotNull Class<T> enumClass) {
         this(id, EnumSet.allOf(enumClass));
     }
 

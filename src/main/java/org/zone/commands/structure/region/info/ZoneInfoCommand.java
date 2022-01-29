@@ -14,7 +14,7 @@ import org.zone.commands.system.context.CommandContext;
 import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
-import org.zone.region.flag.meta.eco.EcoFlag;
+import org.zone.region.flag.meta.eco.balance.BalanceFlag;
 import org.zone.region.flag.meta.member.MembersFlag;
 import org.zone.region.group.key.GroupKeys;
 import org.zone.utils.Messages;
@@ -50,7 +50,7 @@ public class ZoneInfoCommand implements ArgumentCommand {
     public @NotNull CommandResult run(CommandContext commandContext, String... args) {
         Zone zone = commandContext.getArgument(this, ZONE);
         MembersFlag membersFlag = zone.getMembers();
-        EcoFlag ecoFlag = zone.getEconomy();
+        BalanceFlag ecoFlag = zone.getEconomy();
         @NotNull Collection<UUID> members = membersFlag.getMembers();
 
         commandContext.sendMessage(Messages.getZoneNameInfo(zone));

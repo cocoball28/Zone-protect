@@ -1,11 +1,11 @@
 package org.zone.config.node;
 
-import org.spongepowered.api.command.CommandCompletion;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.serialize.SerializationException;
 import org.zone.config.ZoneConfig;
+import org.zone.config.command.ConfigCommandNode;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Optional;
 
 public interface ZoneNode<Value> {
@@ -26,11 +26,9 @@ public interface ZoneNode<Value> {
 
     Object[] getNode();
 
-    String getDisplayKey();
-
     Value getInitialValue();
 
-    List<CommandCompletion> getSuggestions(String peek);
+    Collection<ConfigCommandNode<?>> getNodes();
 
     void set(CommentedConfigurationNode node, Value value) throws SerializationException;
 

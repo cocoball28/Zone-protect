@@ -1,6 +1,6 @@
 package org.zone.region.flag.meta.eco.transaction;
 
-import org.zone.region.flag.meta.eco.EcoFlag;
+import org.zone.region.flag.meta.eco.balance.BalanceFlag;
 
 import java.math.BigDecimal;
 
@@ -11,7 +11,7 @@ public class TransactionBuilder {
 
     private BigDecimal original;
     private BigDecimal after;
-    private EcoFlag flag;
+    private BalanceFlag flag;
     private TransactionState state;
 
     public BigDecimal getOriginal() {
@@ -32,11 +32,11 @@ public class TransactionBuilder {
         return this;
     }
 
-    public EcoFlag getFlag() {
+    public BalanceFlag getFlag() {
         return this.flag;
     }
 
-    public TransactionBuilder setFlag(EcoFlag flag) {
+    public TransactionBuilder setFlag(BalanceFlag flag) {
         this.flag = flag;
         return this;
     }

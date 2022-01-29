@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 public class MembersFlag implements Flag {
 
     private final java.util.Map<Group, Collection<UUID>> groups = new HashMap<>();
+    private int usedPower = 0;
     public static final MembersFlag DEFAULT = new MembersFlag(DefaultGroups.createDefaultGroups());
 
     public MembersFlag() {
@@ -43,6 +44,24 @@ public class MembersFlag implements Flag {
         }
 
         this.groups.putAll(map);
+    }
+
+    /**
+     * Gets the power level this zone has
+     *
+     * @return The power level this zone has
+     */
+    public long getPowerLevel() {
+        return this.groups.values().parallelStream().flatMap(Collection::parallelStream).count() -
+                this.usedPower;
+    }
+
+    public int getUsedPower() {
+        return this.usedPower;
+    }
+
+    public void setUsedPower(int usedPower) {
+        this.usedPower = usedPower;
     }
 
     /**

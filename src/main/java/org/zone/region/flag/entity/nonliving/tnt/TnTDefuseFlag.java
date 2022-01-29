@@ -8,6 +8,6 @@ import org.zone.region.flag.FlagTypes;
 public class TnTDefuseFlag implements Flag.TaggedFlag {
     @Override
     public @NotNull FlagType<?> getType() {
-        return FlagTypes.TNT_DEFUSE_FLAG_TYPE;
+        return FlagTypes.TNT_DEFUSE;
     }
 }

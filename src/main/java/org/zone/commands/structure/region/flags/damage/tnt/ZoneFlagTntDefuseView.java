@@ -54,7 +54,7 @@ public class ZoneFlagTntDefuseView implements ArgumentCommand {
         commandContext
                 .getCause()
                 .sendMessage(Identity.nil(),
-                        Messages.getEnabledInfo(zone.containsFlag(FlagTypes.TNT_DEFUSE_FLAG_TYPE)));
+                        Messages.getEnabledInfo(zone.containsFlag(FlagTypes.TNT_DEFUSE)));
         return CommandResult.success();
     }
 }

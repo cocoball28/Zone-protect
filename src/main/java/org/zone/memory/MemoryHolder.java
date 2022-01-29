@@ -1,5 +1,6 @@
 package org.zone.memory;
 
+import net.kyori.adventure.bossbar.BossBar;
 import org.jetbrains.annotations.NotNull;
 import org.zone.region.ZoneBuilder;
 
@@ -14,6 +15,29 @@ import java.util.UUID;
 public class MemoryHolder {
 
     private final Map<UUID, ZoneBuilder> zoneBuilders = new HashMap<>();
+    private final Map<UUID, BossBar> zoneBuilderBossBars = new HashMap<>();
+
+
+    public Optional<BossBar> getZoneBuilderBossBar(UUID uuid) {
+        return this.zoneBuilderBossBars
+                .entrySet()
+                .stream()
+                .filter(entry -> entry.getKey().equals(uuid))
+                .map(Map.Entry::getValue)
+                .findAny();
+    }
+
+    public void registerZoneBuilderBossBar(UUID uuid, BossBar bar) {
+        if (this.zoneBuilderBossBars.containsKey(uuid)) {
+            this.zoneBuilderBossBars.replace(uuid, bar);
+            return;
+        }
+        this.zoneBuilderBossBars.put(uuid, bar);
+    }
+
+    public void unregisterZoneBuilderBossBar(UUID uuid){
+        this.zoneBuilderBossBars.remove(uuid);
+    }
 
     /**
      * Gets the ZoneBuilder that is being currently build. A example of this would be when a bounds start has occurred but not the end

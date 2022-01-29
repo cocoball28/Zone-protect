@@ -34,7 +34,7 @@ public class TnTDefuseListener {
                         return false;
                     }
                     Zone zone = opZone.get();
-                    Optional<TnTDefuseFlag> opFlag = zone.getFlag(FlagTypes.TNT_DEFUSE_FLAG_TYPE);
+                    Optional<TnTDefuseFlag> opFlag = zone.getFlag(FlagTypes.TNT_DEFUSE);
                     return opFlag.isPresent();
                 });
         if (contains) {
@@ -83,7 +83,7 @@ public class TnTDefuseListener {
             return;
         }
 
-        if (opZone.get().containsFlag(FlagTypes.TNT_DEFUSE_FLAG_TYPE)) {
+        if (opZone.get().containsFlag(FlagTypes.TNT_DEFUSE)) {
             event.setCancelled(true);
         }
 

@@ -123,6 +123,7 @@ public class ZonePlugin {
         this.zoneManager = new ZoneManager();
         this.groupKeyManager = new GroupKeyManager();
         this.memoryHolder = new MemoryHolder();
+        this.config = new ZoneConfig(new File("config/zone/config.conf"));
     }
 
     private void registerListeners() {
@@ -149,6 +150,9 @@ public class ZonePlugin {
 
     @Listener
     public void onServerStarted(final StartedEngineEvent<Server> event) {
+        this.config.loadDefaults();
+
+
         FlagManager manager = this.getFlagManager();
         for (FlagType<?> type : this.getFlagManager().getRegistered()) {
             if (type instanceof FlagType.TaggedFlagType) {
@@ -232,7 +236,7 @@ public class ZonePlugin {
             cSender.ifPresent(audience -> audience.sendMessage(Messages.getZoneConfigReloadedInfo()));
             this.zoneManager.zonesReload();
             cSender.ifPresent(audience -> audience.sendMessage(Messages.getZonesReloadedInfo()));
-        }catch (ConfigurateException ce) {
+        } catch (ConfigurateException ce) {
             cSender.ifPresent(audience -> audience.sendMessage(Messages.getZoneConfigReloadFail()));
             ce.printStackTrace();
             this.logger.error("Event terminated!");
