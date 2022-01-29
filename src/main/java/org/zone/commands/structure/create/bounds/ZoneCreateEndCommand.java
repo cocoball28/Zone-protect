@@ -111,6 +111,10 @@ public class ZoneCreateEndCommand implements ArgumentCommand {
         ZonePlugin.getZonesPlugin().getZoneManager().register(zone);
         player.sendMessage(Messages.getCreatedZoneMessage(zone));
         ZonePlugin.getZonesPlugin().getMemoryHolder().unregisterZoneBuilder(player.uniqueId());
+        ZonePlugin
+                .getZonesPlugin()
+                .getMemoryHolder()
+                .unregisterZoneBuilderBossBar(player.uniqueId());
         ChildRegion region = zone.getRegion();
         Collection<BoundedRegion> children = region.getTrueChildren();
         children.forEach(boundedRegion -> PlayerListener.runOnOutside(boundedRegion,

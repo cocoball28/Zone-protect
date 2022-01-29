@@ -57,6 +57,9 @@ public class PlayerEcoPrice implements Price.PlayerPrice<BigDecimal>, Price.EcoP
 
     @Override
     public float getPercentLeft(@NotNull Player player) {
+        if (this.amount.doubleValue() == 0) {
+            return 0;
+        }
         Optional<EconomyService> opService = Sponge.serviceProvider().provide(EconomyService.class);
         if (opService.isEmpty()) {
             return 0;
@@ -75,7 +78,10 @@ public class PlayerEcoPrice implements Price.PlayerPrice<BigDecimal>, Price.EcoP
 
     @Override
     public PriceBuilder asBuilder() {
-        return new PriceBuilder().setType(PriceType.ECO).setAmount(this.amount.doubleValue()).setCurrency(this.currency);
+        return new PriceBuilder()
+                .setType(PriceType.ECO)
+                .setAmount(this.amount.doubleValue())
+                .setCurrency(this.currency);
     }
 
     @Override

@@ -5,7 +5,6 @@ import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.data.Keys;
 import org.spongepowered.api.entity.living.player.Player;
 import org.zone.region.flag.meta.eco.price.Price;
-import org.zone.region.flag.meta.eco.price.PriceBuilder;
 import org.zone.region.flag.meta.eco.price.PriceType;
 
 public class PlayerExpPrice implements Price.PlayerPrice<Integer> {
@@ -28,8 +27,11 @@ public class PlayerExpPrice implements Price.PlayerPrice<Integer> {
     @Override
     public float getPercentLeft(@NotNull Player player) {
         int exp = player.get(Keys.EXPERIENCE).orElse(0);
+        if (this.exp == 0) {
+            return 0;
+        }
         int difference = exp - this.exp;
-        return (float)(difference * 100.0 / exp);
+        return (float) (difference * 100.0 / exp);
     }
 
     @Override

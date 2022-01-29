@@ -7,7 +7,6 @@ import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.Server;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.Command;
-import org.spongepowered.api.config.ConfigDir;
 import org.spongepowered.api.data.DataRegistration;
 import org.spongepowered.api.entity.living.Human;
 import org.spongepowered.api.event.EventManager;
@@ -43,7 +42,6 @@ import org.zone.utils.Messages;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.Optional;
 
 /**
@@ -61,10 +59,6 @@ public class ZonePlugin {
     private ZoneConfig config;
     private MemoryHolder memoryHolder;
     private static ZonePlugin zonePlugin;
-
-    @Inject
-    @ConfigDir(sharedRoot = false)
-    private Path configPath;
 
     @SuppressWarnings("SpongeInjection")
     @Inject
@@ -129,7 +123,7 @@ public class ZonePlugin {
         this.zoneManager = new ZoneManager();
         this.groupKeyManager = new GroupKeyManager();
         this.memoryHolder = new MemoryHolder();
-        this.config = new ZoneConfig(this.configPath.toFile());
+        this.config = new ZoneConfig(new File("config/zone/config.conf"));
     }
 
     private void registerListeners() {
@@ -156,6 +150,9 @@ public class ZonePlugin {
 
     @Listener
     public void onServerStarted(final StartedEngineEvent<Server> event) {
+        this.config.loadDefaults();
+
+
         FlagManager manager = this.getFlagManager();
         for (FlagType<?> type : this.getFlagManager().getRegistered()) {
             if (type instanceof FlagType.TaggedFlagType) {
@@ -239,7 +236,7 @@ public class ZonePlugin {
             cSender.ifPresent(audience -> audience.sendMessage(Messages.getZoneConfigReloadedInfo()));
             this.zoneManager.zonesReload();
             cSender.ifPresent(audience -> audience.sendMessage(Messages.getZonesReloadedInfo()));
-        }catch (ConfigurateException ce) {
+        } catch (ConfigurateException ce) {
             cSender.ifPresent(audience -> audience.sendMessage(Messages.getZoneConfigReloadFail()));
             ce.printStackTrace();
             this.logger.error("Event terminated!");

@@ -19,7 +19,7 @@ import org.zone.config.node.ZoneNode;
 import org.zone.region.flag.meta.eco.price.Price;
 import org.zone.region.flag.meta.eco.price.PriceBuilder;
 import org.zone.region.flag.meta.eco.price.PriceType;
-import org.zone.region.flag.meta.eco.price.zone.ZonePowerPrice;
+import org.zone.region.flag.meta.eco.price.player.PlayerLevelPrice;
 import org.zone.utils.Messages;
 
 import java.util.Collection;
@@ -44,17 +44,18 @@ public class PriceForLandNode implements ZoneNode<Price<?, ?>> {
         public CommandResult onChange(
                 CommandContext context, PriceType newValue) {
             ZoneConfig config = ZonePlugin.getZonesPlugin().getConfig();
-            Optional<Currency> opCurrency =
-                    Sponge.serviceProvider().provide(EconomyService.class).map(EconomyService::defaultCurrency);
+            Optional<Currency> opCurrency = Sponge
+                    .serviceProvider()
+                    .provide(EconomyService.class)
+                    .map(EconomyService::defaultCurrency);
             try {
-                PriceBuilder builder =
-                        new PriceBuilder()
-                                .setType(newValue)
-                                .setAmount(0)
-                                .setCurrency(opCurrency.orElse(null));
+                PriceBuilder builder = new PriceBuilder()
+                        .setType(newValue)
+                        .setAmount(0)
+                        .setCurrency(opCurrency.orElse(null));
                 try {
                     PriceForLandNode.this.set(config, builder.buildPlayer());
-                }catch (RuntimeException e){
+                } catch (RuntimeException e) {
                     PriceForLandNode.this.set(config, builder.buildZone());
                 }
                 return CommandResult.success();
@@ -71,8 +72,8 @@ public class PriceForLandNode implements ZoneNode<Price<?, ?>> {
     }
 
     @Override
-    public ZonePowerPrice getInitialValue() {
-        return new ZonePowerPrice(0);
+    public PlayerLevelPrice getInitialValue() {
+        return new PlayerLevelPrice(1);
     }
 
     @Override
@@ -81,13 +82,13 @@ public class PriceForLandNode implements ZoneNode<Price<?, ?>> {
     }
 
     @Override
-    public void set(CommentedConfigurationNode node,
-            Price<?, ?> price) throws SerializationException {
-            node.node("type").set(price.getType().name());
-            node.node("amount").set(price.getAmount().doubleValue());
-            if(price instanceof Price.EcoPrice){
-                node.node("currency").set(((Price.EcoPrice<?>)price).getCurrency());
-            }
+    public void set(
+            CommentedConfigurationNode node, Price<?, ?> price) throws SerializationException {
+        node.node("type").set(price.getType().name());
+        node.node("amount").set(price.getAmount().doubleValue());
+        if (price instanceof Price.EcoPrice) {
+            node.node("currency").set(((Price.EcoPrice<?>) price).getCurrency());
+        }
     }
 
     @Override
@@ -95,29 +96,33 @@ public class PriceForLandNode implements ZoneNode<Price<?, ?>> {
         String priceTypeString = node.node("type").getString();
         double amount = node.node("amount").getDouble();
         String currencyString = node.node("currency").getString();
-        if(priceTypeString == null){
+        if (priceTypeString == null) {
             return Optional.empty();
         }
         PriceType type;
-        try{
+        try {
             type = PriceType.valueOf(priceTypeString);
-        }catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             return Optional.empty();
         }
 
         Currency currency = null;
-        if(currencyString != null){
-            currency =
-                    RegistryTypes.CURRENCY.get().findEntry(ResourceKey.resolve(currencyString)).map(
-                            RegistryEntry::value).orElse(null);
+        if (currencyString != null) {
+            currency = RegistryTypes.CURRENCY
+                    .get()
+                    .findEntry(ResourceKey.resolve(currencyString))
+                    .map(RegistryEntry::value)
+                    .orElse(null);
         }
 
-        PriceBuilder builder =
-                new PriceBuilder().setCurrency(currency).setAmount(amount).setType(type);
+        PriceBuilder builder = new PriceBuilder()
+                .setCurrency(currency)
+                .setAmount(amount)
+                .setType(type);
 
-        try{
+        try {
             return Optional.of(builder.buildPlayer());
-        }catch (RuntimeException e){
+        } catch (RuntimeException e) {
             return Optional.of(builder.buildZone());
         }
     }
