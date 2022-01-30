@@ -8,11 +8,13 @@ import org.zone.ZonePlugin;
 import org.zone.region.flag.FlagType;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class JoinRequestFlagType implements FlagType<JoinRequestFlag> {
-
     public static final String NAME = "Join Request";
     public static final PluginContainer PLUGIN = ZonePlugin.getZonesPlugin().getPluginContainer();
     public static final String KEY = "join_request";
@@ -35,14 +37,15 @@ public class JoinRequestFlagType implements FlagType<JoinRequestFlag> {
     @Override
     public @NotNull JoinRequestFlag load(@NotNull ConfigurationNode node)
             throws IOException {
-        try {
-            String joinRequests = node.node("JoinRequests").getString();
-            if (joinRequests != null) {
-
-                JoinRequestFlag joinRequestFlag = new JoinRequestFlag();
-            }
+        List<String> uuidsAsString = node.node("JoinRequests").getList(String.class);
+        if (uuidsAsString == null) {
+            throw new IOException("Unknown UUID");
         }
-        return null;
+        Collection<UUID> uuidsFromString = uuidsAsString
+                .stream()
+                .map(UUID::fromString)
+                .collect(Collectors.toList());
+       return new JoinRequestFlag(uuidsFromString);
     }
 
     @Override
@@ -52,7 +55,7 @@ public class JoinRequestFlagType implements FlagType<JoinRequestFlag> {
             return;
         }
 
-        node.node("JoinRequests").set(save.pUUIDs.stream().map(UUID::toString));
+        node.node("JoinRequests").set(save.pUUIDs.stream().map(UUID::toString).collect(Collectors.toList()));
     }
 
     @Override
