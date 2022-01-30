@@ -1,6 +1,6 @@
 package org.zone.region.flag.meta.eco.transaction;
 
-import org.zone.region.flag.meta.eco.EcoFlag;
+import org.zone.region.flag.meta.eco.balance.BalanceFlag;
 
 import java.math.BigDecimal;
 
@@ -8,7 +8,7 @@ public class AbstractTransaction implements Transaction {
 
     private final BigDecimal original;
     private final BigDecimal after;
-    private final EcoFlag flag;
+    private final BalanceFlag flag;
     private final TransactionState state;
 
     public AbstractTransaction(TransactionBuilder builder) {
@@ -29,7 +29,7 @@ public class AbstractTransaction implements Transaction {
     }
 
     @Override
-    public EcoFlag getFlag() {
+    public BalanceFlag getFlag() {
         return this.flag;
     }
 

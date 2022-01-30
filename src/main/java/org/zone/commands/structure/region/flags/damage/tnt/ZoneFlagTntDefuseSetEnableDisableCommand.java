@@ -57,16 +57,16 @@ public class ZoneFlagTntDefuseSetEnableDisableCommand implements ArgumentCommand
         Zone zone = commandContext.getArgument(this, ZONE_VALUE);
         boolean enable = commandContext.getArgument(this, ENABLE_DISABLE);
         TnTDefuseFlag tnTDefuseFlag = zone
-                .getFlag(FlagTypes.TNT_DEFUSE_FLAG_TYPE)
+                .getFlag(FlagTypes.TNT_DEFUSE)
                 .orElse(new TnTDefuseFlag());
         if (enable) {
             zone.addFlag(tnTDefuseFlag);
         } else {
-            zone.removeFlag(FlagTypes.TNT_DEFUSE_FLAG_TYPE);
+            zone.removeFlag(FlagTypes.TNT_DEFUSE);
         }
         try {
             zone.save();
-            commandContext.sendMessage(Messages.getUpdatedMessage(FlagTypes.TNT_DEFUSE_FLAG_TYPE));
+            commandContext.sendMessage(Messages.getUpdatedMessage(FlagTypes.TNT_DEFUSE));
         } catch (ConfigurateException ce) {
             ce.printStackTrace();
             return CommandResult.error(Messages.getZoneSavingError(ce));

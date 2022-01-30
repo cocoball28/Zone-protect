@@ -59,16 +59,16 @@ public class ZoneFlagDamageAttackSetEnabledCommand implements ArgumentCommand {
         boolean enable = commandContext.getArgument(this, ENABLED);
         Zone zone = commandContext.getArgument(this, ZONE_VALUE);
         EntityDamagePlayerFlag entityDamagePlayerFlag = zone
-                .getFlag(FlagTypes.ENTITY_DAMAGE_PLAYER_FLAG_TYPE)
+                .getFlag(FlagTypes.ENTITY_DAMAGE_PLAYER)
                 .orElse(new EntityDamagePlayerFlag());
         if (enable) {
             zone.addFlag(entityDamagePlayerFlag);
         } else {
-            zone.removeFlag(FlagTypes.ENTITY_DAMAGE_PLAYER_FLAG_TYPE);
+            zone.removeFlag(FlagTypes.ENTITY_DAMAGE_PLAYER);
         }
         try {
             zone.save();
-            commandContext.sendMessage(Messages.getUpdatedMessage(FlagTypes.ENTITY_DAMAGE_PLAYER_FLAG_TYPE));
+            commandContext.sendMessage(Messages.getUpdatedMessage(FlagTypes.ENTITY_DAMAGE_PLAYER));
         } catch (ConfigurateException ce) {
             ce.printStackTrace();
             return CommandResult.error(Messages.getZoneSavingError(ce));

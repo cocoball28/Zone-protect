@@ -1,6 +1,6 @@
 package org.zone.region.flag.meta.eco.transaction;
 
-import org.zone.region.flag.meta.eco.EcoFlag;
+import org.zone.region.flag.meta.eco.balance.BalanceFlag;
 
 import java.math.BigDecimal;
 
@@ -28,7 +28,7 @@ public interface Transaction {
      *
      * @return The flag to use
      */
-    EcoFlag getFlag();
+    BalanceFlag getFlag();
 
     /**
      * Gets the state of the transaction

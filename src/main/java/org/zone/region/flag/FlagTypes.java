@@ -3,6 +3,7 @@ package org.zone.region.flag;
 import org.jetbrains.annotations.NotNull;
 import org.zone.region.flag.entity.nonliving.block.tnt.TnTDefuseFlagType;
 import org.zone.region.flag.entity.monster.move.PreventMonsterFlagType;
+import org.zone.region.flag.entity.nonliving.tnt.TnTDefuseFlagType;
 import org.zone.region.flag.entity.player.damage.attack.EntityDamagePlayerFlagType;
 import org.zone.region.flag.entity.player.damage.fall.PlayerFallDamageFlagType;
 import org.zone.region.flag.entity.player.damage.fire.PlayerFireDamageFlagType;
@@ -13,7 +14,8 @@ import org.zone.region.flag.entity.player.interact.itemframe.ItemFrameInteractFl
 import org.zone.region.flag.entity.player.move.greetings.GreetingsFlagType;
 import org.zone.region.flag.entity.player.move.leaving.LeavingFlagType;
 import org.zone.region.flag.entity.player.move.preventing.PreventPlayersFlagType;
-import org.zone.region.flag.meta.eco.EcoFlagType;
+import org.zone.region.flag.meta.eco.balance.BalanceFlagType;
+import org.zone.region.flag.meta.eco.payment.buy.BuyFlagType;
 import org.zone.region.flag.meta.edit.EditingFlagType;
 import org.zone.region.flag.meta.join.request.JoinRequestFlagType;
 import org.zone.region.flag.meta.join.visibility.flag.ZoneVisibilityFlagType;
@@ -36,7 +38,7 @@ public final class FlagTypes {
     public static final MembersFlagType MEMBERS = new MembersFlagType();
     public static final DoorInteractionFlagType DOOR_INTERACTION = new DoorInteractionFlagType();
     public static final BlockBreakFlagType BLOCK_BREAK = new BlockBreakFlagType();
-    public static final EcoFlagType ECO = new EcoFlagType();
+    public static final BalanceFlagType ECO = new BalanceFlagType();
     public static final EditingFlagType EDITING = new EditingFlagType();
     public static final BlockPlaceFlagType BLOCK_PLACE = new BlockPlaceFlagType();
     public static final GreetingsFlagType GREETINGS = new GreetingsFlagType();
@@ -48,6 +50,10 @@ public final class FlagTypes {
     public static final PlayerFallDamageFlagType PLAYER_FALL_DAMAGE_FLAG_TYPE = new PlayerFallDamageFlagType();
     public static final TnTDefuseFlagType TNT_DEFUSE_FLAG_TYPE = new TnTDefuseFlagType();
     public static final PlayerFireDamageFlagType PLAYER_FIRE_DAMAGE_FLAG_TYPE = new PlayerFireDamageFlagType();
+    public static final EntityDamagePlayerFlagType ENTITY_DAMAGE_PLAYER = new EntityDamagePlayerFlagType();
+    public static final PlayerFallDamageFlagType PLAYER_FALL_DAMAGE = new PlayerFallDamageFlagType();
+    public static final BuyFlagType BUY = new BuyFlagType();
+    public static final TnTDefuseFlagType TNT_DEFUSE = new TnTDefuseFlagType();
 
     private FlagTypes() {
         throw new RuntimeException("Should not init");
@@ -63,7 +69,7 @@ public final class FlagTypes {
                         return (FlagType<?>) field.get(null);
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
-                        //noinspection ReturnOfNull
+                        // noinspection ReturnOfNull
                         return null;
                     }
                 })

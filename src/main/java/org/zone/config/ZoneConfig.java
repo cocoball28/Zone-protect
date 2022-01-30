@@ -6,8 +6,12 @@ import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
 import org.spongepowered.configurate.serialize.SerializationException;
 import org.zone.config.node.ZoneNode;
+import org.zone.config.node.ZoneNodes;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
 import java.util.Optional;
 
 public class ZoneConfig {
@@ -54,5 +58,40 @@ public class ZoneConfig {
 
     public <T> void set(ZoneNode<T> node, T value) throws SerializationException {
         node.set(this, value);
+    }
+
+    public void loadDefaults() {
+        for (ZoneNode<?> node : ZoneNodes.getNodes()) {
+            if (node.get(this).isPresent()) {
+                continue;
+            }
+            try {
+                this.setInitNode(node);
+            } catch (SerializationException e) {
+                e.printStackTrace();
+            }
+        }
+
+        try {
+            Files.createDirectory(this.file.getParentFile().toPath());
+        } catch (FileAlreadyExistsException ignored) {
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            Files.createFile(this.file.toPath());
+        } catch (FileAlreadyExistsException ignored) {
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            this.save();
+        } catch (ConfigurateException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private <T> void setInitNode(ZoneNode<T> node) throws SerializationException {
+        node.set(this, node.getInitialValue());
     }
 }

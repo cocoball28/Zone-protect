@@ -131,7 +131,9 @@ public class MembersFlagType implements FlagType<MembersFlag> {
         if (added == 0) {
             ZonePlugin.getZonesPlugin().getLogger().warn("Could not load some groups for a zone.");
         }
-        return new MembersFlag(groups);
+        MembersFlag flag = new MembersFlag(groups);
+        flag.setUsedPower(node.node("usedPower").getInt());
+        return flag;
     }
 
     @Override
@@ -141,6 +143,7 @@ public class MembersFlagType implements FlagType<MembersFlag> {
             node.set(null);
             return;
         }
+        node.node("usedPower").set(save.getUsedPower());
         for (Map.Entry<Group, Collection<UUID>> entry : save.getGroupMapping().entrySet()) {
             ConfigurationNode groupNode = node.node(entry.getKey().getPlugin().metadata().id(),
                     entry.getKey().getKey());

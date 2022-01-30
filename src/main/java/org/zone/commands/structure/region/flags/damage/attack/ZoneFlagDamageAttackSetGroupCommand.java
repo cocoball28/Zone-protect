@@ -58,13 +58,13 @@ public class ZoneFlagDamageAttackSetGroupCommand implements ArgumentCommand {
             @NotNull CommandContext commandContext, @NotNull String... args) {
         Zone zone = commandContext.getArgument(this, ZONE_VALUE);
         EntityDamagePlayerFlag entityDamagePlayerFlag = zone
-                .getFlag(FlagTypes.ENTITY_DAMAGE_PLAYER_FLAG_TYPE)
-                .orElse(FlagTypes.ENTITY_DAMAGE_PLAYER_FLAG_TYPE.createCopyOfDefault());
+                .getFlag(FlagTypes.ENTITY_DAMAGE_PLAYER)
+                .orElse(FlagTypes.ENTITY_DAMAGE_PLAYER.createCopyOfDefault());
         Group group = commandContext.getArgument(this, GROUP);
         zone.getMembers().addKey(group, entityDamagePlayerFlag.getRequiredKey());
         try {
             zone.save();
-            commandContext.sendMessage(Messages.getUpdatedMessage(FlagTypes.ENTITY_DAMAGE_PLAYER_FLAG_TYPE));
+            commandContext.sendMessage(Messages.getUpdatedMessage(FlagTypes.ENTITY_DAMAGE_PLAYER));
         } catch (ConfigurateException ce) {
             return CommandResult.error(Messages.getZoneSavingError(ce));
         }

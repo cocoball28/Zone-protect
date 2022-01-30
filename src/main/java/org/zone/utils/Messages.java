@@ -15,6 +15,7 @@ import org.zone.permissions.ZonePermission;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagType;
 import org.zone.region.flag.entity.player.move.leaving.LeavingFlag;
+import org.zone.region.flag.meta.eco.price.PriceType;
 import org.zone.region.group.Group;
 
 import java.math.BigDecimal;
@@ -32,6 +33,16 @@ public final class Messages {
      */
     private Messages() {
         throw new RuntimeException("Could not construct class");
+    }
+
+    public static Component getNotEnough() {
+        return Component.text("You do not have enough for that").color(NamedTextColor.RED);
+    }
+
+    public static Component getInvalidPriceType(PriceType type) {
+        return Component
+                .text("Cannot accept price type of " + type.name())
+                .color(NamedTextColor.RED);
     }
 
     public static Component getPlayerOnlyMessage() {
@@ -333,27 +344,29 @@ public final class Messages {
         return getEnabledTag().append(Component.text(check).color(NamedTextColor.GOLD));
     }
 
-    public static Component getMovedGroupInfo(GameProfile profile, Identifiable previous,
-                                              Identifiable group) {
+    public static Component getMovedGroupInfo(
+            GameProfile profile, Identifiable previous, Identifiable group) {
         return Component
                 .text("Moved " +
-                              profile.name().orElse("Unknown name") +
-                              " from " +
-                              previous.getName() +
-                              " to " +
-                              group.getName()).color(NamedTextColor.AQUA);
+                        profile.name().orElse("Unknown name") +
+                        " from " +
+                        previous.getName() +
+                        " to " +
+                        group.getName())
+                .color(NamedTextColor.AQUA);
     }
 
-    public static Component getPlayerMovedGroupInfo(Identifiable zone, Identifiable previous,
-                                                    Identifiable group) {
-        return Component.text(
-                "You have been moved in '" +
+    public static Component getPlayerMovedGroupInfo(
+            Identifiable zone, Identifiable previous, Identifiable group) {
+        return Component
+                .text("You have been moved in '" +
                         zone.getName() +
                         "' from '" +
                         previous.getName() +
                         "' to '" +
                         group.getName() +
-                        "'").color(NamedTextColor.AQUA);
+                        "'")
+                .color(NamedTextColor.AQUA);
     }
 
     public static Component getZoneConfigReloadedInfo() {
@@ -361,7 +374,8 @@ public final class Messages {
     }
 
     public static Component getZonesReloadedInfo() {
-        return Component.text("Reloaded the config of the available zones successfully!")
+        return Component
+                .text("Reloaded the config of the available zones successfully!")
                 .color(NamedTextColor.AQUA);
     }
 
