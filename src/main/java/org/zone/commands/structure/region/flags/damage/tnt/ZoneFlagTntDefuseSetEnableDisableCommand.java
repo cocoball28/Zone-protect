@@ -14,7 +14,7 @@ import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.entity.nonliving.tnt.TnTDefuseFlag;
+import org.zone.region.flag.entity.nonliving.block.tnt.TnTDefuseFlag;
 import org.zone.utils.Messages;
 
 import java.util.Arrays;

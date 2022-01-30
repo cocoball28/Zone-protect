@@ -1,7 +1,7 @@
 package org.zone.region.flag;
 
 import org.jetbrains.annotations.NotNull;
-import org.zone.region.flag.entity.nonliving.tnt.TnTDefuseFlagType;
+import org.zone.region.flag.entity.nonliving.block.tnt.TnTDefuseFlagType;
 import org.zone.region.flag.entity.monster.move.PreventMonsterFlagType;
 import org.zone.region.flag.entity.player.damage.attack.EntityDamagePlayerFlagType;
 import org.zone.region.flag.entity.player.damage.fall.PlayerFallDamageFlagType;
@@ -15,6 +15,8 @@ import org.zone.region.flag.entity.player.move.leaving.LeavingFlagType;
 import org.zone.region.flag.entity.player.move.preventing.PreventPlayersFlagType;
 import org.zone.region.flag.meta.eco.EcoFlagType;
 import org.zone.region.flag.meta.edit.EditingFlagType;
+import org.zone.region.flag.meta.join.request.JoinRequestFlagType;
+import org.zone.region.flag.meta.join.visibility.flag.ZoneVisibilityFlagType;
 import org.zone.region.flag.meta.member.MembersFlagType;
 import org.zone.region.flag.meta.tag.TagsFlagType;
 
@@ -29,6 +31,8 @@ import java.util.stream.Collectors;
 public final class FlagTypes {
 
     public static final PreventMonsterFlagType PREVENT_MONSTER = new PreventMonsterFlagType();
+    public static final ZoneVisibilityFlagType ZONE_VISIBILITY_FLAG_TYPE = new ZoneVisibilityFlagType();
+    public static final JoinRequestFlagType JOIN_FLAG_TYPE = new JoinRequestFlagType();
     public static final MembersFlagType MEMBERS = new MembersFlagType();
     public static final DoorInteractionFlagType DOOR_INTERACTION = new DoorInteractionFlagType();
     public static final BlockBreakFlagType BLOCK_BREAK = new BlockBreakFlagType();

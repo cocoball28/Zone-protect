@@ -27,7 +27,7 @@ import org.zone.region.flag.Flag;
 import org.zone.region.flag.FlagManager;
 import org.zone.region.flag.FlagType;
 import org.zone.region.flag.entity.monster.move.MonsterPreventionListener;
-import org.zone.region.flag.entity.nonliving.tnt.TnTDefuseListener;
+import org.zone.region.flag.entity.nonliving.block.tnt.TnTDefuseListener;
 import org.zone.region.flag.entity.player.damage.attack.EntityDamagePlayerListener;
 import org.zone.region.flag.entity.player.damage.fall.PlayerFallDamageListener;
 import org.zone.region.flag.entity.player.interact.block.destroy.BlockBreakListener;

@@ -1,4 +1,4 @@
-package org.zone.region.flag.entity.nonliving.tnt;
+package org.zone.region.flag.entity.nonliving.block.tnt;
 
 import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.entity.explosive.fused.PrimedTNT;

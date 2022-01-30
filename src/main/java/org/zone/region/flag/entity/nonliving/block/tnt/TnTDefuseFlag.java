@@ -1,4 +1,4 @@
-package org.zone.region.flag.entity.nonliving.tnt;
+package org.zone.region.flag.entity.nonliving.block.tnt;
 
 import org.jetbrains.annotations.NotNull;
 import org.zone.region.flag.Flag;
