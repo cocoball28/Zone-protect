@@ -93,7 +93,7 @@ public class PlayerEcoPrice implements Price.PlayerPrice<BigDecimal>, Price.EcoP
             return 0;
         }
         BigDecimal decimal = opAccount.get().balance(this.currency);
-        if (decimal.doubleValue() == 0.0) {
+        if (BigDecimal.ZERO.compareTo(decimal) == 0) {
             return 0;
         }
         BigDecimal difference = decimal.min(this.amount);
