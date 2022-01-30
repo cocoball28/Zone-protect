@@ -3,7 +3,6 @@ package org.zone.region.flag;
 import org.jetbrains.annotations.NotNull;
 import org.zone.region.flag.entity.nonliving.block.tnt.TnTDefuseFlagType;
 import org.zone.region.flag.entity.monster.move.PreventMonsterFlagType;
-import org.zone.region.flag.entity.nonliving.tnt.TnTDefuseFlagType;
 import org.zone.region.flag.entity.player.damage.attack.EntityDamagePlayerFlagType;
 import org.zone.region.flag.entity.player.damage.fall.PlayerFallDamageFlagType;
 import org.zone.region.flag.entity.player.damage.fire.PlayerFireDamageFlagType;
@@ -46,9 +45,6 @@ public final class FlagTypes {
     public static final LeavingFlagType LEAVING = new LeavingFlagType();
     public static final TagsFlagType TAGS = new TagsFlagType();
     public static final ItemFrameInteractFlagType ITEM_FRAME_INTERACT = new ItemFrameInteractFlagType();
-    public static final EntityDamagePlayerFlagType ENTITY_DAMAGE_PLAYER_FLAG_TYPE = new EntityDamagePlayerFlagType();
-    public static final PlayerFallDamageFlagType PLAYER_FALL_DAMAGE_FLAG_TYPE = new PlayerFallDamageFlagType();
-    public static final TnTDefuseFlagType TNT_DEFUSE_FLAG_TYPE = new TnTDefuseFlagType();
     public static final PlayerFireDamageFlagType PLAYER_FIRE_DAMAGE_FLAG_TYPE = new PlayerFireDamageFlagType();
     public static final EntityDamagePlayerFlagType ENTITY_DAMAGE_PLAYER = new EntityDamagePlayerFlagType();
     public static final PlayerFallDamageFlagType PLAYER_FALL_DAMAGE = new PlayerFallDamageFlagType();
