@@ -266,7 +266,7 @@ public final class Messages {
         return Component
                 .text("Leaving message is now: ")
                 .color(NamedTextColor.AQUA)
-                .append(message.color(NamedTextColor.GOLD));
+                .append(message);
     }
 
     public static Component getLeavingMessage(LeavingFlag leavingFlag) {
