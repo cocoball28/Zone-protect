@@ -13,7 +13,6 @@
     <option name="VM_PARAMETERS" />
     <method v="2">
       <option name="Make" enabled="true" />
-      <option name="Maven.BeforeRunTask" enabled="true" file="$PROJECT_DIR$/pom.xml" goal="clean package" />
     </method>
   </configuration>
 </component>

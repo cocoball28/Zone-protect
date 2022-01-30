@@ -8,13 +8,13 @@ import org.zone.region.flag.meta.eco.price.Price;
 
 public class BuyFlag implements Flag {
 
-    private final @NotNull Price price;
+    private final @NotNull Price.PlayerPrice<? extends Number> price;
 
-    public BuyFlag(@NotNull Price price) {
+    public BuyFlag(@NotNull Price.PlayerPrice<? extends Number> price) {
         this.price = price;
     }
 
-    public @NotNull Price getPrice() {
+    public @NotNull Price.PlayerPrice<? extends Number> getPrice() {
         return this.price;
     }
 
