@@ -33,6 +33,6 @@ public class JoinRequestFlag implements Flag {
 
     @Override
     public @NotNull FlagType<?> getType() {
-        return FlagTypes.JOIN_FLAG_TYPE;
+        return FlagTypes.JOIN_REQUEST;
     }
 }

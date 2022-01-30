@@ -20,6 +20,6 @@ public class ZoneVisibilityFlag implements Flag {
 
     @Override
     public @NotNull FlagType<?> getType() {
-        return FlagTypes.ZONE_VISIBILITY_FLAG_TYPE;
+        return FlagTypes.ZONE_VISIBILITY;
     }
 }

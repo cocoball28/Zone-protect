@@ -32,8 +32,8 @@ import java.util.stream.Collectors;
 public final class FlagTypes {
 
     public static final PreventMonsterFlagType PREVENT_MONSTER = new PreventMonsterFlagType();
-    public static final ZoneVisibilityFlagType ZONE_VISIBILITY_FLAG_TYPE = new ZoneVisibilityFlagType();
-    public static final JoinRequestFlagType JOIN_FLAG_TYPE = new JoinRequestFlagType();
+    public static final ZoneVisibilityFlagType ZONE_VISIBILITY = new ZoneVisibilityFlagType();
+    public static final JoinRequestFlagType JOIN_REQUEST = new JoinRequestFlagType();
     public static final MembersFlagType MEMBERS = new MembersFlagType();
     public static final DoorInteractionFlagType DOOR_INTERACTION = new DoorInteractionFlagType();
     public static final BlockBreakFlagType BLOCK_BREAK = new BlockBreakFlagType();

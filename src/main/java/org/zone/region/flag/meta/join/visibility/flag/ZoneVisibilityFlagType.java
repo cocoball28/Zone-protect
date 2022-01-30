@@ -35,18 +35,18 @@ public class ZoneVisibilityFlagType implements FlagType<ZoneVisibilityFlag> {
     @Override
     public @NotNull ZoneVisibilityFlag load(@NotNull ConfigurationNode node)
             throws IOException {
+        ZoneVisibility zoneVisibilityName;
         String name = node.node("ZoneVisibility").getString();
         if (name == null) {
             throw new IOException("Unknown Visibility");
         }
         try {
-            ZoneVisibility zoneVisibilityName = ZoneVisibility.valueOf(name);
-            ZoneVisibilityFlag zoneVisibilityFlag = new ZoneVisibilityFlag();
-            zoneVisibilityFlag.setZoneVisibility(zoneVisibilityName);
-            return zoneVisibilityFlag;
+            zoneVisibilityName  = ZoneVisibility.valueOf(name);
         }catch (IllegalArgumentException iae) {
-            iae.printStackTrace();
+            throw new IOException("Invalid Name");
         }
+        ZoneVisibilityFlag zoneVisibilityFlag = new ZoneVisibilityFlag();
+        zoneVisibilityFlag.setZoneVisibility(zoneVisibilityName);
         throw new IOException("Unknown Visibility");
     }
 
