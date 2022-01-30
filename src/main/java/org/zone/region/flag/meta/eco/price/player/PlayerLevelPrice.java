@@ -41,6 +41,9 @@ public class PlayerLevelPrice implements Price.PlayerPrice<Integer> {
             return 0;
         }
         int exp = player.get(Keys.EXPERIENCE_LEVEL).orElse(0);
+        if (exp == 0) {
+            return 0;
+        }
         int difference = exp - this.exp;
         return (float) (difference * 100.0 / exp);
     }

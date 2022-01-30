@@ -54,12 +54,15 @@ public class ZoneEcoPrice implements Price.ZonePrice<BigDecimal>, Price.EcoPrice
 
     @Override
     public float getPercentLeft(@NotNull Zone zone) {
-        if (this.amount.doubleValue() == 0) {
+        if (this.amount.doubleValue() == 0.0) {
             return 0;
         }
         BalanceFlag flag = zone.getEconomy();
         BigDecimal amount = flag.getMoney(this.currency);
         BigDecimal difference = amount.min(this.amount);
+        if (amount.doubleValue() == 0.0) {
+            return 0;
+        }
         return (float) (difference.doubleValue() * 100 / amount.doubleValue());
     }
 

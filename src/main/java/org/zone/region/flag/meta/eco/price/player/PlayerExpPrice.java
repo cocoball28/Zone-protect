@@ -41,6 +41,9 @@ public class PlayerExpPrice implements Price.PlayerPrice<Integer> {
         if (this.exp == 0) {
             return 0;
         }
+        if (exp == 0) {
+            return 0;
+        }
         int difference = exp - this.exp;
         return (float) (difference * 100.0 / exp);
     }
