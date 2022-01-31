@@ -47,7 +47,7 @@ public class ZoneVisibilityFlagType implements FlagType<ZoneVisibilityFlag> {
         }
         ZoneVisibilityFlag zoneVisibilityFlag = new ZoneVisibilityFlag();
         zoneVisibilityFlag.setZoneVisibility(zoneVisibilityName);
-        throw new IOException("Unknown Visibility");
+        return zoneVisibilityFlag;
     }
 
     @Override

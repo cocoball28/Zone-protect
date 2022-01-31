@@ -10,7 +10,7 @@ public class ZoneVisibilityFlag implements Flag {
 
     private @NotNull ZoneVisibility zoneVisibility = ZoneVisibility.PRIVATE;
 
-    public ZoneVisibility getZoneVisibility() {
+    public @NotNull ZoneVisibility getZoneVisibility() {
         return this.zoneVisibility;
     }
 
