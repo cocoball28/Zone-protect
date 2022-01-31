@@ -19,6 +19,7 @@ import org.zone.commands.system.context.CommandArgumentContext;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.permissions.ZonePermission;
 import org.zone.region.Zone;
+import org.zone.region.group.DefaultGroups;
 import org.zone.region.group.Group;
 import org.zone.region.group.key.GroupKey;
 import org.zone.region.group.key.GroupKeys;
@@ -41,6 +42,7 @@ public class ZoneArgument implements GUICommandArgument<Zone> {
         private @Nullable ParseCommandArgument<Zone> subZoneTo;
         private boolean onlyMainZones = true;
         private boolean onlyPartOf;
+        public boolean member;
         private @Nullable ZonePermission bypassSuggestionPermission;
         private @Nullable GroupKey level = GroupKeys.OWNER;
 
@@ -86,6 +88,11 @@ public class ZoneArgument implements GUICommandArgument<Zone> {
 
         public ZoneArgumentPropertiesBuilder setLevel(@Nullable GroupKey level) {
             this.level = level;
+            return this;
+        }
+
+        public ZoneArgumentPropertiesBuilder setVisitorOnly(boolean check) {
+            this.member = check;
             return this;
         }
     }
@@ -165,6 +172,14 @@ public class ZoneArgument implements GUICommandArgument<Zone> {
                     });
                 }
             }
+        }
+
+        if (this.builder.member && context.getSource() instanceof Player player) {
+            zones = zones
+                    .filter(zone -> zone
+                            .getMembers()
+                            .getGroup(player.uniqueId())
+                            .equals(DefaultGroups.VISITOR));
         }
         return zones;
     }
