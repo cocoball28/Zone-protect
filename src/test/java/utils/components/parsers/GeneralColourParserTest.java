@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.zone.utils.component.ZoneComponentParser;
-import utils.CollectionAssert;
+import tools.CollectionAssert;
 
 import java.util.Arrays;
 import java.util.Collection;
