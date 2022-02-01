@@ -42,7 +42,7 @@ public class ZoneArgument implements GUICommandArgument<Zone> {
         private @Nullable ParseCommandArgument<Zone> subZoneTo;
         private boolean onlyMainZones = true;
         private boolean onlyPartOf;
-        public boolean member;
+        public boolean isVisitor;
         private @Nullable ZonePermission bypassSuggestionPermission;
         private @Nullable GroupKey level = GroupKeys.OWNER;
 
@@ -92,7 +92,7 @@ public class ZoneArgument implements GUICommandArgument<Zone> {
         }
 
         public ZoneArgumentPropertiesBuilder setVisitorOnly(boolean check) {
-            this.member = check;
+            this.isVisitor = check;
             return this;
         }
     }
@@ -174,7 +174,7 @@ public class ZoneArgument implements GUICommandArgument<Zone> {
             }
         }
 
-        if (this.builder.member && context.getSource() instanceof Player player) {
+        if (this.builder.isVisitor && context.getSource() instanceof Player player) {
             zones = zones
                     .filter(zone -> zone
                             .getMembers()
