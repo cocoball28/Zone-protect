@@ -1,4 +1,4 @@
-package org.zone.region.flag.meta.join.visibility.flag;
+package org.zone.region.flag.meta.request.visibility.flag;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -6,7 +6,7 @@ import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.plugin.PluginContainer;
 import org.zone.ZonePlugin;
 import org.zone.region.flag.FlagType;
-import org.zone.region.flag.meta.join.visibility.ZoneVisibility;
+import org.zone.region.flag.meta.request.visibility.ZoneVisibility;
 
 import java.io.IOException;
 import java.util.Optional;

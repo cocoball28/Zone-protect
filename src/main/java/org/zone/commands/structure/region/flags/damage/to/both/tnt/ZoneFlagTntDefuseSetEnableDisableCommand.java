@@ -1,4 +1,4 @@
-package org.zone.commands.structure.region.flags.damage.fall;
+package org.zone.commands.structure.region.flags.damage.to.both.tnt;
 
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
@@ -14,58 +14,59 @@ import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.entity.player.damage.fall.PlayerFallDamageFlag;
+import org.zone.region.flag.entity.nonliving.block.tnt.TnTDefuseFlag;
 import org.zone.utils.Messages;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class ZoneFlagPlayerFallDamageEnableDisable implements ArgumentCommand {
+public class ZoneFlagTntDefuseSetEnableDisableCommand implements ArgumentCommand {
+
     public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zoneId",
             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
-                    ZonePermissions.OVERRIDE_FLAG_DAMAGE_FALL_ENABLE));
-    public static final BooleanArgument ENABLED = new BooleanArgument("enableValue",
+                    ZonePermissions.OVERRIDE_FLAG_TNT_DEFUSE_ENABLE));
+    public static final BooleanArgument ENABLE_DISABLE = new BooleanArgument("enabledValue",
             "enable",
             "disable");
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
-                new ExactArgument("flag"),
-                ZONE_VALUE,
-                new ExactArgument("damage"),
-                new ExactArgument("fall"),
-                new ExactArgument("set"),
-                ENABLED);
+                             new ExactArgument("flag"),
+                             ZONE_VALUE,
+                             new ExactArgument("tnt"),
+                             new ExactArgument("defuse"),
+                             new ExactArgument("set"),
+                             ENABLE_DISABLE);
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Command to enable/disable the fall damage flag");
+        return Component.text("Enable or disable the tnt defuse flag");
     }
 
     @Override
     public @NotNull Optional<ZonePermission> getPermissionNode() {
-        return Optional.of(ZonePermissions.FLAG_DAMAGE_FALL_ENABLE);
+        return Optional.of(ZonePermissions.FLAG_TNT_DEFUSE_ENABLE);
     }
 
     @Override
     public @NotNull CommandResult run(
             @NotNull CommandContext commandContext, @NotNull String... args) {
-        boolean enable = commandContext.getArgument(this, ENABLED);
         Zone zone = commandContext.getArgument(this, ZONE_VALUE);
-        PlayerFallDamageFlag playerFallDamageFlag = zone
-                .getFlag(FlagTypes.PLAYER_FALL_DAMAGE)
-                .orElse(new PlayerFallDamageFlag());
+        boolean enable = commandContext.getArgument(this, ENABLE_DISABLE);
+        TnTDefuseFlag tnTDefuseFlag = zone
+                .getFlag(FlagTypes.TNT_DEFUSE)
+                .orElse(new TnTDefuseFlag());
         if (enable) {
-            zone.addFlag(playerFallDamageFlag);
+            zone.addFlag(tnTDefuseFlag);
         } else {
-            zone.removeFlag(FlagTypes.PLAYER_FALL_DAMAGE);
+            zone.removeFlag(FlagTypes.TNT_DEFUSE);
         }
         try {
             zone.save();
-            commandContext.sendMessage(Messages.getUpdatedMessage(FlagTypes.PLAYER_FALL_DAMAGE));
+            commandContext.sendMessage(Messages.getUpdatedMessage(FlagTypes.TNT_DEFUSE));
         } catch (ConfigurateException ce) {
             ce.printStackTrace();
             return CommandResult.error(Messages.getZoneSavingError(ce));

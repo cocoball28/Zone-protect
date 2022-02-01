@@ -4,6 +4,7 @@ import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.block.CollideBlockEvent;
 import org.zone.ZonePlugin;
 import org.zone.region.Zone;
+import org.zone.region.flag.FlagTypes;
 
 import java.util.Optional;
 
@@ -15,5 +16,11 @@ public class FarmTramplingListener {
                 .getZonesPlugin()
                 .getZoneManager()
                 .getPriorityZone(event.targetLocation());
+        if (opZone.isEmpty()) {
+            return;
+        }
+        if (opZone.get().containsFlag(FlagTypes.FARM_TRAMPLING)) {
+            event.setCancelled(true);
+        }
     }
 }

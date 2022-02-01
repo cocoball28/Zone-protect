@@ -1,4 +1,4 @@
-package org.zone.region.flag.meta.join.visibility;
+package org.zone.region.flag.meta.request.visibility;
 
 public enum ZoneVisibility {
 

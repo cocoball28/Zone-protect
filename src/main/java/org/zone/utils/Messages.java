@@ -56,6 +56,13 @@ public final class Messages {
                 .append(Component.text(identifiable.getName()).color(NamedTextColor.GOLD));
     }
 
+    public static Component getJoinedZoneMessage(Identifiable identifiable) {
+        return Component
+                .text("You joined the zone of ")
+                .color(NamedTextColor.AQUA)
+                .append(Component.text(identifiable.getName()).color(NamedTextColor.GOLD));
+    }
+
     public static Component getZoneSavingError(ConfigurateException ce) {
         return Component.text("Error when saving: " + ce.getMessage()).color(NamedTextColor.RED);
     }
@@ -383,6 +390,10 @@ public final class Messages {
         return Component
                 .text("Couldn't reload config! Below is the cause of the error")
                 .color(NamedTextColor.RED);
+    }
+
+    public static Component getZoneVisibilityTag() {
+        return Component.text("Visibility of zone: ").color(NamedTextColor.AQUA);
     }
 
 }

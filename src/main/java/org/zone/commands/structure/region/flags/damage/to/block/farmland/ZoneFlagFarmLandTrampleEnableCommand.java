@@ -1,4 +1,4 @@
-package org.zone.commands.structure.region.flags.damage.attack;
+package org.zone.commands.structure.region.flags.damage.to.block.farmland;
 
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
@@ -14,61 +14,58 @@ import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.entity.player.damage.attack.EntityDamagePlayerFlag;
+import org.zone.region.flag.entity.nonliving.block.farmland.FarmTramplingFlag;
 import org.zone.utils.Messages;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class ZoneFlagDamageAttackSetEnabledCommand implements ArgumentCommand {
+public class ZoneFlagFarmLandTrampleEnableCommand implements ArgumentCommand {
 
-    public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zoneId",
+    public static final ZoneArgument ZONE_ID = new ZoneArgument("zoneId",
             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
-                    ZonePermissions.OVERRIDE_FLAG_DAMAGE_ATTACK_ENABLE));
-    public static final BooleanArgument ENABLED = new BooleanArgument("enableValue",
-            "enable",
+                    ZonePermissions.OVERRIDE_FLAG_FARMLAND_TRAMPLE_SET_ENABLE));
+    public static final BooleanArgument ENABLE = new BooleanArgument("enableValue", "enable",
             "disable");
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
-                new ExactArgument("flag"),
-                ZONE_VALUE,
-                new ExactArgument("damage"),
-                new ExactArgument("attack"),
-                new ExactArgument("towards"),
-                new ExactArgument("player"),
-                new ExactArgument("set"),
-                ENABLED);
+                             new ExactArgument("flag"),
+                             ZONE_ID,
+                             new ExactArgument("farmland"),
+                             new ExactArgument("trample"),
+                             new ExactArgument("set"),
+                             ENABLE);
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Command to enable/disable the Damage Flag");
+        return Component.text("Enable/disable farmland trampling");
     }
 
     @Override
     public @NotNull Optional<ZonePermission> getPermissionNode() {
-        return Optional.of(ZonePermissions.FLAG_DAMAGE_ATTACK_ENABLE);
+        return Optional.of(ZonePermissions.FLAG_FARMLAND_TRAMPLE_SET_ENABLE);
     }
 
     @Override
     public @NotNull CommandResult run(
             @NotNull CommandContext commandContext, @NotNull String... args) {
-        boolean enable = commandContext.getArgument(this, ENABLED);
-        Zone zone = commandContext.getArgument(this, ZONE_VALUE);
-        EntityDamagePlayerFlag entityDamagePlayerFlag = zone
-                .getFlag(FlagTypes.ENTITY_DAMAGE_PLAYER)
-                .orElse(new EntityDamagePlayerFlag());
+        Zone zone = commandContext.getArgument(this, ZONE_ID);
+        boolean enable = commandContext.getArgument(this, ENABLE);
+        FarmTramplingFlag farmTramplingFlag = zone
+                .getFlag(FlagTypes.FARM_TRAMPLING)
+                .orElse(new FarmTramplingFlag());
         if (enable) {
-            zone.addFlag(entityDamagePlayerFlag);
+            zone.addFlag(farmTramplingFlag);
         } else {
-            zone.removeFlag(FlagTypes.ENTITY_DAMAGE_PLAYER);
+            zone.removeFlag(FlagTypes.FARM_TRAMPLING);
         }
         try {
             zone.save();
-            commandContext.sendMessage(Messages.getUpdatedMessage(FlagTypes.ENTITY_DAMAGE_PLAYER));
+            commandContext.sendMessage(Messages.getUpdatedMessage(FlagTypes.FARM_TRAMPLING));
         } catch (ConfigurateException ce) {
             ce.printStackTrace();
             return CommandResult.error(Messages.getZoneSavingError(ce));

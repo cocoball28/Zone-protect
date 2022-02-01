@@ -1,4 +1,4 @@
-package org.zone.region.flag.meta.join.request;
+package org.zone.region.flag.meta.request.join;
 
 import org.jetbrains.annotations.NotNull;
 import org.zone.region.flag.Flag;

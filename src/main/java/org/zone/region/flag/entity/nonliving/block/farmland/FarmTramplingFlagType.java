@@ -2,26 +2,27 @@ package org.zone.region.flag.entity.nonliving.block.farmland;
 
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.plugin.PluginContainer;
+import org.zone.ZonePlugin;
 import org.zone.region.flag.FlagType;
 
 public class FarmTramplingFlagType implements FlagType.TaggedFlagType<FarmTramplingFlag> {
     @Override
     public @NotNull String getName() {
-        return null;
+        return "Farm Trample";
     }
 
     @Override
     public @NotNull PluginContainer getPlugin() {
-        return null;
+        return ZonePlugin.getZonesPlugin().getPluginContainer();
     }
 
     @Override
     public @NotNull String getKey() {
-        return null;
+        return "farm_trample";
     }
 
     @Override
     public FarmTramplingFlag createCopyOfDefault() {
-        return null;
+        return new FarmTramplingFlag();
     }
 }

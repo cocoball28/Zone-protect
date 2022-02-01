@@ -27,6 +27,7 @@ import org.zone.region.flag.Flag;
 import org.zone.region.flag.FlagManager;
 import org.zone.region.flag.FlagType;
 import org.zone.region.flag.entity.monster.move.MonsterPreventionListener;
+import org.zone.region.flag.entity.nonliving.block.farmland.FarmTramplingListener;
 import org.zone.region.flag.entity.nonliving.block.tnt.TnTDefuseListener;
 import org.zone.region.flag.entity.player.damage.attack.EntityDamagePlayerListener;
 import org.zone.region.flag.entity.player.damage.fall.PlayerFallDamageListener;
@@ -140,6 +141,7 @@ public class ZonePlugin {
         eventManager.registerListeners(this.plugin, new EntityDamagePlayerListener());
         eventManager.registerListeners(this.plugin, new PlayerFallDamageListener());
         eventManager.registerListeners(this.plugin, new TnTDefuseListener());
+        eventManager.registerListeners(this.plugin, new FarmTramplingListener());
         eventManager.registerListeners(this.plugin, new HumanAIListener());
     }
 
