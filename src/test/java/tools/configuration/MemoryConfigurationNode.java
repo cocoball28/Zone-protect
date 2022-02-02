@@ -13,7 +13,7 @@ public class MemoryConfigurationNode implements CommentedConfigurationNode {
 
     private @Nullable String comment;
     private @Nullable Object value;
-    private @Nullable Type setAs;
+    private @Nullable Class<?> setAs;
     private final @Nullable MemoryConfigurationNode parent;
     private final @NotNull Object key;
 
@@ -23,28 +23,6 @@ public class MemoryConfigurationNode implements CommentedConfigurationNode {
         this.key = key;
         this.parent = parent;
     }
-
-    /*@Override
-    public int getInt(int def) {
-        if (this.value == null) {
-            return def;
-        }
-        if (!(this.value instanceof Integer value)) {
-            return def;
-        }
-        return value;
-    }
-
-    @Override
-    public double getDouble(double def) {
-        if (this.value == null) {
-            return def;
-        }
-        if (!(this.value instanceof Double value)) {
-            return def;
-        }
-        return value;
-    }*/
 
 
     //needed
@@ -221,7 +199,7 @@ public class MemoryConfigurationNode implements CommentedConfigurationNode {
         return false;
     }
 
-    private Type getBasicType(Class<?> type) throws SerializationException {
+    private Class<?> getBasicType(Class<?> type) throws SerializationException {
         if (CharSequence.class.isAssignableFrom(type)) {
             return String.class;
         }
@@ -247,7 +225,14 @@ public class MemoryConfigurationNode implements CommentedConfigurationNode {
             this.setAs = null;
             return this;
         }
-        this.setAs = this.getBasicType(value.getClass());
+        if (value instanceof Collection collection) {
+            this.setAs = Collection.class;
+            if (!collection.isEmpty()) {
+                this.setAs = this.getBasicType(collection.iterator().next().getClass());
+            }
+        } else {
+            this.setAs = this.getBasicType(value.getClass());
+        }
         this.value = value;
         return this;
     }
@@ -298,7 +283,18 @@ public class MemoryConfigurationNode implements CommentedConfigurationNode {
         if (this.setAs == type) {
             return this.value;
         }
-        throw new SerializationException("The saved value is not of that type");
+        throw new SerializationException("The saved value is not of type '" +
+                type.getTypeName() +
+                "'");
+    }
+
+    @Override
+    public @Nullable <V> List<V> getList(Class<V> type) throws SerializationException {
+        if(this.setAs == type && this.value instanceof Collection value){
+            return new ArrayList<>(value);
+        }
+
+        return CommentedConfigurationNode.super.getList(type);
     }
 
     @Override
