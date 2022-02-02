@@ -5,5 +5,4 @@ public enum ZoneVisibility {
     PRIVATE,
     SEMI_PRIVATE,
     PUBLIC
-
 }

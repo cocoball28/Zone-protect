@@ -15,8 +15,8 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class JoinRequestFlagType implements FlagType<JoinRequestFlag> {
+
     public static final String NAME = "Join Request";
-    public static final PluginContainer PLUGIN = ZonePlugin.getZonesPlugin().getPluginContainer();
     public static final String KEY = "join_request";
 
     @Override
@@ -26,7 +26,7 @@ public class JoinRequestFlagType implements FlagType<JoinRequestFlag> {
 
     @Override
     public @NotNull PluginContainer getPlugin() {
-        return PLUGIN;
+        return ZonePlugin.getZonesPlugin().getPluginContainer();
     }
 
     @Override
@@ -35,8 +35,7 @@ public class JoinRequestFlagType implements FlagType<JoinRequestFlag> {
     }
 
     @Override
-    public @NotNull JoinRequestFlag load(@NotNull ConfigurationNode node)
-            throws IOException {
+    public @NotNull JoinRequestFlag load(@NotNull ConfigurationNode node) throws IOException {
         List<String> joinRequestUUIDsAsString = node.node("JoinRequests").getList(String.class);
         List<String> inviteUUIDsAsString = node.node("Invites").getList(String.class);
         if (joinRequestUUIDsAsString == null) {
@@ -53,18 +52,22 @@ public class JoinRequestFlagType implements FlagType<JoinRequestFlag> {
                 .stream()
                 .map(UUID::fromString)
                 .collect(Collectors.toList());
-       return new JoinRequestFlag(joinRequestUUIDsFromString, inviteUUIDsFromString);
+        return new JoinRequestFlag(joinRequestUUIDsFromString, inviteUUIDsFromString);
     }
 
     @Override
-    public void save(@NotNull ConfigurationNode node, @Nullable JoinRequestFlag save)
-            throws IOException {
+    public void save(@NotNull ConfigurationNode node, @Nullable JoinRequestFlag save) throws
+            IOException {
         if (save == null) {
             return;
         }
 
-        node.node("JoinRequests").set(save.playerRequestingJoinUUID.stream().map(UUID::toString).collect(Collectors.toList()));
-        node.node("Invites").set(save.playerInvitingUUID.stream().map(UUID::toString).collect(Collectors.toList()));
+        node
+                .node("JoinRequests")
+                .set(save.getJoins().stream().map(UUID::toString).collect(Collectors.toList()));
+        node
+                .node("Invites")
+                .set(save.getInvites().stream().map(UUID::toString).collect(Collectors.toList()));
     }
 
     @Override

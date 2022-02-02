@@ -6,6 +6,7 @@ import org.zone.ZonePlugin;
 import org.zone.region.flag.FlagType;
 
 public class FarmTramplingFlagType implements FlagType.TaggedFlagType<FarmTramplingFlag> {
+
     @Override
     public @NotNull String getName() {
         return "Farm Trample";

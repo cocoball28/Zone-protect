@@ -7,23 +7,22 @@ import org.zone.region.flag.FlagType;
 
 public class PlayerFireDamageFlagType implements FlagType.TaggedFlagType<PlayerFireDamageFlag> {
 
-    String NAME = "Prevent Fire Damage To Players";
-    PluginContainer CONTAINER = ZonePlugin.getZonesPlugin().getPluginContainer();
-    String KEY = "fire_damage_prevention";
+    public static final String NAME = "Prevent Fire Damage To Players";
+    public static final String KEY = "fire_damage_prevention";
 
     @Override
     public @NotNull String getName() {
-        return this.NAME;
+        return NAME;
     }
 
     @Override
     public @NotNull PluginContainer getPlugin() {
-        return this.CONTAINER;
+        return ZonePlugin.getZonesPlugin().getPluginContainer();
     }
 
     @Override
     public @NotNull String getKey() {
-        return this.KEY;
+        return KEY;
     }
 
     @Override

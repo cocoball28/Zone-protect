@@ -1,4 +1,4 @@
-package org.zone.region.flag.meta.request.visibility.flag;
+package org.zone.region.flag.meta.request.visibility;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -6,7 +6,6 @@ import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.plugin.PluginContainer;
 import org.zone.ZonePlugin;
 import org.zone.region.flag.FlagType;
-import org.zone.region.flag.meta.request.visibility.ZoneVisibility;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -14,7 +13,6 @@ import java.util.Optional;
 public class ZoneVisibilityFlagType implements FlagType<ZoneVisibilityFlag> {
 
     public static final String NAME = "Visibility Flag";
-    public static final PluginContainer PLUGIN = ZonePlugin.getZonesPlugin().getPluginContainer();
     public static final String KEY = "visibility";
 
     @Override
@@ -24,7 +22,7 @@ public class ZoneVisibilityFlagType implements FlagType<ZoneVisibilityFlag> {
 
     @Override
     public @NotNull PluginContainer getPlugin() {
-        return PLUGIN;
+        return ZonePlugin.getZonesPlugin().getPluginContainer();
     }
 
     @Override
@@ -33,16 +31,15 @@ public class ZoneVisibilityFlagType implements FlagType<ZoneVisibilityFlag> {
     }
 
     @Override
-    public @NotNull ZoneVisibilityFlag load(@NotNull ConfigurationNode node)
-            throws IOException {
+    public @NotNull ZoneVisibilityFlag load(@NotNull ConfigurationNode node) throws IOException {
         ZoneVisibility zoneVisibilityName;
         String name = node.node("ZoneVisibility").getString();
         if (name == null) {
             throw new IOException("Unknown Visibility");
         }
         try {
-            zoneVisibilityName  = ZoneVisibility.valueOf(name);
-        }catch (IllegalArgumentException iae) {
+            zoneVisibilityName = ZoneVisibility.valueOf(name);
+        } catch (IllegalArgumentException iae) {
             throw new IOException("Invalid Name");
         }
         ZoneVisibilityFlag zoneVisibilityFlag = new ZoneVisibilityFlag();
@@ -51,8 +48,8 @@ public class ZoneVisibilityFlagType implements FlagType<ZoneVisibilityFlag> {
     }
 
     @Override
-    public void save(@NotNull ConfigurationNode node, @Nullable ZoneVisibilityFlag save)
-            throws IOException {
+    public void save(@NotNull ConfigurationNode node, @Nullable ZoneVisibilityFlag save) throws
+            IOException {
         if (save == null) {
             return;
         }

@@ -1,9 +1,9 @@
 package org.zone.region.flag;
 
 import org.jetbrains.annotations.NotNull;
+import org.zone.region.flag.entity.monster.move.PreventMonsterFlagType;
 import org.zone.region.flag.entity.nonliving.block.farmland.FarmTramplingFlagType;
 import org.zone.region.flag.entity.nonliving.block.tnt.TnTDefuseFlagType;
-import org.zone.region.flag.entity.monster.move.PreventMonsterFlagType;
 import org.zone.region.flag.entity.player.damage.attack.EntityDamagePlayerFlagType;
 import org.zone.region.flag.entity.player.damage.fall.PlayerFallDamageFlagType;
 import org.zone.region.flag.entity.player.damage.fire.PlayerFireDamageFlagType;
@@ -17,9 +17,9 @@ import org.zone.region.flag.entity.player.move.preventing.PreventPlayersFlagType
 import org.zone.region.flag.meta.eco.balance.BalanceFlagType;
 import org.zone.region.flag.meta.eco.payment.buy.BuyFlagType;
 import org.zone.region.flag.meta.edit.EditingFlagType;
-import org.zone.region.flag.meta.request.join.JoinRequestFlagType;
-import org.zone.region.flag.meta.request.visibility.flag.ZoneVisibilityFlagType;
 import org.zone.region.flag.meta.member.MembersFlagType;
+import org.zone.region.flag.meta.request.join.JoinRequestFlagType;
+import org.zone.region.flag.meta.request.visibility.ZoneVisibilityFlagType;
 import org.zone.region.flag.meta.tag.TagsFlagType;
 
 import java.util.Arrays;

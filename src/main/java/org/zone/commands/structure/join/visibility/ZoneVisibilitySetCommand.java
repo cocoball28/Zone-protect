@@ -15,7 +15,7 @@ import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.meta.request.visibility.ZoneVisibility;
-import org.zone.region.flag.meta.request.visibility.flag.ZoneVisibilityFlag;
+import org.zone.region.flag.meta.request.visibility.ZoneVisibilityFlag;
 import org.zone.utils.Messages;
 
 import java.util.Arrays;
