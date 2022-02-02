@@ -1,4 +1,4 @@
-package org.zone.commands.structure.region.flags.damage.to.both.tnt;
+package org.zone.commands.structure.region.flags.damage.towards.player.fall;
 
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
@@ -14,37 +14,39 @@ import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
+import org.zone.region.group.key.GroupKeys;
 import org.zone.utils.Messages;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class ZoneFlagTntDefuseView implements ArgumentCommand {
+public class ZoneFlagPlayerFallDamageView implements ArgumentCommand {
+
     public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zoneId",
             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
-                    ZonePermissions.FLAG_TNT_DEFUSE_VIEW));
+                    ZonePermissions.OVERRIDE_FLAG_DAMAGE_FALL_VIEW));
     public static final OptionalArgument<String> VIEW = new OptionalArgument<>(new ExactArgument(
             "view"), (String) null);
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
-                             new ExactArgument("flag"),
-                             ZONE_VALUE,
-                             new ExactArgument("tnt"),
-                             new ExactArgument("defuse"),
-                             VIEW);
+                new ExactArgument("flag"),
+                ZONE_VALUE,
+                new ExactArgument("damage"),
+                new ExactArgument("fall"),
+                VIEW);
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("View info about the tnt defuse flag");
+        return Component.text("View the details of Entity damage player flag");
     }
 
     @Override
     public @NotNull Optional<ZonePermission> getPermissionNode() {
-        return Optional.of(ZonePermissions.OVERRIDE_FLAG_TNT_DEFUSE_VIEW);
+        return Optional.of(ZonePermissions.FLAG_DAMAGE_FALL_VIEW);
     }
 
     @Override
@@ -54,7 +56,11 @@ public class ZoneFlagTntDefuseView implements ArgumentCommand {
         commandContext
                 .getCause()
                 .sendMessage(Identity.nil(),
-                        Messages.getEnabledInfo(zone.containsFlag(FlagTypes.TNT_DEFUSE)));
+                        Messages.getEnabledInfo(zone.containsFlag(FlagTypes.PLAYER_FALL_DAMAGE)));
+        zone
+                .getMembers()
+                .getGroup(GroupKeys.PLAYER_FALL_DAMAGE)
+                .ifPresent(group -> commandContext.sendMessage(Messages.getGroupInfo(group)));
         return CommandResult.success();
     }
 }

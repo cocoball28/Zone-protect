@@ -14,6 +14,8 @@ import org.zone.permissions.ZonePermission;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.meta.request.join.JoinRequestFlag;
+import org.zone.region.flag.meta.request.visibility.ZoneVisibility;
+import org.zone.region.flag.meta.request.visibility.flag.ZoneVisibilityFlag;
 import org.zone.utils.Messages;
 
 import java.util.Arrays;
@@ -50,7 +52,14 @@ public class JoinZoneCommand implements ArgumentCommand {
         JoinRequestFlag joinRequestFlag = zone
                 .getFlag(FlagTypes.JOIN_REQUEST)
                 .orElse(new JoinRequestFlag());
-        joinRequestFlag.registerInvite(player.uniqueId());
+        ZoneVisibility zoneVisibility = zone
+                .getFlag(FlagTypes.ZONE_VISIBILITY)
+                .map(ZoneVisibilityFlag::getZoneVisibility)
+                .orElse(ZoneVisibility.PUBLIC);
+        if (zoneVisibility == ZoneVisibility.PRIVATE || zoneVisibility == ZoneVisibility.SEMI_PRIVATE) {
+            return CommandResult.error(Messages.getZonePrivateError());
+        }
+        joinRequestFlag.registerJoin(player.uniqueId());
         zone.setFlag(joinRequestFlag);
         try {
             zone.save();

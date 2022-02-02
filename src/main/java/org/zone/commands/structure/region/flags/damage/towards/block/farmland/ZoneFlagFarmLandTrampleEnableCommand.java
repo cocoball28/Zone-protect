@@ -1,4 +1,4 @@
-package org.zone.commands.structure.region.flags.damage.to.both.tnt;
+package org.zone.commands.structure.region.flags.damage.towards.block.farmland;
 
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
@@ -14,59 +14,58 @@ import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.entity.nonliving.block.tnt.TnTDefuseFlag;
+import org.zone.region.flag.entity.nonliving.block.farmland.FarmTramplingFlag;
 import org.zone.utils.Messages;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class ZoneFlagTntDefuseSetEnableDisableCommand implements ArgumentCommand {
+public class ZoneFlagFarmLandTrampleEnableCommand implements ArgumentCommand {
 
-    public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zoneId",
+    public static final ZoneArgument ZONE_ID = new ZoneArgument("zoneId",
             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
-                    ZonePermissions.OVERRIDE_FLAG_TNT_DEFUSE_ENABLE));
-    public static final BooleanArgument ENABLE_DISABLE = new BooleanArgument("enabledValue",
-            "enable",
+                    ZonePermissions.OVERRIDE_FLAG_FARMLAND_TRAMPLE_SET_ENABLE));
+    public static final BooleanArgument ENABLE = new BooleanArgument("enableValue", "enable",
             "disable");
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
                              new ExactArgument("flag"),
-                             ZONE_VALUE,
-                             new ExactArgument("tnt"),
-                             new ExactArgument("defuse"),
+                             ZONE_ID,
+                             new ExactArgument("farmland"),
+                             new ExactArgument("trample"),
                              new ExactArgument("set"),
-                             ENABLE_DISABLE);
+                             ENABLE);
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Enable or disable the tnt defuse flag");
+        return Component.text("Enable/disable farmland trampling");
     }
 
     @Override
     public @NotNull Optional<ZonePermission> getPermissionNode() {
-        return Optional.of(ZonePermissions.FLAG_TNT_DEFUSE_ENABLE);
+        return Optional.of(ZonePermissions.FLAG_FARMLAND_TRAMPLE_SET_ENABLE);
     }
 
     @Override
     public @NotNull CommandResult run(
             @NotNull CommandContext commandContext, @NotNull String... args) {
-        Zone zone = commandContext.getArgument(this, ZONE_VALUE);
-        boolean enable = commandContext.getArgument(this, ENABLE_DISABLE);
-        TnTDefuseFlag tnTDefuseFlag = zone
-                .getFlag(FlagTypes.TNT_DEFUSE)
-                .orElse(new TnTDefuseFlag());
+        Zone zone = commandContext.getArgument(this, ZONE_ID);
+        boolean enable = commandContext.getArgument(this, ENABLE);
+        FarmTramplingFlag farmTramplingFlag = zone
+                .getFlag(FlagTypes.FARM_TRAMPLING)
+                .orElse(new FarmTramplingFlag());
         if (enable) {
-            zone.addFlag(tnTDefuseFlag);
+            zone.addFlag(farmTramplingFlag);
         } else {
-            zone.removeFlag(FlagTypes.TNT_DEFUSE);
+            zone.removeFlag(FlagTypes.FARM_TRAMPLING);
         }
         try {
             zone.save();
-            commandContext.sendMessage(Messages.getUpdatedMessage(FlagTypes.TNT_DEFUSE));
+            commandContext.sendMessage(Messages.getUpdatedMessage(FlagTypes.FARM_TRAMPLING));
         } catch (ConfigurateException ce) {
             ce.printStackTrace();
             return CommandResult.error(Messages.getZoneSavingError(ce));

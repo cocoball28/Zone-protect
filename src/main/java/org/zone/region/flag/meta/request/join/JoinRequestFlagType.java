@@ -37,15 +37,23 @@ public class JoinRequestFlagType implements FlagType<JoinRequestFlag> {
     @Override
     public @NotNull JoinRequestFlag load(@NotNull ConfigurationNode node)
             throws IOException {
-        List<String> uuidsAsString = node.node("JoinRequests").getList(String.class);
-        if (uuidsAsString == null) {
-            throw new IOException("Unknown UUID");
+        List<String> joinRequestUUIDsAsString = node.node("JoinRequests").getList(String.class);
+        List<String> inviteUUIDsAsString = node.node("Invites").getList(String.class);
+        if (joinRequestUUIDsAsString == null) {
+            throw new IOException("Unknown UUID of join requests");
         }
-        Collection<UUID> uuidsFromString = uuidsAsString
+        if (inviteUUIDsAsString == null) {
+            throw new IOException("Unknown UUID of invites");
+        }
+        Collection<UUID> joinRequestUUIDsFromString = joinRequestUUIDsAsString
                 .stream()
                 .map(UUID::fromString)
                 .collect(Collectors.toList());
-       return new JoinRequestFlag(uuidsFromString);
+        Collection<UUID> inviteUUIDsFromString = inviteUUIDsAsString
+                .stream()
+                .map(UUID::fromString)
+                .collect(Collectors.toList());
+       return new JoinRequestFlag(joinRequestUUIDsFromString, inviteUUIDsFromString);
     }
 
     @Override
@@ -55,7 +63,8 @@ public class JoinRequestFlagType implements FlagType<JoinRequestFlag> {
             return;
         }
 
-        node.node("JoinRequests").set(save.pUUIDs.stream().map(UUID::toString).collect(Collectors.toList()));
+        node.node("JoinRequests").set(save.playerRequestingJoinUUID.stream().map(UUID::toString).collect(Collectors.toList()));
+        node.node("Invites").set(save.playerInvitingUUID.stream().map(UUID::toString).collect(Collectors.toList()));
     }
 
     @Override

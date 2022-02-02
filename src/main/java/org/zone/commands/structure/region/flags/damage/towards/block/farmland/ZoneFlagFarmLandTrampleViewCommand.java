@@ -1,4 +1,4 @@
-package org.zone.commands.structure.region.flags.damage.to.block.farmland;
+package org.zone.commands.structure.region.flags.damage.towards.block.farmland;
 
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;

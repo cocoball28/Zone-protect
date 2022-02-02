@@ -1,4 +1,4 @@
-package org.zone.commands.structure.region.flags.damage.to.player.fall;
+package org.zone.commands.structure.region.flags.damage.towards.player.fall;
 
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;

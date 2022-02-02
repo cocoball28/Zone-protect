@@ -1,7 +1,6 @@
 package org.zone.region.flag;
 
 import org.jetbrains.annotations.NotNull;
-import org.zone.region.flag.entity.nonliving.block.farmland.FarmTramplingFlag;
 import org.zone.region.flag.entity.nonliving.block.farmland.FarmTramplingFlagType;
 import org.zone.region.flag.entity.nonliving.block.tnt.TnTDefuseFlagType;
 import org.zone.region.flag.entity.monster.move.PreventMonsterFlagType;

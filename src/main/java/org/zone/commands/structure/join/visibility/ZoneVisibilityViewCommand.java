@@ -55,10 +55,7 @@ public class ZoneVisibilityViewCommand implements ArgumentCommand {
         String visibilityName = zoneVisibilityFlag.getZoneVisibility().toString();
         commandContext
                 .getCause()
-                .sendMessage(Identity.nil(), Messages
-                        .getZoneVisibilityTag()
-                        .append(Component.text(visibilityName)
-                                .color(NamedTextColor.GOLD)));
+                .sendMessage(Identity.nil(), Messages.getZoneVisibility(visibilityName));
         return CommandResult.success();
     }
 }

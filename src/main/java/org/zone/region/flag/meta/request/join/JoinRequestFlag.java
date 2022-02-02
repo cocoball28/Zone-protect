@@ -9,26 +9,37 @@ import java.util.*;
 
 public class JoinRequestFlag implements Flag {
 
-    @NotNull final Collection<UUID> pUUIDs = new HashSet<>();
+    @NotNull final  Collection<UUID> playerInvitingUUID = new HashSet<>();
+    @NotNull final Collection<UUID> playerRequestingJoinUUID = new HashSet<>();
 
-    public JoinRequestFlag(@NotNull Collection<UUID> uuids) {
-        this.pUUIDs.addAll(uuids);
+    public JoinRequestFlag(@NotNull Collection<UUID> playerRequestingJoinUUIDs,
+            @NotNull Collection<UUID> playerInvitingUUIDs) {
+        this.playerRequestingJoinUUID.addAll(playerRequestingJoinUUIDs);
+        this.playerInvitingUUID.addAll(playerInvitingUUIDs);
     }
 
-    public JoinRequestFlag(@NotNull UUID... uuid) {
-        this(Arrays.asList(uuid));
+    public JoinRequestFlag(@NotNull Collection<UUID> playerInvitingUUIDs, @NotNull UUID... pRequestingJoinUUIDs) {
+        this(Arrays.asList(pRequestingJoinUUIDs), Collections.unmodifiableCollection(playerInvitingUUIDs));
     }
 
     public JoinRequestFlag() {
         //empty constructor
     }
 
-    public @NotNull Collection<UUID> getInvites() {
-        return Collections.unmodifiableCollection(this.pUUIDs);
+    public @NotNull Collection<UUID> getJoins() {
+        return Collections.unmodifiableCollection(this.playerRequestingJoinUUID);
     }
 
-    public void registerInvite(@NotNull UUID uuid) {
-        this.pUUIDs.add(uuid);
+    public @NotNull Collection<UUID> getInvites() {
+        return Collections.unmodifiableCollection(this.playerInvitingUUID);
+    }
+
+    public void registerJoin(@NotNull UUID uuid) {
+        this.playerRequestingJoinUUID.add(uuid);
+    }
+
+    public void registerInvites(@NotNull Collection<UUID> uuids) {
+        this.playerInvitingUUID.addAll(uuids);
     }
 
     @Override

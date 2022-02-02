@@ -3,6 +3,7 @@ package org.zone.utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.profile.GameProfile;
 import org.spongepowered.api.service.economy.Currency;
 import org.spongepowered.api.util.Nameable;
@@ -394,6 +395,22 @@ public final class Messages {
 
     public static Component getZoneVisibilityTag() {
         return Component.text("Visibility of zone: ").color(NamedTextColor.AQUA);
+    }
+
+    public static Component getZoneVisibility(String visibilityName) {
+        return getZoneVisibilityTag().append(Component.text(visibilityName).color(NamedTextColor.GOLD));
+    }
+
+    public static Component getInvitedPlayer() {
+        return Component.text("Players have been invited to the zone!").color(NamedTextColor.AQUA);
+    }
+
+    public static Component getGotInvite(@NotNull Nameable player, @NotNull Identifiable zone) {
+        return Component.text(player.name() + " has invited you to join " + zone.getName()).color(NamedTextColor.AQUA);
+    }
+
+    public static Component getZonePrivateError() {
+        return Component.text("Zone is private!").color(NamedTextColor.RED);
     }
 
 }

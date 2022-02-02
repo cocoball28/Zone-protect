@@ -567,8 +567,31 @@ public enum ZonePermissions implements ZonePermission {
             "zone",
             "override",
             "region",
+            "flag",
             "farmland",
             "trample",
+            "view"),
+
+    //invite player
+    FLAG_INVITE_PLAYER(false,
+            "zone",
+            "invite",
+            "players"),
+    FLAG_INVITE_PLAYER_VIEW(false,
+            "zone",
+            "view",
+            "invites"),
+
+    //invite player override
+    OVERRIDE_FLAG_INVITE_PLAYER(false,
+            "zone",
+            "override",
+            "invite",
+            "players"),
+    OVERRIDE_FLAG_INVITE_PLAYER_VIEW(false,
+            "zone",
+            "override",
+            "invite",
             "view"),
 
     //balance

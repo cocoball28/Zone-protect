@@ -1,4 +1,4 @@
-package org.zone.commands.structure.region.flags.damage.to.player.fire;
+package org.zone.commands.structure.region.flags.damage.towards.player.fire;
 
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
