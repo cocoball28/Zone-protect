@@ -59,17 +59,17 @@ public class ZoneInvitePlayerCommand implements ArgumentCommand {
                 .getFlag(FlagTypes.JOIN_REQUEST)
                 .orElse(new JoinRequestFlag());
         joinRequestFlag.registerInvites(players.stream().map(GameProfile::uuid).collect(Collectors.toList()));
-        players
-                .stream()
-                .map(profile -> Sponge
-                        .server()
-                        .player(profile.uniqueId())
-                        .orElse(null))
-                .filter(Objects::nonNull)
-                .forEach(player -> player.sendMessage(Messages.getGotInvite(player, zone)));
         zone.setFlag(joinRequestFlag);
         try {
             zone.save();
+            players
+                    .stream()
+                    .map(profile -> Sponge
+                            .server()
+                            .player(profile.uniqueId())
+                            .orElse(null))
+                    .filter(Objects::nonNull)
+                    .forEach(player -> player.sendMessage(Messages.getGotInvite(player, zone)));
             commandContext.sendMessage(Messages.getInvitedPlayer());
         } catch (ConfigurateException ce) {
             ce.printStackTrace();

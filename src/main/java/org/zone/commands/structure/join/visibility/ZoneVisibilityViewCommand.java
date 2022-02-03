@@ -13,6 +13,7 @@ import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
+import org.zone.region.flag.meta.request.visibility.ZoneVisibility;
 import org.zone.region.flag.meta.request.visibility.ZoneVisibilityFlag;
 import org.zone.utils.Messages;
 
@@ -48,10 +49,11 @@ public class ZoneVisibilityViewCommand implements ArgumentCommand {
     public @NotNull CommandResult run(
             @NotNull CommandContext commandContext, @NotNull String... args) {
         Zone zone = commandContext.getArgument(this, ZONE_ID);
-        ZoneVisibilityFlag zoneVisibilityFlag = zone
+        ZoneVisibility zoneVisibility = zone
                 .getFlag(FlagTypes.ZONE_VISIBILITY)
-                .orElse(new ZoneVisibilityFlag());
-        String visibilityName = zoneVisibilityFlag.getZoneVisibility().toString();
+                .map(ZoneVisibilityFlag::getZoneVisibility)
+                .orElse(ZoneVisibility.PUBLIC);
+        String visibilityName = zoneVisibility.toString();
         commandContext
                 .getCause()
                 .sendMessage(Identity.nil(), Messages.getZoneVisibility(visibilityName));
