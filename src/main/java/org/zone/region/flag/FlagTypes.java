@@ -1,6 +1,8 @@
 package org.zone.region.flag;
 
 import org.jetbrains.annotations.NotNull;
+import org.zone.region.flag.entity.monster.block.explode.CreeperGriefFlagType;
+import org.zone.region.flag.entity.monster.block.take.EnderManGriefFlagType;
 import org.zone.region.flag.entity.monster.move.PreventMonsterFlagType;
 import org.zone.region.flag.entity.nonliving.block.farmland.FarmTramplingFlagType;
 import org.zone.region.flag.entity.nonliving.block.tnt.TnTDefuseFlagType;
@@ -47,11 +49,13 @@ public final class FlagTypes {
     public static final LeavingFlagType LEAVING = new LeavingFlagType();
     public static final TagsFlagType TAGS = new TagsFlagType();
     public static final ItemFrameInteractFlagType ITEM_FRAME_INTERACT = new ItemFrameInteractFlagType();
-    public static final PlayerFireDamageFlagType PLAYER_FIRE_DAMAGE_FLAG_TYPE = new PlayerFireDamageFlagType();
+    public static final PlayerFireDamageFlagType PLAYER_FIRE_DAMAGE = new PlayerFireDamageFlagType();
     public static final EntityDamagePlayerFlagType ENTITY_DAMAGE_PLAYER = new EntityDamagePlayerFlagType();
     public static final PlayerFallDamageFlagType PLAYER_FALL_DAMAGE = new PlayerFallDamageFlagType();
     public static final BuyFlagType BUY = new BuyFlagType();
     public static final TnTDefuseFlagType TNT_DEFUSE = new TnTDefuseFlagType();
+    public static final CreeperGriefFlagType CREEPER_GRIEF = new CreeperGriefFlagType();
+    public static final EnderManGriefFlagType ENDER_MAN_GRIEF = new EnderManGriefFlagType();
 
     private FlagTypes() {
         throw new RuntimeException("Should not init");

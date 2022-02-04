@@ -59,6 +59,8 @@ public class JoinRequestFlagType implements FlagType<JoinRequestFlag> {
     public void save(@NotNull ConfigurationNode node, @Nullable JoinRequestFlag save) throws
             IOException {
         if (save == null) {
+            node.set(null);
+            node.set(null);
             return;
         }
 

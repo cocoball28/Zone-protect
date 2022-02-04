@@ -57,7 +57,7 @@ public class ZoneFlagFarmLandTrampleEnableCommand implements ArgumentCommand {
         boolean enable = commandContext.getArgument(this, ENABLE);
         FarmTramplingFlag farmTramplingFlag = zone
                 .getFlag(FlagTypes.FARM_TRAMPLING)
-                .orElse(new FarmTramplingFlag());
+                .orElse(FlagTypes.FARM_TRAMPLING.createCopyOfDefault());
         if (enable) {
             zone.addFlag(farmTramplingFlag);
         } else {

@@ -1,4 +1,4 @@
-package org.zone.commands.structure.region.flags.damage.towards.player.fire;
+package org.zone.commands.structure.region.flags.damage.towards.block.blocks;
 
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
@@ -14,40 +14,37 @@ import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.group.key.GroupKeys;
 import org.zone.utils.Messages;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class ZoneFlagFireDamageView implements ArgumentCommand {
+public class ZoneFlagEnderManGriefViewCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE_ID = new ZoneArgument("zoneId",
-            new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(ZonePermissions.OVERRIDE_FLAG_FIRE_DAMAGE_VIEW));
-    public static final OptionalArgument<String> VIEW =
-            new OptionalArgument<>(new ExactArgument("view"), (String) null);
+            new ZoneArgument.ZoneArgumentPropertiesBuilder()
+                    .setBypassSuggestionPermission(ZonePermissions.OVERRIDE_FLAG_ENDERMAN_GRIEF_VIEW));
+    public static final OptionalArgument<String> VIEW = new OptionalArgument<>(new ExactArgument("view"),
+            (String) null);
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
-                             new ExactArgument("flag"),
-                             ZONE_ID,
-                             new ExactArgument("damage"),
-                             new ExactArgument("fire"),
-                             new ExactArgument("towards"),
-                             new ExactArgument("player"),
-                             VIEW);
-    }
+                new ExactArgument("flag"),
+                ZONE_ID,
+                new ExactArgument("grief"),
+                new ExactArgument("enderman"),
+                VIEW);    }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("View info on the Fire Damage");
+        return Component.text("View info on the Enderman Grief flag");
     }
 
     @Override
     public @NotNull Optional<ZonePermission> getPermissionNode() {
-        return Optional.of(ZonePermissions.FLAG_FIRE_DAMAGE_VIEW);
+        return Optional.of(ZonePermissions.FLAG_ENDERMAN_GRIEF_VIEW);
     }
 
     @Override
@@ -57,11 +54,7 @@ public class ZoneFlagFireDamageView implements ArgumentCommand {
         commandContext
                 .getCause()
                 .sendMessage(Identity.nil(),
-                        Messages.getEnabledInfo(zone.containsFlag(FlagTypes.PLAYER_FIRE_DAMAGE)));
-        zone
-                .getMembers()
-                .getGroup(GroupKeys.PLAYER_FIRE_DAMAGE)
-                .ifPresent(group -> commandContext.sendMessage(Messages.getGroupInfo(group)));
+                        Messages.getEnabledInfo(zone.containsFlag(FlagTypes.ENDER_MAN_GRIEF)));
         return CommandResult.success();
     }
 }

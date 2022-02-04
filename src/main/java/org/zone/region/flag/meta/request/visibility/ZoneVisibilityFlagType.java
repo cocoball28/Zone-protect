@@ -51,6 +51,7 @@ public class ZoneVisibilityFlagType implements FlagType<ZoneVisibilityFlag> {
     public void save(@NotNull ConfigurationNode node, @Nullable ZoneVisibilityFlag save) throws
             IOException {
         if (save == null) {
+            node.set(null);
             return;
         }
 

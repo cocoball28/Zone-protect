@@ -413,4 +413,12 @@ public final class Messages {
         return Component.text("Zone is private!").color(NamedTextColor.RED);
     }
 
+    public static Component getInvitesPlayersTag() {
+        return Component.text("Current players invited to this zone:").color(NamedTextColor.AQUA);
+    }
+
+    public static Component getUnknownUserName() {
+        return Component.text("Unknown Username").color(NamedTextColor.RED);
+    }
+
 }

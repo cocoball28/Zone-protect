@@ -8,8 +8,12 @@ import org.zone.commands.structure.create.bounds.exact.ZoneCreateStartCommand;
 import org.zone.commands.structure.create.bounds.exact.ZoneCreateSubStartCommand;
 import org.zone.commands.structure.info.ZonePluginInfoCommand;
 import org.zone.commands.structure.leave.LeaveZoneCommand;
+import org.zone.commands.structure.region.flags.damage.towards.block.blocks.ZoneFlagEnderManGriefEnableCommand;
+import org.zone.commands.structure.region.flags.damage.towards.block.blocks.ZoneFlagEnderManGriefViewCommand;
 import org.zone.commands.structure.region.flags.damage.towards.block.farmland.ZoneFlagFarmLandTrampleEnableCommand;
 import org.zone.commands.structure.region.flags.damage.towards.block.farmland.ZoneFlagFarmLandTrampleViewCommand;
+import org.zone.commands.structure.region.flags.damage.towards.both.creeper.ZoneFlagCreeperGriefEnableCommand;
+import org.zone.commands.structure.region.flags.damage.towards.both.creeper.ZoneFlagCreeperGriefViewCommand;
 import org.zone.commands.structure.region.flags.damage.towards.player.attack.ZoneFlagDamageAttackSetEnabledCommand;
 import org.zone.commands.structure.region.flags.damage.towards.player.attack.ZoneFlagDamageAttackSetGroupCommand;
 import org.zone.commands.structure.region.flags.damage.towards.player.attack.ZoneFlagDamageAttackView;
@@ -83,6 +87,10 @@ public interface ZoneCommands {
     ZoneFlagGreetingsViewCommand ZONE_FLAG_GREETINGS_VIEW_COMMAND = new ZoneFlagGreetingsViewCommand();
     ZoneFlagInteractItemframesViewCommand ZONE_FLAG_INTERACT_ITEMFRAMES_VIEW_COMMAND = new ZoneFlagInteractItemframesViewCommand();
 
+    ZoneFlagEnderManGriefEnableCommand ZONE_FLAG_ENDER_MAN_GRIEF_ENABLE_COMMAND = new ZoneFlagEnderManGriefEnableCommand();
+    ZoneFlagEnderManGriefViewCommand ZONE_FLAG_ENDER_MAN_GRIEF_VIEW_COMMAND = new ZoneFlagEnderManGriefViewCommand();
+    ZoneFlagCreeperGriefEnableCommand ZONE_FLAG_CREEPER_GRIEF_ENABLE_COMMAND = new ZoneFlagCreeperGriefEnableCommand();
+    ZoneFlagCreeperGriefViewCommand ZONE_FLAG_CREEPER_GRIEF_VIEW_COMMAND = new ZoneFlagCreeperGriefViewCommand();
     ZoneFlagFarmLandTrampleEnableCommand ZONE_FLAG_FARM_LAND_TRAMPLE_ENABLE_COMMAND = new ZoneFlagFarmLandTrampleEnableCommand();
     ZoneFlagFarmLandTrampleViewCommand ZONE_FLAG_FARM_LAND_TRAMPLE_VIEW_COMMAND = new ZoneFlagFarmLandTrampleViewCommand();
     ZoneFlagTntDefuseSetEnableDisableCommand ZONE_FLAG_TNT_DEFUSE_SET_ENABLE_DISABLE_COMMAND = new ZoneFlagTntDefuseSetEnableDisableCommand();

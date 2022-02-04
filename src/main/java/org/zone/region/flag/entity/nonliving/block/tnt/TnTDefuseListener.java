@@ -1,6 +1,7 @@
 package org.zone.region.flag.entity.nonliving.block.tnt;
 
 import org.spongepowered.api.block.BlockTypes;
+import org.spongepowered.api.entity.EntityTypes;
 import org.spongepowered.api.entity.explosive.fused.PrimedTNT;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
@@ -9,6 +10,7 @@ import org.spongepowered.api.event.entity.SpawnEntityEvent;
 import org.spongepowered.api.event.filter.cause.First;
 import org.spongepowered.api.event.world.ExplosionEvent;
 import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.explosion.Explosion;
 import org.spongepowered.math.vector.Vector3i;
 import org.zone.ZonePlugin;
 import org.zone.region.Zone;
@@ -44,6 +46,12 @@ public class TnTDefuseListener {
 
     @Listener
     public void onTntExplodeEvent(ExplosionEvent.Pre event) {
+        if (event.explosion().sourceExplosive().isEmpty()) {
+            return;
+        }
+        if (!(event.explosion().sourceExplosive().get() instanceof PrimedTNT)) {
+            return;
+        }
         Location<?,?> location = event.explosion().location();
         float explosionRadius = event.explosion().radius();
         boolean contains = ZonePlugin

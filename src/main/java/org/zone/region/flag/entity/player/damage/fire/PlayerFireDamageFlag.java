@@ -15,6 +15,6 @@ public class PlayerFireDamageFlag implements Flag.TaggedFlag, Flag.AffectsPlayer
 
     @Override
     public @NotNull FlagType<?> getType() {
-        return FlagTypes.PLAYER_FIRE_DAMAGE_FLAG_TYPE;
+        return FlagTypes.PLAYER_FIRE_DAMAGE;
     }
 }

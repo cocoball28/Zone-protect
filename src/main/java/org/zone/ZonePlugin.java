@@ -26,6 +26,8 @@ import org.zone.region.ZoneManager;
 import org.zone.region.flag.Flag;
 import org.zone.region.flag.FlagManager;
 import org.zone.region.flag.FlagType;
+import org.zone.region.flag.entity.monster.block.explode.CreeperGriefListener;
+import org.zone.region.flag.entity.monster.block.take.EnderManGriefListener;
 import org.zone.region.flag.entity.monster.move.MonsterPreventionListener;
 import org.zone.region.flag.entity.nonliving.block.farmland.FarmTramplingListener;
 import org.zone.region.flag.entity.nonliving.block.tnt.TnTDefuseListener;
@@ -142,6 +144,8 @@ public class ZonePlugin {
         eventManager.registerListeners(this.plugin, new PlayerFallDamageListener());
         eventManager.registerListeners(this.plugin, new TnTDefuseListener());
         eventManager.registerListeners(this.plugin, new FarmTramplingListener());
+        eventManager.registerListeners(this.plugin, new CreeperGriefListener());
+        eventManager.registerListeners(this.plugin, new EnderManGriefListener());
         eventManager.registerListeners(this.plugin, new HumanAIListener());
     }
 
