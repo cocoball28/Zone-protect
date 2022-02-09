@@ -1,14 +1,13 @@
-package org.zone.region.flag.entity.monster.block.take;
+package org.zone.region.flag.entity.monster.block.hatch;
 
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.block.transaction.BlockTransaction;
 import org.spongepowered.api.block.transaction.Operations;
-import org.spongepowered.api.entity.living.monster.Enderman;
+import org.spongepowered.api.entity.living.monster.Endermite;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.block.ChangeBlockEvent;
 import org.spongepowered.api.event.filter.cause.First;
 import org.spongepowered.api.world.Location;
-import org.spongepowered.api.world.server.ServerLocation;
 import org.zone.ZonePlugin;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
@@ -18,16 +17,16 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class EnderManGriefListener {
+public class EnderMiteGriefListener {
 
     @Listener
-    public void onEnderManTakeBlocks(ChangeBlockEvent.All event, @First Enderman enderman) {
+    public void onEnderMiteBreakBlockOnHatch(ChangeBlockEvent.All event, @First Endermite endermite) {
         Map<BlockTransaction, Zone> inZone = event
                 .transactions()
                 .stream()
                 .filter(t -> t.original().location().isPresent())
                 .map(t -> {
-                    Location<?, ?> loc = enderman
+                    Location<?, ?> loc = endermite
                             .location()
                             .world()
                             .location(t.original().position());
@@ -44,12 +43,12 @@ public class EnderManGriefListener {
         inZone
                 .entrySet()
                 .stream()
-                .filter(entry -> entry.getKey().operation() == Operations.BREAK.get() || entry.getKey().operation() == Operations.PLACE.get())
-                .filter(entry -> entry.getValue().getFlag(FlagTypes.ENDER_MAN_GRIEF).isPresent())
+                .filter(entry -> entry.getKey().operation() == Operations.PLACE.get())
+                .filter(entry -> entry.getValue().getFlag(FlagTypes.ENDER_MITE_GRIEF).isPresent())
                 .forEach(entry -> {
                     entry
                             .getValue()
-                            .containsFlag(FlagTypes.ENDER_MAN_GRIEF);
+                            .containsFlag(FlagTypes.ENDER_MITE_GRIEF);
                     entry.getKey().invalidate();
                 });
     }

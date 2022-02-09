@@ -26,7 +26,12 @@ import org.zone.region.ZoneManager;
 import org.zone.region.flag.Flag;
 import org.zone.region.flag.FlagManager;
 import org.zone.region.flag.FlagType;
-import org.zone.region.flag.entity.monster.block.explode.CreeperGriefListener;
+import org.zone.region.flag.entity.monster.block.explode.creeper.CreeperGriefListener;
+import org.zone.region.flag.entity.monster.block.explode.enderdragon.EnderDragonGriefListener;
+import org.zone.region.flag.entity.monster.block.explode.wither.WitherGriefListener;
+import org.zone.region.flag.entity.monster.block.hatch.EnderMiteGriefListener;
+import org.zone.region.flag.entity.monster.block.ignite.SkeletonGriefListener;
+import org.zone.region.flag.entity.monster.block.knock.ZombieGriefListener;
 import org.zone.region.flag.entity.monster.block.take.EnderManGriefListener;
 import org.zone.region.flag.entity.monster.move.MonsterPreventionListener;
 import org.zone.region.flag.entity.nonliving.block.farmland.FarmTramplingListener;
@@ -146,6 +151,11 @@ public class ZonePlugin {
         eventManager.registerListeners(this.plugin, new FarmTramplingListener());
         eventManager.registerListeners(this.plugin, new CreeperGriefListener());
         eventManager.registerListeners(this.plugin, new EnderManGriefListener());
+        eventManager.registerListeners(this.plugin, new ZombieGriefListener());
+        eventManager.registerListeners(this.plugin, new SkeletonGriefListener());
+        eventManager.registerListeners(this.plugin, new EnderDragonGriefListener());
+        eventManager.registerListeners(this.plugin, new WitherGriefListener());
+        eventManager.registerListeners(this.plugin, new EnderMiteGriefListener());
         eventManager.registerListeners(this.plugin, new HumanAIListener());
     }
 

@@ -1,7 +1,12 @@
 package org.zone.region.flag;
 
 import org.jetbrains.annotations.NotNull;
-import org.zone.region.flag.entity.monster.block.explode.CreeperGriefFlagType;
+import org.zone.region.flag.entity.monster.block.explode.creeper.CreeperGriefFlagType;
+import org.zone.region.flag.entity.monster.block.explode.enderdragon.EnderDragonGriefFlagType;
+import org.zone.region.flag.entity.monster.block.explode.wither.WitherGriefFlagType;
+import org.zone.region.flag.entity.monster.block.hatch.EnderMiteGriefFlagType;
+import org.zone.region.flag.entity.monster.block.ignite.SkeletonGriefFlagType;
+import org.zone.region.flag.entity.monster.block.knock.ZombieGriefFlagType;
 import org.zone.region.flag.entity.monster.block.take.EnderManGriefFlagType;
 import org.zone.region.flag.entity.monster.move.PreventMonsterFlagType;
 import org.zone.region.flag.entity.nonliving.block.farmland.FarmTramplingFlagType;
@@ -56,6 +61,11 @@ public final class FlagTypes {
     public static final TnTDefuseFlagType TNT_DEFUSE = new TnTDefuseFlagType();
     public static final CreeperGriefFlagType CREEPER_GRIEF = new CreeperGriefFlagType();
     public static final EnderManGriefFlagType ENDER_MAN_GRIEF = new EnderManGriefFlagType();
+    public static final ZombieGriefFlagType ZOMBIE_GRIEF = new ZombieGriefFlagType();
+    public static final SkeletonGriefFlagType SKELETON_GRIEF = new SkeletonGriefFlagType();
+    public static final EnderDragonGriefFlagType ENDER_DRAGON_GRIEF = new EnderDragonGriefFlagType();
+    public static final WitherGriefFlagType WITHER_GRIEF = new WitherGriefFlagType();
+    public static final EnderMiteGriefFlagType ENDER_MITE_GRIEF = new EnderMiteGriefFlagType();
 
     private FlagTypes() {
         throw new RuntimeException("Should not init");

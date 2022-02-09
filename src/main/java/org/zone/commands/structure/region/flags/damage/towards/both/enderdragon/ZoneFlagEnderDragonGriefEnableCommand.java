@@ -1,4 +1,4 @@
-package org.zone.commands.structure.region.flags.damage.towards.block.blocks;
+package org.zone.commands.structure.region.flags.damage.towards.both.enderdragon;
 
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
@@ -14,18 +14,18 @@ import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.entity.monster.block.take.EnderManGriefFlag;
+import org.zone.region.flag.entity.monster.block.explode.enderdragon.EnderDragonGriefFlag;
 import org.zone.utils.Messages;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class ZoneFlagEnderManGriefEnableCommand implements ArgumentCommand {
+public class ZoneFlagEnderDragonGriefEnableCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE_ID = new ZoneArgument("zoneId",
             new ZoneArgument.ZoneArgumentPropertiesBuilder()
-                    .setBypassSuggestionPermission(ZonePermissions.OVERRIDE_FLAG_ENDERMAN_GRIEF_ENABLE));
+                    .setBypassSuggestionPermission(ZonePermissions.OVERRIDE_FLAG_ENDERDRAGON_GRIEF_ENABLE));
     public static final BooleanArgument ENABLE = new BooleanArgument("enableValue",
             "enable",
             "disable");
@@ -36,18 +36,19 @@ public class ZoneFlagEnderManGriefEnableCommand implements ArgumentCommand {
                 new ExactArgument("flag"),
                 ZONE_ID,
                 new ExactArgument("grief"),
-                new ExactArgument("enderman"),
+                new ExactArgument("enderdragon"),
                 new ExactArgument("set"),
-                ENABLE);    }
+                ENABLE);
+    }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Enable/Disable Enderman grief");
+        return Component.text("Enable/Disable EnderDragon Grief");
     }
 
     @Override
     public @NotNull Optional<ZonePermission> getPermissionNode() {
-        return Optional.of(ZonePermissions.FLAG_ENDERMAN_GRIEF_ENABLE);
+        return Optional.of(ZonePermissions.FLAG_ENDERDRAGON_GRIEF_ENABLE);
     }
 
     @Override
@@ -55,17 +56,17 @@ public class ZoneFlagEnderManGriefEnableCommand implements ArgumentCommand {
             @NotNull CommandContext commandContext, @NotNull String... args) {
         Zone zone = commandContext.getArgument(this, ZONE_ID);
         boolean enable = commandContext.getArgument(this, ENABLE);
-        EnderManGriefFlag enderManGriefFlag = zone
-                .getFlag(FlagTypes.ENDER_MAN_GRIEF)
-                .orElse(FlagTypes.ENDER_MAN_GRIEF.createCopyOfDefault());
+        EnderDragonGriefFlag enderDragonGriefFlag = zone
+                .getFlag(FlagTypes.ENDER_DRAGON_GRIEF)
+                .orElse(FlagTypes.ENDER_DRAGON_GRIEF.createCopyOfDefault());
         if (enable) {
-            zone.addFlag(enderManGriefFlag);
+            zone.addFlag(enderDragonGriefFlag);
         } else {
-            zone.removeFlag(FlagTypes.ENDER_MAN_GRIEF);
+            zone.removeFlag(FlagTypes.ENDER_DRAGON_GRIEF);
         }
         try {
             zone.save();
-            commandContext.sendMessage(Messages.getUpdatedMessage(FlagTypes.ENDER_MAN_GRIEF));
+            commandContext.sendMessage(Messages.getUpdatedMessage(FlagTypes.ENDER_DRAGON_GRIEF));
         } catch (ConfigurateException ce) {
             ce.printStackTrace();
             return CommandResult.error(Messages.getZoneSavingError(ce));

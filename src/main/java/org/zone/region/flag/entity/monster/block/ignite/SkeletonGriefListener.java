@@ -1,14 +1,15 @@
-package org.zone.region.flag.entity.monster.block.take;
+package org.zone.region.flag.entity.monster.block.ignite;
 
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.block.transaction.BlockTransaction;
 import org.spongepowered.api.block.transaction.Operations;
-import org.spongepowered.api.entity.living.monster.Enderman;
+import org.spongepowered.api.data.Keys;
+import org.spongepowered.api.entity.living.monster.skeleton.Skeleton;
+import org.spongepowered.api.entity.projectile.arrow.ArrowEntity;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.block.ChangeBlockEvent;
 import org.spongepowered.api.event.filter.cause.First;
 import org.spongepowered.api.world.Location;
-import org.spongepowered.api.world.server.ServerLocation;
 import org.zone.ZonePlugin;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
@@ -18,16 +19,19 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class EnderManGriefListener {
+public class SkeletonGriefListener {
 
     @Listener
-    public void onEnderManTakeBlocks(ChangeBlockEvent.All event, @First Enderman enderman) {
+    public void onSkeletonSetBlocksOnFire(ChangeBlockEvent.All event, @First ArrowEntity arrow) {
+        if (arrow.get(Keys.FIRE_TICKS).isEmpty() && arrow.shooter().isEmpty() && !(arrow.shooter().get().get() instanceof Skeleton)) {
+            return;
+        }
         Map<BlockTransaction, Zone> inZone = event
                 .transactions()
                 .stream()
                 .filter(t -> t.original().location().isPresent())
                 .map(t -> {
-                    Location<?, ?> loc = enderman
+                    Location<?, ?> loc = arrow
                             .location()
                             .world()
                             .location(t.original().position());
@@ -44,12 +48,12 @@ public class EnderManGriefListener {
         inZone
                 .entrySet()
                 .stream()
-                .filter(entry -> entry.getKey().operation() == Operations.BREAK.get() || entry.getKey().operation() == Operations.PLACE.get())
-                .filter(entry -> entry.getValue().getFlag(FlagTypes.ENDER_MAN_GRIEF).isPresent())
+                .filter(entry -> entry.getKey().operation() == Operations.PLACE.get())
+                .filter(entry -> entry.getValue().containsFlag(FlagTypes.SKELETON_GRIEF))
                 .forEach(entry -> {
                     entry
                             .getValue()
-                            .containsFlag(FlagTypes.ENDER_MAN_GRIEF);
+                            .containsFlag(FlagTypes.SKELETON_GRIEF);
                     entry.getKey().invalidate();
                 });
     }

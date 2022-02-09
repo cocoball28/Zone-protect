@@ -1,4 +1,4 @@
-package org.zone.commands.structure.region.flags.damage.towards.both.creeper;
+package org.zone.commands.structure.region.flags.damage.towards.block.door;
 
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
@@ -14,18 +14,18 @@ import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.entity.monster.block.explode.creeper.CreeperGriefFlag;
+import org.zone.region.flag.entity.monster.block.knock.ZombieGriefFlag;
 import org.zone.utils.Messages;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class ZoneFlagCreeperGriefEnableCommand implements ArgumentCommand {
+public class ZoneFlagZombieGriefEnableCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE_ID = new ZoneArgument("zoneId",
             new ZoneArgument.ZoneArgumentPropertiesBuilder()
-                    .setBypassSuggestionPermission(ZonePermissions.OVERRIDE_FLAG_CREEPER_GRIEF_ENABLE));
+                    .setBypassSuggestionPermission(ZonePermissions.OVERRIDE_FLAG_ZOMBIE_GRIEF_ENABLE));
     public static final BooleanArgument ENABLE = new BooleanArgument("enableValue",
             "enable",
             "disable");
@@ -33,22 +33,22 @@ public class ZoneFlagCreeperGriefEnableCommand implements ArgumentCommand {
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
-                             new ExactArgument("flag"),
-                             ZONE_ID,
-                             new ExactArgument("grief"),
-                             new ExactArgument("creeper"),
-                             new ExactArgument("set"),
-                             ENABLE);
+                new ExactArgument("flag"),
+                ZONE_ID,
+                new ExactArgument("grief"),
+                new ExactArgument("zombie"),
+                new ExactArgument("set"),
+                ENABLE);
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Enable/disable creeper grief");
+        return Component.text("Enable/Disable Zombie Grief");
     }
 
     @Override
     public @NotNull Optional<ZonePermission> getPermissionNode() {
-        return Optional.of(ZonePermissions.FLAG_CREEPER_GRIEF_ENABLE);
+        return Optional.of(ZonePermissions.FLAG_ZOMBIE_GRIEF_ENABLE);
     }
 
     @Override
@@ -56,17 +56,17 @@ public class ZoneFlagCreeperGriefEnableCommand implements ArgumentCommand {
             @NotNull CommandContext commandContext, @NotNull String... args) {
         Zone zone = commandContext.getArgument(this, ZONE_ID);
         boolean enable = commandContext.getArgument(this, ENABLE);
-        CreeperGriefFlag creeperGriefFlag = zone
-                .getFlag(FlagTypes.CREEPER_GRIEF)
-                .orElse(FlagTypes.CREEPER_GRIEF.createCopyOfDefault());
+        ZombieGriefFlag zombieGriefFlag = zone
+                .getFlag(FlagTypes.ZOMBIE_GRIEF)
+                .orElse(FlagTypes.ZOMBIE_GRIEF.createCopyOfDefault());
         if (enable) {
-            zone.addFlag(creeperGriefFlag);
+            zone.addFlag(zombieGriefFlag);
         } else {
-            zone.removeFlag(FlagTypes.CREEPER_GRIEF);
+            zone.removeFlag(FlagTypes.ZOMBIE_GRIEF);
         }
         try {
             zone.save();
-            commandContext.sendMessage(Messages.getUpdatedMessage(FlagTypes.CREEPER_GRIEF));
+            commandContext.sendMessage(Messages.getUpdatedMessage(FlagTypes.ZOMBIE_GRIEF));
         } catch (ConfigurateException ce) {
             ce.printStackTrace();
             return CommandResult.error(Messages.getZoneSavingError(ce));

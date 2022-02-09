@@ -1,4 +1,4 @@
-package org.zone.commands.structure.region.flags.damage.towards.block.blocks;
+package org.zone.commands.structure.region.flags.damage.towards.block.blocks.endermite;
 
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
@@ -20,11 +20,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class ZoneFlagEnderManGriefViewCommand implements ArgumentCommand {
+public class ZoneFlagEnderMiteGriefViewCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE_ID = new ZoneArgument("zoneId",
             new ZoneArgument.ZoneArgumentPropertiesBuilder()
-                    .setBypassSuggestionPermission(ZonePermissions.OVERRIDE_FLAG_ENDERMAN_GRIEF_VIEW));
+                    .setBypassSuggestionPermission(ZonePermissions.OVERRIDE_FLAG_ENDERMITE_GRIEF_VIEW));
     public static final OptionalArgument<String> VIEW = new OptionalArgument<>(new ExactArgument("view"),
             (String) null);
 
@@ -34,17 +34,18 @@ public class ZoneFlagEnderManGriefViewCommand implements ArgumentCommand {
                 new ExactArgument("flag"),
                 ZONE_ID,
                 new ExactArgument("grief"),
-                new ExactArgument("enderman"),
-                VIEW);    }
+                new ExactArgument("endermite"),
+                VIEW);
+    }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("View info on the Enderman Grief flag");
+        return Component.text("View info on EnderMite Grief");
     }
 
     @Override
     public @NotNull Optional<ZonePermission> getPermissionNode() {
-        return Optional.of(ZonePermissions.FLAG_ENDERMAN_GRIEF_VIEW);
+        return Optional.of(ZonePermissions.FLAG_ENDERMITE_GRIEF_VIEW);
     }
 
     @Override
@@ -54,7 +55,7 @@ public class ZoneFlagEnderManGriefViewCommand implements ArgumentCommand {
         commandContext
                 .getCause()
                 .sendMessage(Identity.nil(),
-                        Messages.getEnabledInfo(zone.containsFlag(FlagTypes.ENDER_MAN_GRIEF)));
+                        Messages.getEnabledInfo(zone.containsFlag(FlagTypes.ENDER_MITE_GRIEF)));
         return CommandResult.success();
     }
 }

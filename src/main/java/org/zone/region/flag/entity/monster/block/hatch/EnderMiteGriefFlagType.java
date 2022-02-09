@@ -1,14 +1,14 @@
-package org.zone.region.flag.entity.monster.block.explode;
+package org.zone.region.flag.entity.monster.block.hatch;
 
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.plugin.PluginContainer;
 import org.zone.ZonePlugin;
 import org.zone.region.flag.FlagType;
 
-public class CreeperGriefFlagType implements FlagType.TaggedFlagType<CreeperGriefFlag> {
+public class EnderMiteGriefFlagType implements FlagType.TaggedFlagType<EnderMiteGriefFlag> {
     @Override
     public @NotNull String getName() {
-        return "Creeper Explosion";
+        return "EnderMite Grief";
     }
 
     @Override
@@ -18,11 +18,11 @@ public class CreeperGriefFlagType implements FlagType.TaggedFlagType<CreeperGrie
 
     @Override
     public @NotNull String getKey() {
-        return "creeper_explosion";
+        return "endermite_grief";
     }
 
     @Override
-    public CreeperGriefFlag createCopyOfDefault() {
-        return new CreeperGriefFlag();
+    public EnderMiteGriefFlag createCopyOfDefault() {
+        return new EnderMiteGriefFlag();
     }
 }

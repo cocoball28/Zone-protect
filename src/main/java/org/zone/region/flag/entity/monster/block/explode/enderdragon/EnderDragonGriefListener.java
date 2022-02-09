@@ -1,6 +1,6 @@
-package org.zone.region.flag.entity.monster.block.explode;
+package org.zone.region.flag.entity.monster.block.explode.enderdragon;
 
-import org.spongepowered.api.entity.living.monster.Creeper;
+import org.spongepowered.api.entity.living.monster.boss.dragon.EnderDragon;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.world.ExplosionEvent;
 import org.spongepowered.api.world.Location;
@@ -9,14 +9,11 @@ import org.zone.ZonePlugin;
 
 import java.util.Optional;
 
-public class CreeperGriefListener {
+public class EnderDragonGriefListener {
 
     @Listener
-    public void onCreeperExplode(ExplosionEvent.Pre event) {
-        if (event.explosion().sourceExplosive().isEmpty()) {
-            return;
-        }
-        if (!(event.explosion().sourceExplosive().get() instanceof Creeper creeper)) {
+    public void onEnderDragonExplodeBlocks(ExplosionEvent.Pre event) {
+        if (event.explosion().sourceExplosive().isEmpty() && !(event.explosion().sourceExplosive().get() instanceof EnderDragon)) {
             return;
         }
         Location<?, ?> location = event.explosion().location();
@@ -39,8 +36,8 @@ public class CreeperGriefListener {
                             .distance(location.position());
                     return distance <= explosionRadius;
                 });
-                if (contains) {
-                    event.setCancelled(true);
-                }
+        if (contains) {
+            event.setCancelled(true);
+        }
     }
 }
