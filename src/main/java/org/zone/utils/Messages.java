@@ -88,7 +88,7 @@ public final class Messages {
     }
 
     public static Component getFlagMessageView(Component message) {
-        return getMessageTag().append(message.color(NamedTextColor.GOLD));
+        return getMessageTag().append(message);
     }
 
     public static Component getUpdatedMessage(Identifiable type) {
