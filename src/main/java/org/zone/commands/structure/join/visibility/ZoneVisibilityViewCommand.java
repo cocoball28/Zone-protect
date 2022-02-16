@@ -56,7 +56,8 @@ public class ZoneVisibilityViewCommand implements ArgumentCommand {
         String visibilityName = zoneVisibility.toString();
         commandContext
                 .getCause()
-                .sendMessage(Identity.nil(), Messages.getZoneVisibility(visibilityName));
+                .sendMessage(Identity.nil(),
+                        Messages.getZoneVisibility(visibilityName));
         return CommandResult.success();
     }
 }
