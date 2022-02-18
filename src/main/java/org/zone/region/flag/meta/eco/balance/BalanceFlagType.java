@@ -67,7 +67,8 @@ public class BalanceFlagType implements FlagType<BalanceFlag> {
     }
 
     @Override
-    public void save(@NotNull ConfigurationNode node, @Nullable BalanceFlag save) throws IOException {
+    public void save(@NotNull ConfigurationNode node, @Nullable BalanceFlag save) throws
+            IOException {
         if (save == null) {
             node.set(null);
             return;
