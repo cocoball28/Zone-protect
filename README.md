@@ -18,6 +18,8 @@ version requirement of Java 16 at minimum and this will likely update as older S
 
 ## Download
 
+You can download the plugin from ore:
+
 - [Ore](https://ore.spongepowered.org/MoseMister/Zone-Protect)
 
 ## Support
