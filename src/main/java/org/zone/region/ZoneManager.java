@@ -4,15 +4,20 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.api.ResourceKey;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.data.Keys;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.entity.living.player.server.ServerPlayer;
 import org.spongepowered.api.util.AABB;
 import org.spongepowered.api.world.Locatable;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
+import org.spongepowered.api.world.server.ServerWorld;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
 import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.math.vector.Vector3d;
+import org.spongepowered.math.vector.Vector3i;
 import org.spongepowered.plugin.PluginContainer;
 import org.zone.Identifiable;
 import org.zone.ZonePlugin;
@@ -79,6 +84,36 @@ public class ZoneManager {
         return this.getZones().stream().filter(zone -> zone.getId().equals(id)).findAny();
     }
 
+    public Collection<Zone> getZones(World<?, ?> world) {
+        if (world instanceof ServerWorld sWorld) {
+            return this
+                    .getZones()
+                    .stream()
+                    .filter(zone -> zone.getWorldKey().isPresent())
+                    .filter(zone -> zone.getWorldKey().get().equals(sWorld.key()))
+                    .collect(Collectors.toSet());
+        }
+        return this.getZones();
+    }
+
+
+    /**
+     * Gets the zones that are found at a location within a world. Note that zones can cross one
+     * and another such as sub zones being instead a parent zone, therefore it returns a collection
+     *
+     * @param world    The world to check
+     * @param worldPos The location to check
+     *
+     * @return A collection of all the zones found that contain that location
+     *
+     * @deprecated Typo -> use {@link #getZones()} instead
+     */
+    @Deprecated(forRemoval = true)
+    public @NotNull Collection<Zone> getZone(
+            @Nullable World<?, ?> world, @NotNull Vector3d worldPos) {
+        return this.getZones(world, worldPos);
+    }
+
     /**
      * Gets the zones that are found at a location within a world. Note that zones can cross one
      * and another such as sub zones being instead a parent zone, therefore it returns a collection
@@ -88,7 +123,7 @@ public class ZoneManager {
      *
      * @return A collection of all the zones found that contain that location
      */
-    public @NotNull Collection<Zone> getZone(
+    public @NotNull Collection<Zone> getZones(
             @Nullable World<?, ?> world, @NotNull Vector3d worldPos) {
         return this
                 .getZones()
@@ -107,6 +142,50 @@ public class ZoneManager {
                         .parallelStream()
                         .anyMatch(region -> region.asAABB().intersects(area)))
                 .collect(Collectors.toSet());
+    }
+
+    public Optional<Zone> getNearestZone(Location<?, ?> loc, double maxDistance) {
+        return this.getNearestZone(loc.world(), loc.position(), maxDistance);
+    }
+
+    public Optional<Zone> getNearestZone(Locatable loc, double maxDistance) {
+        return this.getNearestZone(loc.world(), loc.location().position(), maxDistance);
+    }
+
+    public Optional<Zone> getNearestZoneInView(Player player) {
+        if (player instanceof ServerPlayer sPlayer) {
+            return this.getNearestZone(player,
+                    player
+                            .get(Keys.VIEW_DISTANCE)
+                            .orElse(sPlayer.world().properties().viewDistance()));
+        }
+        return this.getNearestZone(player, player.get(Keys.VIEW_DISTANCE).orElse(10));
+    }
+
+    public Optional<Zone> getNearestZone(World<?, ?> world, Vector3d pos, double maxDistance) {
+        Iterator<Zone> iter = this.getNearZones(world, pos, maxDistance).iterator();
+        if(!iter.hasNext()){
+            return Optional.empty();
+        }
+        Zone zone = iter.next();
+        return Optional.ofNullable(zone);
+    }
+
+    public List<Zone> getNearZones(World<?, ?> world, Vector3d pos, double maxDistance) {
+        return this
+                .getZones(world)
+                .stream()
+                .map(zone -> {
+                    Optional<Vector3i> opVector = zone.getRegion().getNearestPosition(pos.toInt());
+                    return new AbstractMap.SimpleImmutableEntry<>(zone, opVector);
+                })
+                .filter(entry -> entry.getValue().isPresent())
+                .map(entry -> new AbstractMap.SimpleImmutableEntry<>(entry.getKey(),
+                        entry.getValue().get().toDouble().distance(pos)))
+                .filter(entry -> entry.getValue() < maxDistance)
+                .sorted(Map.Entry.comparingByValue())
+                .map(AbstractMap.SimpleImmutableEntry::getKey)
+                .collect(Collectors.toList());
     }
 
     /**
