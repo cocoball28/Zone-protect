@@ -6,6 +6,7 @@ import org.spongepowered.api.ResourceKey;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.event.Cause;
+import org.spongepowered.api.util.AABB;
 import org.spongepowered.api.world.Locatable;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
@@ -56,16 +57,22 @@ public class Zone implements Identifiable {
 
     /**
      * Gets all the entities found in the regions of the zone
+     *
      * @return a collection of entities found within the region
      */
-    public Collection<Entity> getEntities(){
+    public Collection<Entity> getEntities(double minHeight, double maxHeight) {
         Optional<? extends World<?, ?>> opWorld = this.getWorld();
-        if(opWorld.isEmpty()){
+        if (opWorld.isEmpty()) {
             return Collections.emptyList();
         }
         World<?, ?> world = opWorld.get();
-        return this.getRegion().getTrueChildren().stream().flatMap(region -> world.entities(region.asAABB()).stream()).collect(
-                Collectors.toSet());
+        return this.getRegion().getTrueChildren().stream().flatMap(region -> {
+            AABB aabb = region.asAABB();
+            Vector3d min = aabb.min();
+            Vector3d max = aabb.max();
+            aabb = AABB.of(min.x(), minHeight, min.z(), max.x(), maxHeight, max.z());
+            return world.entities(aabb).stream();
+        }).collect(Collectors.toSet());
     }
 
     /**
