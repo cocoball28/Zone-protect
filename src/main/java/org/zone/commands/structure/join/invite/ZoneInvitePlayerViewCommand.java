@@ -55,15 +55,17 @@ public class ZoneInvitePlayerViewCommand implements ArgumentCommand {
         Collection<UUID> inviteUUIDs = joinRequestFlag.getInvites();
         List<GameProfile> profiles = Sponge.server().gameProfileManager().cache().stream().sorted().toList();
 
-        Collection<GameProfile> invitesProfiles = profiles
+        Collection<GameProfile> inviteProfiles = profiles
                 .stream()
                 .filter(inviteUUIDs::contains)
                 .collect(Collectors.toSet());
 
         commandContext.sendMessage(Messages.getInvitesPlayersTag());
-        for (GameProfile profile : invitesProfiles) {
-            commandContext.sendMessage(Messages.getEntry(profile.name().orElse("Unknown Username")));
-        }
+        inviteProfiles
+                .forEach(profile -> {
+                    commandContext.sendMessage(Messages
+                            .getEntry(profile.name().orElse("Unknown Username")));
+                });
 
         return CommandResult.success();
     }

@@ -421,4 +421,9 @@ public final class Messages {
         return Component.text("Unknown Username").color(NamedTextColor.RED);
     }
 
+    public static Component getInvitationDenied(Identifiable zone) {
+        return Component.text("You denied the invitation from " + zone.getName())
+                .color(NamedTextColor.RED);
+    }
+
 }

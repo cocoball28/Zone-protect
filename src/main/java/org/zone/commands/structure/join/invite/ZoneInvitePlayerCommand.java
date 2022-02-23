@@ -58,7 +58,11 @@ public class ZoneInvitePlayerCommand implements ArgumentCommand {
         JoinRequestFlag joinRequestFlag = zone
                 .getFlag(FlagTypes.JOIN_REQUEST)
                 .orElse(new JoinRequestFlag());
-        joinRequestFlag.registerInvites(players.stream().map(GameProfile::uuid).collect(Collectors.toList()));
+        joinRequestFlag
+                .registerInvites(players
+                        .stream()
+                        .map(GameProfile::uuid)
+                        .collect(Collectors.toList()));
         zone.setFlag(joinRequestFlag);
         try {
             zone.save();

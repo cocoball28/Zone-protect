@@ -8,11 +8,9 @@ import java.util.*;
 
 public class JoinRequestFlag implements Flag {
 
-    @NotNull
-    private final Collection<UUID> inviteRequests = new HashSet<>();
+    private final @NotNull Collection<UUID> inviteRequests = new HashSet<>();
 
-    @NotNull
-    private final Collection<UUID> joinRequests = new HashSet<>();
+    private final @NotNull Collection<UUID> joinRequests = new HashSet<>();
 
     public JoinRequestFlag(
             @NotNull Collection<UUID> joinRequests,
