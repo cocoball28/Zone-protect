@@ -193,6 +193,13 @@ public class MembersFlag implements Flag {
         }
     }
 
+    /**
+     * Registers custom groups
+     */
+    public void registerGroup(@NotNull Group group) {
+        this.groups.put(group, new HashSet<>());
+    }
+
     @Override
     public @NotNull MembersFlagType getType() {
         return FlagTypes.MEMBERS;

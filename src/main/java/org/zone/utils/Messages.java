@@ -426,4 +426,9 @@ public final class Messages {
                 .color(NamedTextColor.RED);
     }
 
+    public static Component getCreatedGroup(Identifiable group, Identifiable parentGroup) {
+        return Component.text("Created group with the name " + group.getName() + " based on " + parentGroup.getName() + " group")
+                .color(NamedTextColor.AQUA);
+    }
+
 }

@@ -877,6 +877,15 @@ public enum ZonePermissions implements ZonePermission {
     //balance
     FLAG_BALANCE_VIEW(true, "zone", "region", "flag", "balance", "view"),
 
+    //custom groups
+    CREATE_CUSTOM_GROUP(false, "zone", "create", "group"),
+
+    //custom groups override
+    OVERRIDE_CREATE_CUSTOM_GROUP(false,
+            "zone",
+            "override",
+            "create",
+            "group"),
     //balance override
     OVERRIDE_FLAG_BALANCE_VIEW(false, "zone", "override", "region", "flag", "balance", "view"),
 

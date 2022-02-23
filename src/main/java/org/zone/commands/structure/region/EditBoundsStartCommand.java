@@ -39,7 +39,7 @@ public class EditBoundsStartCommand implements ArgumentCommand {
         return Arrays.asList(new ExactArgument("region"),
                 new ExactArgument("edit"),
                 ZONE,
-                new ExactArgument("Bounds"),
+                new ExactArgument("bounds"),
                 new ExactArgument("start"));
     }
 
