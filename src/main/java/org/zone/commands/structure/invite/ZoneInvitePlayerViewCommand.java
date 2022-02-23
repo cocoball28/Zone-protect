@@ -1,4 +1,4 @@
-package org.zone.commands.structure.join.invite;
+package org.zone.commands.structure.invite;
 
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
