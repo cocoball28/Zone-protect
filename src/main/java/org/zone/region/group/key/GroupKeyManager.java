@@ -10,7 +10,7 @@ import java.util.HashSet;
 /**
  * Gets the Manager for GroupKeys.
  *
- * Use {@link ZonePlugin#getGroupKeyManager()} to get a instance
+ * Use {@link ZonePlugin#getGroupKeyManager()} to get an instance
  */
 public class GroupKeyManager {
 

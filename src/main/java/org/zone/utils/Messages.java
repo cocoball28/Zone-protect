@@ -3,6 +3,7 @@ package org.zone.utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.profile.GameProfile;
 import org.spongepowered.api.service.economy.Currency;
 import org.spongepowered.api.util.Nameable;
@@ -27,6 +28,10 @@ import java.util.UUID;
  */
 public final class Messages {
 
+    /**
+     * Constructor of the {@link Messages} class
+     * @throws RuntimeException if it couldn't construct the class
+     */
     private Messages() {
         throw new RuntimeException("Could not construct class");
     }
@@ -48,6 +53,13 @@ public final class Messages {
     public static Component getLeftZoneMembersMessage(Identifiable identifiable) {
         return Component
                 .text("You left the zone of ")
+                .color(NamedTextColor.AQUA)
+                .append(Component.text(identifiable.getName()).color(NamedTextColor.GOLD));
+    }
+
+    public static Component getJoinedZoneMessage(Identifiable identifiable) {
+        return Component
+                .text("You joined the zone of ")
                 .color(NamedTextColor.AQUA)
                 .append(Component.text(identifiable.getName()).color(NamedTextColor.GOLD));
     }
@@ -86,8 +98,6 @@ public final class Messages {
                 .append(Component.text(type.getName()).color(NamedTextColor.GOLD));
     }
 
-    //Universal Messages end
-    //Universal only for some special classes
     public static Component getNotInRegion(Identifiable parent) {
         return Component
                 .text("Region must be within '" + parent.getId() + "'")
@@ -380,6 +390,39 @@ public final class Messages {
     public static Component getZoneConfigReloadFail() {
         return Component
                 .text("Couldn't reload config! Below is the cause of the error")
+                .color(NamedTextColor.RED);
+    }
+
+    public static Component getZoneVisibilityTag() {
+        return Component.text("Visibility of zone: ").color(NamedTextColor.AQUA);
+    }
+
+    public static Component getZoneVisibility(String visibilityName) {
+        return getZoneVisibilityTag().append(Component.text(visibilityName).color(NamedTextColor.GOLD));
+    }
+
+    public static Component getInvitedPlayer() {
+        return Component.text("Players have been invited to the zone!").color(NamedTextColor.AQUA);
+    }
+
+    public static Component getGotInvite(@NotNull Nameable player, @NotNull Identifiable zone) {
+        return Component.text(player.name() + " has invited you to join " + zone.getName()).color(NamedTextColor.AQUA);
+    }
+
+    public static Component getZonePrivateError() {
+        return Component.text("Zone is private!").color(NamedTextColor.RED);
+    }
+
+    public static Component getInvitesPlayersTag() {
+        return Component.text("Current players invited to this zone:").color(NamedTextColor.AQUA);
+    }
+
+    public static Component getUnknownUserName() {
+        return Component.text("Unknown Username").color(NamedTextColor.RED);
+    }
+
+    public static Component getInvitationDenied(Identifiable zone) {
+        return Component.text("You denied the invitation from " + zone.getName())
                 .color(NamedTextColor.RED);
     }
 

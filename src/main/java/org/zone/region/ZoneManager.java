@@ -111,9 +111,9 @@ public class ZoneManager {
 
     /**
      * Gets the zone that should be used with interactions with the provided locatable, such as
-     * using the sub zone rather then the parent
+     * using the sub zone rather than the parent
      *
-     * @param locatable The locatable object such as a entity
+     * @param locatable The locatable object such as an entity
      *
      * @return The zone to use
      */
@@ -123,7 +123,7 @@ public class ZoneManager {
 
     /**
      * Gets the zone that should be used with interactions at the provided location, such as
-     * using the sub zone rather then the parent
+     * using the sub zone rather than the parent
      *
      * @param loc The location to compare
      *
@@ -135,7 +135,7 @@ public class ZoneManager {
 
     /**
      * Gets the zone that should be used with interactions at the provided location, such as
-     * using the sub zone rather then the parent
+     * using the sub zone rather than the parent
      *
      * @param world    The world to compare
      * @param worldPos The location to compare
@@ -308,7 +308,7 @@ public class ZoneManager {
         return file;
     }
 
-    public File zonesReload() {
+    public void zonesReload() {
         this.zones.clear();
         File zonesFolder = new File("config/zone/zones/");
         Sponge.systemSubject().sendMessage(Messages.getZonesLoadingFrom(zonesFolder.getPath()));
@@ -331,6 +331,5 @@ public class ZoneManager {
                 }
             }
         }
-        return zonesFolder;
     }
 }

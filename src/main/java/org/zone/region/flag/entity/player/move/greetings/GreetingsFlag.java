@@ -8,6 +8,9 @@ import org.zone.region.flag.FlagTypes;
 
 import java.util.Optional;
 
+/**
+ * Flag for greetings
+ */
 public class GreetingsFlag implements Flag {
 
     private @Nullable Component text;

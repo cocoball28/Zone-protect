@@ -11,7 +11,8 @@ import java.io.IOException;
 import java.util.Optional;
 
 /**
- * A flag type is the specific type of a flag, each flag should have a unique FlagType which is designed to serialize and deserialize the flag as well as provide generic metadata about the flag itself
+ * A flag type is the specific type of a flag, each flag should have a unique FlagType which is
+ * designed to serialize and deserialize the flag as well as provide generic metadata about the flag itself
  *
  * @param <F> The class type of the attached flag
  */
