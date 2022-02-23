@@ -8,9 +8,16 @@ import org.spongepowered.api.entity.ai.goal.builtin.creature.RandomWalkingGoal;
 import org.spongepowered.api.entity.living.Human;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.block.CollideBlockEvent;
 import org.spongepowered.api.event.cause.entity.damage.source.DamageSources;
+import org.spongepowered.api.event.entity.DamageEntityEvent;
 import org.spongepowered.api.event.entity.MoveEntityEvent;
 import org.spongepowered.api.event.filter.Getter;
+import org.spongepowered.api.event.filter.cause.First;
+import org.spongepowered.api.event.item.inventory.ChangeInventoryEvent;
+import org.spongepowered.api.item.inventory.Equipable;
+import org.spongepowered.api.item.inventory.Inventory;
+import org.spongepowered.api.item.inventory.equipment.EquipmentInventory;
 import org.spongepowered.api.scheduler.Task;
 import org.spongepowered.api.util.Ticks;
 import org.spongepowered.api.world.HeightTypes;
@@ -54,6 +61,55 @@ public class HumanAIListener {
         RandomWalkingGoal.builder().executionChance(100).speed(0.1).build(human);
         world.spawnEntity(human);
     }
+
+    @Listener
+    public void onDamage(DamageEntityEvent event, @Getter("entity") Human human) {
+        Optional<String> opZoneId = human.get(ZoneKeys.HUMAN_AI_ATTACHED_ZONE_ID);
+        if (opZoneId.isEmpty()) {
+            return;
+        }
+        event.setCancelled(true);
+    }
+
+    @Listener
+    public void onMoveInside(CollideBlockEvent.Inside event, @First Human human) {
+        Optional<String> opZoneId = human.get(ZoneKeys.HUMAN_AI_ATTACHED_ZONE_ID);
+        if (opZoneId.isEmpty()) {
+            return;
+        }
+        event.setCancelled(true);
+    }
+
+    @Listener
+    public void onMoveStepOn(CollideBlockEvent.StepOn event, @First Human human) {
+        Optional<String> opZoneId = human.get(ZoneKeys.HUMAN_AI_ATTACHED_ZONE_ID);
+        if (opZoneId.isEmpty()) {
+            return;
+        }
+        event.setCancelled(true);
+    }
+
+
+    //humans dont have proper inventories, this wont trigger
+    /*@Listener
+    public void onItemPickup(ChangeInventoryEvent.Pickup.Pre event) {
+        Inventory inv = event.inventory();
+        if (!(inv instanceof EquipmentInventory eInv)) {
+            return;
+        }
+        Optional<Equipable> opCarrier = eInv.carrier();
+        if (opCarrier.isEmpty()) {
+            return;
+        }
+        if (!(opCarrier.get() instanceof Human human)) {
+            return;
+        }
+        Optional<String> opZoneId = human.get(ZoneKeys.HUMAN_AI_ATTACHED_ZONE_ID);
+        if (opZoneId.isEmpty()) {
+            return;
+        }
+        event.setCancelled(true);
+    }*/
 
     @Listener
     public void onMove(MoveEntityEvent event, @Getter("entity") Human human) {
