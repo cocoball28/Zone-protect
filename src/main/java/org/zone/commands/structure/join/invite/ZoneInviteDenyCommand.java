@@ -12,6 +12,7 @@ import org.zone.commands.system.arguments.operation.RemainingArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.permissions.ZonePermission;
+import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.meta.request.join.JoinRequestFlag;
@@ -23,7 +24,8 @@ public class ZoneInviteDenyCommand implements ArgumentCommand {
 
     public static final RemainingArgument<Zone> ZONE_ID =
             new RemainingArgument<>(new ZoneArgument("zoneId",
-                    new ZoneArgument.ZoneArgumentPropertiesBuilder()));
+                    new ZoneArgument.ZoneArgumentPropertiesBuilder()
+                            .setBypassSuggestionPermission(ZonePermissions.OVERRIDE_FLAG_INVITE_DENY)));
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
@@ -39,7 +41,7 @@ public class ZoneInviteDenyCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Optional<ZonePermission> getPermissionNode() {
-        return Optional.empty();
+        return Optional.of(ZonePermissions.FLAG_INVITE_DENY);
     }
 
     @Override

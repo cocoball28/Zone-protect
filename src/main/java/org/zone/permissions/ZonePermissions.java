@@ -824,6 +824,16 @@ public enum ZonePermissions implements ZonePermission {
             "endermite",
             "view"),
 
+    //join zone
+    FLAG_JOIN_ZONE(false,
+            "zone",
+            "join"),
+
+    //override join zone
+    OVERRIDE_FLAG_JOIN_ZONE(false,
+            "zone",
+            "override",
+            "join"),
     //invite player
     FLAG_INVITE_PLAYER(false,
             "zone",
@@ -833,6 +843,14 @@ public enum ZonePermissions implements ZonePermission {
             "zone",
             "view",
             "invites"),
+    FLAG_INVITE_ACCEPT(false,
+            "zone",
+            "invite",
+            "accept"),
+    FLAG_INVITE_DENY(false,
+            "zone",
+            "invite",
+            "deny"),
 
     //invite player override
     OVERRIDE_FLAG_INVITE_PLAYER(false,
@@ -845,6 +863,16 @@ public enum ZonePermissions implements ZonePermission {
             "override",
             "invite",
             "view"),
+    OVERRIDE_FLAG_INVITE_ACCEPT(false,
+            "zone",
+            "override",
+            "invite",
+            "accept"),
+    OVERRIDE_FLAG_INVITE_DENY(false,
+            "zone",
+            "override",
+            "invite",
+            "deny"),
 
     //balance
     FLAG_BALANCE_VIEW(true, "zone", "region", "flag", "balance", "view"),

@@ -7,6 +7,13 @@ import org.zone.commands.structure.create.bounds.chunk.ZoneCreateChunkSubStartCo
 import org.zone.commands.structure.create.bounds.exact.ZoneCreateStartCommand;
 import org.zone.commands.structure.create.bounds.exact.ZoneCreateSubStartCommand;
 import org.zone.commands.structure.info.ZonePluginInfoCommand;
+import org.zone.commands.structure.join.JoinZoneCommand;
+import org.zone.commands.structure.join.invite.ZoneInviteAcceptCommand;
+import org.zone.commands.structure.join.invite.ZoneInviteDenyCommand;
+import org.zone.commands.structure.join.invite.ZoneInvitePlayerCommand;
+import org.zone.commands.structure.join.invite.ZoneInvitePlayerViewCommand;
+import org.zone.commands.structure.join.visibility.ZoneVisibilitySetCommand;
+import org.zone.commands.structure.join.visibility.ZoneVisibilityViewCommand;
 import org.zone.commands.structure.leave.LeaveZoneCommand;
 import org.zone.commands.structure.region.flags.damage.towards.block.blocks.enderman.ZoneFlagEnderManGriefEnableCommand;
 import org.zone.commands.structure.region.flags.damage.towards.block.blocks.enderman.ZoneFlagEnderManGriefViewCommand;
@@ -97,6 +104,13 @@ public interface ZoneCommands {
     ZoneFlagGreetingsViewCommand ZONE_FLAG_GREETINGS_VIEW_COMMAND = new ZoneFlagGreetingsViewCommand();
     ZoneFlagInteractItemframesViewCommand ZONE_FLAG_INTERACT_ITEMFRAMES_VIEW_COMMAND = new ZoneFlagInteractItemframesViewCommand();
 
+    JoinZoneCommand JOIN_ZONE_COMMAND = new JoinZoneCommand();
+    ZoneInviteAcceptCommand ZONE_INVITE_ACCEPT_COMMAND = new ZoneInviteAcceptCommand();
+    ZoneInviteDenyCommand ZONE_INVITE_DENY_COMMAND = new ZoneInviteDenyCommand();
+    ZoneInvitePlayerCommand ZONE_INVITE_PLAYER_COMMAND = new ZoneInvitePlayerCommand();
+    ZoneInvitePlayerViewCommand ZONE_INVITE_PLAYER_VIEW_COMMAND = new ZoneInvitePlayerViewCommand();
+    ZoneVisibilitySetCommand ZONE_VISIBILITY_SET_COMMAND = new ZoneVisibilitySetCommand();
+    ZoneVisibilityViewCommand ZONE_VISIBILITY_VIEW_COMMAND = new ZoneVisibilityViewCommand();
     ZoneFlagEnderMiteGriefEnableCommand ZONE_FLAG_ENDER_MITE_GRIEF_ENABLE_COMMAND = new ZoneFlagEnderMiteGriefEnableCommand();
     ZoneFlagEnderMiteGriefViewCommand ZONE_FLAG_ENDER_MITE_GRIEF_VIEW_COMMAND = new ZoneFlagEnderMiteGriefViewCommand();
     ZoneFlagWitherGriefEnableCommand ZONE_FLAG_WITHER_GRIEF_ENABLE_COMMAND = new ZoneFlagWitherGriefEnableCommand();

@@ -11,6 +11,7 @@ import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.permissions.ZonePermission;
+import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.meta.request.join.JoinRequestFlag;
@@ -25,7 +26,9 @@ import java.util.Optional;
 public class JoinZoneCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE_ID = new ZoneArgument("zoneId",
-            new ZoneArgument.ZoneArgumentPropertiesBuilder().setVisitorOnly(true));
+            new ZoneArgument.ZoneArgumentPropertiesBuilder()
+                    .setVisitorOnly(true)
+                    .setBypassSuggestionPermission(ZonePermissions.OVERRIDE_FLAG_JOIN_ZONE));
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
@@ -39,7 +42,7 @@ public class JoinZoneCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Optional<ZonePermission> getPermissionNode() {
-        return Optional.empty();
+        return Optional.of(ZonePermissions.FLAG_JOIN_ZONE);
     }
 
     @Override
