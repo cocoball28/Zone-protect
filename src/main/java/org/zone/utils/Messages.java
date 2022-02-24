@@ -431,4 +431,12 @@ public final class Messages {
                 .color(NamedTextColor.AQUA);
     }
 
+    public static Component getZoneNotBeingEdited() {
+        return Component.text("Zone is not being edited").color(NamedTextColor.RED);
+    }
+
+    public static Component getEditedZone() {
+        return Component.text("Zone had been edited successfully!").color(NamedTextColor.AQUA);
+    }
+
 }

@@ -12,6 +12,8 @@ import org.zone.commands.structure.invite.ZoneInviteAcceptCommand;
 import org.zone.commands.structure.invite.ZoneInviteDenyCommand;
 import org.zone.commands.structure.invite.ZoneInvitePlayerCommand;
 import org.zone.commands.structure.invite.ZoneInvitePlayerViewCommand;
+import org.zone.commands.structure.region.EditBoundsEndCommand;
+import org.zone.commands.structure.region.EditBoundsStartCommand;
 import org.zone.commands.structure.region.flags.group.ZoneCreateCustomGroupCommand;
 import org.zone.commands.structure.region.flags.visibility.ZoneVisibilitySetCommand;
 import org.zone.commands.structure.region.flags.visibility.ZoneVisibilityViewCommand;
@@ -105,6 +107,8 @@ public interface ZoneCommands {
     ZoneFlagGreetingsViewCommand ZONE_FLAG_GREETINGS_VIEW_COMMAND = new ZoneFlagGreetingsViewCommand();
     ZoneFlagInteractItemframesViewCommand ZONE_FLAG_INTERACT_ITEMFRAMES_VIEW_COMMAND = new ZoneFlagInteractItemframesViewCommand();
 
+    EditBoundsStartCommand EDIT_BOUNDS_START_COMMAND = new EditBoundsStartCommand();
+    EditBoundsEndCommand EDIT_BOUNDS_END_COMMAND = new EditBoundsEndCommand();
     ZoneCreateCustomGroupCommand ZONE_CREATE_CUSTOM_GROUP_COMMAND = new ZoneCreateCustomGroupCommand();
     JoinZoneCommand JOIN_ZONE_COMMAND = new JoinZoneCommand();
     ZoneInviteAcceptCommand ZONE_INVITE_ACCEPT_COMMAND = new ZoneInviteAcceptCommand();

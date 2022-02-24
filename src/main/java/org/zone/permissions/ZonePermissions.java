@@ -886,6 +886,36 @@ public enum ZonePermissions implements ZonePermission {
             "override",
             "create",
             "group"),
+
+    //edit bounds
+    FLAG_EDIT_BOUNDS_START(false,
+            "zone",
+            "region",
+            "edit",
+            "bounds",
+            "start"),
+    FLAG_EDIT_BOUNDS_END(false,
+            "zone",
+            "region",
+            "edit",
+            "bounds",
+            "end"),
+    //edit bounds override
+    OVERRIDE_FLAG_EDIT_BOUNDS_START(false,
+            "zone",
+            "override",
+            "region",
+            "edit",
+            "bounds",
+            "start"),
+    OVERRIDE_FLAG_EDIT_BOUNDS_END(false,
+            "zone",
+            "override",
+            "region",
+            "edit",
+            "bounds",
+            "end"),
+
     //balance override
     OVERRIDE_FLAG_BALANCE_VIEW(false, "zone", "override", "region", "flag", "balance", "view"),
 
