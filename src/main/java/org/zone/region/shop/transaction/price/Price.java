@@ -1,4 +1,4 @@
-package org.zone.region.flag.meta.eco.price;
+package org.zone.region.shop.transaction.price;
 
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;

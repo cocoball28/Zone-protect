@@ -1,4 +1,4 @@
-package org.zone.region.flag.meta.eco.price.player;
+package org.zone.region.shop.transaction.price.player;
 
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
@@ -8,9 +8,9 @@ import org.spongepowered.api.service.economy.Currency;
 import org.spongepowered.api.service.economy.EconomyService;
 import org.spongepowered.api.service.economy.account.UniqueAccount;
 import org.spongepowered.api.service.economy.transaction.ResultType;
-import org.zone.region.flag.meta.eco.price.Price;
-import org.zone.region.flag.meta.eco.price.PriceBuilder;
-import org.zone.region.flag.meta.eco.price.PriceType;
+import org.zone.region.shop.transaction.price.Price;
+import org.zone.region.shop.transaction.price.PriceBuilder;
+import org.zone.region.shop.transaction.price.PriceType;
 
 import java.math.BigDecimal;
 import java.util.Optional;

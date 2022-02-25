@@ -1,11 +1,11 @@
-package org.zone.region.flag.meta.eco.price;
+package org.zone.region.shop.transaction.price;
 
 import org.spongepowered.api.service.economy.Currency;
-import org.zone.region.flag.meta.eco.price.player.PlayerEcoPrice;
-import org.zone.region.flag.meta.eco.price.player.PlayerExpPrice;
-import org.zone.region.flag.meta.eco.price.player.PlayerLevelPrice;
-import org.zone.region.flag.meta.eco.price.zone.ZoneEcoPrice;
-import org.zone.region.flag.meta.eco.price.zone.ZonePowerPrice;
+import org.zone.region.shop.transaction.price.player.PlayerEcoPrice;
+import org.zone.region.shop.transaction.price.player.PlayerExpPrice;
+import org.zone.region.shop.transaction.price.player.PlayerLevelPrice;
+import org.zone.region.shop.transaction.price.zone.ZoneEcoPrice;
+import org.zone.region.shop.transaction.price.zone.ZonePowerPrice;
 
 import java.math.BigDecimal;
 

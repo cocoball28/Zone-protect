@@ -9,10 +9,10 @@ import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.plugin.PluginContainer;
 import org.zone.ZonePlugin;
 import org.zone.region.flag.FlagType;
-import org.zone.region.flag.meta.eco.price.Price;
-import org.zone.region.flag.meta.eco.price.PriceBuilder;
-import org.zone.region.flag.meta.eco.price.PriceType;
-import org.zone.region.flag.meta.eco.price.player.PlayerEcoPrice;
+import org.zone.region.shop.transaction.price.Price;
+import org.zone.region.shop.transaction.price.PriceBuilder;
+import org.zone.region.shop.transaction.price.PriceType;
+import org.zone.region.shop.transaction.price.player.PlayerEcoPrice;
 
 import java.io.IOException;
 import java.math.BigDecimal;

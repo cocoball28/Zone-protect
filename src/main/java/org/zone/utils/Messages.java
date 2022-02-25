@@ -16,7 +16,7 @@ import org.zone.permissions.ZonePermission;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagType;
 import org.zone.region.flag.entity.player.move.leaving.LeavingFlag;
-import org.zone.region.flag.meta.eco.price.PriceType;
+import org.zone.region.shop.transaction.price.PriceType;
 import org.zone.region.group.Group;
 
 import java.math.BigDecimal;

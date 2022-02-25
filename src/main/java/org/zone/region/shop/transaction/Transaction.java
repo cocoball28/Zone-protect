@@ -1,4 +1,4 @@
-package org.zone.region.flag.meta.eco.transaction;
+package org.zone.region.shop.transaction;
 
 import org.zone.region.flag.meta.eco.balance.BalanceFlag;
 

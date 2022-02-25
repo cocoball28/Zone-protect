@@ -1,46 +1,46 @@
-package org.zone.region.flag.meta.eco.price.player;
+package org.zone.region.shop.transaction.price.player;
 
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.data.Keys;
 import org.spongepowered.api.entity.living.player.Player;
-import org.zone.region.flag.meta.eco.price.Price;
-import org.zone.region.flag.meta.eco.price.PriceType;
+import org.zone.region.shop.transaction.price.Price;
+import org.zone.region.shop.transaction.price.PriceType;
 
-public class PlayerExpPrice implements Price.PlayerPrice<Integer> {
+public class PlayerLevelPrice implements Price.PlayerPrice<Integer> {
 
     private final int exp;
 
-    public PlayerExpPrice(int exp) {
+    public PlayerLevelPrice(int exp) {
         this.exp = exp;
     }
 
-    public int getExp() {
+    public int getLevel() {
         return this.exp;
     }
 
     @Override
     public boolean hasEnough(@NotNull Player player) {
-        return player.get(Keys.EXPERIENCE).orElse(0) <= this.exp;
+        return player.get(Keys.EXPERIENCE_LEVEL).orElse(0) <= this.exp;
     }
 
     @Override
     public boolean withdraw(Player player) {
-        int exp = player.get(Keys.EXPERIENCE).orElse(0);
+        int exp = player.get(Keys.EXPERIENCE_LEVEL).orElse(0);
         if (exp < this.exp) {
             return false;
         }
-        int difference = exp - this.exp;
-        player.offer(Keys.EXPERIENCE, difference);
+        int newValue = exp - this.exp;
+        player.offer(Keys.EXPERIENCE_LEVEL, newValue);
         return true;
     }
 
     @Override
     public float getPercentLeft(@NotNull Player player) {
-        int exp = player.get(Keys.EXPERIENCE).orElse(0);
         if (this.exp == 0) {
             return 0;
         }
+        int exp = player.get(Keys.EXPERIENCE_LEVEL).orElse(0);
         if (exp == 0) {
             return 0;
         }
@@ -55,11 +55,11 @@ public class PlayerExpPrice implements Price.PlayerPrice<Integer> {
 
     @Override
     public PriceType getType() {
-        return PriceType.EXP;
+        return PriceType.LEVEL;
     }
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text(this.exp + "EXP");
+        return Component.text("Level: " + this.exp);
     }
 }

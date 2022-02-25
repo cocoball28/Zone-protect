@@ -16,10 +16,10 @@ import org.zone.commands.system.context.CommandContext;
 import org.zone.config.ZoneConfig;
 import org.zone.config.command.ConfigCommandNode;
 import org.zone.config.node.ZoneNode;
-import org.zone.region.flag.meta.eco.price.Price;
-import org.zone.region.flag.meta.eco.price.PriceBuilder;
-import org.zone.region.flag.meta.eco.price.PriceType;
-import org.zone.region.flag.meta.eco.price.player.PlayerLevelPrice;
+import org.zone.region.shop.transaction.price.Price;
+import org.zone.region.shop.transaction.price.PriceBuilder;
+import org.zone.region.shop.transaction.price.PriceType;
+import org.zone.region.shop.transaction.price.player.PlayerLevelPrice;
 import org.zone.utils.Messages;
 
 import java.util.*;

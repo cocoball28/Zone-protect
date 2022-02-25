@@ -1,14 +1,14 @@
-package org.zone.region.flag.meta.eco.price.zone;
+package org.zone.region.shop.transaction.price.zone;
 
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.service.economy.Currency;
 import org.zone.region.Zone;
 import org.zone.region.flag.meta.eco.balance.BalanceFlag;
-import org.zone.region.flag.meta.eco.price.Price;
-import org.zone.region.flag.meta.eco.price.PriceBuilder;
-import org.zone.region.flag.meta.eco.price.PriceType;
-import org.zone.region.flag.meta.eco.transaction.TransactionState;
+import org.zone.region.shop.transaction.price.Price;
+import org.zone.region.shop.transaction.price.PriceBuilder;
+import org.zone.region.shop.transaction.price.PriceType;
+import org.zone.region.shop.transaction.TransactionState;
 
 import java.math.BigDecimal;
 
