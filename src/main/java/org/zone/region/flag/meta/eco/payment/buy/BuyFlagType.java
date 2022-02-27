@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Optional;
 
-public class BuyFlagType implements FlagType<BuyFlag> {
+public class BuyFlagType implements FlagType.SerializableType<BuyFlag> {
 
     private static final String NAME = "Buy";
     private static final String KEY = "buy";

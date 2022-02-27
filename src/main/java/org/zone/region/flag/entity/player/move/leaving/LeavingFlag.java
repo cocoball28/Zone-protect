@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.zone.region.flag.Flag;
 import org.zone.region.flag.FlagTypes;
 
-public class LeavingFlag implements Flag {
+public class LeavingFlag implements Flag.Serializable {
 
     private @NotNull Component leavingMessage;
 

@@ -20,6 +20,7 @@ import org.spongepowered.math.vector.Vector3d;
 import org.spongepowered.math.vector.Vector3i;
 import org.spongepowered.plugin.PluginContainer;
 import org.zone.Identifiable;
+import org.zone.Serializable;
 import org.zone.ZonePlugin;
 import org.zone.region.bounds.ChildRegion;
 import org.zone.region.bounds.Region;
@@ -164,7 +165,7 @@ public class ZoneManager {
 
     public Optional<Zone> getNearestZone(World<?, ?> world, Vector3d pos, double maxDistance) {
         Iterator<Zone> iter = this.getNearZones(world, pos, maxDistance).iterator();
-        if(!iter.hasNext()){
+        if (!iter.hasNext()) {
             return Optional.empty();
         }
         Zone zone = iter.next();
@@ -327,11 +328,11 @@ public class ZoneManager {
             }
         }
         for (Map.Entry<FlagType<?>, ConfigurationNode> entry : types.entrySet()) {
-            if (entry.getKey() instanceof FlagType.TaggedFlagType) {
+            if (!(entry.getKey() instanceof FlagType.SerializableType)) {
                 continue;
             }
             try {
-                Flag flag = entry.getKey().load(entry.getValue());
+                Flag flag = ((Serializable<? extends Flag>) entry.getKey()).load(entry.getValue());
                 builder.addFlags(flag);
             } catch (IOException e) {
                 ZonePlugin
@@ -367,12 +368,15 @@ public class ZoneManager {
             node.node(PARENT).set(zone.getParent().get().getId());
         }
         for (Flag flag : zone.getFlags()) {
+            if (!(flag instanceof Flag.Serializable)) {
+                continue;
+            }
             ConfigurationNode flagNode = node
                     .node(FLAGS)
                     .node(flag.getType().getPlugin().metadata().id())
                     .node(flag.getType().getKey());
             try {
-                flag.save(flagNode);
+                ((Flag.Serializable) flag).save(flagNode);
             } catch (IOException e) {
                 throw new SerializationException(e);
             }

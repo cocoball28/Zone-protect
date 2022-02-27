@@ -68,12 +68,20 @@ public abstract class InventoryShop implements Shop {
         this.name = component;
     }
 
+    public Component getName() {
+        return this.name;
+    }
+
     public @NotNull List<SellingItemStack> getSellingItems() {
         return Collections.unmodifiableList(this.sellingItems);
     }
 
     public void registerSellingItem(SellingItemStack selling) {
         this.sellingItems.add(selling);
+    }
+
+    public void registerSellingItems(Collection<? extends SellingItemStack> selling) {
+        this.sellingItems.addAll(selling);
     }
 
     public void unregisterSellingItem(SellingItemStack selling) {

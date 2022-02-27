@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 /**
  * Flag used to hold the zones balance
  */
-public class BalanceFlag implements Flag {
+public class BalanceFlag implements Flag.Serializable {
 
     private final @NotNull Map<Currency, BigDecimal> money = new HashMap<>();
 

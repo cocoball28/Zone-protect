@@ -6,7 +6,7 @@ import org.zone.region.flag.FlagType;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.shop.transaction.price.Price;
 
-public class BuyFlag implements Flag {
+public class BuyFlag implements Flag.Serializable {
 
     private final @NotNull Price.PlayerPrice<? extends Number> price;
 
@@ -19,7 +19,7 @@ public class BuyFlag implements Flag {
     }
 
     @Override
-    public @NotNull FlagType<?> getType() {
+    public @NotNull BuyFlagType getType() {
         return FlagTypes.BUY;
     }
 }

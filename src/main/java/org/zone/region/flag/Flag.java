@@ -18,6 +18,27 @@ import java.util.UUID;
  */
 public interface Flag {
 
+    interface Serializable extends Flag {
+
+        @Override
+        @NotNull FlagType.SerializableType<? extends Serializable> getType();
+
+        /**
+         * serializes this flag to the provided ConfigurationNode
+         *
+         * @param node The node to serialize to
+         * @param <T>  The class of this flag
+         *
+         * @throws IOException if there is a issue saving
+         */
+        default <T extends Flag> void save(@NotNull ConfigurationNode node) throws IOException {
+            FlagType.SerializableType<?> type = this.getType();
+            ((org.zone.Serializable<T>) type).save(node, (T) this);
+        }
+
+
+    }
+
     /**
      * If the flag affects players then it should implement this
      */
@@ -31,6 +52,8 @@ public interface Flag {
 
     interface TaggedFlag extends Flag {
 
+        @Override
+        @NotNull FlagType.TaggedFlagType<? extends TaggedFlag> getType();
     }
 
     interface ValueStore extends Flag {
@@ -118,18 +141,6 @@ public interface Flag {
      * @return The FlagType of this flag
      */
     @NotNull FlagType<?> getType();
-
-    /**
-     * serializes this flag to the provided ConfigurationNode
-     *
-     * @param node The node to serialize to
-     * @param <T>  The class of this flag
-     *
-     * @throws IOException if there is a issue saving
-     */
-    default <T extends Flag> void save(@NotNull ConfigurationNode node) throws IOException {
-        ((FlagType<T>) this.getType()).save(node, (T) this);
-    }
 
     /**
      * Finds the zone that this flag belongs to.

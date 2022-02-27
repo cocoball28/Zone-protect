@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 /**
  * Flag used to hold all members
  */
-public class MembersFlag implements Flag {
+public class MembersFlag implements Flag.Serializable {
 
     private final java.util.Map<Group, Collection<UUID>> groups = new HashMap<>();
     private int usedPower = 0;

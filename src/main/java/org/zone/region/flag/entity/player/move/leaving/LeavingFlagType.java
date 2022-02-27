@@ -12,7 +12,7 @@ import org.zone.region.flag.FlagType;
 import java.io.IOException;
 import java.util.Optional;
 
-public class LeavingFlagType implements FlagType<LeavingFlag> {
+public class LeavingFlagType implements FlagType.SerializableType<LeavingFlag> {
 
     public static final String NAME = "Leaving";
     public static final String KEY = "leaving";

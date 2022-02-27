@@ -1,4 +1,4 @@
-package org.zone.region.flag.meta.edit;
+package org.zone.region.flag.meta.eco.shop;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -10,13 +10,10 @@ import org.zone.region.flag.FlagType;
 import java.io.IOException;
 import java.util.Optional;
 
-/**
- * Flag used to state that a zone is being modified
- */
-public class EditingFlagType implements FlagType.SerializableType<EditingFlag> {
+public class ShopsFlagType implements FlagType.SerializableType<ShopsFlag> {
 
-    public static final String NAME = "Editing";
-    public static final String KEY = "edit";
+    public static final String NAME = "Shops";
+    public static final String KEY = "shops";
 
     @Override
     public @NotNull String getName() {
@@ -34,17 +31,18 @@ public class EditingFlagType implements FlagType.SerializableType<EditingFlag> {
     }
 
     @Override
-    public @NotNull EditingFlag load(@NotNull ConfigurationNode node) throws IOException {
-        throw new IOException("Editing is not serializable");
+    public @NotNull ShopsFlag load(@NotNull ConfigurationNode node) throws IOException {
+        return null;
     }
 
     @Override
-    public void save(@NotNull ConfigurationNode node, @Nullable EditingFlag save) {
+    public void save(
+            @NotNull ConfigurationNode node, @Nullable ShopsFlag save) throws IOException {
 
     }
 
     @Override
-    public @NotNull Optional<EditingFlag> createCopyOfDefaultFlag() {
+    public @NotNull Optional<ShopsFlag> createCopyOfDefaultFlag() {
         return Optional.empty();
     }
 }

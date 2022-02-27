@@ -18,7 +18,7 @@ import java.util.Optional;
 @Typed(typesClass = FlagTypes.class)
 public interface FlagType<F extends Flag> extends Identifiable, Comparable<FlagType<?>> {
 
-    interface SerializableType<F extends Flag> extends FlagType<F>, Serializable<F> {
+    interface SerializableType<F extends Flag.Serializable> extends FlagType<F>, Serializable<F> {
 
     }
 

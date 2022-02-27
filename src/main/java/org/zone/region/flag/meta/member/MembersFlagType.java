@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 /**
  * Flag used to hold all members
  */
-public class MembersFlagType implements FlagType<MembersFlag> {
+public class MembersFlagType implements FlagType.SerializableType<MembersFlag> {
 
     public static final String NAME = "Members";
     public static final String KEY = "members";
