@@ -18,6 +18,8 @@ jobs:
     - name: Tests
       run: mvn clean test
   build_api_eight_jdk_sixteen:
+    name: Build on Sponge API 8 (JDK 16)
+    needs: test
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -30,6 +32,8 @@ jobs:
     - name: Build with Maven
       run: mvn clean package
   build_api_eight_jdk_seventeen:
+    name: Build on Sponge API 8 (JDK 17)
+    needs: build_api_eight_jdk_sixteen
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -42,6 +46,8 @@ jobs:
     - name: Build with Maven
       run: mvn clean package
   build_api_nine_jdk_seventeen:
+    name: Build on Sponge API 9 (JDK 17)
+    needs: build_api_eight_jdk_sixteen
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
