@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class MembersFlag implements Flag.Serializable {
 
     private final java.util.Map<Group, Collection<UUID>> groups = new HashMap<>();
-    private int usedPower = 0;
+    private int usedPower;
     public static final MembersFlag DEFAULT = new MembersFlag(DefaultGroups.createDefaultGroups());
 
     public MembersFlag() {
@@ -30,19 +30,34 @@ public class MembersFlag implements Flag.Serializable {
         this(Arrays.asList(groups));
     }
 
+    public MembersFlag(int usedPower, @NotNull Group... groups) {
+        this(usedPower, Arrays.asList(groups));
+    }
+
+
     public MembersFlag(@NotNull Collection<? extends Group> groups) {
-        this(groups.stream().collect(Collectors.toMap(g -> g, g -> new HashSet<>())));
+        this(0, groups);
+    }
+
+    public MembersFlag(int usedPower, @NotNull Collection<? extends Group> groups) {
+        this(groups.stream().collect(Collectors.toMap(g -> g, g -> new HashSet<>())), usedPower);
     }
 
     public MembersFlag(@NotNull MembersFlag flag) {
-        this(flag.groups);
+        this(flag.groups, flag.usedPower);
     }
 
     public MembersFlag(@NotNull java.util.Map<? extends Group, ? extends Collection<UUID>> map) {
+        this(map, 0);
+    }
+
+    public MembersFlag(
+            @NotNull java.util.Map<? extends Group, ? extends Collection<UUID>> map,
+            int usedPower) {
         if (map.isEmpty()) {
             throw new IllegalArgumentException("Cannot have no groups");
         }
-
+        this.usedPower = usedPower;
         this.groups.putAll(map);
     }
 

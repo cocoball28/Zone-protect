@@ -1,5 +1,6 @@
 package org.zone.region.flag;
 
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
@@ -87,9 +88,10 @@ public class DefaultFlagFile {
     public <F extends Flag.Serializable, T extends FlagType.SerializableType<F>> Optional<F> loadDefault(
             T type) {
         try {
-            return Optional.of(type.load(this.node.node("flags",
+            @NotNull F flag = type.load(this.node.node("flags",
                     type.getPlugin().metadata().id(),
-                    type.getKey())));
+                    type.getKey()));
+            return Optional.of(flag);
         } catch (IOException e) {
             return type.createCopyOfDefaultFlag();
         } catch (Throwable e) {

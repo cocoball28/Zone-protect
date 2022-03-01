@@ -15,20 +15,21 @@ public enum PriceType {
     EXP(PlayerExpPrice.class, null),
     LEVEL(PlayerLevelPrice.class, null);
 
-    Class<? extends Price.PlayerPrice<?>> playerClass;
-    Class<? extends Price.ZonePrice<?>> zoneClass;
+    private final Class<? extends Price.PlayerPrice<?>> playerClass;
+    private final Class<? extends Price.ZonePrice<?>> zoneClass;
 
-    private PriceType(Class<? extends Price.PlayerPrice<?>> playerClass, Class<?
-            extends Price.ZonePrice<?>> zoneClass){
+    PriceType(
+            Class<? extends Price.PlayerPrice<?>> playerClass,
+            Class<? extends Price.ZonePrice<?>> zoneClass) {
         this.playerClass = playerClass;
         this.zoneClass = zoneClass;
     }
 
-    public Optional<Class<? extends Price.PlayerPrice<?>>> getPlayerClass(){
+    public Optional<Class<? extends Price.PlayerPrice<?>>> getPlayerClass() {
         return Optional.of(this.playerClass);
     }
 
-    public Optional<Class<? extends Price.ZonePrice<?>>> getZoneClass(){
+    public Optional<Class<? extends Price.ZonePrice<?>>> getZoneClass() {
         return Optional.of(this.zoneClass);
     }
 

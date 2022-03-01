@@ -13,7 +13,7 @@ public interface Shop {
 
     @NotNull Location<?, ?> getLocation();
 
-    ShopType getType();
+    ShopType<?> getType();
 
     @NotNull Collection<? extends Selling<?, ?>> getSelling();
 

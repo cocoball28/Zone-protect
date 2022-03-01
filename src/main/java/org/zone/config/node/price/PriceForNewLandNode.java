@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 
 public class PriceForNewLandNode implements ZoneNode<Price.PlayerPrice<?>> {
 
-    class TypeConfigCommandNode implements ConfigCommandNode<PriceType> {
+    private class TypeConfigCommandNode implements ConfigCommandNode<PriceType> {
 
         @Override
         public String getDisplayId() {
@@ -86,7 +86,8 @@ public class PriceForNewLandNode implements ZoneNode<Price.PlayerPrice<?>> {
 
     @Override
     public void set(
-            CommentedConfigurationNode node, Price.PlayerPrice<?> price) throws SerializationException {
+            CommentedConfigurationNode node, Price.PlayerPrice<?> price) throws
+            SerializationException {
         node.node("type").set(price.getType().name());
         node.node("amount").set(price.getAmount().doubleValue());
         if (price instanceof Price.EcoPrice) {

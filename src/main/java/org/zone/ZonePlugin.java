@@ -47,12 +47,17 @@ import org.zone.region.flag.entity.player.move.greetings.GreetingsFlagListener;
 import org.zone.region.flag.entity.player.move.leaving.LeavingFlagListener;
 import org.zone.region.flag.entity.player.move.preventing.PreventPlayersListener;
 import org.zone.region.group.key.GroupKeyManager;
+import org.zone.region.shop.type.ShopManager;
+import org.zone.region.shop.type.inventory.display.DisplayCaseShopListener;
 import org.zone.utils.Messages;
 
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Modifier;
-import java.util.*;
+import java.util.Arrays;
+import java.util.EnumSet;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -68,6 +73,7 @@ public class ZonePlugin {
     private FlagManager flagManager;
     private ZoneManager zoneManager;
     private GroupKeyManager groupKeyManager;
+    private ShopManager shopManager;
     private ZoneConfig config;
     private MemoryHolder memoryHolder;
     private static ZonePlugin zonePlugin;
@@ -82,6 +88,10 @@ public class ZonePlugin {
 
     public @NotNull ZoneConfig getConfig() {
         return this.config;
+    }
+
+    public @NotNull ShopManager getShopManager() {
+        return this.shopManager;
     }
 
     /**
@@ -135,6 +145,7 @@ public class ZonePlugin {
         this.zoneManager = new ZoneManager();
         this.groupKeyManager = new GroupKeyManager();
         this.memoryHolder = new MemoryHolder();
+        this.shopManager = new ShopManager();
         this.config = new ZoneConfig(new File("config/zone/config.conf"));
     }
 
@@ -161,6 +172,7 @@ public class ZonePlugin {
         eventManager.registerListeners(this.plugin, new WitherGriefListener());
         eventManager.registerListeners(this.plugin, new EnderMiteGriefListener());
         eventManager.registerListeners(this.plugin, new HumanAIListener());
+        eventManager.registerListeners(this.plugin, new DisplayCaseShopListener());
     }
 
     @Listener

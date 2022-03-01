@@ -73,7 +73,7 @@ public class ZoneInfoBoundsShowCommand implements ArgumentCommand {
                 .collect(Collectors.toSet());
         zones.add(specifiedZone);
 
-        Set<BlockType> usedColours = new HashSet<>();
+        Collection<BlockType> usedColours = new HashSet<>();
         Collection<BlockType> woolColours = BlockTypeTags.WOOL.get().values();
 
         zones.forEach(zone -> {

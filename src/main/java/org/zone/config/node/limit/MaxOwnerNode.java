@@ -17,7 +17,7 @@ import java.util.Optional;
 
 public class MaxOwnerNode implements ZoneNode.WithDefault<Integer> {
 
-    class MaxOwnerConfigCommandNode implements ConfigCommandNode<Integer> {
+    private class MaxOwnerConfigCommandNode implements ConfigCommandNode<Integer> {
 
         @Override
         public String getDisplayId() {
