@@ -85,7 +85,7 @@ public class DisplayCaseShopType implements ShopType<DisplayCaseShop> {
         }).collect(Collectors.toSet());
 
         DisplayCaseShop shop = new DisplayCaseShop(name, worldKey, new Vector3d(x, y, z));
-        shop.registerSellingItems(items);
+        shop.register(items);
         return shop;
     }
 

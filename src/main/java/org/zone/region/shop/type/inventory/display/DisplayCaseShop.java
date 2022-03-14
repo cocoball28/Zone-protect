@@ -15,7 +15,6 @@ import org.spongepowered.api.scheduler.Task;
 import org.spongepowered.api.util.Ticks;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
-import org.spongepowered.api.world.client.ClientLocation;
 import org.spongepowered.api.world.server.ServerLocation;
 import org.spongepowered.math.vector.Vector3d;
 import org.zone.ZonePlugin;
@@ -39,7 +38,7 @@ public class DisplayCaseShop extends InventoryShop {
             .map(comp -> PlainTextComponentSerializer.plainText().serialize(comp))
             .orElse(item.type().key(RegistryTypes.ITEM_TYPE).formatted());
 
-    public DisplayCaseShop(Component component, ClientLocation location) {
+    public DisplayCaseShop(Component component, Location<?, ?> location) {
         this(component, null, location.position());
     }
 

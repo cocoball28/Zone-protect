@@ -66,7 +66,7 @@ public class ZoneInfoBoundsShowCommand implements ArgumentCommand {
         Collection<Zone> zones = ZonePlugin
                 .getZonesPlugin()
                 .getZoneManager()
-                .getZones()
+                .getRegistered()
                 .parallelStream()
                 .filter(zone1 -> zone1.getParent().isPresent())
                 .filter(zone -> zone.getParent().get().equals(specifiedZone))

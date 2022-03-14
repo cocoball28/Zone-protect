@@ -245,7 +245,7 @@ public class ZonePlugin {
         }
         Sponge
                 .systemSubject()
-                .sendMessage(Messages.getZonesLoaded(this.getZoneManager().getZones()));
+                .sendMessage(Messages.getZonesLoaded(this.getZoneManager().getRegistered()));
     }
 
     @Listener

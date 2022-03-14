@@ -153,7 +153,7 @@ public interface Flag {
         return ZonePlugin
                 .getZonesPlugin()
                 .getZoneManager()
-                .getZones()
+                .getRegistered()
                 .parallelStream()
                 .filter(z -> z.containsFlag(Flag.this))
                 .findAny();

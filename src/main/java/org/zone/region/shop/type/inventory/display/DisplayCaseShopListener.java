@@ -96,7 +96,7 @@ public class DisplayCaseShopListener {
             return;
         }
         DisplayCaseShop shop = opShop.get();
-        InventoryMenu menu = shop.createInventory(UUID.randomUUID());
+        InventoryMenu menu = shop.createSellingInventory(UUID.randomUUID());
         menu.open(player);
     }
 }

@@ -146,7 +146,7 @@ public class ZoneArgument implements GUICommandArgument<Zone> {
     }
 
     private Stream<Zone> getZones(CommandContext context) {
-        Collection<Zone> collection = ZonePlugin.getZonesPlugin().getZoneManager().getZones();
+        Collection<Zone> collection = ZonePlugin.getZonesPlugin().getZoneManager().getRegistered();
         Stream<Zone> zones = collection.stream();
         if (this.builder.isOnlyMainZones()) {
             zones = zones.filter(zone -> zone.getParent().isEmpty());

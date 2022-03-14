@@ -8,11 +8,14 @@ import org.zone.Serializable;
 import org.zone.ZonePlugin;
 import org.zone.region.flag.FlagType;
 import org.zone.region.shop.Shop;
+import org.zone.region.shop.type.ShopManager;
 import org.zone.region.shop.type.ShopType;
 
 import java.io.IOException;
-import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class ShopsFlagType implements FlagType.SerializableType<ShopsFlag> {
 
@@ -36,12 +39,36 @@ public class ShopsFlagType implements FlagType.SerializableType<ShopsFlag> {
 
     @Override
     public @NotNull ShopsFlag load(@NotNull ConfigurationNode node) throws IOException {
-        Collection<ShopType<?>> shopTypes = ZonePlugin
-                .getZonesPlugin()
-                .getShopManager()
-                .getRegistered();
-
-        throw new IOException("Not implemented yet");
+        @NotNull ShopManager shopManager = ZonePlugin.getZonesPlugin().getShopManager();
+        List<? extends ConfigurationNode> shopsNodes = node.node("shops").childrenList();
+        Set<Shop> shops = shopsNodes.stream().map(shopNode -> {
+            String shopTypeId = shopNode.node("type").getString();
+            Optional<ShopType<?>> opShopType = shopManager.getType(shopTypeId);
+            if (opShopType.isEmpty()) {
+                ZonePlugin
+                        .getZonesPlugin()
+                        .getLogger()
+                        .error("Skipped a unknown shop, cannot " +
+                                "find shoptype of '" +
+                                shopTypeId +
+                                "'");
+                //noinspection ReturnOfNull
+                return (Shop) null;
+            }
+            ShopType<?> shopType = opShopType.get();
+            try {
+                return (Shop) shopType.load(shopNode);
+            } catch (IOException e) {
+                ZonePlugin
+                        .getZonesPlugin()
+                        .getLogger()
+                        .error("Skipping a " + shopTypeId + " shop" + ", " + e.getMessage());
+                e.printStackTrace();
+                //noinspection ReturnOfNull
+                return (Shop) null;
+            }
+        }).collect(Collectors.toSet());
+        return new ShopsFlag(shops);
     }
 
     @Override
@@ -54,6 +81,7 @@ public class ShopsFlagType implements FlagType.SerializableType<ShopsFlag> {
         }
         for (Shop shop : save.getShops()) {
             ConfigurationNode sNode = shopsNode.appendListNode();
+            sNode.node("type").set(shop.getType().getId());
             this.save(sNode, shop);
         }
     }

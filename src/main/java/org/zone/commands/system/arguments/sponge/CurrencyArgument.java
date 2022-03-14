@@ -4,6 +4,7 @@ import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandCompletion;
+import org.spongepowered.api.registry.RegistryTypes;
 import org.spongepowered.api.service.economy.Currency;
 import org.spongepowered.api.service.economy.EconomyService;
 import org.zone.commands.system.CommandArgument;
@@ -22,6 +23,12 @@ public class CurrencyArgument implements CommandArgument<Currency> {
 
     private final @NotNull String id;
     private final @NotNull ParseCommandArgument<? extends Collection<Currency>> currencies;
+
+    public CurrencyArgument(@NotNull String id) {
+        this(id,
+                (context, argument) -> CommandArgumentResult.from(argument,
+                        RegistryTypes.CURRENCY.get().stream().collect(Collectors.toSet())));
+    }
 
     public CurrencyArgument(
             @NotNull String id,

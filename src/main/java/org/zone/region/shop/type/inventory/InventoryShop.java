@@ -28,9 +28,9 @@ import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public abstract class InventoryShop implements Shop {
+public abstract class InventoryShop implements Shop.Modifiable<SellingItemStack> {
 
-    public class ShopClickHandler implements SlotClickHandler {
+    public class ShopSellClickHandler implements SlotClickHandler {
 
         @Override
         public boolean handle(
@@ -76,19 +76,20 @@ public abstract class InventoryShop implements Shop {
         return Collections.unmodifiableList(this.sellingItems);
     }
 
-    public void registerSellingItem(SellingItemStack selling) {
+    @Override
+    public void register(SellingItemStack selling) {
         this.sellingItems.add(selling);
     }
 
-    public void registerSellingItems(Collection<? extends SellingItemStack> selling) {
+    public void register(Collection<? extends SellingItemStack> selling) {
         this.sellingItems.addAll(selling);
     }
 
-    public void unregisterSellingItem(SellingItemStack selling) {
+    public void unregister(SellingItemStack selling) {
         this.sellingItems.remove(selling);
     }
 
-    public InventoryMenu createInventory(UUID invId) {
+    private ViewableInventory createInventory(UUID invId) {
         Set<SellingItemStack> items = this.sellingItems
                 .parallelStream()
                 .filter(selling -> selling.getAmount() != 0)
@@ -102,14 +103,18 @@ public abstract class InventoryShop implements Shop {
                 .identity(invId)
                 .build();
         items.forEach(selling -> inv.offer(selling.getItem().createStack()));
-        ViewableInventory viewInv = inv
+        return inv
                 .asViewable()
                 .orElseThrow(() -> new IllegalStateException(
                         "Could not create the inventory as a ViewableInventory"));
+    }
+
+    public InventoryMenu createSellingInventory(UUID invId) {
+        ViewableInventory viewInv = this.createInventory(invId);
         InventoryMenu menu = viewInv.asMenu();
         menu.setTitle(this.name);
         menu.setReadOnly(true);
-        menu.registerSlotClick(new ShopClickHandler());
+        menu.registerSlotClick(new ShopSellClickHandler());
         return menu;
     }
 

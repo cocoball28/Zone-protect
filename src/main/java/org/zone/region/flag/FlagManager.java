@@ -1,6 +1,7 @@
 package org.zone.region.flag;
 
 import org.zone.Identifiable;
+import org.zone.IdentifiableManager;
 import org.zone.ZonePlugin;
 
 import java.util.Collection;
@@ -15,7 +16,7 @@ import java.util.stream.Stream;
  * <p>
  * use {@link ZonePlugin#getFlagManager()} to get a instance of this flag manager
  */
-public class FlagManager {
+public class FlagManager implements IdentifiableManager.Typed<FlagType<?>> {
 
     private final Collection<FlagType<?>> flags = new TreeSet<>(Comparator.comparing(Identifiable::getId));
     private final DefaultFlagFile defaultFlags = new DefaultFlagFile();
@@ -33,6 +34,7 @@ public class FlagManager {
      *
      * @return A collection of all known flag types
      */
+    @Override
     public Collection<FlagType<?>> getRegistered() {
         return Collections.unmodifiableCollection(this.flags);
     }
@@ -46,6 +48,7 @@ public class FlagManager {
      *
      * @param type The type to register
      */
+    @Override
     public void register(FlagType<?> type) {
         this.flags.add(type);
     }

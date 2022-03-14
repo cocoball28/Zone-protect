@@ -11,6 +11,11 @@ import java.util.Collection;
 
 public interface Shop {
 
+    interface Modifiable<Sell extends Selling<?, ?>> extends Shop {
+
+        void register(Sell sell);
+    }
+
     @NotNull Location<?, ?> getLocation();
 
     ShopType<?> getType();
