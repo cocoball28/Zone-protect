@@ -20,22 +20,23 @@ import java.util.List;
 import java.util.Optional;
 
 public class ZoneFlagGreetingsRemoveCommand implements ArgumentCommand {
-    public static final ExactArgument REGION = new ExactArgument("region");
-    public static final ExactArgument FLAGS = new ExactArgument("flag");
+
     public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zoneId",
             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
                     ZonePermissions.OVERRIDE_FLAG_GREETINGS_REMOVE));
-    public static final ExactArgument GREETINGS = new ExactArgument("greetings");
-    public static final ExactArgument REMOVE = new ExactArgument("remove");
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
-        return Arrays.asList(REGION, FLAGS, ZONE_VALUE, GREETINGS, REMOVE);
+        return Arrays.asList(new ExactArgument("region"),
+                             new ExactArgument("flag"),
+                             ZONE_VALUE,
+                             new ExactArgument("greetings"),
+                             new ExactArgument("remove"));
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Command for removing the greetings message");
+        return Messages.getGreetingsRemoveCommandDescription();
     }
 
     @Override

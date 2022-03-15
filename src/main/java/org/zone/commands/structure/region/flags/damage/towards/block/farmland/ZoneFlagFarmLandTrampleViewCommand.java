@@ -40,7 +40,7 @@ public class ZoneFlagFarmLandTrampleViewCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("View info on farmland trampling");
+        return Messages.getFarmLandTrampleViewCommandDescription();
     }
 
     @Override

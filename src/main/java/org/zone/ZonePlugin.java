@@ -42,14 +42,17 @@ import org.zone.region.flag.entity.player.interact.block.destroy.BlockBreakListe
 import org.zone.region.flag.entity.player.interact.block.place.BlockPlaceListener;
 import org.zone.region.flag.entity.player.interact.door.DoorInteractListener;
 import org.zone.region.flag.entity.player.interact.itemframe.ItemFrameInteractionListener;
-import org.zone.region.flag.entity.player.move.greetings.GreetingsFlagListener;
-import org.zone.region.flag.entity.player.move.leaving.LeavingFlagListener;
+import org.zone.region.flag.entity.player.move.message.display.MessageDisplayManager;
+import org.zone.region.flag.entity.player.move.message.greetings.GreetingsFlagListener;
+import org.zone.region.flag.entity.player.move.message.leaving.LeavingFlagListener;
 import org.zone.region.flag.entity.player.move.preventing.PreventPlayersListener;
 import org.zone.region.group.key.GroupKeyManager;
 import org.zone.utils.Messages;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Optional;
 
 /**
@@ -61,6 +64,7 @@ public class ZonePlugin {
 
     private final PluginContainer plugin;
     private final Logger logger;
+    private MessageDisplayManager messageDisplayManager;
     private FlagManager flagManager;
     private ZoneManager zoneManager;
     private GroupKeyManager groupKeyManager;
@@ -78,6 +82,15 @@ public class ZonePlugin {
 
     public @NotNull ZoneConfig getConfig() {
         return this.config;
+    }
+
+    /**
+     * Gets the message display manager
+     *
+     * @return The instance of the message display manager
+     */
+    public @NotNull MessageDisplayManager getMessageDisplayManager() {
+        return this.messageDisplayManager;
     }
 
     /**
@@ -127,6 +140,7 @@ public class ZonePlugin {
 
     @Listener
     public void onConstructor(ConstructPluginEvent event) {
+        this.messageDisplayManager = new MessageDisplayManager();
         this.flagManager = new FlagManager();
         this.zoneManager = new ZoneManager();
         this.groupKeyManager = new GroupKeyManager();
@@ -250,7 +264,7 @@ public class ZonePlugin {
         try {
             this.config.getLoader().load();
             cSender.ifPresent(audience -> audience.sendMessage(Messages.getZoneConfigReloadedInfo()));
-            this.zoneManager.zonesReload();
+            this.zoneManager.reloadZones();
             cSender.ifPresent(audience -> audience.sendMessage(Messages.getZonesReloadedInfo()));
         } catch (ConfigurateException ce) {
             cSender.ifPresent(audience -> audience.sendMessage(Messages.getZoneConfigReloadFail()));

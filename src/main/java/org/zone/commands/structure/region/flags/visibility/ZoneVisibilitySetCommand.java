@@ -41,7 +41,7 @@ public class ZoneVisibilitySetCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Set the visibility of a zone");
+        return Messages.getZoneVisibilitySetCommandDescription();
     }
 
     @Override

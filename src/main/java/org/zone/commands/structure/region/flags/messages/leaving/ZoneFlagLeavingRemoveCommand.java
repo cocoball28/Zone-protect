@@ -28,15 +28,15 @@ public class ZoneFlagLeavingRemoveCommand implements ArgumentCommand {
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
-                new ExactArgument("flag"),
-                ZONE,
-                new ExactArgument("leaving"),
-                new ExactArgument("remove"));
+                             new ExactArgument("flag"),
+                             ZONE,
+                             new ExactArgument("leaving"),
+                             new ExactArgument("remove"));
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Removes the leaving flag");
+        return Messages.getLeavingRemoveCommandDescription();
     }
 
     @Override

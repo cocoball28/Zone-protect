@@ -45,7 +45,7 @@ public class EditBoundsStartCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Edit the size of the region");
+        return Messages.getEditBoundsStartCommandDescription();
     }
 
     @Override

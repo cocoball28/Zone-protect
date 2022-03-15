@@ -42,7 +42,7 @@ public class ZoneFlagPlayerFallDamageEnableDisable implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Command to enable/disable the fall damage flag");
+        return Messages.getPlayerFallDamageEnableCommandDescription();
     }
 
     @Override

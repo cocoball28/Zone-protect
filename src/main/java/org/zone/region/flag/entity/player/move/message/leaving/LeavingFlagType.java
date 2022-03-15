@@ -1,4 +1,4 @@
-package org.zone.region.flag.entity.player.move.leaving;
+package org.zone.region.flag.entity.player.move.message.leaving;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
@@ -6,8 +6,11 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.plugin.PluginContainer;
+import org.zone.Serializable;
 import org.zone.ZonePlugin;
 import org.zone.region.flag.FlagType;
+import org.zone.region.flag.entity.player.move.message.display.MessageDisplay;
+import org.zone.region.flag.entity.player.move.message.display.MessageDisplayType;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -34,14 +37,27 @@ public class LeavingFlagType implements FlagType<LeavingFlag> {
 
     @Override
     public @NotNull LeavingFlag load(@NotNull ConfigurationNode node) throws IOException {
-        String message = node.node("Message").getString();
+        String message = node.node("LeavingMessage").getString();
+        String displayType = node.node("LeavingMessageDisplayType").getString();
         if (message == null) {
             throw new IOException("Cannot read message");
         }
+        if (displayType == null) {
+            throw new IOException("Could not get the display type");
+        }
+        MessageDisplayType<?> displayTypeAvailable = ZonePlugin
+                .getZonesPlugin()
+                .getMessageDisplayManager()
+                .getDisplayTypes()
+                .stream()
+                .filter(messageDisplayType -> messageDisplayType.getId().equals(displayType))
+                .findAny()
+                .orElseThrow(() -> new IOException("Display ID not found!"));
+        MessageDisplay messageDisplay = displayTypeAvailable.load(node);
         Component component = GsonComponentSerializer.gson().deserialize(message);
-        return new LeavingFlag(component);
+        return new LeavingFlag(component, messageDisplay);
     }
-
+    
     @Override
     public void save(@NotNull ConfigurationNode node, @Nullable LeavingFlag save) throws
             IOException {
@@ -49,8 +65,16 @@ public class LeavingFlagType implements FlagType<LeavingFlag> {
             node.set(null);
             return;
         }
+        node.node("LeavingMessageDisplayType").set(save.getDisplayType().getType().getId());
+        this.saveDisplay(node, save.getDisplayType());
         String message = GsonComponentSerializer.gson().serialize(save.getLeavingMessage());
-        node.node("Message").set(message);
+        node.node("LeavingMessage").set(message);
+    }
+
+    public <T extends MessageDisplay> void saveDisplay(ConfigurationNode node, T displayType)
+            throws IOException {
+        Serializable<T> type = (Serializable<T>) displayType.getType();
+        type.save(node, displayType);
     }
 
     @Override

@@ -40,7 +40,7 @@ import org.zone.commands.structure.region.flags.damage.towards.player.attack.Zon
 import org.zone.commands.structure.region.flags.damage.towards.player.fall.ZoneFlagPlayerFallDamageEnableDisable;
 import org.zone.commands.structure.region.flags.damage.towards.player.fall.ZoneFlagPlayerFallDamageSetGroup;
 import org.zone.commands.structure.region.flags.damage.towards.player.fall.ZoneFlagPlayerFallDamageView;
-import org.zone.commands.structure.region.flags.damage.towards.both.tnt.ZoneFlagTntDefuseSetEnableDisableCommand;
+import org.zone.commands.structure.region.flags.damage.towards.both.tnt.ZoneFlagTntDefuseSetEnableCommand;
 import org.zone.commands.structure.region.flags.damage.towards.both.tnt.ZoneFlagTntDefuseView;
 import org.zone.commands.structure.region.flags.eco.ZoneFlagViewBalanceCommand;
 import org.zone.commands.structure.region.flags.entry.monster.ZoneFlagMonsterEntryEnabledCommand;
@@ -133,7 +133,7 @@ public interface ZoneCommands {
     ZoneFlagCreeperGriefViewCommand ZONE_FLAG_CREEPER_GRIEF_VIEW_COMMAND = new ZoneFlagCreeperGriefViewCommand();
     ZoneFlagFarmLandTrampleEnableCommand ZONE_FLAG_FARM_LAND_TRAMPLE_ENABLE_COMMAND = new ZoneFlagFarmLandTrampleEnableCommand();
     ZoneFlagFarmLandTrampleViewCommand ZONE_FLAG_FARM_LAND_TRAMPLE_VIEW_COMMAND = new ZoneFlagFarmLandTrampleViewCommand();
-    ZoneFlagTntDefuseSetEnableDisableCommand ZONE_FLAG_TNT_DEFUSE_SET_ENABLE_DISABLE_COMMAND = new ZoneFlagTntDefuseSetEnableDisableCommand();
+    ZoneFlagTntDefuseSetEnableCommand ZONE_FLAG_TNT_DEFUSE_SET_ENABLE_DISABLE_COMMAND = new ZoneFlagTntDefuseSetEnableCommand();
     ZoneFlagTntDefuseView ZONE_FLAG_TNT_DEFUSE_VIEW = new ZoneFlagTntDefuseView();
     ZoneFlagPlayerFallDamageSetGroup ZONE_FLAG_PLAYER_FALL_DAMAGE_SET_GROUP = new ZoneFlagPlayerFallDamageSetGroup();
     ZoneFlagDamageAttackSetGroupCommand ZONE_FLAG_DAMAGE_ATTACK_SET_GROUP_COMMAND = new ZoneFlagDamageAttackSetGroupCommand();

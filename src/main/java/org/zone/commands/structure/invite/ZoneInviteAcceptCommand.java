@@ -38,7 +38,7 @@ public class ZoneInviteAcceptCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Accept the invite from a player");
+        return Messages.getZoneInviteAcceptCommandDescription();
     }
 
     @Override

@@ -91,8 +91,8 @@ public class ZoneArgument implements GUICommandArgument<Zone> {
             return this;
         }
 
-        public ZoneArgumentPropertiesBuilder setVisitorOnly(boolean check) {
-            this.isVisitor = check;
+        public ZoneArgumentPropertiesBuilder setVisitorOnly(boolean value) {
+            this.isVisitor = value;
             return this;
         }
     }

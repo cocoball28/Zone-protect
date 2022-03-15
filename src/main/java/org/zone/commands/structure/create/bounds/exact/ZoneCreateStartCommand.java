@@ -14,6 +14,7 @@ import org.zone.region.ZoneBuilder;
 import org.zone.region.bounds.BoundedRegion;
 import org.zone.region.bounds.mode.BoundMode;
 import org.zone.region.bounds.mode.BoundModes;
+import org.zone.utils.Messages;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,8 +26,8 @@ import java.util.Optional;
  */
 public class ZoneCreateStartCommand extends AbstractCreateZoneStartCommand {
 
-    private static final RemainingArgument<String> NAME = new RemainingArgument<>(new StringArgument(
-            "name"));
+    private static final RemainingArgument<String> NAME =
+            new RemainingArgument<>(new StringArgument("name"));
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
@@ -39,7 +40,7 @@ public class ZoneCreateStartCommand extends AbstractCreateZoneStartCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Create a zone via walking edge to edge");
+        return Messages.getZoneCreateStartCommandDescription();
     }
 
     @Override

@@ -31,7 +31,7 @@ public class LeaveZoneCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Leaves a zone");
+        return Messages.getLeaveZoneCommandDescription();
     }
 
     @Override

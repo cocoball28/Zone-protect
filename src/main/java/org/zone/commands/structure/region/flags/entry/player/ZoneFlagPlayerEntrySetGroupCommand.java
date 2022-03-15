@@ -45,7 +45,7 @@ public class ZoneFlagPlayerEntrySetGroupCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Sets the group for Player Prevention flag");
+        return Messages.getPlayerEntrySetGroupCommandDescription();
     }
 
     @Override

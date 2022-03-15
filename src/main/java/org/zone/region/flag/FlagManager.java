@@ -42,7 +42,7 @@ public class FlagManager {
     }
 
     /**
-     * Gets a instance of the {@link DefaultFlagFile}
+     * Gets an instance of the {@link DefaultFlagFile}
      *
      * @return The instance
      */

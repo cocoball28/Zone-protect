@@ -27,7 +27,7 @@ public class ZonePluginInfoCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Command to show the plugin info");
+        return Messages.getZonePluginInfoCommandDescription();
     }
 
     @Override

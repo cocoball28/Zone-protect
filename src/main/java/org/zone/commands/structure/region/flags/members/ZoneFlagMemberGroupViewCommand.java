@@ -56,7 +56,7 @@ public class ZoneFlagMemberGroupViewCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("View the members in a zone by group");
+        return Messages.getMemberGroupViewCommandDescription();
     }
 
     @Override

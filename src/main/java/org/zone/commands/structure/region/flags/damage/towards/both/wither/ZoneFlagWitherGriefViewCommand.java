@@ -40,7 +40,7 @@ public class ZoneFlagWitherGriefViewCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("View info on Wither grief");
+        return Messages.getWitherGriefViewCommandDescription();
     }
 
     @Override

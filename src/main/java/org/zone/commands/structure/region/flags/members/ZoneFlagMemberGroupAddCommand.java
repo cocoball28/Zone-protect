@@ -49,7 +49,7 @@ public class ZoneFlagMemberGroupAddCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Add a member to a group");
+        return Messages.getMemberGroupAddCommandDescription();
     }
 
     @Override

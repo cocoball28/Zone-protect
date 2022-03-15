@@ -60,7 +60,7 @@ public class ZoneFlagViewBalanceCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("View the balance for the zone");
+        return Messages.getZoneViewBalanceCommandDescription();
     }
 
     @Override

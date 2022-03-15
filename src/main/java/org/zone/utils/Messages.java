@@ -3,6 +3,7 @@ package org.zone.utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import org.checkerframework.checker.units.qual.C;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.profile.GameProfile;
 import org.spongepowered.api.service.economy.Currency;
@@ -15,7 +16,7 @@ import org.zone.commands.system.context.ErrorContext;
 import org.zone.permissions.ZonePermission;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagType;
-import org.zone.region.flag.entity.player.move.leaving.LeavingFlag;
+import org.zone.region.flag.entity.player.move.message.leaving.LeavingFlag;
 import org.zone.region.flag.meta.eco.price.PriceType;
 import org.zone.region.group.Group;
 
@@ -270,6 +271,10 @@ public final class Messages {
         return Component.text("Enter leaving message").color(NamedTextColor.RED);
     }
 
+    public static Component getEnterGreetingsMessage() {
+        return Component.text("Enter leaving message").color(NamedTextColor.RED);
+    }
+
     public static Component getZoneFlagLeavingMessageSet(Component message) {
         return Component
                 .text("Leaving message is now: ")
@@ -439,4 +444,319 @@ public final class Messages {
         return Component.text("Zone had been edited successfully!").color(NamedTextColor.AQUA);
     }
 
+    public static Component getSameAsDefaultMessage() {
+        return Component.text("Message cannot be same as the default message!").color(NamedTextColor.RED);
+    }
+
+    public static Component getZoneCreateEndCommandDescription() {
+        return Component.text("Ends the creation by bounds. Will use your location as ending");
+    }
+
+    public static Component getZoneCreateStartCommandDescription() {
+        return Component.text("Create a zone via walking edge to edge");
+    }
+
+    public static Component getZoneCreateSubStartCommandDescription() {
+        return Component.text("Creates a sub region by walking end to end");
+    }
+
+    public static Component getZoneCreateChunkStartCommandDescription() {
+        return Component.text("Creates a chunk region");
+    }
+
+    public static Component getZoneCreateChunkSubStartCommandDescription() {
+        return Component.text("Creates a chunk sub region");
+    }
+
+    public static Component getZonePluginInfoCommandDescription() {
+        return Component.text("Command to show the plugin info");
+    }
+
+    public static Component getZoneInviteAcceptCommandDescription() {
+        return Component.text("Accept the invite from a player");
+    }
+
+    public static Component getZoneInviteDenyCommandDescription() {
+        return Component.text("Deny the invite from a player");
+    }
+
+    public static Component getZoneInvitePlayerCommandDescription() {
+        return Component.text("Invite a player to a zone");
+    }
+
+    public static Component getZoneInvitePlayerViewCommandDescription() {
+        return Component.text("View the invites of a zone");
+    }
+
+    public static Component getJoinZoneCommandDescription() {
+        return Component.text("Become a member of a zone");
+    }
+
+    public static Component getLeaveZoneCommandDescription() {
+        return Component.text("Leaves a zone");
+    }
+
+    public static Component getEditBoundsStartCommandDescription() {
+        return Component.text("Edit the size of the region");
+    }
+
+    public static Component getEditBoundsEndCommandDescription() {
+        return Component.text("End editing the size of the region");
+    }
+
+    public static Component getZoneInfoCommandDescription() {
+        return Component.text("Show info about the zone");
+    }
+
+    public static Component getZoneInfoBoundsShowCommandDescription() {
+        return Component.text("Show the bounds of a specified region");
+    }
+
+    public static Component getEnderManGriefEnableCommandDescription() {
+        return Component.text("Enable/Disable Enderman grief");
+    }
+
+    public static Component getEnderManGriefViewCommandDescription() {
+        return Component.text("View info on the Enderman Grief flag");
+    }
+
+    public static Component getEnderMiteGriefEnableCommandDescription() {
+        return Component.text("Enable/Disable EnderMite grief");
+    }
+
+    public static Component getEnderMiteGriefViewCommandDescription() {
+        return Component.text("View info on EnderMite Grief");
+    }
+
+    public static Component getZombieGriefEnableCommandDescription() {
+        return Component.text("Enable/Disable Zombie Grief");
+    }
+
+    public static Component getZombieGriefViewCommandDescription() {
+        return Component.text("View info on Zombie Grief");
+    }
+
+    public static Component getFarmLandTrampleEnableCommandDescription() {
+        return Component.text("Enable/disable farmland trampling");
+    }
+
+    public static Component getFarmLandTrampleViewCommandDescription() {
+        return Component.text("View info on farmland trampling");
+    }
+
+    public static Component getSkeletonGriefEnableCommandDescription() {
+        return Component.text("Enable/Disable Skeleton grief");
+    }
+
+    public static Component getSkeletonGriefViewCommandDescription() {
+        return Component.text("View info on Skeleton grief");
+    }
+
+    public static Component getCreeperGriefEnableCommandDescription() {
+        return Component.text("Enable/disable creeper grief");
+    }
+
+    public static Component getCreeperGriefViewCommandDescription() {
+        return Component.text("View info on the Creeper Grief flag");
+    }
+
+    public static Component getEnderDragonGriefEnableCommandDescription() {
+        return Component.text("Enable/Disable EnderDragon Grief");
+    }
+
+    public static Component getEnderDragonGriefViewCommandDescription() {
+        return Component.text("View info on EnderDragon grief");
+    }
+
+    public static Component getTntDefuseEnableCommandDescription() {
+        return Component.text("Enable or disable the tnt defuse flag");
+    }
+
+    public static Component getTntDefuseViewCommandDescription() {
+        return Component.text("View info about the tnt defuse flag");
+    }
+
+    public static Component getWitherGriefEnableCommandDescription() {
+        return Component.text("Enable/Disable Wither grief");
+    }
+
+    public static Component getWitherGriefViewCommandDescription() {
+        return Component.text("View info on Wither grief");
+    }
+
+    public static Component getDamageAttackEnableCommandDescription() {
+        return Component.text("Enable/disable the Damage Flag");
+    }
+
+    public static Component getDamageAttackSetGroupCommandDescription() {
+        return Component.text("Sets the group for Entity Damage Player flag");
+    }
+
+    public static Component getDamageAttackViewCommandDescription() {
+        return Component.text("View the details of Fall damage flag");
+    }
+
+    public static Component getPlayerFallDamageEnableCommandDescription() {
+        return Component.text("Command to enable/disable the fall damage flag");
+    }
+
+    public static Component getPlayerFallDamageSetGroupCommandDescription() {
+        return Component.text("Sets the group for Entity Damage Player flag");
+    }
+
+    public static Component getPlayerFallDamageViewCommandDescription() {
+        return Component.text("View the details of Entity damage player flag");
+    }
+
+    public static Component getPlayerFireDamageEnableCommandDescription() {
+        return Component.text("Enable or Disable Fire Damage");
+    }
+
+    public static Component getPlayerFireDamageSetGroupCommandDescription() {
+        return Component.text("Set the Group Key for Fire Damage");
+    }
+
+    public static Component getPlayerFireDamageViewCommandDescription() {
+        return Component.text("View info on the Fire Damage");
+    }
+
+    public static Component getZoneViewBalanceCommandDescription() {
+        return Component.text("View the balance for the zone");
+    }
+
+    public static Component getMonsterEntryEnableCommandDescription() {
+        return Component.text("Command to enable/disable monster prevention flag");
+    }
+
+    public static Component getMonsterEntryViewCommandDescription() {
+        return Component.text("Displays info about the Monster Prevention flag");
+    }
+
+    public static Component getPlayerEntryEnableCommandDescription() {
+        return Component.text("Command to enable/disable Player Prevention");
+    }
+
+    public static Component getPlayerEntrySetGroupCommandDescription() {
+        return Component.text("Sets the group for Player Prevention flag");
+    }
+
+    public static Component getPlayerEntryViewCommandDescription() {
+        return Component.text("View the details of  Fall damage flag");
+    }
+
+    public static Component getCreateCustomGroupCommandDescription() {
+        return Component.text("Create a custom group");
+    }
+
+    public static Component getBlockBreakEnabledCommandDescription() {
+        return Component.text("Sets if the prevention to break blocks is enabled");
+    }
+
+    public static Component getBlockBreakSetGroupCommandDescription() {
+        return Component.text("Sets the group of block break flag");
+    }
+
+    public static Component getBlockBreakViewCommandDescription() {
+        return Component.text("View the details on block break");
+    }
+
+    public static Component getInteractDoorEnableCommandDescription() {
+        return Component.text("Sets if interaction with door should be enabled");
+    }
+
+    public static Component getInteractDoorSetGroupCommandDescription() {
+        return Component.text("Sets the minimum group that can interact with doors");
+    }
+
+    public static Component getInteractDoorViewCommandDescription() {
+        return Component.text("View the details on door interaction");
+    }
+
+    public static Component getInteractItemFrameEnableCommandDescription() {
+        return Component.text("Command to enable/disable Itemframe interaction");
+    }
+
+    public static Component getInteractItemFrameSetGroupCommandDescription() {
+        return Component.text("Sets the minimum group that can interact with itemframes");
+    }
+
+    public static Component getInteractItemFrameViewCommandDescription() {
+        return Component.text("View the details of Interact Itemframe");
+    }
+
+    public static Component getBlockPlaceEnableCommandDescription() {
+        return Component.text("Sets if the prevention to place blocks is enabled");
+    }
+
+    public static Component getBlockPlaceSetGroupCommandDescription() {
+        return Component.text("Sets the group of block place");
+    }
+
+    public static Component getBlockPlaceViewCommandDescription() {
+        return Component.text("View the details on block placement");
+    }
+
+    public static Component getMemberGroupAddCommandDescription() {
+        return Component.text("Add a member to a group");
+    }
+
+    public static Component getMemberGroupViewCommandDescription() {
+        return Component.text("View the members in a zone by group");
+    }
+
+    public static Component getGreetingsRemoveCommandDescription() {
+        return Component.text("Command for removing the greetings message");
+    }
+
+    public static Component getGreetingsSetMessageCommandDescription() {
+        return Component.text("Command for setting greeting message for a zone");
+    }
+
+    public static Component getGreetingsViewCommandDescription() {
+        return Component.text("Command for viewing the greeting message of a specific zone");
+    }
+
+    public static Component getLeavingRemoveCommandDescription() {
+        return Component.text("Removes the leaving flag");
+    }
+
+    public static Component getLeavingSetMessageCommandDesription() {
+        return Component.text("Sets the message of the leaving message");
+    }
+
+    public static Component getLeavingViewCommandDescription() {
+        return Component.text("View the leaving message flag");
+    }
+
+    public static Component getZoneVisibilitySetCommandDescription() {
+        return Component.text("Set the visibility of a zone");
+    }
+
+    public static Component getZoneVisibilityViewCommandDescription() {
+        return Component.text("View the visibility of a zone");
+    }
+
+    public static Component getAllZoneCommandsTag() {
+        return Component.text("All Zone commands");
+    }
+
+    public static Component getAllZoneCommandsExtendedTag() {
+        return Component.text("All commands for the plugin Zones");
+    }
+
+    public static Component getCommandUsage() {
+        return Component.text("/zone <arg>");
+    }
+
+    public static Component getExp(int exp) {
+        return Component.text(exp + "EXP");
+    }
+
+    public static Component getLevel(int exp) {
+        return Component.text("Level: " + exp);
+    }
+
+    public static Component getPowerLevel(long price) {
+        return Component.text(price + " power levels");
+    }
 }

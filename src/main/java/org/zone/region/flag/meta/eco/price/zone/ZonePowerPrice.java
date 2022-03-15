@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.zone.region.Zone;
 import org.zone.region.flag.meta.eco.price.Price;
 import org.zone.region.flag.meta.eco.price.PriceType;
+import org.zone.utils.Messages;
 
 public class ZonePowerPrice implements Price.ZonePrice<Long> {
 
@@ -48,6 +49,6 @@ public class ZonePowerPrice implements Price.ZonePrice<Long> {
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text(this.price + " power levels");
+        return Messages.getPowerLevel(this.price);
     }
 }

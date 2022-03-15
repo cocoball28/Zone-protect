@@ -43,7 +43,7 @@ public class ZoneFlagEnderManGriefEnableCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Enable/Disable Enderman grief");
+        return Messages.getEnderManGriefEnableCommandDescription();
     }
 
     @Override

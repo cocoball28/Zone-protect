@@ -12,7 +12,7 @@ import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.entity.player.move.leaving.LeavingFlag;
+import org.zone.region.flag.entity.player.move.message.leaving.LeavingFlag;
 import org.zone.utils.Messages;
 
 import java.util.Arrays;
@@ -28,15 +28,15 @@ public class ZoneFlagLeavingViewCommand implements ArgumentCommand {
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
-                new ExactArgument("flag"),
-                ZONE,
-                new ExactArgument("leaving"),
-                new ExactArgument("view"));
+                             new ExactArgument("flag"),
+                             ZONE,
+                             new ExactArgument("leaving"),
+                             new ExactArgument("view"));
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("View the leaving message flag");
+        return Messages.getLeavingViewCommandDescription();
     }
 
     @Override

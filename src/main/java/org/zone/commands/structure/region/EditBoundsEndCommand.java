@@ -40,7 +40,7 @@ public class EditBoundsEndCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("End editing the size of the region");
+        return Messages.getEditBoundsEndCommandDescription();
     }
 
     @Override

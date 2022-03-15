@@ -47,7 +47,7 @@ public class ZoneFlagInteractItemframesGroupCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Sets the minimum group that can interact with itemframes");
+        return Messages.getInteractItemFrameSetGroupCommandDescription();
     }
 
     @Override
@@ -59,16 +59,16 @@ public class ZoneFlagInteractItemframesGroupCommand implements ArgumentCommand {
     public @NotNull CommandResult run(
             @NotNull CommandContext commandContext, @NotNull String... args) {
         Zone zone = commandContext.getArgument(this, ZONE_VALUE);
-        @NotNull ItemFrameInteractFlag interactItemframesFlag = zone
+        @NotNull ItemFrameInteractFlag interactItemframes = zone
                 .getFlag(FlagTypes.ITEM_FRAME_INTERACT)
                 .orElseGet(FlagTypes.ITEM_FRAME_INTERACT::createCopyOfDefault);
         Group newGroup = commandContext.getArgument(this, GROUP);
-        zone.getMembers().addKey(newGroup, interactItemframesFlag.getRequiredKey());
+        zone.getMembers().addKey(newGroup, interactItemframes.getRequiredKey());
         commandContext
                 .getCause()
                 .sendMessage(Identity.nil(),
                         Messages.getUpdatedMessage(FlagTypes.ITEM_FRAME_INTERACT));
-        zone.setFlag(interactItemframesFlag);
+        zone.setFlag(interactItemframes);
         try {
             zone.save();
             commandContext

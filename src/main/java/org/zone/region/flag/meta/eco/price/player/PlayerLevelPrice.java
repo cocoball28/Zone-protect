@@ -6,6 +6,7 @@ import org.spongepowered.api.data.Keys;
 import org.spongepowered.api.entity.living.player.Player;
 import org.zone.region.flag.meta.eco.price.Price;
 import org.zone.region.flag.meta.eco.price.PriceType;
+import org.zone.utils.Messages;
 
 public class PlayerLevelPrice implements Price.PlayerPrice<Integer> {
 
@@ -60,6 +61,6 @@ public class PlayerLevelPrice implements Price.PlayerPrice<Integer> {
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("Level: " + this.exp);
+        return Messages.getLevel(this.exp);
     }
 }

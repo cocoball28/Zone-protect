@@ -21,7 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class ZoneFlagTntDefuseSetEnableDisableCommand implements ArgumentCommand {
+public class ZoneFlagTntDefuseSetEnableCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zoneId",
             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
@@ -43,7 +43,7 @@ public class ZoneFlagTntDefuseSetEnableDisableCommand implements ArgumentCommand
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Enable or disable the tnt defuse flag");
+        return Messages.getTntDefuseEnableCommandDescription();
     }
 
     @Override

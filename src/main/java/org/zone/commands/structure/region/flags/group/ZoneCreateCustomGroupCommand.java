@@ -44,7 +44,7 @@ public class ZoneCreateCustomGroupCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Create a custom group");
+        return Messages.getCreateCustomGroupCommandDescription();
     }
 
     @Override

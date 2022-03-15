@@ -48,7 +48,7 @@ public class ZoneFlagBlockBreakSetEnabledCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Sets if the prevention to break blocks is enabled");
+        return Messages.getBlockBreakEnabledCommandDescription();
     }
 
     @Override

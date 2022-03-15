@@ -47,7 +47,7 @@ public class ZoneFlagInteractItemframesEnableDisableCommand implements ArgumentC
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Command to enable/disable Itemframe interaction");
+        return Messages.getInteractItemFrameEnableCommandDescription();
     }
 
     @Override
@@ -60,11 +60,11 @@ public class ZoneFlagInteractItemframesEnableDisableCommand implements ArgumentC
             @NotNull CommandContext commandContext, @NotNull String... args) {
         boolean enable = commandContext.getArgument(this, ENABLED);
         Zone zone = commandContext.getArgument(this, ZONE_VALUE);
-        ItemFrameInteractFlag interactItemframesFlag = zone
+        ItemFrameInteractFlag interactItemframes = zone
                 .getFlag(FlagTypes.ITEM_FRAME_INTERACT)
                 .orElse(new ItemFrameInteractFlag());
         if (enable) {
-            zone.addFlag(interactItemframesFlag);
+            zone.addFlag(interactItemframes);
         } else {
             zone.removeFlag(FlagTypes.ITEM_FRAME_INTERACT);
         }
