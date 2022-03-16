@@ -87,7 +87,7 @@ public class CreateDisplayShop implements ArgumentCommand {
         }
 
 
-        Shop shop = new DisplayCaseShop(shopName, player.location());
+        Shop shop = new DisplayCaseShop(shopName, block.location());
         shopsFlag.register(shop);
         zone.setFlag(shopsFlag);
         return CommandResult.success();
