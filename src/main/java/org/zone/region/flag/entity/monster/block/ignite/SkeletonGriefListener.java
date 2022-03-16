@@ -4,11 +4,13 @@ import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.block.transaction.BlockTransaction;
 import org.spongepowered.api.block.transaction.Operations;
 import org.spongepowered.api.data.Keys;
+import org.spongepowered.api.data.value.Value;
 import org.spongepowered.api.entity.living.monster.skeleton.Skeleton;
 import org.spongepowered.api.entity.projectile.arrow.ArrowEntity;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.block.ChangeBlockEvent;
 import org.spongepowered.api.event.filter.cause.First;
+import org.spongepowered.api.projectile.source.ProjectileSource;
 import org.spongepowered.api.world.Location;
 import org.zone.ZonePlugin;
 import org.zone.region.Zone;
@@ -23,7 +25,8 @@ public class SkeletonGriefListener {
 
     @Listener
     public void onSkeletonSetBlocksOnFire(ChangeBlockEvent.All event, @First ArrowEntity arrow) {
-        if (arrow.get(Keys.FIRE_TICKS).isEmpty() && arrow.shooter().isEmpty() && !(arrow.shooter().get().get() instanceof Skeleton)) {
+        Optional<ProjectileSource> opShooter = arrow.shooter().map(Value::get);
+        if (arrow.get(Keys.FIRE_TICKS).isEmpty() || opShooter.isEmpty() || !(opShooter.get() instanceof Skeleton)) {
             return;
         }
         Map<BlockTransaction, Zone> inZone = event

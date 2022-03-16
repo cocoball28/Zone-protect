@@ -1,5 +1,6 @@
 package org.zone.region.flag.entity.monster.block.explode.creeper;
 
+import org.spongepowered.api.entity.explosive.Explosive;
 import org.spongepowered.api.entity.living.monster.Creeper;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.world.ExplosionEvent;
@@ -13,10 +14,11 @@ public class CreeperGriefListener {
 
     @Listener
     public void onCreeperExplode(ExplosionEvent.Pre event) {
-        if (event.explosion().sourceExplosive().isEmpty()) {
+        Optional<Explosive> opExplosive = event.explosion().sourceExplosive();
+        if (opExplosive.isEmpty()) {
             return;
         }
-        if (!(event.explosion().sourceExplosive().get() instanceof Creeper)) {
+        if (!(opExplosive.get() instanceof Creeper)) {
             return;
         }
         Location<?, ?> location = event.explosion().location();

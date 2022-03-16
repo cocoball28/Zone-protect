@@ -1,6 +1,7 @@
 package org.zone.region.flag.entity.nonliving.block.tnt;
 
 import org.spongepowered.api.block.BlockTypes;
+import org.spongepowered.api.entity.explosive.Explosive;
 import org.spongepowered.api.entity.explosive.fused.PrimedTNT;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
@@ -44,13 +45,14 @@ public class TnTDefuseListener {
 
     @Listener
     public void onTntExplodeEvent(ExplosionEvent.Pre event) {
-        if (event.explosion().sourceExplosive().isEmpty()) {
+        Optional<Explosive> opExplosive = event.explosion().sourceExplosive();
+        if (opExplosive.isEmpty()) {
             return;
         }
-        if (!(event.explosion().sourceExplosive().get() instanceof PrimedTNT)) {
+        if (!(opExplosive.get() instanceof PrimedTNT)) {
             return;
         }
-        Location<?,?> location = event.explosion().location();
+        Location<?, ?> location = event.explosion().location();
         float explosionRadius = event.explosion().radius();
         boolean contains = ZonePlugin
                 .getZonesPlugin()
@@ -64,10 +66,7 @@ public class TnTDefuseListener {
                     if (nearestPos.isEmpty()) {
                         return false;
                     }
-                    double distance = nearestPos
-                            .get()
-                            .toDouble()
-                            .distance(location.position());
+                    double distance = nearestPos.get().toDouble().distance(location.position());
                     return distance <= explosionRadius;
                 });
         if (contains) {

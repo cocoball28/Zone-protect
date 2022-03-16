@@ -42,7 +42,7 @@ public class HumanAIListener {
         Vector3i height = world.height(HeightTypes.MOTION_BLOCKING_NO_LEAVES.get(),
                 player.blockPosition());
         if (zone
-                .getEntities(height.y() - 2, world.height())
+                .getEntities(height.y() - 2.0, world.height())
                 .stream()
                 .anyMatch(entity -> entity instanceof Human)) {
             return;
