@@ -10,9 +10,9 @@ import java.util.stream.Collectors;
 
 public final class MessageDisplayTypes {
 
-    public static final ChatMessageDisplayType CHAT_MESSAGE_DISPLAY = new ChatMessageDisplayType();
-    public static final TitleMessageDisplayType TITLE_MESSAGE_DISPLAY = new TitleMessageDisplayType();
-    public static final BossBarMessageDisplayType BOSS_BAR_MESSAGE_DISPLAY = new BossBarMessageDisplayType();
+    public static final ChatMessageDisplayType CHAT = new ChatMessageDisplayType();
+    public static final TitleMessageDisplayType TITLE = new TitleMessageDisplayType();
+    public static final BossBarMessageDisplayType BOSS_BAR = new BossBarMessageDisplayType();
 
     private MessageDisplayTypes() {
         throw new RuntimeException("Should not init");

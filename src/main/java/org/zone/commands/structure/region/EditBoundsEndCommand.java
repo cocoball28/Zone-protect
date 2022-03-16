@@ -15,6 +15,7 @@ import org.zone.commands.system.context.CommandContext;
 import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
+import org.zone.region.flag.Flag;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.meta.edit.EditingFlag;
 import org.zone.utils.Messages;
@@ -52,12 +53,12 @@ public class EditBoundsEndCommand implements ArgumentCommand {
     public @NotNull CommandResult run(
             @NotNull CommandContext commandContext, @NotNull String... args) {
         Zone zone = commandContext.getArgument(this, ZONE_ID);
-        if (zone.getFlag(FlagTypes.EDITING).isEmpty()) {
+        Optional<EditingFlag> opEditingFlag = zone.getFlag(FlagTypes.EDITING);
+        if (opEditingFlag.isEmpty()) {
             return CommandResult.error(Messages.getZoneNotBeingEdited());
         }
-        EditingFlag editingFlag = zone.getFlag(FlagTypes.EDITING).get();
-        Vector3i newPos = editingFlag.getNewPosition();
-        editingFlag.getRegion().setPosition(editingFlag.getPositionType(), newPos);
+        Vector3i newPos = opEditingFlag.get().getNewPosition();
+        opEditingFlag.get().getRegion().setPosition(opEditingFlag.get().getPositionType(), newPos);
         zone.removeFlag(FlagTypes.EDITING);
         try {
             zone.save();

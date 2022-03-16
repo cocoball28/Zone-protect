@@ -4,7 +4,6 @@ import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.event.network.ServerSideConnectionEvent;
 import org.spongepowered.configurate.ConfigurateException;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
@@ -63,7 +62,7 @@ public class ZoneInviteAcceptCommand implements ArgumentCommand {
                     if (!(invites.contains(player.uniqueId()))) {
                         return;
                     }
-                    zone.getMembers().addMember(DefaultGroups.HOME_OWNER, player.uniqueId());
+                    zone.getMembers().addMember(DefaultGroups.MEMBER, player.uniqueId());
                     invites.remove(player.uniqueId());
                     zone.setFlag(opJoinRequestFlag.get());
                     try {

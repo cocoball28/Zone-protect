@@ -10,19 +10,57 @@ import org.zone.region.flag.entity.player.move.message.display.MessageDisplayTyp
 
 public class BossBarMessageDisplay implements MessageDisplay {
 
+    private float progress;
+    private @NotNull BossBar.Color color;
+    private @NotNull BossBar.Overlay overlay;
+
+    public BossBarMessageDisplay(float progress, @NotNull BossBar.Color color,
+            @NotNull BossBar.Overlay overlay) {
+        this.progress = progress;
+        this.color = color;
+        this.overlay = overlay;
+    }
+
+    public BossBarMessageDisplay() {}
+
+    public float getProgress() {
+        return this.progress;
+    }
+
+    public @NotNull BossBar.Color getColor() {
+        return this.color;
+    }
+
+    public @NotNull BossBar.Overlay getOverlay() {
+        return this.overlay;
+    }
+
+    public void setBossBarProgress(float progress) {
+        this.progress = progress;
+    }
+
+    public void setBossBarColor(@NotNull BossBar.Color color) {
+        this.color = color;
+    }
+
+    public void setBossBarOverlay(@NotNull BossBar.Overlay overlay) {
+        this.overlay = overlay;
+    }
+
     @Override
     public void sendMessage(@NotNull Component message, @NotNull Player receiver) {
         BossBar bossBarMessage = BossBar
                 .bossBar(message,
-                        100,
-                        BossBar.Color.BLUE,
-                        BossBar.Overlay.PROGRESS);
+                        this.progress,
+                        this.color,
+                        this.overlay);
         receiver.showBossBar(bossBarMessage);
     }
 
     @Override
-    public @NotNull MessageDisplayType<?> getType() {
-        return MessageDisplayTypes.BOSS_BAR_MESSAGE_DISPLAY;
+    public @NotNull MessageDisplayType<? extends MessageDisplay> getType() {
+        return MessageDisplayTypes.BOSS_BAR;
     }
+
 
 }

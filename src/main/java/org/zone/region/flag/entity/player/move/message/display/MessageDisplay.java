@@ -8,6 +8,6 @@ public interface MessageDisplay {
 
     void sendMessage(@NotNull Component message, @NotNull Player receiver);
 
-    @NotNull MessageDisplayType<?> getType();
+    @NotNull MessageDisplayType<? extends MessageDisplay> getType();
 
 }

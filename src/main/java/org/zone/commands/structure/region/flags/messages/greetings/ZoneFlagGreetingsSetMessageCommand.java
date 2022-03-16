@@ -17,12 +17,12 @@ import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
+import org.zone.region.flag.entity.player.move.message.display.MessageDisplay;
 import org.zone.region.flag.entity.player.move.message.display.MessageDisplayType;
 import org.zone.region.flag.entity.player.move.message.display.MessageDisplayTypes;
 import org.zone.region.flag.entity.player.move.message.greetings.GreetingsFlag;
 import org.zone.utils.Messages;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -41,7 +41,7 @@ public class ZoneFlagGreetingsSetMessageCommand implements ArgumentCommand {
                     .getZonesPlugin()
                     .getMessageDisplayManager()
                     .getDisplayTypes()),
-                    MessageDisplayTypes.CHAT_MESSAGE_DISPLAY);
+                    (MessageDisplayType<?>) null);
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
@@ -70,9 +70,6 @@ public class ZoneFlagGreetingsSetMessageCommand implements ArgumentCommand {
         Zone zone = commandContext.getArgument(this, ZONE_VALUE);
         Component message = commandContext.getArgument(this, MESSAGE_VALUE);
         MessageDisplayType<?> displayMode = commandContext.getArgument(this, DISPLAY_MODE);
-        if (message == Messages.getEnterGreetingsMessage()) {
-            return CommandResult.error(Messages.getSameAsDefaultMessage());
-        }
         GreetingsFlag greetingsflag = zone
                 .getFlag(FlagTypes.GREETINGS)
                 .orElse(new GreetingsFlag(Messages.getEnterGreetingsMessage(), displayMode.createCopyOfDefault()));

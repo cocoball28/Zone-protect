@@ -11,6 +11,7 @@ import org.zone.ZonePlugin;
 import org.zone.region.flag.FlagType;
 import org.zone.region.flag.entity.player.move.message.display.MessageDisplay;
 import org.zone.region.flag.entity.player.move.message.display.MessageDisplayType;
+import org.zone.region.flag.entity.player.move.message.display.MessageDisplayTypes;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -34,20 +35,20 @@ public class GreetingsFlagType implements FlagType<GreetingsFlag> {
 
     @Override
     public @NotNull GreetingsFlag load(@NotNull ConfigurationNode node) throws IOException {
-        String message = node.node("GreetingsMessage").getString();
-        String displayType = node.node("GreetingsMessageDisplayType").getString();
+        String message = node.node("Message").getString();
+        String displayTypeID = node.node("DisplayType").getString();
         if (message == null) {
             throw new IOException("Could not get message");
         }
-        if (displayType == null) {
-            throw new IOException("Couldn't get the display type");
+        if (displayTypeID == null) {
+            node.node("DisplayType").set(MessageDisplayTypes.CHAT.getId());
         }
         MessageDisplayType<?> displayTypeAvailable = ZonePlugin
                 .getZonesPlugin()
                 .getMessageDisplayManager()
                 .getDisplayTypes()
                 .stream()
-                .filter(messageDisplayType -> messageDisplayType.getId().equals(displayType))
+                .filter(messageDisplayType -> messageDisplayType.getId().equals(displayTypeID))
                 .findAny()
                 .orElseThrow(() -> new IOException("Display ID not found!"));
         MessageDisplay load = displayTypeAvailable.load(node);
@@ -62,14 +63,11 @@ public class GreetingsFlagType implements FlagType<GreetingsFlag> {
             node.set(null);
             return;
         }
-        node.node("GreetingsMessageDisplayType").set(save.getDisplayType().getType().getId());
+        node.node("DisplayType").set(save.getDisplayType().getType().getId());
         this.saveDisplay(node, save.getDisplayType());
-        Optional<Component> opMessage = save.getMessage();
-        if (opMessage.isEmpty()) {
-            throw new IOException("Couldn't get message");
-        }
-        String componentAsString = GsonComponentSerializer.gson().serialize(opMessage.get());
-        node.node("GreetingsMessage").set(componentAsString);
+        Component message = save.getGreetingsMessage();
+        String componentAsString = GsonComponentSerializer.gson().serialize(message);
+        node.node("Message").set(componentAsString);
     }
 
     public <T extends MessageDisplay> void saveDisplay(ConfigurationNode node, T displayType)

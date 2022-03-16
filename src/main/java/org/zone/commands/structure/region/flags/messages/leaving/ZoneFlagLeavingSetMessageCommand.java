@@ -40,7 +40,7 @@ public class ZoneFlagLeavingSetMessageCommand implements ArgumentCommand {
                     .getZonesPlugin()
                     .getMessageDisplayManager()
                     .getDisplayTypes()),
-                    MessageDisplayTypes.CHAT_MESSAGE_DISPLAY);
+                    (MessageDisplayType<?>) null);
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
@@ -69,9 +69,6 @@ public class ZoneFlagLeavingSetMessageCommand implements ArgumentCommand {
         Zone zone = commandContext.getArgument(this, ZONE);
         Component message = commandContext.getArgument(this, MESSAGE);
         MessageDisplayType<?> displayMode = commandContext.getArgument(this, DISPLAY_MODE);
-        if (message == Messages.getEnterLeavingMessage()) {
-            return CommandResult.error(Messages.getSameAsDefaultMessage());
-        }
 
         LeavingFlag flag = zone
                 .getFlag(FlagTypes.LEAVING)

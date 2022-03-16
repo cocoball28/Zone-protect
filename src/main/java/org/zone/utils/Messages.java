@@ -3,7 +3,6 @@ package org.zone.utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import org.checkerframework.checker.units.qual.C;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.profile.GameProfile;
 import org.spongepowered.api.service.economy.Currency;
@@ -16,6 +15,7 @@ import org.zone.commands.system.context.ErrorContext;
 import org.zone.permissions.ZonePermission;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagType;
+import org.zone.region.flag.entity.player.move.message.greetings.GreetingsFlag;
 import org.zone.region.flag.entity.player.move.message.leaving.LeavingFlag;
 import org.zone.region.flag.meta.eco.price.PriceType;
 import org.zone.region.group.Group;
@@ -88,8 +88,8 @@ public final class Messages {
         return Component.text("No message set by user").color(NamedTextColor.RED);
     }
 
-    public static Component getFlagMessageView(Component message) {
-        return getMessageTag().append(message);
+    public static Component getFlagMessageView(GreetingsFlag greetingsFlag) {
+        return getMessageTag().append(greetingsFlag.getGreetingsMessage());
     }
 
     public static Component getUpdatedMessage(Identifiable type) {
@@ -442,10 +442,6 @@ public final class Messages {
 
     public static Component getEditedZone() {
         return Component.text("Zone had been edited successfully!").color(NamedTextColor.AQUA);
-    }
-
-    public static Component getSameAsDefaultMessage() {
-        return Component.text("Message cannot be same as the default message!").color(NamedTextColor.RED);
     }
 
     public static Component getZoneCreateEndCommandDescription() {

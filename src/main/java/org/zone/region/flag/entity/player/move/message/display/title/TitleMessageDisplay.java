@@ -10,14 +10,30 @@ import org.zone.region.flag.entity.player.move.message.display.MessageDisplayTyp
 
 public class TitleMessageDisplay implements MessageDisplay {
 
+    private @NotNull Component subTitle;
+
+    public TitleMessageDisplay(@NotNull Component subTitle) {
+        this.subTitle = subTitle;
+    }
+
+    public TitleMessageDisplay() {}
+
+    public @NotNull Component getSubTitle() {
+        return this.subTitle;
+    }
+
+    public void setSubTitle(@NotNull Component subTitle) {
+        this.subTitle = subTitle;
+    }
+
     @Override
     public void sendMessage(@NotNull Component message, @NotNull Player receiver) {
-        Title titleMessage = Title.title(message, Component.text(""));
+        Title titleMessage = Title.title(message, this.subTitle);
         receiver.showTitle(titleMessage);
     }
 
     @Override
-    public @NotNull MessageDisplayType<?> getType() {
-        return MessageDisplayTypes.TITLE_MESSAGE_DISPLAY;
+    public @NotNull MessageDisplayType<? extends MessageDisplay> getType() {
+        return MessageDisplayTypes.TITLE;
     }
 }

@@ -48,7 +48,7 @@ public class GreetingsFlagListener {
         }
 
         // gets the flag -> then gets the message -> then if the message is present -> send that message to the player
-        opFlag.get().getMessage().ifPresent(player::sendMessage);
+        player.sendMessage(opFlag.get().getGreetingsMessage());
     }
 
 }

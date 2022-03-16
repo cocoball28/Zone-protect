@@ -47,12 +47,11 @@ public class ZoneFlagGreetingsViewCommand implements ArgumentCommand {
     @Override
     public @NotNull CommandResult run(CommandContext commandContext, String... args) {
         Zone zone = commandContext.getArgument(this, ZONE_VALUE);
-        Optional<GreetingsFlag> opGreetingsFlag = zone.getFlag(FlagTypes.GREETINGS);
+        @NotNull Optional<GreetingsFlag> opGreetingsFlag = zone.getFlag(FlagTypes.GREETINGS);
         if (opGreetingsFlag.isEmpty()) {
             return CommandResult.error(Messages.getNoMessageSet());
         }
-        Component message = opGreetingsFlag.get().getMessage().orElse(Messages.getNoMessageSet());
-        commandContext.sendMessage(Messages.getFlagMessageView(message));
+        commandContext.sendMessage(Messages.getFlagMessageView(opGreetingsFlag.get()));
         return CommandResult.success();
     }
 

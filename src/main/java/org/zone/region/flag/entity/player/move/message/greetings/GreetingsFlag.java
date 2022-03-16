@@ -8,25 +8,23 @@ import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.entity.player.move.message.display.MessageDisplay;
 import org.zone.region.flag.entity.player.move.message.display.MessageDisplayTypes;
 
-import java.util.Optional;
-
 /**
  * Flag for greetings
  */
 public class GreetingsFlag implements Flag {
 
-    private @NotNull MessageDisplay messageDisplay = MessageDisplayTypes.CHAT_MESSAGE_DISPLAY.createCopyOfDefault();
+    private @NotNull MessageDisplay messageDisplay = MessageDisplayTypes.CHAT.createCopyOfDefault();
     private @NotNull Component text;
     @Deprecated(forRemoval = true)
-    private @Nullable Component oldText;
+    private @Nullable Component legacyText;
 
     @Deprecated(forRemoval = true)
     public GreetingsFlag() {
         this(null);
     }
     @Deprecated(forRemoval = true)
-    public GreetingsFlag(@NotNull Component greetingsMessage) {
-        this.oldText = greetingsMessage;
+    public GreetingsFlag(@Nullable Component greetingsMessage) {
+        this.legacyText = greetingsMessage;
     }
 
     public GreetingsFlag(@NotNull Component greetingsMessage, @NotNull MessageDisplay messageDisplay) {
@@ -34,13 +32,23 @@ public class GreetingsFlag implements Flag {
         this.messageDisplay = messageDisplay;
     }
 
+    @Deprecated(forRemoval = true)
     /**
      * Method to get the greetings message
      *
-     * @return Nullable optional version of the text Component
+     * @return The greetings message
      */
-    public Optional<Component> getMessage() {
-        return Optional.ofNullable(this.text);
+    public Component getLegacyGreetingsMessage() {
+        return this.text;
+    }
+
+    /**
+     * Method to get the greetings message
+     *
+     * @return The greetings message
+     */
+    public Component getGreetingsMessage() {
+        return this.text;
     }
 
     /**
@@ -50,6 +58,18 @@ public class GreetingsFlag implements Flag {
      */
     public MessageDisplay getDisplayType() {
         return this.messageDisplay;
+    }
+
+    @Deprecated(forRemoval = true)
+    /**
+     * Method to set the greetings message
+     *
+     * @deprecated since 1.0.1
+     *
+     * @param component The component to be set
+     */
+    public void setLegacyMessage(@NotNull Component component) {
+        this.legacyText = component;
     }
 
     /**

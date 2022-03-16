@@ -15,7 +15,7 @@ public class ChatMessageDisplay implements MessageDisplay {
     }
 
     @Override
-    public @NotNull MessageDisplayType<?> getType() {
-        return MessageDisplayTypes.CHAT_MESSAGE_DISPLAY;
+    public @NotNull MessageDisplayType<? extends MessageDisplay> getType() {
+        return MessageDisplayTypes.CHAT;
     }
 }

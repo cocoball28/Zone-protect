@@ -74,6 +74,6 @@ public class JoinRequestFlagType implements FlagType<JoinRequestFlag> {
 
     @Override
     public @NotNull Optional<JoinRequestFlag> createCopyOfDefaultFlag() {
-        return Optional.of(new JoinRequestFlag());
+        return Optional.empty();
     }
 }
