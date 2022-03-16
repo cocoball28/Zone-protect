@@ -23,7 +23,7 @@ public class GreetingsFlag implements Flag {
         this(null);
     }
     @Deprecated(forRemoval = true)
-    public GreetingsFlag(@Nullable Component greetingsMessage) {
+    public GreetingsFlag(@NotNull Component greetingsMessage) {
         this.legacyText = greetingsMessage;
     }
 
