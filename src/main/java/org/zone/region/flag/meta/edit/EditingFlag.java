@@ -15,7 +15,7 @@ import java.util.UUID;
 /**
  * Flag used to state that a zone is being modified
  */
-public class EditingFlag implements Flag {
+public class EditingFlag implements Flag.Serializable {
 
     private final @Nullable UUID playerEditing;
     private final @NotNull PositionType positionType;

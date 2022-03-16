@@ -10,7 +10,7 @@ import org.zone.region.flag.FlagType;
 import java.io.IOException;
 import java.util.Optional;
 
-public class ZoneVisibilityFlagType implements FlagType<ZoneVisibilityFlag> {
+public class ZoneVisibilityFlagType implements FlagType.SerializableType<ZoneVisibilityFlag> {
 
     public static final String NAME = "Visibility Flag";
     public static final String KEY = "visibility";

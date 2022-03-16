@@ -11,7 +11,7 @@ import java.util.Optional;
 /**
  * Flag for greetings
  */
-public class GreetingsFlag implements Flag {
+public class GreetingsFlag implements Flag.Serializable {
 
     private @Nullable Component text;
 

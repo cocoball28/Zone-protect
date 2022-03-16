@@ -21,7 +21,7 @@ public class EnderDragonGriefListener {
         boolean contains = ZonePlugin
                 .getZonesPlugin()
                 .getZoneManager()
-                .getZones()
+                .getRegistered()
                 .stream()
                 .anyMatch(zone -> {
                     Optional<Vector3i> nearestPos = zone

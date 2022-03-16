@@ -6,10 +6,10 @@ import org.spongepowered.api.service.economy.Currency;
 import org.spongepowered.api.service.economy.EconomyService;
 import org.zone.region.flag.Flag;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.meta.eco.transaction.DepositTransaction;
-import org.zone.region.flag.meta.eco.transaction.TransactionBuilder;
-import org.zone.region.flag.meta.eco.transaction.TransactionState;
-import org.zone.region.flag.meta.eco.transaction.WithdrawTransaction;
+import org.zone.region.shop.transaction.DepositTransaction;
+import org.zone.region.shop.transaction.TransactionBuilder;
+import org.zone.region.shop.transaction.TransactionState;
+import org.zone.region.shop.transaction.WithdrawTransaction;
 
 import java.math.BigDecimal;
 import java.util.AbstractMap;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 /**
  * Flag used to hold the zones balance
  */
-public class BalanceFlag implements Flag {
+public class BalanceFlag implements Flag.Serializable {
 
     private final @NotNull Map<Currency, BigDecimal> money = new HashMap<>();
 

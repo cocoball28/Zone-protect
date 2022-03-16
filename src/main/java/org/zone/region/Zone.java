@@ -127,11 +127,8 @@ public class Zone implements Identifiable {
      * @return true if the flag is present
      */
     public boolean containsFlag(@NotNull Flag flag) {
-        if (this.flags.contains(flag)) {
-            return true;
-        }
         //noinspection SuspiciousMethodCalls
-        return this.getTags().getTags().contains(flag);
+        return this.flags.contains(flag) || this.getTags().getTags().contains(flag);
     }
 
     /**
@@ -142,14 +139,10 @@ public class Zone implements Identifiable {
      * @return true if a flag has the same type as provided
      */
     public boolean containsFlag(@NotNull FlagType<?> type) {
-        if (this.flags.parallelStream().anyMatch(flag -> flag.getType().equals(type))) {
-            return true;
-        }
-        if (type instanceof FlagType.TaggedFlagType tagType) {
-            //noinspection unchecked
-            return this.getTags().getTag(tagType).isPresent();
-        }
-        return false;
+        //noinspection unchecked
+        return this.flags.parallelStream().anyMatch(flag -> flag.getType().equals(type)) ||
+                type instanceof FlagType.TaggedFlagType tagType &&
+                        this.getTags().getTag(tagType).isPresent();
     }
 
     /**
@@ -234,6 +227,7 @@ public class Zone implements Identifiable {
      *
      * @return If the flag was added
      */
+    @SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
     public boolean setFlag(@NotNull Flag flag) {
         Optional<?> opFlag = this.getFlag(flag.getType());
         if (opFlag.isPresent()) {
@@ -291,13 +285,16 @@ public class Zone implements Identifiable {
         if (type instanceof FlagType.TaggedFlagType<?> tagType) {
             return this.getTags().getTag(tagType).map(tag -> (F) tag);
         }
-        Optional<F> defaultFlag = ZonePlugin
-                .getZonesPlugin()
-                .getFlagManager()
-                .getDefaultFlags()
-                .loadDefault(type);
-        defaultFlag.ifPresent(f -> this.addFlag(f, false));
-        return defaultFlag;
+        if (type instanceof FlagType.SerializableType<? extends Flag.Serializable> serializableType) {
+            Optional<? extends Flag.Serializable> defaultFlag = ZonePlugin
+                    .getZonesPlugin()
+                    .getFlagManager()
+                    .getDefaultFlags()
+                    .loadDefault(serializableType);
+            defaultFlag.ifPresent(serializableFlag -> this.addFlag(serializableFlag, false));
+            return defaultFlag.map(serializableFlag -> (F) serializableFlag);
+        }
+        return Optional.empty();
     }
 
     /**

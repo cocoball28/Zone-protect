@@ -66,14 +66,14 @@ public class ZoneInfoBoundsShowCommand implements ArgumentCommand {
         Collection<Zone> zones = ZonePlugin
                 .getZonesPlugin()
                 .getZoneManager()
-                .getZones()
+                .getRegistered()
                 .parallelStream()
                 .filter(zone1 -> zone1.getParent().isPresent())
                 .filter(zone -> zone.getParent().get().equals(specifiedZone))
                 .collect(Collectors.toSet());
         zones.add(specifiedZone);
 
-        Set<BlockType> usedColours = new HashSet<>();
+        Collection<BlockType> usedColours = new HashSet<>();
         Collection<BlockType> woolColours = BlockTypeTags.WOOL.get().values();
 
         zones.forEach(zone -> {

@@ -16,8 +16,8 @@ import org.zone.permissions.ZonePermission;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagType;
 import org.zone.region.flag.entity.player.move.leaving.LeavingFlag;
-import org.zone.region.flag.meta.eco.price.PriceType;
 import org.zone.region.group.Group;
+import org.zone.region.shop.transaction.price.PriceType;
 
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -30,6 +30,7 @@ public final class Messages {
 
     /**
      * Constructor of the {@link Messages} class
+     *
      * @throws RuntimeException if it couldn't construct the class
      */
     private Messages() {
@@ -38,6 +39,10 @@ public final class Messages {
 
     public static Component getNotEnough() {
         return Component.text("You do not have enough for that").color(NamedTextColor.RED);
+    }
+
+    public static Component getInvalidBlock() {
+        return Component.text("Cannot find a block to use").color(NamedTextColor.RED);
     }
 
     public static Component getInvalidPriceType(PriceType type) {
@@ -398,7 +403,9 @@ public final class Messages {
     }
 
     public static Component getZoneVisibility(String visibilityName) {
-        return getZoneVisibilityTag().append(Component.text(visibilityName).color(NamedTextColor.GOLD));
+        return getZoneVisibilityTag().append(Component
+                .text(visibilityName)
+                .color(NamedTextColor.GOLD));
     }
 
     public static Component getInvitedPlayer() {
@@ -406,7 +413,9 @@ public final class Messages {
     }
 
     public static Component getGotInvite(@NotNull Nameable player, @NotNull Identifiable zone) {
-        return Component.text(player.name() + " has invited you to join " + zone.getName()).color(NamedTextColor.AQUA);
+        return Component
+                .text(player.name() + " has invited you to join " + zone.getName())
+                .color(NamedTextColor.AQUA);
     }
 
     public static Component getZonePrivateError() {
@@ -422,7 +431,8 @@ public final class Messages {
     }
 
     public static Component getInvitationDenied(Identifiable zone) {
-        return Component.text("You denied the invitation from " + zone.getName())
+        return Component
+                .text("You denied the invitation from " + zone.getName())
                 .color(NamedTextColor.RED);
     }
 

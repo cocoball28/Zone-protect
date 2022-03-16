@@ -181,7 +181,7 @@ public class PreventPlayersListener {
             Map<Vector3i, Zone> zones = ZonePlugin
                     .getZonesPlugin()
                     .getZoneManager()
-                    .getZones()
+                    .getRegistered()
                     .stream()
                     .map(zone -> new AbstractMap.SimpleEntry<>(zone
                             .getRegion()
@@ -228,7 +228,7 @@ public class PreventPlayersListener {
             return ZonePlugin
                     .getZonesPlugin()
                     .getZoneManager()
-                    .getZones()
+                    .getRegistered()
                     .stream()
                     .noneMatch(zone -> zone.inRegion(player.world(), finalPosition.toDouble()));
         }).findAny().map(boundedRegion -> {

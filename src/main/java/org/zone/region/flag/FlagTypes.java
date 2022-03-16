@@ -1,6 +1,5 @@
 package org.zone.region.flag;
 
-import org.jetbrains.annotations.NotNull;
 import org.zone.region.flag.entity.monster.block.explode.creeper.CreeperGriefFlagType;
 import org.zone.region.flag.entity.monster.block.explode.enderdragon.EnderDragonGriefFlagType;
 import org.zone.region.flag.entity.monster.block.explode.wither.WitherGriefFlagType;
@@ -23,16 +22,12 @@ import org.zone.region.flag.entity.player.move.leaving.LeavingFlagType;
 import org.zone.region.flag.entity.player.move.preventing.PreventPlayersFlagType;
 import org.zone.region.flag.meta.eco.balance.BalanceFlagType;
 import org.zone.region.flag.meta.eco.payment.buy.BuyFlagType;
+import org.zone.region.flag.meta.eco.shop.ShopsFlagType;
 import org.zone.region.flag.meta.edit.EditingFlagType;
 import org.zone.region.flag.meta.member.MembersFlagType;
 import org.zone.region.flag.meta.request.join.JoinRequestFlagType;
 import org.zone.region.flag.meta.request.visibility.ZoneVisibilityFlagType;
 import org.zone.region.flag.meta.tag.TagsFlagType;
-
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * All known default flag types found within the zones plugin
@@ -66,26 +61,10 @@ public final class FlagTypes {
     public static final EnderDragonGriefFlagType ENDER_DRAGON_GRIEF = new EnderDragonGriefFlagType();
     public static final WitherGriefFlagType WITHER_GRIEF = new WitherGriefFlagType();
     public static final EnderMiteGriefFlagType ENDER_MITE_GRIEF = new EnderMiteGriefFlagType();
+    public static final ShopsFlagType SHOPS = new ShopsFlagType();
 
     private FlagTypes() {
         throw new RuntimeException("Should not init");
     }
 
-    public static @NotNull Collection<FlagType<?>> getVanillaFlags() {
-        return Arrays
-                .stream(FlagTypes.class.getDeclaredFields())
-                .parallel()
-                .filter(field -> FlagType.class.isAssignableFrom(field.getType()))
-                .map(field -> {
-                    try {
-                        return (FlagType<?>) field.get(null);
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                        // noinspection ReturnOfNull
-                        return null;
-                    }
-                })
-                .filter(Objects::nonNull)
-                .collect(Collectors.toSet());
-    }
 }

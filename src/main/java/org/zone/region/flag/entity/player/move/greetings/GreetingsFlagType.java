@@ -12,7 +12,7 @@ import org.zone.region.flag.FlagType;
 import java.io.IOException;
 import java.util.Optional;
 
-public class GreetingsFlagType implements FlagType<GreetingsFlag> {
+public class GreetingsFlagType implements FlagType.SerializableType<GreetingsFlag> {
     @Override
     public @NotNull String getName() {
         return "Greetings";

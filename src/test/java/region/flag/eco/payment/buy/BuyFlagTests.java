@@ -3,9 +3,9 @@ package region.flag.eco.payment.buy;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.zone.region.flag.meta.eco.payment.buy.BuyFlag;
-import org.zone.region.flag.meta.eco.price.Price;
-import org.zone.region.flag.meta.eco.price.PriceType;
-import org.zone.region.flag.meta.eco.price.player.PlayerExpPrice;
+import org.zone.region.shop.transaction.price.Price;
+import org.zone.region.shop.transaction.price.PriceType;
+import org.zone.region.shop.transaction.price.player.PlayerExpPrice;
 import tools.configuration.FlagLoadTester;
 
 import java.io.IOException;

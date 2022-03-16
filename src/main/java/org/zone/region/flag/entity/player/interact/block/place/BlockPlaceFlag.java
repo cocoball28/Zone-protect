@@ -2,7 +2,6 @@ package org.zone.region.flag.entity.player.interact.block.place;
 
 import org.jetbrains.annotations.NotNull;
 import org.zone.region.flag.Flag;
-import org.zone.region.flag.FlagType;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.group.key.GroupKey;
 import org.zone.region.group.key.GroupKeys;
@@ -15,7 +14,7 @@ import org.zone.region.group.key.GroupKeys;
 public class BlockPlaceFlag implements Flag.TaggedFlag, Flag.AffectsPlayer {
 
     @Override
-    public @NotNull FlagType<?> getType() {
+    public @NotNull BlockPlaceFlagType getType() {
         return FlagTypes.BLOCK_PLACE;
     }
 

@@ -15,7 +15,7 @@
       <option name="ignoreBooleanMethods" value="false" />
       <option name="ignoreInAnnotationInterface" value="true" />
       <option name="onlyWarnOnBaseMethods" value="true" />
-      <option name="questionString" value="add,are,can,check,contains,could,endsWith,equals,has,is,matches,must,put,remove,shall,should,startsWith,was,were,will,would" />
+      <option name="questionString" value="add,are,can,check,contains,could,endsWith,equals,has,is,matches,must,put,remove,shall,should,startsWith,was,were,will,would,in" />
     </inspection_tool>
     <inspection_tool class="BoundedWildcard" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
     <inspection_tool class="BreakStatement" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
@@ -39,7 +39,7 @@
     <inspection_tool class="ControlFlowStatementWithoutBraces" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="CustomSecurityManager" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="DefaultNotLastCaseInSwitch" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
-    <inspection_tool class="DiamondCanBeReplacedWithExplicitTypeArguments" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
+    <inspection_tool class="DiamondCanBeReplacedWithExplicitTypeArguments" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
     <inspection_tool class="DollarSignInName" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="DuplicateStringLiteralInspection" enabled="false" level="WEAK WARNING" enabled_by_default="false">
       <option name="MIN_STRING_LENGTH" value="5" />
@@ -125,7 +125,7 @@
     <inspection_tool class="NewExceptionWithoutArguments" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="NewMethodNamingConvention" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="NonBooleanMethodNameMayNotStartWithQuestion" enabled="true" level="WARNING" enabled_by_default="true">
-      <option name="questionString" value="add,are,can,check,contains,could,endsWith,equals,has,is,matches,must,put,remove,shall,should,startsWith,was,were,will,would" />
+      <option name="questionString" value="are,can,check,contains,could,endsWith,equals,has,is,matches,must,put,shall,should,startsWith,was,were,will,would" />
       <option name="ignoreBooleanMethods" value="false" />
       <option name="onlyWarnOnBaseMethods" value="true" />
     </inspection_tool>
@@ -185,9 +185,6 @@
     <inspection_tool class="RuntimeExec" enabled="true" level="ERROR" enabled_by_default="true" />
     <inspection_tool class="RuntimeExecWithNonConstantString" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="SSBasedInspection" enabled="true" level="WARNING" enabled_by_default="true">
-      <replaceConfiguration name="all-flag-types" suppressId="vanilla-only-flag-types" problemDescriptor="Your probably wanting all flag types, replace" text="org.zone.region.flag.FlagTypes.getVanillaFlags()" recursive="false" caseInsensitive="false" type="JAVA" pattern_context="default" reformatAccordingToStyle="false" shortenFQN="false" replacement="org.zone.ZonePlugin.getZonesPlugin().getFlagManager().getRegistered()">
-        <constraint name="__context__" within="" contains="" />
-      </replaceConfiguration>
       <replaceConfiguration name="get Eco flag by method" suppressId="no-eco-method" problemDescriptor="Economy flag is always present" text="$zone$.getFlag(org.zone.region.flag.FlagTypes.ECO)" recursive="false" caseInsensitive="false" type="JAVA" pattern_context="default" reformatAccordingToStyle="false" shortenFQN="false" replacement="$zone$.getEconomy()">
         <constraint name="__context__" within="" contains="" />
         <constraint name="zone" nameOfExprType="Zone" exprTypeWithinHierarchy="true" within="" contains="" />
@@ -227,9 +224,6 @@
       <replaceConfiguration name="zone-argument-no-properteries" problemDescriptor="ZoneArgument has default properties, can be simplified" text="new org.zone.commands.system.arguments.zone.ZoneArgument($id$, new ZoneArgument.ZoneArgumentPropertiesBuilder());" recursive="false" caseInsensitive="false" type="JAVA" pattern_context="default" reformatAccordingToStyle="false" shortenFQN="false" replacement="new ZoneArgument($id$);">
         <constraint name="__context__" within="" contains="" />
         <constraint name="id" nameOfExprType="String" within="" contains="" />
-      </replaceConfiguration>
-      <replaceConfiguration name="Zone-group-keys-vs-all-group-keys" suppressId="vanilla-only" problemDescriptor="GroupKeys.values does not get keys that were registered using another source. Use the following to get all known groupkeys" text="org.zone.region.group.key.GroupKeys.values()" recursive="false" caseInsensitive="false" type="JAVA" pattern_context="default" reformatAccordingToStyle="false" shortenFQN="false" replacement="org.zone.ZonePlugin.getZonesPlugin().getGroupKeyManager().getKeys()">
-        <constraint name="__context__" within="" contains="" />
       </replaceConfiguration>
       <searchConfiguration name="Zone remove eco flag" problemDescriptor="Cannot remove the economy flag" text="$zone$.removeFlag(org.zone.region.flag.FlagTypes.ECO)" recursive="false" caseInsensitive="false" type="JAVA" pattern_context="default">
         <constraint name="__context__" within="" contains="" />
@@ -272,9 +266,10 @@
       <option name="useParameterizedTypeForCollectionMethods" value="true" />
       <option name="doNotWeakenToJavaLangObject" value="false" />
       <option name="onlyWeakentoInterface" value="true" />
+      <stopClasses>org.spongepowered.api.world.client.ClientLocation</stopClasses>
     </inspection_tool>
     <inspection_tool class="TypeParameterExtendsFinalClass" enabled="true" level="WARNING" enabled_by_default="true" />
-    <inspection_tool class="UNCHECKED_WARNING" enabled="true" level="WARNING" enabled_by_default="true">
+    <inspection_tool class="UNCHECKED_WARNING" enabled="false" level="WARNING" enabled_by_default="false">
       <option name="IGNORE_UNCHECKED_ASSIGNMENT" value="false" />
       <option name="IGNORE_UNCHECKED_GENERICS_ARRAY_CREATION" value="true" />
       <option name="IGNORE_UNCHECKED_CALL" value="false" />
@@ -302,11 +297,6 @@
     <inspection_tool class="UseOfObsoleteDateTimeApi" enabled="true" level="ERROR" enabled_by_default="true" />
     <inspection_tool class="UseOfProcessBuilder" enabled="true" level="ERROR" enabled_by_default="true" />
     <inspection_tool class="UseOfSunClasses" enabled="true" level="ERROR" enabled_by_default="true" />
-    <inspection_tool class="UtilityClass" enabled="true" level="WARNING" enabled_by_default="true">
-      <option name="ignorableAnnotations">
-        <value />
-      </option>
-    </inspection_tool>
     <inspection_tool class="UtilityClassCanBeEnum" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
     <inspection_tool class="UtilityClassWithPublicConstructor" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="UtilityClassWithoutPrivateConstructor" enabled="true" level="WARNING" enabled_by_default="true">
@@ -321,7 +311,6 @@
     <inspection_tool class="d94dfbc5-0c9d-391b-9048-ad2ec035eb66" enabled="true" level="ERROR" enabled_by_default="true" />
     <inspection_tool class="dcfebccd-121b-320f-ac1f-b8c3d0cc9f4b" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
     <inspection_tool class="e15b3c6e-a42f-3e97-955e-d315bb9d0d38" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
-    <inspection_tool class="ea9c077f-7fe2-3ebe-b38a-c5136b0f736a" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
     <inspection_tool class="f262b04b-fb80-3a9b-a176-1853c36e9b4b" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
     <inspection_tool class="unused" enabled="true" level="WARNING" enabled_by_default="true" klass="packageLocal" inner_class="packageLocal" method="packageLocal">
       <option name="LOCAL_VARIABLE" value="true" />
