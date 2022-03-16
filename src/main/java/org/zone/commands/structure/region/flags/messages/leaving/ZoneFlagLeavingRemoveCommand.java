@@ -23,7 +23,7 @@ public class ZoneFlagLeavingRemoveCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
-                    ZonePermissions.OVERRIDE_FLAG_LEAVING_REMOVE));
+                    ZonePermissions.OVERRIDE_FLAG_LEAVING_MESSAGE_REMOVE));
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {

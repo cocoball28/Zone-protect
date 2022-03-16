@@ -23,7 +23,7 @@ public class ZoneFlagLeavingViewCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
-                    ZonePermissions.OVERRIDE_FLAG_LEAVING_VIEW));
+                    ZonePermissions.OVERRIDE_FLAG_LEAVING_MESSAGE_VIEW));
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
@@ -41,7 +41,7 @@ public class ZoneFlagLeavingViewCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Optional<ZonePermission> getPermissionNode() {
-        return Optional.of(ZonePermissions.OVERRIDE_FLAG_LEAVING_VIEW);
+        return Optional.of(ZonePermissions.OVERRIDE_FLAG_LEAVING_MESSAGE_VIEW);
     }
 
     @Override

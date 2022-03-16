@@ -23,7 +23,7 @@ public class ZoneFlagGreetingsRemoveCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zoneId",
             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
-                    ZonePermissions.OVERRIDE_FLAG_GREETINGS_REMOVE));
+                    ZonePermissions.OVERRIDE_FLAG_GREETINGS_MESSAGE_REMOVE));
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {

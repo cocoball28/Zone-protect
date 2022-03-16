@@ -30,7 +30,7 @@ public class ZoneFlagLeavingSetMessageCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
-                    ZonePermissions.OVERRIDE_FLAG_LEAVING_SET));
+                    ZonePermissions.OVERRIDE_FLAG_LEAVING_MESSAGE_SET));
     public static final ComponentRemainingArgument MESSAGE = new ComponentRemainingArgument(
             "message_value");
     public static final OptionalArgument<MessageDisplayType<?>> DISPLAY_MODE =

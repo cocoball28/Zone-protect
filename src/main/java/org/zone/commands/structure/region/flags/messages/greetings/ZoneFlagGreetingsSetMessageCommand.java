@@ -30,7 +30,7 @@ public class ZoneFlagGreetingsSetMessageCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zoneId",
             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
-                    ZonePermissions.OVERRIDE_FLAG_GREETINGS_SET));
+                    ZonePermissions.OVERRIDE_FLAG_GREETINGS_MESSAGE_SET));
     public static final ComponentRemainingArgument MESSAGE_VALUE = new ComponentRemainingArgument(
             "message_value");
     public static final OptionalArgument<MessageDisplayType<?>> DISPLAY_MODE =

@@ -23,7 +23,7 @@ public class ZoneFlagGreetingsViewCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zoneId",
             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
-                    ZonePermissions.OVERRIDE_FLAG_GREETINGS_VIEW));
+                    ZonePermissions.OVERRIDE_FLAG_GREETINGS_MESSAGE_VIEW));
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
