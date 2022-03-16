@@ -31,14 +31,14 @@ public final class Messages {
 
     /**
      * Constructor of the {@link Messages} class
-     * @throws RuntimeException if it couldn't construct the class
+     * @throws RuntimeException since this class should not be constructed
      */
     private Messages() {
-        throw new RuntimeException("Could not construct class");
+        throw new RuntimeException("Should not be constructed");
     }
 
     public static Component getNotEnough() {
-        return Component.text("You do not have enough for that").color(NamedTextColor.RED);
+        return Component.text("You do not have enough money for that").color(NamedTextColor.RED);
     }
 
     public static Component getInvalidPriceType(PriceType type) {
@@ -745,14 +745,14 @@ public final class Messages {
     }
 
     public static Component getExp(int exp) {
-        return Component.text(exp + "EXP");
+        return Component.text(exp + "EXP").color(NamedTextColor.AQUA);
     }
 
     public static Component getLevel(int exp) {
-        return Component.text("Level: " + exp);
+        return Component.text("Level: " + exp).color(NamedTextColor.AQUA);
     }
 
     public static Component getPowerLevel(long price) {
-        return Component.text(price + " power levels");
+        return Component.text(price + " power levels").color(NamedTextColor.AQUA);
     }
 }
