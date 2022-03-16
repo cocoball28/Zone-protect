@@ -18,7 +18,6 @@ import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.entity.player.move.message.display.MessageDisplayType;
-import org.zone.region.flag.entity.player.move.message.display.MessageDisplayTypes;
 import org.zone.region.flag.entity.player.move.message.leaving.LeavingFlag;
 import org.zone.utils.Messages;
 
@@ -56,7 +55,7 @@ public class ZoneFlagLeavingSetMessageCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Messages.getLeavingSetMessageCommandDesription();
+        return Messages.getLeavingSetMessageCommandDescription();
     }
 
     @Override

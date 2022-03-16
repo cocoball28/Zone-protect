@@ -716,7 +716,7 @@ public final class Messages {
         return Component.text("Removes the leaving flag");
     }
 
-    public static Component getLeavingSetMessageCommandDesription() {
+    public static Component getLeavingSetMessageCommandDescription() {
         return Component.text("Sets the message of the leaving message");
     }
 
@@ -755,4 +755,5 @@ public final class Messages {
     public static Component getPowerLevel(long price) {
         return Component.text(price + " power levels").color(NamedTextColor.AQUA);
     }
+
 }

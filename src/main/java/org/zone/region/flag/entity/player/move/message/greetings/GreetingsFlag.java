@@ -39,7 +39,7 @@ public class GreetingsFlag implements Flag {
      * @return The greetings message
      */
     public Component getLegacyGreetingsMessage() {
-        return this.text;
+        return this.legacyText;
     }
 
     /**
