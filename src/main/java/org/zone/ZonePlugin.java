@@ -42,17 +42,15 @@ import org.zone.region.flag.entity.player.interact.block.destroy.BlockBreakListe
 import org.zone.region.flag.entity.player.interact.block.place.BlockPlaceListener;
 import org.zone.region.flag.entity.player.interact.door.DoorInteractListener;
 import org.zone.region.flag.entity.player.interact.itemframe.ItemFrameInteractionListener;
-import org.zone.region.flag.entity.player.move.message.display.MessageDisplayManager;
-import org.zone.region.flag.entity.player.move.message.greetings.GreetingsFlagListener;
-import org.zone.region.flag.entity.player.move.message.leaving.LeavingFlagListener;
+import org.zone.region.flag.entity.player.display.MessageDisplayManager;
+import org.zone.region.flag.entity.player.move.greetings.GreetingsFlagListener;
+import org.zone.region.flag.entity.player.move.leaving.LeavingFlagListener;
 import org.zone.region.flag.entity.player.move.preventing.PreventPlayersListener;
 import org.zone.region.group.key.GroupKeyManager;
 import org.zone.utils.Messages;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Optional;
 
 /**

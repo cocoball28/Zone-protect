@@ -1,9 +1,9 @@
-package org.zone.region.flag.entity.player.move.message.display;
+package org.zone.region.flag.entity.player.display;
 
 import org.jetbrains.annotations.NotNull;
-import org.zone.region.flag.entity.player.move.message.display.bossbar.BossBarMessageDisplayType;
-import org.zone.region.flag.entity.player.move.message.display.chat.ChatMessageDisplayType;
-import org.zone.region.flag.entity.player.move.message.display.title.TitleMessageDisplayType;
+import org.zone.region.flag.entity.player.display.bossbar.BossBarMessageDisplayType;
+import org.zone.region.flag.entity.player.display.chat.ChatMessageDisplayType;
+import org.zone.region.flag.entity.player.display.title.TitleMessageDisplayType;
 
 import java.util.*;
 import java.util.stream.Collectors;

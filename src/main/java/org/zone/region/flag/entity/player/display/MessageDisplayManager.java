@@ -1,4 +1,4 @@
-package org.zone.region.flag.entity.player.move.message.display;
+package org.zone.region.flag.entity.player.display;
 
 import java.util.Collection;
 import java.util.Collections;

@@ -1,4 +1,4 @@
-package org.zone.region.flag.entity.player.move.message.greetings;
+package org.zone.region.flag.entity.player.move.greetings;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
@@ -9,9 +9,9 @@ import org.spongepowered.plugin.PluginContainer;
 import org.zone.Serializable;
 import org.zone.ZonePlugin;
 import org.zone.region.flag.FlagType;
-import org.zone.region.flag.entity.player.move.message.display.MessageDisplay;
-import org.zone.region.flag.entity.player.move.message.display.MessageDisplayType;
-import org.zone.region.flag.entity.player.move.message.display.MessageDisplayTypes;
+import org.zone.region.flag.entity.player.display.MessageDisplay;
+import org.zone.region.flag.entity.player.display.MessageDisplayType;
+import org.zone.region.flag.entity.player.display.MessageDisplayTypes;
 
 import java.io.IOException;
 import java.util.Optional;

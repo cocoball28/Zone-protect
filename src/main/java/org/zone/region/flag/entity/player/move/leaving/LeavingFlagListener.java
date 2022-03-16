@@ -1,4 +1,4 @@
-package org.zone.region.flag.entity.player.move.message.leaving;
+package org.zone.region.flag.entity.player.move.leaving;
 
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;

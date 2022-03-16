@@ -1,20 +1,18 @@
-package org.zone.region.flag.entity.player.move.message.display.bossbar;
+package org.zone.region.flag.entity.player.display.title;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.plugin.PluginContainer;
 import org.zone.ZonePlugin;
-import org.zone.region.flag.entity.player.move.message.display.MessageDisplayType;
-import org.zone.utils.Messages;
+import org.zone.region.flag.entity.player.display.MessageDisplayType;
 
 import java.io.IOException;
 
-public class BossBarMessageDisplayType implements MessageDisplayType<BossBarMessageDisplay> {
-
+public class TitleMessageDisplayType implements MessageDisplayType<TitleMessageDisplay> {
     @Override
     public @NotNull String getName() {
-        return "Bossbar Display";
+        return "Title Display";
     }
 
     @Override
@@ -24,20 +22,21 @@ public class BossBarMessageDisplayType implements MessageDisplayType<BossBarMess
 
     @Override
     public @NotNull String getKey() {
-        return "bossbar_display";
+        return "title_display";
     }
 
     @Override
-    public @NotNull BossBarMessageDisplay load(@NotNull ConfigurationNode node) throws IOException {
+    public @NotNull TitleMessageDisplay load(@NotNull ConfigurationNode node)
+            throws IOException {
         String displayTypeID = node.node("DisplayType").getString();
         if (displayTypeID == null) {
             throw new IOException("Couldn't get the display type");
         }
-        return new BossBarMessageDisplay();
+        return new TitleMessageDisplay();
     }
 
     @Override
-    public void save(@NotNull ConfigurationNode node, @Nullable BossBarMessageDisplay save)
+    public void save(@NotNull ConfigurationNode node, @Nullable TitleMessageDisplay save)
             throws IOException {
         if (save == null) {
             throw new IOException("Display type can't be null");
@@ -47,7 +46,7 @@ public class BossBarMessageDisplayType implements MessageDisplayType<BossBarMess
     }
 
     @Override
-    public BossBarMessageDisplay createCopyOfDefault() {
-        return new BossBarMessageDisplay();
+    public TitleMessageDisplay createCopyOfDefault() {
+        return new TitleMessageDisplay();
     }
 }

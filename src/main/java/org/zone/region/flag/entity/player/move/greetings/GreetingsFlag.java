@@ -1,12 +1,12 @@
-package org.zone.region.flag.entity.player.move.message.greetings;
+package org.zone.region.flag.entity.player.move.greetings;
 
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.zone.region.flag.Flag;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.entity.player.move.message.display.MessageDisplay;
-import org.zone.region.flag.entity.player.move.message.display.MessageDisplayTypes;
+import org.zone.region.flag.entity.player.display.MessageDisplay;
+import org.zone.region.flag.entity.player.display.MessageDisplayTypes;
 
 /**
  * Flag for greetings

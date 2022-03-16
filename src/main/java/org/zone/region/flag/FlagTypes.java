@@ -18,8 +18,8 @@ import org.zone.region.flag.entity.player.interact.block.destroy.BlockBreakFlagT
 import org.zone.region.flag.entity.player.interact.block.place.BlockPlaceFlagType;
 import org.zone.region.flag.entity.player.interact.door.DoorInteractionFlagType;
 import org.zone.region.flag.entity.player.interact.itemframe.ItemFrameInteractFlagType;
-import org.zone.region.flag.entity.player.move.message.greetings.GreetingsFlagType;
-import org.zone.region.flag.entity.player.move.message.leaving.LeavingFlagType;
+import org.zone.region.flag.entity.player.move.greetings.GreetingsFlagType;
+import org.zone.region.flag.entity.player.move.leaving.LeavingFlagType;
 import org.zone.region.flag.entity.player.move.preventing.PreventPlayersFlagType;
 import org.zone.region.flag.meta.eco.balance.BalanceFlagType;
 import org.zone.region.flag.meta.eco.payment.buy.BuyFlagType;

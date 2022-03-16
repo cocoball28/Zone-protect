@@ -17,8 +17,9 @@ import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.entity.player.move.message.display.MessageDisplayType;
-import org.zone.region.flag.entity.player.move.message.leaving.LeavingFlag;
+import org.zone.region.flag.entity.player.display.MessageDisplayType;
+import org.zone.region.flag.entity.player.display.MessageDisplayTypes;
+import org.zone.region.flag.entity.player.move.leaving.LeavingFlag;
 import org.zone.utils.Messages;
 
 import java.util.Arrays;
@@ -39,7 +40,7 @@ public class ZoneFlagLeavingSetMessageCommand implements ArgumentCommand {
                     .getZonesPlugin()
                     .getMessageDisplayManager()
                     .getDisplayTypes()),
-                    (MessageDisplayType<?>) null);
+                    MessageDisplayTypes.CHAT);
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
@@ -60,7 +61,7 @@ public class ZoneFlagLeavingSetMessageCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Optional<ZonePermission> getPermissionNode() {
-        return Optional.of(ZonePermissions.FLAG_LEAVING_SET);
+        return Optional.of(ZonePermissions.FLAG_LEAVING_MESSAGE_SET);
     }
 
     @Override
@@ -74,6 +75,7 @@ public class ZoneFlagLeavingSetMessageCommand implements ArgumentCommand {
                 .orElse(new LeavingFlag(Messages.getEnterLeavingMessage(), displayMode.createCopyOfDefault()));
 
         flag.setLeavingMessage(message);
+        flag.setDisplayType(displayMode.createCopyOfDefault());
         zone.setFlag(flag);
         try {
             zone.save();

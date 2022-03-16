@@ -37,7 +37,7 @@ public class ItemFrameInteractionListener {
         Zone zone = opZone.get();
         Group group = zone.getMembers().getGroup(attacker.uniqueId());
         if (group.contains(GroupKeys.INTERACT_ITEMFRAME)) {
-            event.setCancelled(true);;
+            return;
         }
     }
 

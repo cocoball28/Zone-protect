@@ -1,12 +1,12 @@
-package org.zone.region.flag.entity.player.move.message.display.title;
+package org.zone.region.flag.entity.player.display.title;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.entity.living.player.Player;
-import org.zone.region.flag.entity.player.move.message.display.MessageDisplay;
-import org.zone.region.flag.entity.player.move.message.display.MessageDisplayType;
-import org.zone.region.flag.entity.player.move.message.display.MessageDisplayTypes;
+import org.zone.region.flag.entity.player.display.MessageDisplay;
+import org.zone.region.flag.entity.player.display.MessageDisplayType;
+import org.zone.region.flag.entity.player.display.MessageDisplayTypes;
 
 public class TitleMessageDisplay implements MessageDisplay {
 

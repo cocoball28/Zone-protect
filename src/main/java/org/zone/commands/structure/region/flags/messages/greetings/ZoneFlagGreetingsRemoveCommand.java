@@ -41,7 +41,7 @@ public class ZoneFlagGreetingsRemoveCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Optional<ZonePermission> getPermissionNode() {
-        return Optional.of(ZonePermissions.FLAG_GREETINGS_REMOVE);
+        return Optional.of(ZonePermissions.FLAG_GREETINGS_MESSAGE_REMOVE);
     }
 
     @Override

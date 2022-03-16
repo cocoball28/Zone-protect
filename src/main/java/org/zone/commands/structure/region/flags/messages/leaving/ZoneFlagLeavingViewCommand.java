@@ -12,7 +12,7 @@ import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.entity.player.move.message.leaving.LeavingFlag;
+import org.zone.region.flag.entity.player.move.leaving.LeavingFlag;
 import org.zone.utils.Messages;
 
 import java.util.Arrays;

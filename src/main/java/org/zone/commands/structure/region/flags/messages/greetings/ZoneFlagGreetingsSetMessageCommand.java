@@ -17,10 +17,9 @@ import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.entity.player.move.message.display.MessageDisplay;
-import org.zone.region.flag.entity.player.move.message.display.MessageDisplayType;
-import org.zone.region.flag.entity.player.move.message.display.MessageDisplayTypes;
-import org.zone.region.flag.entity.player.move.message.greetings.GreetingsFlag;
+import org.zone.region.flag.entity.player.display.MessageDisplayType;
+import org.zone.region.flag.entity.player.display.MessageDisplayTypes;
+import org.zone.region.flag.entity.player.move.greetings.GreetingsFlag;
 import org.zone.utils.Messages;
 
 import java.util.Arrays;
@@ -41,7 +40,7 @@ public class ZoneFlagGreetingsSetMessageCommand implements ArgumentCommand {
                     .getZonesPlugin()
                     .getMessageDisplayManager()
                     .getDisplayTypes()),
-                    (MessageDisplayType<?>) null);
+                    MessageDisplayTypes.CHAT);
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
@@ -62,7 +61,7 @@ public class ZoneFlagGreetingsSetMessageCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Optional<ZonePermission> getPermissionNode() {
-        return Optional.of(ZonePermissions.FLAG_GREETINGS_SET);
+        return Optional.of(ZonePermissions.FLAG_GREETINGS_MESSAGE_SET);
     }
 
     @Override
@@ -74,6 +73,7 @@ public class ZoneFlagGreetingsSetMessageCommand implements ArgumentCommand {
                 .getFlag(FlagTypes.GREETINGS)
                 .orElse(new GreetingsFlag(Messages.getEnterGreetingsMessage(), displayMode.createCopyOfDefault()));
         greetingsflag.setMessage(message);
+        greetingsflag.setDisplayType(displayMode.createCopyOfDefault());
         zone.setFlag(greetingsflag);
         try {
             zone.save();

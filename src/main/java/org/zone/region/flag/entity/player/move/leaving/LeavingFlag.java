@@ -1,18 +1,18 @@
-package org.zone.region.flag.entity.player.move.message.leaving;
+package org.zone.region.flag.entity.player.move.leaving;
 
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.zone.region.flag.Flag;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.entity.player.move.message.display.MessageDisplay;
-import org.zone.region.flag.entity.player.move.message.display.MessageDisplayTypes;
+import org.zone.region.flag.entity.player.display.MessageDisplay;
+import org.zone.region.flag.entity.player.display.MessageDisplayTypes;
 
 public class LeavingFlag implements Flag {
 
     private @NotNull MessageDisplay messageDisplay = MessageDisplayTypes.CHAT.createCopyOfDefault();
     private @NotNull Component leavingMessage;
-    @Deprecated(forRemoval = true)
+    @Deprecated(since = "1.0.1",forRemoval = true)
     private @Nullable Component legacyLeavingMessage;
 
     public LeavingFlag(@NotNull Component leavingMessage, @NotNull MessageDisplay messageDisplay) {
@@ -20,12 +20,12 @@ public class LeavingFlag implements Flag {
         this.messageDisplay = messageDisplay;
     }
 
-    @Deprecated(forRemoval = true)
+    @Deprecated(since = "1.0.1",forRemoval = true)
     public LeavingFlag(@NotNull Component leavingMessage) {
         this.legacyLeavingMessage = leavingMessage;
     }
 
-    @Deprecated(forRemoval = true)
+    @Deprecated(since = "1.0.1",forRemoval = true)
     public @Nullable Component getLegacyLeavingMessage() {
         return this.legacyLeavingMessage;
     }
@@ -38,7 +38,7 @@ public class LeavingFlag implements Flag {
         return this.messageDisplay;
     }
 
-    @Deprecated(forRemoval = true)
+    @Deprecated(since = "1.0.1",forRemoval = true)
     public void setLegacyLeavingMessage(@NotNull Component leavingMessage) {
         this.legacyLeavingMessage = leavingMessage;
     }

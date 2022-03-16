@@ -12,7 +12,7 @@ import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.entity.player.move.message.greetings.GreetingsFlag;
+import org.zone.region.flag.entity.player.move.greetings.GreetingsFlag;
 import org.zone.utils.Messages;
 
 import java.util.Arrays;
@@ -41,7 +41,7 @@ public class ZoneFlagGreetingsViewCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Optional<ZonePermission> getPermissionNode() {
-        return Optional.of(ZonePermissions.FLAG_GREETINGS_VIEW);
+        return Optional.of(ZonePermissions.FLAG_GREETINGS_MESSAGE_VIEW);
     }
 
     @Override

@@ -15,8 +15,8 @@ import org.zone.commands.system.context.ErrorContext;
 import org.zone.permissions.ZonePermission;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagType;
-import org.zone.region.flag.entity.player.move.message.greetings.GreetingsFlag;
-import org.zone.region.flag.entity.player.move.message.leaving.LeavingFlag;
+import org.zone.region.flag.entity.player.move.greetings.GreetingsFlag;
+import org.zone.region.flag.entity.player.move.leaving.LeavingFlag;
 import org.zone.region.flag.meta.eco.price.PriceType;
 import org.zone.region.group.Group;
 
@@ -732,6 +732,30 @@ public final class Messages {
         return Component.text("View the visibility of a zone");
     }
 
+    public static Component getGreetingsDisplaySetChatCommandDescription() {
+        return Component.text("Set the display type of the greetings message to chat");
+    }
+
+    public static Component getGreetingsDisplaySetTitleCommandDescription() {
+        return Component.text("Set the display type of the greetings message to title");
+    }
+
+    public static Component getGreetingsDisplaySetBossBarCommandDescription() {
+        return Component.text("Set the display type of the greetings message to boss bar");
+    }
+
+    public static Component getLeavingDisplaySetChatCommandDescription() {
+        return Component.text("Set the display type of the leaving message to chat");
+    }
+
+    public static Component getLeavingDisplaySetTitleCommandDescription() {
+        return Component.text("Set the display type of the leaving message to title");
+    }
+
+    public static Component getLeavingDisplaySetBossBarCommandDescription() {
+        return Component.text("Set the display type of the leaving message to boss bar");
+    }
+
     public static Component getAllZoneCommandsTag() {
         return Component.text("All Zone commands");
     }
@@ -754,6 +778,60 @@ public final class Messages {
 
     public static Component getPowerLevel(long price) {
         return Component.text(price + " power levels").color(NamedTextColor.AQUA);
+    }
+
+    public static Component getGreetingsFlagNotFound() {
+        return Component.text("Greetings flag not found").color(NamedTextColor.RED);
+    }
+
+    public static Component getLeavingFlagNotFound() {
+        return Component.text("Leaving flag not found").color(NamedTextColor.RED);
+    }
+
+    public static Component getDisplaySuccessfullyChangedStatement() {
+        return Component.text(" display had been successfully changed to ");
+    }
+
+    public static Component getGreetingsDisplaySuccessfullyChangedToChat() {
+        return Component
+                .text("Greetings message" +
+                        getDisplaySuccessfullyChangedStatement() +
+                        "chat").color(NamedTextColor.AQUA);
+    }
+
+    public static Component getGreetingsDisplaySuccessfullyChangedToTitle() {
+        return Component
+                .text("Greetings message" +
+                        getDisplaySuccessfullyChangedStatement() +
+                        "title").color(NamedTextColor.AQUA);
+    }
+
+    public static Component getGreetingsDisplaySuccessfullyChangedToBossBar() {
+        return Component
+                .text("Greetings message" +
+                        getDisplaySuccessfullyChangedStatement() +
+                        "boss bar").color(NamedTextColor.AQUA);
+    }
+
+    public static Component getLeavingDisplaySuccessfullyChangedToChat() {
+        return Component
+                .text("Leaving message" +
+                        getDisplaySuccessfullyChangedStatement() +
+                        "chat").color(NamedTextColor.AQUA);
+    }
+
+    public static Component getLeavingDisplaySuccessfullyChangedToTitle() {
+        return Component
+                .text("Leaving message" +
+                        getDisplaySuccessfullyChangedStatement() +
+                        "title").color(NamedTextColor.AQUA);
+    }
+
+    public static Component getLeavingDisplaySuccessfullyChangedToBossBar() {
+        return Component
+                .text("Leaving message" +
+                        getDisplaySuccessfullyChangedStatement() +
+                        "boss bar").color(NamedTextColor.AQUA);
     }
 
 }
