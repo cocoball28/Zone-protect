@@ -46,12 +46,13 @@ public class LeavingFlagType implements FlagType<LeavingFlag> {
         if (displayTypeID == null) {
             node.node("DisplayType").set(MessageDisplayTypes.CHAT.getId());
         }
+        final String finalDisplayTypeID = node.node("DisplayType").getString();
         MessageDisplayType<?> displayTypeAvailable = ZonePlugin
                 .getZonesPlugin()
                 .getMessageDisplayManager()
                 .getDisplayTypes()
                 .stream()
-                .filter(messageDisplayType -> messageDisplayType.getId().equals(displayTypeID))
+                .filter(messageDisplayType -> messageDisplayType.getId().equals(finalDisplayTypeID))
                 .findAny()
                 .orElseThrow(() -> new IOException("Display ID not found!"));
         MessageDisplay messageDisplay = displayTypeAvailable.load(node);

@@ -26,7 +26,7 @@ public class LeavingFlag implements Flag {
     }
 
     @Deprecated(forRemoval = true)
-    public @NotNull Component getLegacyLeavingMessage() {
+    public @Nullable Component getLegacyLeavingMessage() {
         return this.legacyLeavingMessage;
     }
 

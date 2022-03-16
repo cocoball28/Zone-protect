@@ -43,12 +43,13 @@ public class GreetingsFlagType implements FlagType<GreetingsFlag> {
         if (displayTypeID == null) {
             node.node("DisplayType").set(MessageDisplayTypes.CHAT.getId());
         }
+        final String finalDisplayTypeID = node.node("DisplayType").getString();
         MessageDisplayType<?> displayTypeAvailable = ZonePlugin
                 .getZonesPlugin()
                 .getMessageDisplayManager()
                 .getDisplayTypes()
                 .stream()
-                .filter(messageDisplayType -> messageDisplayType.getId().equals(displayTypeID))
+                .filter(messageDisplayType -> messageDisplayType.getId().equals(finalDisplayTypeID))
                 .findAny()
                 .orElseThrow(() -> new IOException("Display ID not found!"));
         MessageDisplay load = displayTypeAvailable.load(node);

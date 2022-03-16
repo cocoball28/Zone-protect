@@ -38,7 +38,7 @@ public class GreetingsFlag implements Flag {
      *
      * @return The greetings message
      */
-    public Component getLegacyGreetingsMessage() {
+    public @Nullable Component getLegacyGreetingsMessage() {
         return this.legacyText;
     }
 
@@ -47,7 +47,7 @@ public class GreetingsFlag implements Flag {
      *
      * @return The greetings message
      */
-    public Component getGreetingsMessage() {
+    public @NotNull Component getGreetingsMessage() {
         return this.text;
     }
 
@@ -56,7 +56,7 @@ public class GreetingsFlag implements Flag {
      *
      * @return The message display type
      */
-    public MessageDisplay getDisplayType() {
+    public @NotNull MessageDisplay getDisplayType() {
         return this.messageDisplay;
     }
 
