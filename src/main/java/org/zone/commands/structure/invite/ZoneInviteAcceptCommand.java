@@ -62,7 +62,7 @@ public class ZoneInviteAcceptCommand implements ArgumentCommand {
                     if (!(invites.contains(player.uniqueId()))) {
                         return;
                     }
-                    zone.getMembers().addMember(DefaultGroups.MEMBER, player.uniqueId());
+                    zone.getMembers().addMember(DefaultGroups.HOME_OWNER, player.uniqueId());
                     invites.remove(player.uniqueId());
                     zone.setFlag(opJoinRequestFlag.get());
                     try {

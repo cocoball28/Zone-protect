@@ -13,7 +13,6 @@ public final class DefaultGroups {
 
     public static final SimpleGroup OWNER;
     public static final SimpleGroup HOME_OWNER;
-    public static final SimpleGroup MEMBER;
     public static final SimpleGroup VISITOR;
 
     static {
@@ -22,11 +21,6 @@ public final class DefaultGroups {
                 "Visitor",
                 null,
                 false);
-        MEMBER = new SimpleGroup(ZonePlugin.getZonesPlugin().getPluginContainer(),
-                "member",
-                "Member",
-                null,
-                true);
         HOME_OWNER = new SimpleGroup(ZonePlugin.getZonesPlugin().getPluginContainer(),
                 "home_owner",
                 "Home owner",
@@ -38,9 +32,6 @@ public final class DefaultGroups {
 
         HOME_OWNER.add(GroupKeys.HOME_OWNER);
         HOME_OWNER.add(GroupKeys.INTERACT_DOOR);
-
-        MEMBER.add(GroupKeys.MEMBER);
-        MEMBER.add(GroupKeys.INTERACT_DOOR);
 
         OWNER.add(GroupKeys.OWNER);
         OWNER.add(GroupKeys.BLOCK_BREAK);
@@ -60,6 +51,6 @@ public final class DefaultGroups {
      * @return A TreeSet of the default groups
      */
     public static TreeSet<SimpleGroup> createDefaultGroups() {
-        return new TreeSet<>(Arrays.asList(OWNER, HOME_OWNER, MEMBER, VISITOR));
+        return new TreeSet<>(Arrays.asList(OWNER, HOME_OWNER, VISITOR));
     }
 }
