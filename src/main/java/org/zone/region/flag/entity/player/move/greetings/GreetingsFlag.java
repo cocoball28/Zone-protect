@@ -21,7 +21,7 @@ public class GreetingsFlag implements Flag {
         this(null);
     }
     @Deprecated(forRemoval = true)
-    public GreetingsFlag(@NotNull Component greetingsMessage) {
+    public GreetingsFlag(@Nullable Component greetingsMessage) {
         this.text = greetingsMessage;
     }
 
