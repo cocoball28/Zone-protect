@@ -68,7 +68,6 @@ public class ZoneInviteAcceptCommand implements ArgumentCommand {
             if (group.isEmpty()) {
                 return CommandResult.error(Messages.getNoGroupWithTheGroupKey(GroupKeys.NEW_MEMBER));
             }
-
             zone.getMembers().addMember(group.get(), player.uniqueId());
             invites.remove(player.uniqueId());
             zone.setFlag(opJoinRequestFlag.get());
