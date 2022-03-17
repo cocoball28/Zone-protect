@@ -8,6 +8,7 @@ import org.zone.ZonePlugin;
  * All known group keys found within the zones plugin
  */
 public enum GroupKeys implements GroupKey {
+
     OWNER("owner", "Owner"),
     HOME_OWNER("home_owner", "Home Owner"),
     BLOCK_BREAK("block_break", "Block Break"),
