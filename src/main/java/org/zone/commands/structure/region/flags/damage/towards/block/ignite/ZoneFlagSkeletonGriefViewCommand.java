@@ -39,7 +39,7 @@ public class ZoneFlagSkeletonGriefViewCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("View info on Skeleton grief");
+        return Messages.getSkeletonGriefViewCommandDescription();
     }
 
     @Override

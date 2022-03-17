@@ -10,7 +10,7 @@ public interface CommandArgument<T> extends ParseCommandArgument<T>, SuggestComm
      * A command argument id needs to be unique within the command, the ID is what separates the arguments.
      * There isn't a standard message structure, however by default the id will be what shows in the usage
      *
-     * @return a string Id
+     * @return a string ID
      */
     @NotNull String getId();
 

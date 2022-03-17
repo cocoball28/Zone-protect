@@ -46,7 +46,7 @@ public class ZoneInfoBoundsShowCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Show the bounds of a specified region");
+        return Messages.getZoneInfoBoundsShowCommandDescription();
     }
 
     @Override
@@ -55,25 +55,25 @@ public class ZoneInfoBoundsShowCommand implements ArgumentCommand {
     }
 
     @Override
-    public @NotNull CommandResult run(CommandContext context, String... args) {
-        Subject subject = context.getSource();
+    public @NotNull CommandResult run(CommandContext commandContext, String... args) {
+        Subject subject = commandContext.getSource();
         if (!(subject instanceof Viewer viewer && subject instanceof Locatable locatable)) {
             return CommandResult.error(Messages.getPlayerOnlyMessage());
         }
 
-        Zone specifiedZone = context.getArgument(this, ZONE);
+        Zone specifiedZone = commandContext.getArgument(this, ZONE);
 
         Collection<Zone> zones = ZonePlugin
                 .getZonesPlugin()
                 .getZoneManager()
-                .getZones()
+                .getRegistered()
                 .parallelStream()
                 .filter(zone1 -> zone1.getParent().isPresent())
                 .filter(zone -> zone.getParent().get().equals(specifiedZone))
                 .collect(Collectors.toSet());
         zones.add(specifiedZone);
 
-        Set<BlockType> usedColours = new HashSet<>();
+        Collection<BlockType> usedColours = new HashSet<>();
         Collection<BlockType> woolColours = BlockTypeTags.WOOL.get().values();
 
         zones.forEach(zone -> {

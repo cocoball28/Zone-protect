@@ -47,7 +47,7 @@ public class ZoneFlagInteractDoorEnabledCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Sets if interaction with door should be enabled");
+        return Messages.getInteractDoorEnableCommandDescription();
     }
 
     @Override

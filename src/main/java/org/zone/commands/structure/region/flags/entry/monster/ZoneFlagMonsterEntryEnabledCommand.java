@@ -43,7 +43,7 @@ public class ZoneFlagMonsterEntryEnabledCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Command to enable/disable monster prevention flag");
+        return Messages.getMonsterEntryEnableCommandDescription();
     }
 
     @Override

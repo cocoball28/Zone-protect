@@ -42,7 +42,7 @@ public class ZoneFlagBlockPlaceViewCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("View the details on block placement");
+        return Messages.getBlockPlaceViewCommandDescription();
     }
 
     @Override

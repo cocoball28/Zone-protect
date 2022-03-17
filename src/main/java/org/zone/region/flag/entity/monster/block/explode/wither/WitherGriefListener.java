@@ -1,5 +1,6 @@
 package org.zone.region.flag.entity.monster.block.explode.wither;
 
+import org.spongepowered.api.entity.explosive.Explosive;
 import org.spongepowered.api.entity.living.monster.boss.Wither;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.world.ExplosionEvent;
@@ -13,7 +14,8 @@ public class WitherGriefListener {
 
     @Listener
     public void onWitherExplodeBlocks(ExplosionEvent.Pre event) {
-        if (event.explosion().sourceExplosive().isEmpty() && !(event.explosion().sourceExplosive().get() instanceof Wither)) {
+        Optional<Explosive> opExplosion = event.explosion().sourceExplosive();
+        if (opExplosion.isEmpty() || !(opExplosion.get() instanceof Wither)) {
             return;
         }
         Location<?, ?> location = event.explosion().location();
@@ -21,7 +23,7 @@ public class WitherGriefListener {
         boolean contains = ZonePlugin
                 .getZonesPlugin()
                 .getZoneManager()
-                .getZones()
+                .getRegistered()
                 .stream()
                 .anyMatch(zone -> {
                     Optional<Vector3i> nearestPos = zone
@@ -30,10 +32,7 @@ public class WitherGriefListener {
                     if (nearestPos.isEmpty()) {
                         return false;
                     }
-                    double distance = nearestPos
-                            .get()
-                            .toDouble()
-                            .distance(location.position());
+                    double distance = nearestPos.get().toDouble().distance(location.position());
                     return distance <= explosionRadius;
                 });
         if (contains) {

@@ -23,25 +23,25 @@ public class ZoneFlagLeavingRemoveCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
-                    ZonePermissions.OVERRIDE_FLAG_LEAVING_REMOVE));
+                    ZonePermissions.OVERRIDE_FLAG_LEAVING_MESSAGE_REMOVE));
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
-                new ExactArgument("flag"),
-                ZONE,
-                new ExactArgument("leaving"),
-                new ExactArgument("remove"));
+                             new ExactArgument("flag"),
+                             ZONE,
+                             new ExactArgument("leaving"),
+                             new ExactArgument("remove"));
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Removes the leaving flag");
+        return Messages.getLeavingRemoveCommandDescription();
     }
 
     @Override
     public @NotNull Optional<ZonePermission> getPermissionNode() {
-        return Optional.of(ZonePermissions.FLAG_LEAVING_REMOVE);
+        return Optional.of(ZonePermissions.FLAG_LEAVING_MESSAGE_REMOVE);
     }
 
     @Override

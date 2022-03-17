@@ -7,13 +7,22 @@ import org.zone.commands.structure.create.bounds.chunk.ZoneCreateChunkSubStartCo
 import org.zone.commands.structure.create.bounds.exact.ZoneCreateStartCommand;
 import org.zone.commands.structure.create.bounds.exact.ZoneCreateSubStartCommand;
 import org.zone.commands.structure.info.ZonePluginInfoCommand;
-import org.zone.commands.structure.join.JoinZoneCommand;
 import org.zone.commands.structure.invite.ZoneInviteAcceptCommand;
 import org.zone.commands.structure.invite.ZoneInviteDenyCommand;
 import org.zone.commands.structure.invite.ZoneInvitePlayerCommand;
 import org.zone.commands.structure.invite.ZoneInvitePlayerViewCommand;
+import org.zone.commands.structure.region.EditBoundsEndCommand;
+import org.zone.commands.structure.region.EditBoundsStartCommand;
+import org.zone.commands.structure.region.flags.display.greetings.ZoneFlagGreetingsDisplaySetBossBarCommand;
+import org.zone.commands.structure.region.flags.display.greetings.ZoneFlagGreetingsDisplaySetChatCommand;
+import org.zone.commands.structure.region.flags.display.greetings.ZoneFlagGreetingsDisplaySetTitleCommand;
+import org.zone.commands.structure.region.flags.display.leaving.ZoneFlagLeavingMessageDisplaySetBossBarCommand;
+import org.zone.commands.structure.region.flags.display.leaving.ZoneFlagLeavingMessageDisplaySetChatCommand;
+import org.zone.commands.structure.region.flags.display.leaving.ZoneFlagLeavingMessageDisplaySetTitleCommand;
+import org.zone.commands.structure.region.flags.group.ZoneCreateCustomGroupCommand;
 import org.zone.commands.structure.region.flags.visibility.ZoneVisibilitySetCommand;
 import org.zone.commands.structure.region.flags.visibility.ZoneVisibilityViewCommand;
+import org.zone.commands.structure.join.JoinZoneCommand;
 import org.zone.commands.structure.leave.LeaveZoneCommand;
 import org.zone.commands.structure.region.flags.damage.towards.block.blocks.enderman.ZoneFlagEnderManGriefEnableCommand;
 import org.zone.commands.structure.region.flags.damage.towards.block.blocks.enderman.ZoneFlagEnderManGriefViewCommand;
@@ -29,6 +38,8 @@ import org.zone.commands.structure.region.flags.damage.towards.both.creeper.Zone
 import org.zone.commands.structure.region.flags.damage.towards.both.creeper.ZoneFlagCreeperGriefViewCommand;
 import org.zone.commands.structure.region.flags.damage.towards.both.enderdragon.ZoneFlagEnderDragonGriefEnableCommand;
 import org.zone.commands.structure.region.flags.damage.towards.both.enderdragon.ZoneFlagEnderDragonGriefViewCommand;
+import org.zone.commands.structure.region.flags.damage.towards.both.tnt.ZoneFlagTntDefuseSetEnableCommand;
+import org.zone.commands.structure.region.flags.damage.towards.both.tnt.ZoneFlagTntDefuseView;
 import org.zone.commands.structure.region.flags.damage.towards.both.wither.ZoneFlagWitherGriefEnableCommand;
 import org.zone.commands.structure.region.flags.damage.towards.both.wither.ZoneFlagWitherGriefViewCommand;
 import org.zone.commands.structure.region.flags.damage.towards.player.attack.ZoneFlagDamageAttackSetEnabledCommand;
@@ -37,8 +48,6 @@ import org.zone.commands.structure.region.flags.damage.towards.player.attack.Zon
 import org.zone.commands.structure.region.flags.damage.towards.player.fall.ZoneFlagPlayerFallDamageEnableDisable;
 import org.zone.commands.structure.region.flags.damage.towards.player.fall.ZoneFlagPlayerFallDamageSetGroup;
 import org.zone.commands.structure.region.flags.damage.towards.player.fall.ZoneFlagPlayerFallDamageView;
-import org.zone.commands.structure.region.flags.damage.towards.both.tnt.ZoneFlagTntDefuseSetEnableDisableCommand;
-import org.zone.commands.structure.region.flags.damage.towards.both.tnt.ZoneFlagTntDefuseView;
 import org.zone.commands.structure.region.flags.eco.ZoneFlagViewBalanceCommand;
 import org.zone.commands.structure.region.flags.entry.monster.ZoneFlagMonsterEntryEnabledCommand;
 import org.zone.commands.structure.region.flags.entry.monster.ZoneFlagMonsterEntryViewCommand;
@@ -67,6 +76,7 @@ import org.zone.commands.structure.region.flags.messages.leaving.ZoneFlagLeaving
 import org.zone.commands.structure.region.flags.messages.leaving.ZoneFlagLeavingViewCommand;
 import org.zone.commands.structure.region.info.ZoneInfoCommand;
 import org.zone.commands.structure.region.info.bounds.ZoneInfoBoundsShowCommand;
+import org.zone.commands.structure.region.shop.create.display.CreateDisplayShop;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 
@@ -104,6 +114,15 @@ public interface ZoneCommands {
     ZoneFlagGreetingsViewCommand ZONE_FLAG_GREETINGS_VIEW_COMMAND = new ZoneFlagGreetingsViewCommand();
     ZoneFlagInteractItemframesViewCommand ZONE_FLAG_INTERACT_ITEMFRAMES_VIEW_COMMAND = new ZoneFlagInteractItemframesViewCommand();
 
+    ZoneFlagLeavingMessageDisplaySetChatCommand ZONE_FLAG_LEAVING_MESSAGE_DISPLAY_SET_CHAT_COMMAND = new ZoneFlagLeavingMessageDisplaySetChatCommand();
+    ZoneFlagLeavingMessageDisplaySetTitleCommand ZONE_FLAG_LEAVING_MESSAGE_DISPLAY_SET_TITLE_COMMAND = new ZoneFlagLeavingMessageDisplaySetTitleCommand();
+    ZoneFlagLeavingMessageDisplaySetBossBarCommand ZONE_FLAG_LEAVING_MESSAGE_DISPLAY_SET_BOSS_BAR_COMMAND = new ZoneFlagLeavingMessageDisplaySetBossBarCommand();
+    ZoneFlagGreetingsDisplaySetChatCommand ZONE_FLAG_GREETINGS_DISPLAY_SET_CHAT_COMMAND = new ZoneFlagGreetingsDisplaySetChatCommand();
+    ZoneFlagGreetingsDisplaySetTitleCommand ZONE_FLAG_GREETINGS_DISPLAY_SET_TITLE_COMMAND = new ZoneFlagGreetingsDisplaySetTitleCommand();
+    ZoneFlagGreetingsDisplaySetBossBarCommand ZONE_FLAG_GREETINGS_DISPLAY_SET_BOSS_BAR_COMMAND = new ZoneFlagGreetingsDisplaySetBossBarCommand();
+    EditBoundsStartCommand EDIT_BOUNDS_START_COMMAND = new EditBoundsStartCommand();
+    EditBoundsEndCommand EDIT_BOUNDS_END_COMMAND = new EditBoundsEndCommand();
+    ZoneCreateCustomGroupCommand ZONE_CREATE_CUSTOM_GROUP_COMMAND = new ZoneCreateCustomGroupCommand();
     JoinZoneCommand JOIN_ZONE_COMMAND = new JoinZoneCommand();
     ZoneInviteAcceptCommand ZONE_INVITE_ACCEPT_COMMAND = new ZoneInviteAcceptCommand();
     ZoneInviteDenyCommand ZONE_INVITE_DENY_COMMAND = new ZoneInviteDenyCommand();
@@ -127,7 +146,7 @@ public interface ZoneCommands {
     ZoneFlagCreeperGriefViewCommand ZONE_FLAG_CREEPER_GRIEF_VIEW_COMMAND = new ZoneFlagCreeperGriefViewCommand();
     ZoneFlagFarmLandTrampleEnableCommand ZONE_FLAG_FARM_LAND_TRAMPLE_ENABLE_COMMAND = new ZoneFlagFarmLandTrampleEnableCommand();
     ZoneFlagFarmLandTrampleViewCommand ZONE_FLAG_FARM_LAND_TRAMPLE_VIEW_COMMAND = new ZoneFlagFarmLandTrampleViewCommand();
-    ZoneFlagTntDefuseSetEnableDisableCommand ZONE_FLAG_TNT_DEFUSE_SET_ENABLE_DISABLE_COMMAND = new ZoneFlagTntDefuseSetEnableDisableCommand();
+    ZoneFlagTntDefuseSetEnableCommand ZONE_FLAG_TNT_DEFUSE_SET_ENABLE_DISABLE_COMMAND = new ZoneFlagTntDefuseSetEnableCommand();
     ZoneFlagTntDefuseView ZONE_FLAG_TNT_DEFUSE_VIEW = new ZoneFlagTntDefuseView();
     ZoneFlagPlayerFallDamageSetGroup ZONE_FLAG_PLAYER_FALL_DAMAGE_SET_GROUP = new ZoneFlagPlayerFallDamageSetGroup();
     ZoneFlagDamageAttackSetGroupCommand ZONE_FLAG_DAMAGE_ATTACK_SET_GROUP_COMMAND = new ZoneFlagDamageAttackSetGroupCommand();
@@ -148,6 +167,8 @@ public interface ZoneCommands {
     ZoneFlagLeavingViewCommand ZONE_FLAG_LEAVING_VIEW_COMMAND = new ZoneFlagLeavingViewCommand();
     ZoneInfoCommand ZONE_INFO_COMMAND = new ZoneInfoCommand();
     LeaveZoneCommand ZONE_LEAVE_COMMAND = new LeaveZoneCommand();
+
+    CreateDisplayShop CREATE_DISPLAY_SHOP = new CreateDisplayShop();
 
     static ZoneSpongeCommand createCommand() {
         Collection<ArgumentCommand> collection = Arrays

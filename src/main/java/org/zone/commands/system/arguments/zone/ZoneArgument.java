@@ -91,8 +91,8 @@ public class ZoneArgument implements GUICommandArgument<Zone> {
             return this;
         }
 
-        public ZoneArgumentPropertiesBuilder setVisitorOnly(boolean check) {
-            this.isVisitor = check;
+        public ZoneArgumentPropertiesBuilder setVisitorOnly(boolean value) {
+            this.isVisitor = value;
             return this;
         }
     }
@@ -146,10 +146,10 @@ public class ZoneArgument implements GUICommandArgument<Zone> {
     }
 
     private Stream<Zone> getZones(CommandContext context) {
-        Collection<Zone> collection = ZonePlugin.getZonesPlugin().getZoneManager().getZones();
+        Collection<Zone> collection = ZonePlugin.getZonesPlugin().getZoneManager().getRegistered();
         Stream<Zone> zones = collection.stream();
         if (this.builder.isOnlyMainZones()) {
-            zones = zones.filter(zone -> zone.getParent().isEmpty());
+            zones = zones.filter(zone -> zone.getParentId().isEmpty());
         }
         if (this.builder.isLimitedToOnlyPartOf() && context.getSource() instanceof Player player) {
             zones = zones.filter(zone -> zone
@@ -175,11 +175,10 @@ public class ZoneArgument implements GUICommandArgument<Zone> {
         }
 
         if (this.builder.isVisitor && context.getSource() instanceof Player player) {
-            zones = zones
-                    .filter(zone -> zone
-                            .getMembers()
-                            .getGroup(player.uniqueId())
-                            .equals(DefaultGroups.VISITOR));
+            zones = zones.filter(zone -> zone
+                    .getMembers()
+                    .getGroup(player.uniqueId())
+                    .equals(DefaultGroups.VISITOR));
         }
         return zones;
     }

@@ -39,13 +39,13 @@ public class EditBoundsStartCommand implements ArgumentCommand {
         return Arrays.asList(new ExactArgument("region"),
                 new ExactArgument("edit"),
                 ZONE,
-                new ExactArgument("Bounds"),
+                new ExactArgument("bounds"),
                 new ExactArgument("start"));
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Edit the size of the region");
+        return Messages.getEditBoundsStartCommandDescription();
     }
 
     @Override

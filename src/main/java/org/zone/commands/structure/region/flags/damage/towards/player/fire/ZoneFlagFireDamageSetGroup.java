@@ -44,7 +44,7 @@ public class ZoneFlagFireDamageSetGroup implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Set the Group Key for Fire Damage");
+        return Messages.getPlayerFireDamageSetGroupCommandDescription();
     }
 
     @Override

@@ -43,7 +43,7 @@ public class ZoneFlagFireDamageSetEnable implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Enable or Disable Fire Damage");
+        return Messages.getPlayerFireDamageEnableCommandDescription();
     }
 
     @Override

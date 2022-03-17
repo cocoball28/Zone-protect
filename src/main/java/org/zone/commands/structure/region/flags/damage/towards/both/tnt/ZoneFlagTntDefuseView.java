@@ -39,7 +39,7 @@ public class ZoneFlagTntDefuseView implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("View info about the tnt defuse flag");
+        return Messages.getTntDefuseViewCommandDescription();
     }
 
     @Override

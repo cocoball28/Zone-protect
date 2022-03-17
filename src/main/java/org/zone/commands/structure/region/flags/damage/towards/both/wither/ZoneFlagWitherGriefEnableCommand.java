@@ -43,7 +43,7 @@ public class ZoneFlagWitherGriefEnableCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Enable/Disable Wither grief");
+        return Messages.getWitherGriefEnableCommandDescription();
     }
 
     @Override

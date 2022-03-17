@@ -5,7 +5,7 @@ import org.zone.region.flag.Flag;
 import org.zone.region.flag.FlagType;
 import org.zone.region.flag.FlagTypes;
 
-public class ZoneVisibilityFlag implements Flag {
+public class ZoneVisibilityFlag implements Flag.Serializable {
 
     private @NotNull ZoneVisibility zoneVisibility = ZoneVisibility.PRIVATE;
 
@@ -18,7 +18,7 @@ public class ZoneVisibilityFlag implements Flag {
     }
 
     @Override
-    public @NotNull FlagType<?> getType() {
+    public @NotNull ZoneVisibilityFlagType getType() {
         return FlagTypes.ZONE_VISIBILITY;
     }
 }

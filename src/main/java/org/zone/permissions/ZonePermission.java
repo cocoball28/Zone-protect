@@ -3,9 +3,11 @@ package org.zone.permissions;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.service.permission.PermissionService;
 import org.spongepowered.api.service.permission.Subject;
+import org.zone.annotations.Typed;
 
 import java.util.Optional;
 
+@Typed(typesClass = ZonePermissions.class)
 public interface ZonePermission {
 
     String[] getPermissionNode();

@@ -48,7 +48,7 @@ public class ZoneFlagInteractDoorGroupCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Sets the minimum group that can interact with doors");
+        return Messages.getInteractDoorSetGroupCommandDescription();
     }
 
     @Override

@@ -13,7 +13,7 @@ import java.util.Optional;
 /**
  * Flag used to state that a zone is being modified
  */
-public class EditingFlagType implements FlagType<EditingFlag> {
+public class EditingFlagType implements FlagType.SerializableType<EditingFlag> {
 
     public static final String NAME = "Editing";
     public static final String KEY = "edit";

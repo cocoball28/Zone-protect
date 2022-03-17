@@ -2,12 +2,11 @@ package org.zone.region.flag.entity.monster.block.ignite;
 
 import org.jetbrains.annotations.NotNull;
 import org.zone.region.flag.Flag;
-import org.zone.region.flag.FlagType;
 import org.zone.region.flag.FlagTypes;
 
 public class SkeletonGriefFlag implements Flag.TaggedFlag {
     @Override
-    public @NotNull FlagType<?> getType() {
+    public @NotNull SkeletonGriefFlagType getType() {
         return FlagTypes.SKELETON_GRIEF;
     }
 }

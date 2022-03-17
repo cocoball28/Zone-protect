@@ -15,6 +15,7 @@ import org.zone.region.group.key.GroupKeys;
 import java.util.Optional;
 
 public class ItemFrameInteractionListener {
+
     @Listener
     public void onAttack(InteractEntityEvent event, @First Player attacker) {
         if (attacker instanceof Subject subject) {
@@ -35,10 +36,9 @@ public class ItemFrameInteractionListener {
 
         Zone zone = opZone.get();
         Group group = zone.getMembers().getGroup(attacker.uniqueId());
-        if (group.contains(GroupKeys.INTERACT_ITEMFRAME)) {
-            return;
+        if (!(group.contains(GroupKeys.INTERACT_ITEMFRAME))) {
+            event.setCancelled(true);
         }
-        event.setCancelled(true);
     }
 
 }

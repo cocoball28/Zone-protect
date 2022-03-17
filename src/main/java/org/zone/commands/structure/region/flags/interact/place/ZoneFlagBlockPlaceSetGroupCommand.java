@@ -48,7 +48,7 @@ public class ZoneFlagBlockPlaceSetGroupCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Sets the group");
+        return Messages.getBlockPlaceSetGroupCommandDescription();
     }
 
     @Override

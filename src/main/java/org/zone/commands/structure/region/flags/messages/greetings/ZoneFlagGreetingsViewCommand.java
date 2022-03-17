@@ -20,35 +20,38 @@ import java.util.List;
 import java.util.Optional;
 
 public class ZoneFlagGreetingsViewCommand implements ArgumentCommand {
-    public static final ExactArgument REGION = new ExactArgument("region");
-    public static final ExactArgument FLAGS = new ExactArgument("flag");
+
     public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zoneId",
             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
-                    ZonePermissions.OVERRIDE_FLAG_GREETINGS_VIEW));
-    public static final ExactArgument GREETINGS = new ExactArgument("greetings");
-    public static final ExactArgument VIEW = new ExactArgument("view");
+                    ZonePermissions.OVERRIDE_FLAG_GREETINGS_MESSAGE_VIEW));
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
-        return Arrays.asList(REGION, FLAGS, ZONE_VALUE, GREETINGS, VIEW);
+        return Arrays.asList(new ExactArgument("region"),
+                             new ExactArgument("flag"),
+                             ZONE_VALUE,
+                             new ExactArgument("greetings"),
+                             new ExactArgument("view"));
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Command for viewing the greeting message of a specific zone");
+        return Messages.getGreetingsViewCommandDescription();
     }
 
     @Override
     public @NotNull Optional<ZonePermission> getPermissionNode() {
-        return Optional.of(ZonePermissions.FLAG_GREETINGS_VIEW);
+        return Optional.of(ZonePermissions.FLAG_GREETINGS_MESSAGE_VIEW);
     }
 
     @Override
     public @NotNull CommandResult run(CommandContext commandContext, String... args) {
         Zone zone = commandContext.getArgument(this, ZONE_VALUE);
-        GreetingsFlag greetingsFlag = zone.getFlag(FlagTypes.GREETINGS).orElse(new GreetingsFlag());
-        Component message = greetingsFlag.getMessage().orElse(Messages.getNoMessageSet());
-        commandContext.sendMessage(Messages.getFlagMessageView(message));
+        @NotNull Optional<GreetingsFlag> opGreetingsFlag = zone.getFlag(FlagTypes.GREETINGS);
+        if (opGreetingsFlag.isEmpty()) {
+            return CommandResult.error(Messages.getNoMessageSet());
+        }
+        commandContext.sendMessage(Messages.getFlagMessageView(opGreetingsFlag.get()));
         return CommandResult.success();
     }
 

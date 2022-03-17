@@ -2,6 +2,7 @@ package org.zone.region.group;
 
 import org.jetbrains.annotations.NotNull;
 import org.zone.Identifiable;
+import org.zone.annotations.Typed;
 import org.zone.region.group.key.GroupKey;
 
 import java.util.Collection;
@@ -17,6 +18,7 @@ import java.util.stream.StreamSupport;
  * for a zone. A group can have GroupKeys which act like permissions for that group within the
  * zone.
  */
+@Typed(typesClass = DefaultGroups.class)
 public interface Group extends Identifiable, Comparable<Group> {
 
     /**

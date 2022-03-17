@@ -14,10 +14,6 @@ import org.spongepowered.api.event.entity.DamageEntityEvent;
 import org.spongepowered.api.event.entity.MoveEntityEvent;
 import org.spongepowered.api.event.filter.Getter;
 import org.spongepowered.api.event.filter.cause.First;
-import org.spongepowered.api.event.item.inventory.ChangeInventoryEvent;
-import org.spongepowered.api.item.inventory.Equipable;
-import org.spongepowered.api.item.inventory.Inventory;
-import org.spongepowered.api.item.inventory.equipment.EquipmentInventory;
 import org.spongepowered.api.scheduler.Task;
 import org.spongepowered.api.util.Ticks;
 import org.spongepowered.api.world.HeightTypes;
@@ -46,7 +42,7 @@ public class HumanAIListener {
         Vector3i height = world.height(HeightTypes.MOTION_BLOCKING_NO_LEAVES.get(),
                 player.blockPosition());
         if (zone
-                .getEntities(height.y() - 2, world.height())
+                .getEntities(height.y() - 2.0, world.height())
                 .stream()
                 .anyMatch(entity -> entity instanceof Human)) {
             return;

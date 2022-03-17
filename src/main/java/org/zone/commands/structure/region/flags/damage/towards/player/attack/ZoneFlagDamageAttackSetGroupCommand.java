@@ -45,7 +45,7 @@ public class ZoneFlagDamageAttackSetGroupCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Sets the group for Entity Damage Player flag");
+        return Messages.getDamageAttackSetGroupCommandDescription();
     }
 
     @Override
@@ -57,11 +57,11 @@ public class ZoneFlagDamageAttackSetGroupCommand implements ArgumentCommand {
     public @NotNull CommandResult run(
             @NotNull CommandContext commandContext, @NotNull String... args) {
         Zone zone = commandContext.getArgument(this, ZONE_VALUE);
-        EntityDamagePlayerFlag entityDamagePlayerFlag = zone
+        EntityDamagePlayerFlag damagePlayerFlag = zone
                 .getFlag(FlagTypes.ENTITY_DAMAGE_PLAYER)
                 .orElse(FlagTypes.ENTITY_DAMAGE_PLAYER.createCopyOfDefault());
         Group group = commandContext.getArgument(this, GROUP);
-        zone.getMembers().addKey(group, entityDamagePlayerFlag.getRequiredKey());
+        zone.getMembers().addKey(group, damagePlayerFlag.getRequiredKey());
         try {
             zone.save();
             commandContext.sendMessage(Messages.getUpdatedMessage(FlagTypes.ENTITY_DAMAGE_PLAYER));

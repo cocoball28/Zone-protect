@@ -24,7 +24,7 @@ import org.zone.region.ZoneBuilder;
 import org.zone.region.bounds.BoundedRegion;
 import org.zone.region.bounds.ChildRegion;
 import org.zone.region.bounds.Region;
-import org.zone.region.flag.meta.eco.price.Price;
+import org.zone.region.shop.transaction.price.Price;
 import org.zone.region.flag.meta.member.MembersFlag;
 import org.zone.region.group.DefaultGroups;
 import org.zone.utils.Messages;
@@ -48,7 +48,7 @@ public class ZoneCreateEndCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Ends the creation by bounds. Will use your location as ending");
+        return Messages.getZoneCreateEndCommandDescription();
     }
 
     @Override

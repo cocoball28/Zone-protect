@@ -1,5 +1,6 @@
 package org.zone.region.flag;
 
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
@@ -11,6 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * All defaults will be saved and loaded in here.
@@ -53,11 +55,15 @@ public class DefaultFlagFile {
     private void updateFile() {
         try {
             this.createFile();
-            for (FlagType<? extends Flag> type : ZonePlugin
+            for (FlagType.SerializableType<? extends Flag.Serializable> type : ZonePlugin
                     .getZonesPlugin()
                     .getFlagManager()
-                    .getRegistered()) {
-                Optional<? extends Flag> opFlag = this.loadDefault(type);
+                    .getRegistered()
+                    .stream()
+                    .filter(type -> type instanceof FlagType.SerializableType)
+                    .map(type -> (FlagType.SerializableType<? extends Flag.Serializable>) type)
+                    .collect(Collectors.toSet())) {
+                Optional<? extends Flag.Serializable> opFlag = this.loadDefault(type);
                 if (opFlag.isEmpty()) {
                     this.removeDefault(type);
                     continue;
@@ -79,11 +85,13 @@ public class DefaultFlagFile {
      *
      * @return The loaded flag, if it fails to load then the default from the type will be used.
      */
-    public <F extends Flag, T extends FlagType<F>> Optional<F> loadDefault(T type) {
+    public <F extends Flag.Serializable, T extends FlagType.SerializableType<F>> Optional<F> loadDefault(
+            T type) {
         try {
-            return Optional.of(type.load(this.node.node("flags",
+            @NotNull F flag = type.load(this.node.node("flags",
                     type.getPlugin().metadata().id(),
-                    type.getKey())));
+                    type.getKey()));
+            return Optional.of(flag);
         } catch (IOException e) {
             return type.createCopyOfDefaultFlag();
         } catch (Throwable e) {
@@ -102,7 +110,8 @@ public class DefaultFlagFile {
      *
      * @throws IOException If fails to save
      */
-    public <F extends Flag, T extends FlagType<F>> void setDefault(F flag) throws IOException {
+    public <F extends Flag.Serializable, T extends FlagType.SerializableType<F>> void setDefault(F flag) throws
+            IOException {
         T type = (T) flag.getType();
         type.save(this.node.node("flags", type.getPlugin().metadata().id(), type.getKey()), flag);
     }
@@ -114,7 +123,7 @@ public class DefaultFlagFile {
      *
      * @throws IOException if fails to save
      */
-    public void removeDefault(FlagType<? extends Flag> type) throws IOException {
+    public void removeDefault(@SuppressWarnings("TypeMayBeWeakened") FlagType.SerializableType<? extends Flag> type) throws IOException {
         type.save(this.node.node("flags"), null);
     }
 

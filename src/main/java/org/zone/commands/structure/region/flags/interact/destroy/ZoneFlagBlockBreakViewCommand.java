@@ -42,7 +42,7 @@ public class ZoneFlagBlockBreakViewCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("View the details on door interaction");
+        return Messages.getBlockBreakViewCommandDescription();
     }
 
     @Override

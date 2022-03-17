@@ -6,7 +6,7 @@ import org.zone.region.flag.FlagTypes;
 
 import java.util.*;
 
-public class JoinRequestFlag implements Flag {
+public class JoinRequestFlag implements Flag.Serializable {
 
     private final @NotNull Collection<UUID> inviteRequests = new HashSet<>();
 

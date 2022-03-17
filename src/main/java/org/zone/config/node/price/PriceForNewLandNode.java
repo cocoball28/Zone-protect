@@ -16,10 +16,10 @@ import org.zone.commands.system.context.CommandContext;
 import org.zone.config.ZoneConfig;
 import org.zone.config.command.ConfigCommandNode;
 import org.zone.config.node.ZoneNode;
-import org.zone.region.flag.meta.eco.price.Price;
-import org.zone.region.flag.meta.eco.price.PriceBuilder;
-import org.zone.region.flag.meta.eco.price.PriceType;
-import org.zone.region.flag.meta.eco.price.player.PlayerLevelPrice;
+import org.zone.region.shop.transaction.price.Price;
+import org.zone.region.shop.transaction.price.PriceBuilder;
+import org.zone.region.shop.transaction.price.PriceType;
+import org.zone.region.shop.transaction.price.player.PlayerLevelPrice;
 import org.zone.utils.Messages;
 
 import java.util.*;
@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 
 public class PriceForNewLandNode implements ZoneNode<Price.PlayerPrice<?>> {
 
-    class TypeConfigCommandNode implements ConfigCommandNode<PriceType> {
+    private class TypeConfigCommandNode implements ConfigCommandNode<PriceType> {
 
         @Override
         public String getDisplayId() {
@@ -86,7 +86,8 @@ public class PriceForNewLandNode implements ZoneNode<Price.PlayerPrice<?>> {
 
     @Override
     public void set(
-            CommentedConfigurationNode node, Price.PlayerPrice<?> price) throws SerializationException {
+            CommentedConfigurationNode node, Price.PlayerPrice<?> price) throws
+            SerializationException {
         node.node("type").set(price.getType().name());
         node.node("amount").set(price.getAmount().doubleValue());
         if (price instanceof Price.EcoPrice) {

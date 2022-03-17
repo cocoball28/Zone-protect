@@ -4,12 +4,14 @@ import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 import org.spongepowered.math.vector.Vector3i;
+import org.zone.annotations.Typed;
 
 /**
  * A interact designed to shift the position of a creating/editing zone.
  * <p>
  * A example of this would be that if a chunk is required, a BoundMode which shifts to the nearest chunk edge would be used
  */
+@Typed(typesClass = BoundModes.class)
 public interface BoundMode {
 
     /**

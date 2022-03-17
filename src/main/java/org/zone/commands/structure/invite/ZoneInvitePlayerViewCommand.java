@@ -37,7 +37,7 @@ public class ZoneInvitePlayerViewCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("View the invites of a zone");
+        return Messages.getZoneInvitePlayerViewCommandDescription();
     }
 
     @Override
@@ -57,16 +57,16 @@ public class ZoneInvitePlayerViewCommand implements ArgumentCommand {
 
         Collection<GameProfile> inviteProfiles = profiles
                 .stream()
-                .filter(inviteUUIDs::contains)
+                .filter(profile -> inviteUUIDs.contains(profile.uniqueId()))
                 .collect(Collectors.toSet());
 
         commandContext.sendMessage(Messages.getInvitesPlayersTag());
         inviteProfiles
-                .forEach(profile -> {
-                    commandContext.sendMessage(Messages
-                            .getEntry(profile.name().orElse("Unknown Username")));
-                });
-
+                .forEach(profile -> commandContext
+                        .sendMessage(Messages
+                                .getEntry(profile.
+                                        name()
+                                        .orElse("Unknown Username"))));
         return CommandResult.success();
     }
 }

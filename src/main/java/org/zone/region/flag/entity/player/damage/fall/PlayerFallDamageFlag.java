@@ -10,7 +10,7 @@ import org.zone.region.group.key.GroupKeys;
 public class PlayerFallDamageFlag implements Flag.TaggedFlag, Flag.AffectsPlayer {
 
     @Override
-    public @NotNull FlagType<?> getType() {
+    public @NotNull PlayerFallDamageFlagType getType() {
         return FlagTypes.PLAYER_FALL_DAMAGE;
     }
 

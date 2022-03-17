@@ -40,7 +40,7 @@ public class ZoneFlagMonsterEntryViewCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Displays info about the Monster Prevention flag");
+        return Messages.getMonsterEntryViewCommandDescription();
     }
 
     @Override

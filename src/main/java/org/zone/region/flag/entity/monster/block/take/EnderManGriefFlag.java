@@ -7,7 +7,7 @@ import org.zone.region.flag.FlagTypes;
 
 public class EnderManGriefFlag implements Flag.TaggedFlag {
     @Override
-    public @NotNull FlagType<?> getType() {
+    public @NotNull EnderManGriefFlagType getType() {
         return FlagTypes.ENDER_MAN_GRIEF;
     }
 }

@@ -16,10 +16,10 @@ import java.util.stream.Collectors;
 /**
  * Flag used to hold all members
  */
-public class MembersFlag implements Flag {
+public class MembersFlag implements Flag.Serializable {
 
     private final java.util.Map<Group, Collection<UUID>> groups = new HashMap<>();
-    private int usedPower = 0;
+    private int usedPower;
     public static final MembersFlag DEFAULT = new MembersFlag(DefaultGroups.createDefaultGroups());
 
     public MembersFlag() {
@@ -30,19 +30,34 @@ public class MembersFlag implements Flag {
         this(Arrays.asList(groups));
     }
 
+    public MembersFlag(int usedPower, @NotNull Group... groups) {
+        this(usedPower, Arrays.asList(groups));
+    }
+
+
     public MembersFlag(@NotNull Collection<? extends Group> groups) {
-        this(groups.stream().collect(Collectors.toMap(g -> g, g -> new HashSet<>())));
+        this(0, groups);
+    }
+
+    public MembersFlag(int usedPower, @NotNull Collection<? extends Group> groups) {
+        this(groups.stream().collect(Collectors.toMap(g -> g, g -> new HashSet<>())), usedPower);
     }
 
     public MembersFlag(@NotNull MembersFlag flag) {
-        this(flag.groups);
+        this(flag.groups, flag.usedPower);
     }
 
     public MembersFlag(@NotNull java.util.Map<? extends Group, ? extends Collection<UUID>> map) {
+        this(map, 0);
+    }
+
+    public MembersFlag(
+            @NotNull java.util.Map<? extends Group, ? extends Collection<UUID>> map,
+            int usedPower) {
         if (map.isEmpty()) {
             throw new IllegalArgumentException("Cannot have no groups");
         }
-
+        this.usedPower = usedPower;
         this.groups.putAll(map);
     }
 
@@ -141,7 +156,7 @@ public class MembersFlag implements Flag {
     }
 
     /**
-     * gets all the members of a specific group
+     * Gets all the members of a specific group
      *
      * @param group the group to check
      *
@@ -161,7 +176,7 @@ public class MembersFlag implements Flag {
     }
 
     /**
-     * gets the group a player belongs to
+     * Gets the group a player belongs to
      *
      * @param uuid UUID of the player
      *
@@ -179,7 +194,7 @@ public class MembersFlag implements Flag {
     }
 
     /**
-     * sets a player into the visitor group
+     * Sets a player into the visitor group
      *
      * @param uuid the UUID of the player
      */
@@ -191,6 +206,13 @@ public class MembersFlag implements Flag {
             uuids.remove(uuid);
             return;
         }
+    }
+
+    /**
+     * Registers custom groups
+     */
+    public void registerGroup(@NotNull Group group) {
+        this.groups.put(group, new HashSet<>());
     }
 
     @Override
