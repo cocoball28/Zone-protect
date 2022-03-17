@@ -21,8 +21,6 @@ public class BossBarMessageDisplay implements MessageDisplay {
         this.overlay = overlay;
     }
 
-    public BossBarMessageDisplay() {}
-
     public float getProgress() {
         return this.progress;
     }

@@ -16,8 +16,6 @@ public class TitleMessageDisplay implements MessageDisplay {
         this.subTitle = subTitle;
     }
 
-    public TitleMessageDisplay() {}
-
     public @NotNull Component getSubTitle() {
         return this.subTitle;
     }
