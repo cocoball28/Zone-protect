@@ -12,8 +12,6 @@ public class LeavingFlag implements Flag {
 
     private @NotNull MessageDisplay messageDisplay = MessageDisplayTypes.CHAT.createCopyOfDefault();
     private @NotNull Component leavingMessage;
-    @Deprecated(since = "1.0.1",forRemoval = true)
-    private @Nullable Component legacyLeavingMessage;
 
     public LeavingFlag(@NotNull Component leavingMessage, @NotNull MessageDisplay messageDisplay) {
         this.leavingMessage = leavingMessage;
@@ -22,12 +20,12 @@ public class LeavingFlag implements Flag {
 
     @Deprecated(since = "1.0.1",forRemoval = true)
     public LeavingFlag(@NotNull Component leavingMessage) {
-        this.legacyLeavingMessage = leavingMessage;
+        this.leavingMessage = leavingMessage;
     }
 
     @Deprecated(since = "1.0.1",forRemoval = true)
     public @Nullable Component getLegacyLeavingMessage() {
-        return this.legacyLeavingMessage;
+        return this.leavingMessage;
     }
 
     public @NotNull Component getLeavingMessage() {
@@ -40,7 +38,7 @@ public class LeavingFlag implements Flag {
 
     @Deprecated(since = "1.0.1",forRemoval = true)
     public void setLegacyLeavingMessage(@NotNull Component leavingMessage) {
-        this.legacyLeavingMessage = leavingMessage;
+        this.leavingMessage = leavingMessage;
     }
 
     public void setLeavingMessage(@NotNull Component leavingMessage) {

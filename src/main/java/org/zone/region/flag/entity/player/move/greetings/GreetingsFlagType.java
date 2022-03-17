@@ -37,21 +37,22 @@ public class GreetingsFlagType implements FlagType<GreetingsFlag> {
     public @NotNull GreetingsFlag load(@NotNull ConfigurationNode node) throws IOException {
         String message = node.node("Message").getString();
         String displayTypeID = node.node("DisplayType").getString();
+        MessageDisplayType<?> displayTypeAvailable;
         if (message == null) {
             throw new IOException("Could not get message");
         }
         if (displayTypeID == null) {
-            node.node("DisplayType").set(MessageDisplayTypes.CHAT.getId());
+            displayTypeAvailable = MessageDisplayTypes.CHAT;
+        } else {
+            displayTypeAvailable = ZonePlugin
+                    .getZonesPlugin()
+                    .getMessageDisplayManager()
+                    .getDisplayTypes()
+                    .stream()
+                    .filter(messageDisplayType -> messageDisplayType.getId().equals(displayTypeID))
+                    .findAny()
+                    .orElseThrow(() -> new IOException("Display ID not found!"));
         }
-        final String finalDisplayTypeID = node.node("DisplayType").getString();
-        MessageDisplayType<?> displayTypeAvailable = ZonePlugin
-                .getZonesPlugin()
-                .getMessageDisplayManager()
-                .getDisplayTypes()
-                .stream()
-                .filter(messageDisplayType -> messageDisplayType.getId().equals(finalDisplayTypeID))
-                .findAny()
-                .orElseThrow(() -> new IOException("Display ID not found!"));
         MessageDisplay load = displayTypeAvailable.load(node);
         Component component = GsonComponentSerializer.gson().deserialize(message);
         return new GreetingsFlag(component, load);

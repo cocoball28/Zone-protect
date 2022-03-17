@@ -15,8 +15,6 @@ public class GreetingsFlag implements Flag {
 
     private @NotNull MessageDisplay messageDisplay = MessageDisplayTypes.CHAT.createCopyOfDefault();
     private @NotNull Component text;
-    @Deprecated(forRemoval = true)
-    private @Nullable Component legacyText;
 
     @Deprecated(forRemoval = true)
     public GreetingsFlag() {
@@ -24,7 +22,7 @@ public class GreetingsFlag implements Flag {
     }
     @Deprecated(forRemoval = true)
     public GreetingsFlag(@NotNull Component greetingsMessage) {
-        this.legacyText = greetingsMessage;
+        this.text = greetingsMessage;
     }
 
     public GreetingsFlag(@NotNull Component greetingsMessage, @NotNull MessageDisplay messageDisplay) {
@@ -39,7 +37,7 @@ public class GreetingsFlag implements Flag {
      * @return The greetings message
      */
     public @Nullable Component getLegacyGreetingsMessage() {
-        return this.legacyText;
+        return this.text;
     }
 
     /**
@@ -69,7 +67,7 @@ public class GreetingsFlag implements Flag {
      * @param component The component to be set
      */
     public void setLegacyMessage(@NotNull Component component) {
-        this.legacyText = component;
+        this.text = component;
     }
 
     /**
