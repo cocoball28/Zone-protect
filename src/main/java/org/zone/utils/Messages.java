@@ -848,8 +848,8 @@ public final class Messages {
         return Component.text("No Group found with the GroupKey " + groupKey.getName()).color(NamedTextColor.RED);
     }
 
-    public static Component getNoInviteFoundByUUID() {
-        return Component.text("No invite found by your UUID");
+    public static Component getNotInvited() {
+        return Component.text("You have not been invited");
     }
 
 }

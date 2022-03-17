@@ -61,7 +61,7 @@ public class ZoneInviteAcceptCommand implements ArgumentCommand {
                     .map(JoinRequestFlag::getInvites)
                     .orElse(Collections.emptySet());
             if (!(invites.contains(player.uniqueId()))) {
-                return CommandResult.error(Messages.getNoInviteFoundByUUID());
+                return CommandResult.error(Messages.getNotInvited());
             }
             MembersFlag membersFlag = zone.getMembers();
             Optional<Group> group = membersFlag.getGroup(GroupKeys.NEW_MEMBER);

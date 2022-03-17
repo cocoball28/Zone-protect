@@ -28,7 +28,8 @@ public final class DefaultGroups {
                 VISITOR);
         HOME_OWNER = new SimpleGroup(ZonePlugin.getZonesPlugin().getPluginContainer(),
                 "home_owner",
-                "Home owner", NEW_MEMBER);
+                "Home owner",
+                NEW_MEMBER);
         OWNER = new SimpleGroup(ZonePlugin.getZonesPlugin().getPluginContainer(),
                 "owner",
                 "Owner",
