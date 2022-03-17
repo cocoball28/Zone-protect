@@ -33,6 +33,7 @@ public class TitleMessageDisplay implements MessageDisplay {
     public void setTimes(@NotNull Title.Times times) {
         this.times = times;
     }
+
     @Override
     public void sendMessage(@NotNull Component message, @NotNull Player receiver) {
         Title titleMessage = Title.title(message, this.subTitle);

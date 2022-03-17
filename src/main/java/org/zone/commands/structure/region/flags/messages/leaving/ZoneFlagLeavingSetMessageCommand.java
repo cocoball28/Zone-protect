@@ -33,14 +33,6 @@ public class ZoneFlagLeavingSetMessageCommand implements ArgumentCommand {
                     ZonePermissions.OVERRIDE_FLAG_LEAVING_MESSAGE_SET));
     public static final ComponentRemainingArgument MESSAGE = new ComponentRemainingArgument(
             "message_value");
-    public static final OptionalArgument<MessageDisplayType<?>> DISPLAY_MODE =
-            new OptionalArgument<>(new AnyMatchArgument<>("displayMode",
-                    MessageDisplayType::getId
-                    , ZonePlugin
-                    .getZonesPlugin()
-                    .getMessageDisplayManager()
-                    .getDisplayTypes()),
-                    MessageDisplayTypes.CHAT);
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
@@ -50,8 +42,7 @@ public class ZoneFlagLeavingSetMessageCommand implements ArgumentCommand {
                              new ExactArgument("leaving"),
                              new ExactArgument("message"),
                              new ExactArgument("set"),
-                             MESSAGE,
-                             DISPLAY_MODE);
+                             MESSAGE);
     }
 
     @Override
@@ -68,14 +59,13 @@ public class ZoneFlagLeavingSetMessageCommand implements ArgumentCommand {
     public @NotNull CommandResult run(CommandContext commandContext, String... args) {
         Zone zone = commandContext.getArgument(this, ZONE);
         Component message = commandContext.getArgument(this, MESSAGE);
-        MessageDisplayType<?> displayMode = commandContext.getArgument(this, DISPLAY_MODE);
 
         LeavingFlag flag = zone
                 .getFlag(FlagTypes.LEAVING)
-                .orElse(new LeavingFlag(Messages.getEnterLeavingMessage(), displayMode.createCopyOfDefault()));
+                .orElse(new LeavingFlag(Messages.getEnterLeavingMessage(),
+                        MessageDisplayTypes.CHAT.createCopyOfDefault()));
 
         flag.setLeavingMessage(message);
-        flag.setDisplayType(displayMode.createCopyOfDefault());
         zone.setFlag(flag);
         try {
             zone.save();

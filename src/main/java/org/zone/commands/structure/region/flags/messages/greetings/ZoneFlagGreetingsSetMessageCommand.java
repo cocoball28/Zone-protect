@@ -33,14 +33,6 @@ public class ZoneFlagGreetingsSetMessageCommand implements ArgumentCommand {
                     ZonePermissions.OVERRIDE_FLAG_GREETINGS_MESSAGE_SET));
     public static final ComponentRemainingArgument MESSAGE_VALUE = new ComponentRemainingArgument(
             "message_value");
-    public static final OptionalArgument<MessageDisplayType<?>> DISPLAY_MODE =
-            new OptionalArgument<>(new AnyMatchArgument<>("displayMode",
-                    MessageDisplayType::getId
-                    , ZonePlugin
-                    .getZonesPlugin()
-                    .getMessageDisplayManager()
-                    .getDisplayTypes()),
-                    MessageDisplayTypes.CHAT);
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
@@ -50,8 +42,7 @@ public class ZoneFlagGreetingsSetMessageCommand implements ArgumentCommand {
                              new ExactArgument("greetings"),
                              new ExactArgument("message"),
                              new ExactArgument("set"),
-                             MESSAGE_VALUE,
-                             DISPLAY_MODE);
+                             MESSAGE_VALUE);
     }
 
     @Override
@@ -68,12 +59,11 @@ public class ZoneFlagGreetingsSetMessageCommand implements ArgumentCommand {
     public @NotNull CommandResult run(CommandContext commandContext, String... args) {
         Zone zone = commandContext.getArgument(this, ZONE_VALUE);
         Component message = commandContext.getArgument(this, MESSAGE_VALUE);
-        MessageDisplayType<?> displayMode = commandContext.getArgument(this, DISPLAY_MODE);
         GreetingsFlag greetingsflag = zone
                 .getFlag(FlagTypes.GREETINGS)
-                .orElse(new GreetingsFlag(Messages.getEnterGreetingsMessage(), displayMode.createCopyOfDefault()));
+                .orElse(new GreetingsFlag(Messages.getEnterGreetingsMessage(),
+                        MessageDisplayTypes.CHAT.createCopyOfDefault()));
         greetingsflag.setMessage(message);
-        greetingsflag.setDisplayType(displayMode.createCopyOfDefault());
         zone.setFlag(greetingsflag);
         try {
             zone.save();
