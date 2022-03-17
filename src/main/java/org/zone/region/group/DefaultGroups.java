@@ -43,6 +43,7 @@ public final class DefaultGroups {
     }
 
     private DefaultGroups() {
+        throw new RuntimeException("Should not init class");
     }
 
     /**
