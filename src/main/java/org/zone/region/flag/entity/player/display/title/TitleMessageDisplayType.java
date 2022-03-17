@@ -1,6 +1,7 @@
 package org.zone.region.flag.entity.player.display.title;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.title.Title;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
@@ -9,6 +10,7 @@ import org.zone.ZonePlugin;
 import org.zone.region.flag.entity.player.display.MessageDisplayType;
 
 import java.io.IOException;
+import java.time.Duration;
 
 public class TitleMessageDisplayType implements MessageDisplayType<TitleMessageDisplay> {
     @Override
@@ -33,7 +35,8 @@ public class TitleMessageDisplayType implements MessageDisplayType<TitleMessageD
         if (displayTypeID == null) {
             throw new IOException("Couldn't get the display type");
         }
-        return new TitleMessageDisplay(Component.empty());
+        return new TitleMessageDisplay(Component.empty(), Title.Times.of(Duration.ZERO,
+                Duration.ofSeconds(10), Duration.ofSeconds(5)));
     }
 
     @Override
@@ -48,6 +51,7 @@ public class TitleMessageDisplayType implements MessageDisplayType<TitleMessageD
 
     @Override
     public TitleMessageDisplay createCopyOfDefault() {
-        return new TitleMessageDisplay(Component.empty());
+        return new TitleMessageDisplay(Component.empty(), Title.Times.of(Duration.ZERO,
+                Duration.ofSeconds(10), Duration.ofSeconds(5)));
     }
 }
