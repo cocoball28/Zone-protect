@@ -17,6 +17,7 @@ import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.meta.request.join.JoinRequestFlag;
 import org.zone.region.group.DefaultGroups;
+import org.zone.region.group.key.GroupKeys;
 import org.zone.utils.Messages;
 
 import java.util.*;
@@ -62,7 +63,7 @@ public class ZoneInviteAcceptCommand implements ArgumentCommand {
                     if (!(invites.contains(player.uniqueId()))) {
                         return;
                     }
-                    zone.getMembers().addMember(DefaultGroups.HOME_OWNER, player.uniqueId());
+                    zone.getMembers().addMember(DefaultGroups.MEMBER, player.uniqueId());
                     invites.remove(player.uniqueId());
                     zone.setFlag(opJoinRequestFlag.get());
                     try {
