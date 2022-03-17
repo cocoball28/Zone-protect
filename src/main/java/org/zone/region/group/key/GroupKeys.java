@@ -19,7 +19,9 @@ public enum GroupKeys implements GroupKey {
             "Prevent players from interacting an itemframe in " + "your zone"),
     ENTITY_DAMAGE_PLAYER("entity_damage_player", "Prevent damage from any other entity"),
     PLAYER_FALL_DAMAGE("player_fall_damage", "Prevent player  fall damage"),
-    PLAYER_FIRE_DAMAGE("player_fire_damage", "Prevent fire damage to players");
+    PLAYER_FIRE_DAMAGE("player_fire_damage", "Prevent fire damage to players"),
+    CREATE_SHOP("create_shop", "Create a shop"),
+    BUY_FROM_SHOP("buy_from_shop", "Buy from shop");
 
     private final @NotNull String name;
     private final @NotNull String key;

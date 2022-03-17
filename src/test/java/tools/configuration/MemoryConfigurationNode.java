@@ -72,7 +72,7 @@ public class MemoryConfigurationNode implements CommentedConfigurationNode {
 
     @Override
     public CommentedConfigurationNode node(Object... path) {
-        return node(Arrays.asList(path));
+        return this.node(Arrays.asList(path));
     }
 
     @Override
@@ -175,22 +175,22 @@ public class MemoryConfigurationNode implements CommentedConfigurationNode {
     }
 
     @Override
-    public CommentedConfigurationNode from(ConfigurationNode other) {
+    public CommentedConfigurationNode from(@NotNull ConfigurationNode other) {
         throw new RuntimeException("Not implemented");
 
     }
 
     @Override
-    public CommentedConfigurationNode mergeFrom(ConfigurationNode other) {
+    public CommentedConfigurationNode mergeFrom(@NotNull ConfigurationNode other) {
         throw new RuntimeException("Not implemented");
     }
 
     @Override
-    public boolean removeChild(Object key) {
+    public boolean removeChild(@NotNull Object key) {
         Optional<CommentedConfigurationNode> opToRemove = this.children
                 .stream()
                 .filter(node -> node.key() != null)
-                .filter(node -> node.key().equals(key))
+                .filter(node -> key.equals(node.key()))
                 .findAny();
         if (opToRemove.isPresent()) {
             this.children.remove(opToRemove.get());
@@ -290,8 +290,8 @@ public class MemoryConfigurationNode implements CommentedConfigurationNode {
 
     @Override
     public @Nullable <V> List<V> getList(Class<V> type) throws SerializationException {
-        if(this.setAs == type && this.value instanceof Collection value){
-            return new ArrayList<>(value);
+        if (this.setAs == type && this.value instanceof Collection value) {
+            return new ArrayList<V>(value);
         }
 
         return CommentedConfigurationNode.super.getList(type);

@@ -1,13 +1,12 @@
 package org.zone.region.flag;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.spongepowered.configurate.ConfigurationNode;
 import org.zone.Identifiable;
+import org.zone.Serializable;
+import org.zone.annotations.Typed;
 import org.zone.region.Zone;
 import org.zone.region.flag.meta.tag.TagsFlagType;
 
-import java.io.IOException;
 import java.util.Optional;
 
 /**
@@ -16,23 +15,16 @@ import java.util.Optional;
  *
  * @param <F> The class type of the attached flag
  */
+@Typed(typesClass = FlagTypes.class)
 public interface FlagType<F extends Flag> extends Identifiable, Comparable<FlagType<?>> {
+
+    interface SerializableType<F extends Flag.Serializable> extends FlagType<F>, Serializable<F> {
+
+    }
 
     interface TaggedFlagType<F extends Flag.TaggedFlag> extends FlagType<F> {
 
         F createCopyOfDefault();
-
-        @Override
-        @Deprecated
-        default @NotNull F load(@NotNull ConfigurationNode node) throws IOException {
-            throw new RuntimeException("Taggable flag cannot be loaded on its own");
-        }
-
-        @Override
-        @Deprecated
-        default void save(@NotNull ConfigurationNode node, @Nullable F save) throws IOException {
-            throw new RuntimeException("Taggable flag cannot save on its own");
-        }
 
         @Override
         @Deprecated
@@ -48,27 +40,6 @@ public interface FlagType<F extends Flag> extends Identifiable, Comparable<FlagT
             return FlagType.super.compareTo(o);
         }
     }
-
-    /**
-     * Loads a flag from the provided node
-     *
-     * @param node The node to load from
-     *
-     * @return The loaded flag
-     *
-     * @throws IOException If failed to load
-     */
-    @NotNull F load(@NotNull ConfigurationNode node) throws IOException;
-
-    /**
-     * serializes the flag to the node
-     *
-     * @param node The node to serialize to
-     * @param save The flag to save
-     *
-     * @throws IOException If failed to save
-     */
-    void save(@NotNull ConfigurationNode node, @Nullable F save) throws IOException;
 
     /**
      * Checks if the provided zone can accept a instance of this flag

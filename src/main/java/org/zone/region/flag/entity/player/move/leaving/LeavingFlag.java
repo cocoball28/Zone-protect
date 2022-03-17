@@ -8,7 +8,7 @@ import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.entity.player.display.MessageDisplay;
 import org.zone.region.flag.entity.player.display.MessageDisplayTypes;
 
-public class LeavingFlag implements Flag {
+public class LeavingFlag implements Flag.Serializable {
 
     private @NotNull MessageDisplay messageDisplay = MessageDisplayTypes.CHAT.createCopyOfDefault();
     private @NotNull Component leavingMessage;

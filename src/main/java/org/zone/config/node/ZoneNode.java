@@ -2,12 +2,14 @@ package org.zone.config.node;
 
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.serialize.SerializationException;
+import org.zone.annotations.Typed;
 import org.zone.config.ZoneConfig;
 import org.zone.config.command.ConfigCommandNode;
 
 import java.util.Collection;
 import java.util.Optional;
 
+@Typed(typesClass = ZoneNodes.class)
 public interface ZoneNode<Value> {
 
     interface WithDefault<Value> extends ZoneNode<Value> {

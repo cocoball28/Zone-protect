@@ -11,7 +11,7 @@ import org.zone.region.flag.entity.player.display.MessageDisplayTypes;
 /**
  * Flag for greetings
  */
-public class GreetingsFlag implements Flag {
+public class GreetingsFlag implements Flag.Serializable {
 
     private @NotNull MessageDisplay messageDisplay = MessageDisplayTypes.CHAT.createCopyOfDefault();
     private @NotNull Component text;

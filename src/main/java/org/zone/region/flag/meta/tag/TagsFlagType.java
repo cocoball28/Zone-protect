@@ -15,7 +15,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class TagsFlagType implements FlagType<TagsFlag> {
+public class TagsFlagType implements FlagType.SerializableType<TagsFlag> {
 
     public static final String NAME = "Tags";
     public static final String KEY = "tags";
@@ -47,13 +47,12 @@ public class TagsFlagType implements FlagType<TagsFlag> {
                     .getFlagManager()
                     .getRegistered();
 
-            Optional<Flag.TaggedFlag> opTaggable = types
+            return types
                     .parallelStream()
                     .filter(type -> type instanceof FlagType.TaggedFlagType)
                     .filter(type -> type.getId().equals(id))
                     .findAny()
-                    .map(type -> ((FlagType.TaggedFlagType<?>) type).createCopyOfDefault());
-            return opTaggable;
+                    .<Flag.TaggedFlag>map(type -> ((TaggedFlagType<?>) type).createCopyOfDefault());
         }).filter(Optional::isPresent).map(Optional::get).collect(Collectors.toSet());
 
         return new TagsFlag(tagFlags);

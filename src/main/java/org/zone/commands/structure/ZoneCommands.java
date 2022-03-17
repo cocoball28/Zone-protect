@@ -7,7 +7,6 @@ import org.zone.commands.structure.create.bounds.chunk.ZoneCreateChunkSubStartCo
 import org.zone.commands.structure.create.bounds.exact.ZoneCreateStartCommand;
 import org.zone.commands.structure.create.bounds.exact.ZoneCreateSubStartCommand;
 import org.zone.commands.structure.info.ZonePluginInfoCommand;
-import org.zone.commands.structure.join.JoinZoneCommand;
 import org.zone.commands.structure.invite.ZoneInviteAcceptCommand;
 import org.zone.commands.structure.invite.ZoneInviteDenyCommand;
 import org.zone.commands.structure.invite.ZoneInvitePlayerCommand;
@@ -23,6 +22,7 @@ import org.zone.commands.structure.region.flags.display.leaving.ZoneFlagLeavingM
 import org.zone.commands.structure.region.flags.group.ZoneCreateCustomGroupCommand;
 import org.zone.commands.structure.region.flags.visibility.ZoneVisibilitySetCommand;
 import org.zone.commands.structure.region.flags.visibility.ZoneVisibilityViewCommand;
+import org.zone.commands.structure.join.JoinZoneCommand;
 import org.zone.commands.structure.leave.LeaveZoneCommand;
 import org.zone.commands.structure.region.flags.damage.towards.block.blocks.enderman.ZoneFlagEnderManGriefEnableCommand;
 import org.zone.commands.structure.region.flags.damage.towards.block.blocks.enderman.ZoneFlagEnderManGriefViewCommand;
@@ -38,6 +38,8 @@ import org.zone.commands.structure.region.flags.damage.towards.both.creeper.Zone
 import org.zone.commands.structure.region.flags.damage.towards.both.creeper.ZoneFlagCreeperGriefViewCommand;
 import org.zone.commands.structure.region.flags.damage.towards.both.enderdragon.ZoneFlagEnderDragonGriefEnableCommand;
 import org.zone.commands.structure.region.flags.damage.towards.both.enderdragon.ZoneFlagEnderDragonGriefViewCommand;
+import org.zone.commands.structure.region.flags.damage.towards.both.tnt.ZoneFlagTntDefuseSetEnableCommand;
+import org.zone.commands.structure.region.flags.damage.towards.both.tnt.ZoneFlagTntDefuseView;
 import org.zone.commands.structure.region.flags.damage.towards.both.wither.ZoneFlagWitherGriefEnableCommand;
 import org.zone.commands.structure.region.flags.damage.towards.both.wither.ZoneFlagWitherGriefViewCommand;
 import org.zone.commands.structure.region.flags.damage.towards.player.attack.ZoneFlagDamageAttackSetEnabledCommand;
@@ -46,8 +48,6 @@ import org.zone.commands.structure.region.flags.damage.towards.player.attack.Zon
 import org.zone.commands.structure.region.flags.damage.towards.player.fall.ZoneFlagPlayerFallDamageEnableDisable;
 import org.zone.commands.structure.region.flags.damage.towards.player.fall.ZoneFlagPlayerFallDamageSetGroup;
 import org.zone.commands.structure.region.flags.damage.towards.player.fall.ZoneFlagPlayerFallDamageView;
-import org.zone.commands.structure.region.flags.damage.towards.both.tnt.ZoneFlagTntDefuseSetEnableCommand;
-import org.zone.commands.structure.region.flags.damage.towards.both.tnt.ZoneFlagTntDefuseView;
 import org.zone.commands.structure.region.flags.eco.ZoneFlagViewBalanceCommand;
 import org.zone.commands.structure.region.flags.entry.monster.ZoneFlagMonsterEntryEnabledCommand;
 import org.zone.commands.structure.region.flags.entry.monster.ZoneFlagMonsterEntryViewCommand;
@@ -76,6 +76,7 @@ import org.zone.commands.structure.region.flags.messages.leaving.ZoneFlagLeaving
 import org.zone.commands.structure.region.flags.messages.leaving.ZoneFlagLeavingViewCommand;
 import org.zone.commands.structure.region.info.ZoneInfoCommand;
 import org.zone.commands.structure.region.info.bounds.ZoneInfoBoundsShowCommand;
+import org.zone.commands.structure.region.shop.create.display.CreateDisplayShop;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 
@@ -166,6 +167,8 @@ public interface ZoneCommands {
     ZoneFlagLeavingViewCommand ZONE_FLAG_LEAVING_VIEW_COMMAND = new ZoneFlagLeavingViewCommand();
     ZoneInfoCommand ZONE_INFO_COMMAND = new ZoneInfoCommand();
     LeaveZoneCommand ZONE_LEAVE_COMMAND = new LeaveZoneCommand();
+
+    CreateDisplayShop CREATE_DISPLAY_SHOP = new CreateDisplayShop();
 
     static ZoneSpongeCommand createCommand() {
         Collection<ArgumentCommand> collection = Arrays

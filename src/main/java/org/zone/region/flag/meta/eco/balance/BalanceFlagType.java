@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 /**
  * Flag used to hold the zones balance
  */
-public class BalanceFlagType implements FlagType<BalanceFlag> {
+public class BalanceFlagType implements FlagType.SerializableType<BalanceFlag> {
 
     public static final String NAME = "Eco";
     public static final String KEY = "eco";

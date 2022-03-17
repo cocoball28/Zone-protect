@@ -54,7 +54,7 @@ public class ZonePluginInfoCommand implements ArgumentCommand {
         String pluginZonesNumber = ZonePlugin
                 .getZonesPlugin()
                 .getZoneManager()
-                .getZones()
+                .getRegistered()
                 .stream()
                 .filter(zone -> zone.getParentId().isEmpty())
                 .count() + "";

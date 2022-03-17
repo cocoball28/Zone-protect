@@ -20,6 +20,8 @@ import org.spongepowered.math.vector.Vector3d;
 import org.spongepowered.math.vector.Vector3i;
 import org.spongepowered.plugin.PluginContainer;
 import org.zone.Identifiable;
+import org.zone.IdentifiableManager;
+import org.zone.Serializable;
 import org.zone.ZonePlugin;
 import org.zone.region.bounds.ChildRegion;
 import org.zone.region.bounds.Region;
@@ -35,7 +37,7 @@ import java.util.stream.Collectors;
 /**
  * Gets the manager for zones
  */
-public class ZoneManager {
+public class ZoneManager implements IdentifiableManager<Zone> {
 
     private final @NotNull Collection<Zone> zones = new LinkedHashSet<>();
     private boolean isBeingWrittenTo;
@@ -51,7 +53,7 @@ public class ZoneManager {
      *
      * @return A collection of the zones
      */
-    public @NotNull Collection<Zone> getZones() {
+    public @NotNull Collection<Zone> getRegistered() {
         while (this.isBeingWrittenTo) {
             /*this bit of code allows the zones to be updated on another thread without causing a
             concurrent error*/
@@ -81,19 +83,19 @@ public class ZoneManager {
      * @return The zone that has the provided id
      */
     public @NotNull Optional<Zone> getZone(String id) {
-        return this.getZones().stream().filter(zone -> zone.getId().equals(id)).findAny();
+        return this.getRegistered().stream().filter(zone -> zone.getId().equals(id)).findAny();
     }
 
-    public Collection<Zone> getZones(World<?, ?> world) {
+    public Collection<Zone> getRegistered(World<?, ?> world) {
         if (world instanceof ServerWorld sWorld) {
             return this
-                    .getZones()
+                    .getRegistered()
                     .stream()
                     .filter(zone -> zone.getWorldKey().isPresent())
                     .filter(zone -> zone.getWorldKey().get().equals(sWorld.key()))
                     .collect(Collectors.toSet());
         }
-        return this.getZones();
+        return this.getRegistered();
     }
 
 
@@ -106,12 +108,12 @@ public class ZoneManager {
      *
      * @return A collection of all the zones found that contain that location
      *
-     * @deprecated Typo -> use {@link #getZones()} instead
+     * @deprecated Typo -> use {@link #getRegistered()} instead
      */
     @Deprecated(forRemoval = true)
     public @NotNull Collection<Zone> getZone(
             @Nullable World<?, ?> world, @NotNull Vector3d worldPos) {
-        return this.getZones(world, worldPos);
+        return this.getRegistered(world, worldPos);
     }
 
     /**
@@ -123,17 +125,17 @@ public class ZoneManager {
      *
      * @return A collection of all the zones found that contain that location
      */
-    public @NotNull Collection<Zone> getZones(
+    public @NotNull Collection<Zone> getRegistered(
             @Nullable World<?, ?> world, @NotNull Vector3d worldPos) {
         return this
-                .getZones()
+                .getRegistered()
                 .stream()
                 .filter(zone -> zone.inRegion(world, worldPos))
                 .collect(Collectors.toUnmodifiableSet());
     }
 
     public @NotNull Collection<Zone> getZonesIntersecting(AABB area) {
-        @NotNull Collection<Zone> zones = this.getZones();
+        @NotNull Collection<Zone> zones = this.getRegistered();
         return zones
                 .parallelStream()
                 .filter(zone -> zone
@@ -164,7 +166,7 @@ public class ZoneManager {
 
     public Optional<Zone> getNearestZone(World<?, ?> world, Vector3d pos, double maxDistance) {
         Iterator<Zone> iter = this.getNearZones(world, pos, maxDistance).iterator();
-        if(!iter.hasNext()){
+        if (!iter.hasNext()) {
             return Optional.empty();
         }
         Zone zone = iter.next();
@@ -173,7 +175,7 @@ public class ZoneManager {
 
     public List<Zone> getNearZones(World<?, ?> world, Vector3d pos, double maxDistance) {
         return this
-                .getZones(world)
+                .getRegistered(world)
                 .stream()
                 .map(zone -> {
                     Optional<Vector3i> opVector = zone.getRegion().getNearestPosition(pos.toInt());
@@ -327,11 +329,11 @@ public class ZoneManager {
             }
         }
         for (Map.Entry<FlagType<?>, ConfigurationNode> entry : types.entrySet()) {
-            if (entry.getKey() instanceof FlagType.TaggedFlagType) {
+            if (!(entry.getKey() instanceof FlagType.SerializableType)) {
                 continue;
             }
             try {
-                Flag flag = entry.getKey().load(entry.getValue());
+                Flag flag = ((Serializable<? extends Flag>) entry.getKey()).load(entry.getValue());
                 builder.addFlags(flag);
             } catch (IOException e) {
                 ZonePlugin
@@ -367,12 +369,15 @@ public class ZoneManager {
             node.node(PARENT).set(zone.getParent().get().getId());
         }
         for (Flag flag : zone.getFlags()) {
+            if (!(flag instanceof Flag.Serializable)) {
+                continue;
+            }
             ConfigurationNode flagNode = node
                     .node(FLAGS)
                     .node(flag.getType().getPlugin().metadata().id())
                     .node(flag.getType().getKey());
             try {
-                flag.save(flagNode);
+                ((Flag.Serializable) flag).save(flagNode);
             } catch (IOException e) {
                 throw new SerializationException(e);
             }

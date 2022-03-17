@@ -28,4 +28,8 @@ public interface Serializable<F> {
      * @throws IOException If failed to save
      */
     void save(@NotNull ConfigurationNode node, @Nullable F save) throws IOException;
+
+    default void unsave(@NotNull ConfigurationNode node) throws IOException {
+        this.save(node, null);
+    }
 }

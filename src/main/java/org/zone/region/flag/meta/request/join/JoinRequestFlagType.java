@@ -14,7 +14,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class JoinRequestFlagType implements FlagType<JoinRequestFlag> {
+public class JoinRequestFlagType implements FlagType.SerializableType<JoinRequestFlag> {
 
     public static final String NAME = "Join Request";
     public static final String KEY = "join_request";
@@ -36,23 +36,23 @@ public class JoinRequestFlagType implements FlagType<JoinRequestFlag> {
 
     @Override
     public @NotNull JoinRequestFlag load(@NotNull ConfigurationNode node) throws IOException {
-        List<String> joinRequestUUIDsAsString = node.node("JoinRequests").getList(String.class);
+        List<String> joinRequestAsString = node.node("JoinRequests").getList(String.class);
         List<String> inviteUUIDsAsString = node.node("Invites").getList(String.class);
-        if (joinRequestUUIDsAsString == null) {
+        if (joinRequestAsString == null) {
             throw new IOException("Unknown UUID of join requests");
         }
         if (inviteUUIDsAsString == null) {
             throw new IOException("Unknown UUID of invites");
         }
-        Collection<UUID> joinRequestUUIDsFromString = joinRequestUUIDsAsString
+        Collection<UUID> joinRequests = joinRequestAsString
                 .stream()
                 .map(UUID::fromString)
                 .collect(Collectors.toList());
-        Collection<UUID> inviteUUIDsFromString = inviteUUIDsAsString
+        Collection<UUID> invites = inviteUUIDsAsString
                 .stream()
                 .map(UUID::fromString)
                 .collect(Collectors.toList());
-        return new JoinRequestFlag(joinRequestUUIDsFromString, inviteUUIDsFromString);
+        return new JoinRequestFlag(joinRequests, invites);
     }
 
     @Override
@@ -63,7 +63,6 @@ public class JoinRequestFlagType implements FlagType<JoinRequestFlag> {
             node.set(null);
             return;
         }
-
         node
                 .node("JoinRequests")
                 .set(save.getJoins().stream().map(UUID::toString).collect(Collectors.toList()));
