@@ -10,7 +10,7 @@ import org.zone.ZonePlugin;
 public enum GroupKeys implements GroupKey {
 
     OWNER("owner", "Owner"),
-    MEMBER("member", "Member"),
+    NEW_MEMBER("new_member", "New Member"),
     HOME_OWNER("home_owner", "Home Owner"),
     BLOCK_BREAK("block_break", "Block Break"),
     BLOCK_PLACE("block_place", "Block Place"),

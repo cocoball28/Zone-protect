@@ -844,4 +844,12 @@ public final class Messages {
                         "boss bar").color(NamedTextColor.AQUA);
     }
 
+    public static Component getNoGroupWithTheGroupKey(Identifiable groupKey) {
+        return Component.text("No Group found with the GroupKey " + groupKey.getName()).color(NamedTextColor.RED);
+    }
+
+    public static Component getNoInviteFoundByUUID() {
+        return Component.text("No invite found by your UUID");
+    }
+
 }
