@@ -65,7 +65,6 @@ public class ZoneCreateCustomGroupCommand implements ArgumentCommand {
                 parent);
         MembersFlag membersFlag = zone.getMembers();
         membersFlag.registerGroup(group);
-        zone.setFlag(membersFlag);
         try {
             zone.save();
             commandContext.sendMessage(Messages.getCreatedGroup(group, parent));
