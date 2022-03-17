@@ -43,7 +43,7 @@ public class ZoneFlagCreeperGriefEnableCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Enable/disable creeper grief");
+        return Messages.getCreeperGriefEnableCommandDescription();
     }
 
     @Override

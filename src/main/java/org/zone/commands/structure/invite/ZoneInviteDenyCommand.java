@@ -36,7 +36,7 @@ public class ZoneInviteDenyCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Deny the invite from a player");
+        return Messages.getZoneInviteDenyCommandDescription();
     }
 
     @Override

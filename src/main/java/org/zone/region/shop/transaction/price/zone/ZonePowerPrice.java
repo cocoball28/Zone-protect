@@ -3,6 +3,7 @@ package org.zone.region.shop.transaction.price.zone;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.zone.region.Zone;
+import org.zone.utils.Messages;
 import org.zone.region.shop.transaction.price.Price;
 import org.zone.region.shop.transaction.price.PriceType;
 
@@ -48,6 +49,6 @@ public class ZonePowerPrice implements Price.ZonePrice<Long> {
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text(this.price + " power levels");
+        return Messages.getPowerLevel(this.price);
     }
 }

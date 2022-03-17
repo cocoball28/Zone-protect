@@ -156,7 +156,7 @@ public class MembersFlag implements Flag.Serializable {
     }
 
     /**
-     * gets all the members of a specific group
+     * Gets all the members of a specific group
      *
      * @param group the group to check
      *
@@ -176,7 +176,7 @@ public class MembersFlag implements Flag.Serializable {
     }
 
     /**
-     * gets the group a player belongs to
+     * Gets the group a player belongs to
      *
      * @param uuid UUID of the player
      *
@@ -194,7 +194,7 @@ public class MembersFlag implements Flag.Serializable {
     }
 
     /**
-     * sets a player into the visitor group
+     * Sets a player into the visitor group
      *
      * @param uuid the UUID of the player
      */
@@ -206,6 +206,13 @@ public class MembersFlag implements Flag.Serializable {
             uuids.remove(uuid);
             return;
         }
+    }
+
+    /**
+     * Registers custom groups
+     */
+    public void registerGroup(@NotNull Group group) {
+        this.groups.put(group, new HashSet<>());
     }
 
     @Override

@@ -37,12 +37,15 @@ public class ZoneInvitePlayerCommand implements ArgumentCommand {
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
-        return Arrays.asList(new ExactArgument("region"),new ExactArgument("invite"), ZONE_ID, USERS);
+        return Arrays.asList(new ExactArgument("region"),
+                             new ExactArgument("invite"),
+                             ZONE_ID,
+                             USERS);
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Invite a player to a zone");
+        return Messages.getZoneInvitePlayerCommandDescription();
     }
 
     @Override

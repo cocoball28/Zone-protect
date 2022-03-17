@@ -27,12 +27,12 @@ public class MemoryHolder {
                 .findAny();
     }
 
-    public void registerZoneBuilderBossBar(UUID uuid, BossBar bar) {
+    public void registerZoneBuilderBossBar(UUID uuid, BossBar bossBar) {
         if (this.zoneBuilderBossBars.containsKey(uuid)) {
-            this.zoneBuilderBossBars.replace(uuid, bar);
+            this.zoneBuilderBossBars.replace(uuid, bossBar);
             return;
         }
-        this.zoneBuilderBossBars.put(uuid, bar);
+        this.zoneBuilderBossBars.put(uuid, bossBar);
     }
 
     public void unregisterZoneBuilderBossBar(UUID uuid){

@@ -30,14 +30,14 @@ public class ZoneVisibilityViewCommand implements ArgumentCommand {
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
-                new ExactArgument("visibility"),
-                ZONE_ID,
-                new ExactArgument("view"));
+                             new ExactArgument("visibility"),
+                             ZONE_ID,
+                             new ExactArgument("view"));
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("View the visibility of a zone");
+        return Messages.getZoneVisibilityViewCommandDescription();
     }
 
     @Override

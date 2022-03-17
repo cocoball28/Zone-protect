@@ -41,7 +41,7 @@ public class ZoneFlagPlayerFallDamageView implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("View the details of Entity damage player flag");
+        return Messages.getPlayerFallDamageViewCommandDescription();
     }
 
     @Override

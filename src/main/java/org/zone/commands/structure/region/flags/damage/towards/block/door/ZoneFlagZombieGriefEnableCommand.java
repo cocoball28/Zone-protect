@@ -43,7 +43,7 @@ public class ZoneFlagZombieGriefEnableCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Enable/Disable Zombie Grief");
+        return Messages.getZombieGriefEnableCommandDescription();
     }
 
     @Override

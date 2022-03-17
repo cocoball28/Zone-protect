@@ -38,7 +38,7 @@ public class ZoneInfoCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Show info about the zone");
+        return Messages.getZoneInfoCommandDescription();
     }
 
     @Override

@@ -4,9 +4,12 @@ import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.configurate.ConfigurateException;
+import org.zone.ZonePlugin;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
+import org.zone.commands.system.arguments.operation.AnyMatchArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
+import org.zone.commands.system.arguments.operation.OptionalArgument;
 import org.zone.commands.system.arguments.sponge.ComponentRemainingArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.context.CommandContext;
@@ -14,6 +17,8 @@ import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
+import org.zone.region.flag.entity.player.display.MessageDisplayType;
+import org.zone.region.flag.entity.player.display.MessageDisplayTypes;
 import org.zone.region.flag.entity.player.move.greetings.GreetingsFlag;
 import org.zone.utils.Messages;
 
@@ -22,37 +27,42 @@ import java.util.List;
 import java.util.Optional;
 
 public class ZoneFlagGreetingsSetMessageCommand implements ArgumentCommand {
-    public static final ExactArgument REGION = new ExactArgument("region");
-    public static final ExactArgument FLAGS = new ExactArgument("flag");
+
     public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zoneId",
             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
-                    ZonePermissions.OVERRIDE_FLAG_GREETINGS_SET));
-    public static final ExactArgument GREETINGS = new ExactArgument("greetings");
-    public static final ExactArgument MESSAGE = new ExactArgument("message");
-    public static final ExactArgument SET = new ExactArgument("set");
+                    ZonePermissions.OVERRIDE_FLAG_GREETINGS_MESSAGE_SET));
     public static final ComponentRemainingArgument MESSAGE_VALUE = new ComponentRemainingArgument(
             "message_value");
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
-        return Arrays.asList(REGION, FLAGS, ZONE_VALUE, GREETINGS, MESSAGE, SET, MESSAGE_VALUE);
+        return Arrays.asList(new ExactArgument("region"),
+                             new ExactArgument("flag"),
+                             ZONE_VALUE,
+                             new ExactArgument("greetings"),
+                             new ExactArgument("message"),
+                             new ExactArgument("set"),
+                             MESSAGE_VALUE);
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Command for setting greeting message for a zone");
+        return Messages.getGreetingsSetMessageCommandDescription();
     }
 
     @Override
     public @NotNull Optional<ZonePermission> getPermissionNode() {
-        return Optional.of(ZonePermissions.FLAG_GREETINGS_SET);
+        return Optional.of(ZonePermissions.FLAG_GREETINGS_MESSAGE_SET);
     }
 
     @Override
     public @NotNull CommandResult run(CommandContext commandContext, String... args) {
         Zone zone = commandContext.getArgument(this, ZONE_VALUE);
         Component message = commandContext.getArgument(this, MESSAGE_VALUE);
-        GreetingsFlag greetingsflag = zone.getFlag(FlagTypes.GREETINGS).orElse(new GreetingsFlag());
+        GreetingsFlag greetingsflag = zone
+                .getFlag(FlagTypes.GREETINGS)
+                .orElse(new GreetingsFlag(Messages.getEnterGreetingsMessage(),
+                        MessageDisplayTypes.CHAT.createCopyOfDefault()));
         greetingsflag.setMessage(message);
         zone.setFlag(greetingsflag);
         try {

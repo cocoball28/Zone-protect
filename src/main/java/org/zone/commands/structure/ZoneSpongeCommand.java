@@ -154,16 +154,16 @@ public class ZoneSpongeCommand implements Command.Raw {
 
     @Override
     public @NotNull Optional<Component> shortDescription(@NotNull CommandCause cause) {
-        return Optional.of(Component.text("All Zone commands"));
+        return Optional.of(Messages.getAllZoneCommandsTag());
     }
 
     @Override
     public @NotNull Optional<Component> extendedDescription(@NotNull CommandCause cause) {
-        return Optional.of(Component.text("All commands for the plugin Zones"));
+        return Optional.of(Messages.getAllZoneCommandsExtendedTag());
     }
 
     @Override
     public @NotNull Component usage(@NotNull CommandCause cause) {
-        return Component.text("/Zone <Arg>");
+        return Messages.getCommandUsage();
     }
 }

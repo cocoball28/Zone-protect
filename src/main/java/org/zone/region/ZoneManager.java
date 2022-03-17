@@ -392,7 +392,7 @@ public class ZoneManager implements IdentifiableManager<Zone> {
         return file;
     }
 
-    public void zonesReload() {
+    public void reloadZones() {
         this.zones.clear();
         File zonesFolder = new File("config/zone/zones/");
         Sponge.systemSubject().sendMessage(Messages.getZonesLoadingFrom(zonesFolder.getPath()));

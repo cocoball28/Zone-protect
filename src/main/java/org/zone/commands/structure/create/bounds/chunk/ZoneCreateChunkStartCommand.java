@@ -14,6 +14,7 @@ import org.zone.region.ZoneBuilder;
 import org.zone.region.bounds.BoundedRegion;
 import org.zone.region.bounds.mode.BoundMode;
 import org.zone.region.bounds.mode.BoundModes;
+import org.zone.utils.Messages;
 
 import java.util.Arrays;
 import java.util.List;
@@ -35,7 +36,7 @@ public class ZoneCreateChunkStartCommand extends AbstractCreateZoneStartCommand 
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Creates a chunk zone");
+        return Messages.getZoneCreateChunkStartCommandDescription();
     }
 
     @Override

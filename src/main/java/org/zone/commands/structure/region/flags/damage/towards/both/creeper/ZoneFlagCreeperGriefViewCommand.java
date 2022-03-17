@@ -40,7 +40,7 @@ public class ZoneFlagCreeperGriefViewCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("View info on the Creeper Grief flag");
+        return Messages.getCreeperGriefViewCommandDescription();
     }
 
     @Override

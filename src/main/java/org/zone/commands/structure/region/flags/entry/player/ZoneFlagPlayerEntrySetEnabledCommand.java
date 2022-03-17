@@ -44,7 +44,7 @@ public class ZoneFlagPlayerEntrySetEnabledCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Command to enable/disable Player Prevention");
+        return Messages.getPlayerEntryEnableCommandDescription();
     }
 
     @Override

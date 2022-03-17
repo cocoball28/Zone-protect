@@ -43,6 +43,7 @@ import org.zone.region.flag.entity.player.interact.block.destroy.BlockBreakListe
 import org.zone.region.flag.entity.player.interact.block.place.BlockPlaceListener;
 import org.zone.region.flag.entity.player.interact.door.DoorInteractListener;
 import org.zone.region.flag.entity.player.interact.itemframe.ItemFrameInteractionListener;
+import org.zone.region.flag.entity.player.display.MessageDisplayManager;
 import org.zone.region.flag.entity.player.move.greetings.GreetingsFlagListener;
 import org.zone.region.flag.entity.player.move.leaving.LeavingFlagListener;
 import org.zone.region.flag.entity.player.move.preventing.PreventPlayersListener;
@@ -70,6 +71,7 @@ public class ZonePlugin {
 
     private final PluginContainer plugin;
     private final Logger logger;
+    private MessageDisplayManager messageDisplayManager;
     private FlagManager flagManager;
     private ZoneManager zoneManager;
     private GroupKeyManager groupKeyManager;
@@ -92,6 +94,15 @@ public class ZonePlugin {
 
     public @NotNull ShopManager getShopManager() {
         return this.shopManager;
+    }
+
+    /**
+     * Gets the message display manager
+     *
+     * @return The instance of the message display manager
+     */
+    public @NotNull MessageDisplayManager getMessageDisplayManager() {
+        return this.messageDisplayManager;
     }
 
     /**
@@ -141,6 +152,7 @@ public class ZonePlugin {
 
     @Listener
     public void onConstructor(ConstructPluginEvent event) {
+        this.messageDisplayManager = new MessageDisplayManager();
         this.flagManager = new FlagManager();
         this.zoneManager = new ZoneManager();
         this.groupKeyManager = new GroupKeyManager();
@@ -269,7 +281,7 @@ public class ZonePlugin {
         try {
             this.config.getLoader().load();
             cSender.ifPresent(audience -> audience.sendMessage(Messages.getZoneConfigReloadedInfo()));
-            this.zoneManager.zonesReload();
+            this.zoneManager.reloadZones();
             cSender.ifPresent(audience -> audience.sendMessage(Messages.getZonesReloadedInfo()));
         } catch (ConfigurateException ce) {
             cSender.ifPresent(audience -> audience.sendMessage(Messages.getZoneConfigReloadFail()));

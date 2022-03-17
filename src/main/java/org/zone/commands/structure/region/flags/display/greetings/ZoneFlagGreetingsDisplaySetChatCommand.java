@@ -1,4 +1,4 @@
-package org.zone.commands.structure.region.flags.damage.towards.both.tnt;
+package org.zone.commands.structure.region.flags.display.greetings;
 
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
@@ -7,66 +7,61 @@ import org.spongepowered.configurate.ConfigurateException;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
-import org.zone.commands.system.arguments.simple.BooleanArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.entity.nonliving.block.tnt.TnTDefuseFlag;
+import org.zone.region.flag.entity.player.display.MessageDisplayTypes;
+import org.zone.region.flag.entity.player.move.greetings.GreetingsFlag;
 import org.zone.utils.Messages;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class ZoneFlagTntDefuseSetEnableDisableCommand implements ArgumentCommand {
+public class ZoneFlagGreetingsDisplaySetChatCommand implements ArgumentCommand {
 
-    public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zoneId",
+    public static final ZoneArgument ZONE_ID = new ZoneArgument("zoneId",
             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
-                    ZonePermissions.OVERRIDE_FLAG_TNT_DEFUSE_ENABLE));
-    public static final BooleanArgument ENABLE_DISABLE = new BooleanArgument("enabledValue",
-            "enable",
-            "disable");
+                    ZonePermissions.OVERRIDE_FLAG_GREETINGS_MESSAGE_DISPLAY_SET_CHAT));
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
                              new ExactArgument("flag"),
-                             ZONE_VALUE,
-                             new ExactArgument("tnt"),
-                             new ExactArgument("defuse"),
+                             ZONE_ID,
+                             new ExactArgument("greetings"),
+                             new ExactArgument("message"),
+                             new ExactArgument("display"),
                              new ExactArgument("set"),
-                             ENABLE_DISABLE);
+                             new ExactArgument("chat"));
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Enable or disable the tnt defuse flag");
+        return Messages.getGreetingsDisplaySetChatCommandDescription();
     }
 
     @Override
     public @NotNull Optional<ZonePermission> getPermissionNode() {
-        return Optional.of(ZonePermissions.FLAG_TNT_DEFUSE_ENABLE);
+        return Optional.of(ZonePermissions.FLAG_GREETINGS_MESSAGE_DISPLAY_SET_CHAT);
     }
 
     @Override
     public @NotNull CommandResult run(
             @NotNull CommandContext commandContext, @NotNull String... args) {
-        Zone zone = commandContext.getArgument(this, ZONE_VALUE);
-        boolean enable = commandContext.getArgument(this, ENABLE_DISABLE);
-        TnTDefuseFlag tnTDefuseFlag = zone
-                .getFlag(FlagTypes.TNT_DEFUSE)
-                .orElse(new TnTDefuseFlag());
-        if (enable) {
-            zone.addFlag(tnTDefuseFlag);
-        } else {
-            zone.removeFlag(FlagTypes.TNT_DEFUSE);
+        Zone zone = commandContext.getArgument(this, ZONE_ID);
+        Optional<GreetingsFlag> opGreetingsFlag = zone.getFlag(FlagTypes.GREETINGS);
+        if (opGreetingsFlag.isEmpty()) {
+            return CommandResult.error(Messages.getGreetingsFlagNotFound());
         }
+        opGreetingsFlag.get().setDisplayType(MessageDisplayTypes.CHAT.createCopyOfDefault());
+        zone.setFlag(opGreetingsFlag.get());
         try {
             zone.save();
-            commandContext.sendMessage(Messages.getUpdatedMessage(FlagTypes.TNT_DEFUSE));
+            commandContext.sendMessage(Messages.getGreetingsDisplaySuccessfullyChangedToChat());
         } catch (ConfigurateException ce) {
             ce.printStackTrace();
             return CommandResult.error(Messages.getZoneSavingError(ce));

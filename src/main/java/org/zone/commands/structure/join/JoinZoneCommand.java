@@ -37,7 +37,7 @@ public class JoinZoneCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Join a zone!");
+        return Messages.getJoinZoneCommandDescription();
     }
 
     @Override

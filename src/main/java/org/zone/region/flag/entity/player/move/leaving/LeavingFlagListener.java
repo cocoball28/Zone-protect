@@ -36,7 +36,7 @@ public class LeavingFlagListener {
         }
 
         Component message = opFlag.get().getLeavingMessage();
-        player.sendMessage(message);
+        opFlag.get().getDisplayType().sendMessage(message, player);
 
     }
 }

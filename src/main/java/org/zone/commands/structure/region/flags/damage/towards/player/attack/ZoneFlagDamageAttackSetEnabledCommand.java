@@ -45,7 +45,7 @@ public class ZoneFlagDamageAttackSetEnabledCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Command to enable/disable the Damage Flag");
+        return Messages.getDamageAttackEnableCommandDescription();
     }
 
     @Override
@@ -58,11 +58,11 @@ public class ZoneFlagDamageAttackSetEnabledCommand implements ArgumentCommand {
             @NotNull CommandContext commandContext, @NotNull String... args) {
         boolean enable = commandContext.getArgument(this, ENABLED);
         Zone zone = commandContext.getArgument(this, ZONE_VALUE);
-        EntityDamagePlayerFlag entityDamagePlayerFlag = zone
+        EntityDamagePlayerFlag damagePlayerFlag = zone
                 .getFlag(FlagTypes.ENTITY_DAMAGE_PLAYER)
                 .orElse(new EntityDamagePlayerFlag());
         if (enable) {
-            zone.addFlag(entityDamagePlayerFlag);
+            zone.addFlag(damagePlayerFlag);
         } else {
             zone.removeFlag(FlagTypes.ENTITY_DAMAGE_PLAYER);
         }

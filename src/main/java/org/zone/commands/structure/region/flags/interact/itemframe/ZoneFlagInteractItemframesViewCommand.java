@@ -44,7 +44,7 @@ public class ZoneFlagInteractItemframesViewCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("View the details of Interact Itemframe");
+        return Messages.getInteractItemFrameViewCommandDescription();
     }
 
     @Override

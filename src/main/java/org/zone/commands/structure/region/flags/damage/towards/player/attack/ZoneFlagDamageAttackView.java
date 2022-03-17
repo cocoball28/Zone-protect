@@ -43,7 +43,7 @@ public class ZoneFlagDamageAttackView implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("View the details of  Fall damage flag");
+        return Messages.getDamageAttackViewCommandDescription();
     }
 
     @Override

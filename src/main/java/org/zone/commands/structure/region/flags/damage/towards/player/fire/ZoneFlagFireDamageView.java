@@ -42,7 +42,7 @@ public class ZoneFlagFireDamageView implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("View info on the Fire Damage");
+        return Messages.getPlayerFireDamageViewCommandDescription();
     }
 
     @Override

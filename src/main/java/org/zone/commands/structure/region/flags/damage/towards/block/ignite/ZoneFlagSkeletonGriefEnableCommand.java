@@ -42,7 +42,7 @@ public class ZoneFlagSkeletonGriefEnableCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Enable/Disable Skeleton grief");
+        return Messages.getSkeletonGriefEnableCommandDescription();
     }
 
     @Override

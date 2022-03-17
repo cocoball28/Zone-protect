@@ -18,6 +18,7 @@ import org.zone.config.node.ZoneNodes;
 import org.zone.region.Zone;
 import org.zone.region.ZoneManager;
 import org.zone.region.flag.FlagTypes;
+import org.zone.region.flag.entity.player.display.MessageDisplayTypes;
 import org.zone.region.flag.entity.player.move.greetings.GreetingsFlag;
 import org.zone.region.flag.meta.member.MembersFlag;
 import org.zone.region.group.DefaultGroups;
@@ -38,32 +39,33 @@ public class TestGreetingsSetCommand {
 
     @BeforeAll
     void init() {
-        flag = new GreetingsFlag(Component.text("Test message"));
-        zoneManager = new ZoneManager();
+        this.flag = new GreetingsFlag(Component.text("Test message"),
+                MessageDisplayTypes.CHAT.createCopyOfDefault());
+        this.zoneManager = new ZoneManager();
 
 
-        plugin = Mockito.mock(ZonePlugin.class);
-        container = Mockito.mock(PluginContainer.class);
-        metadata = Mockito.mock(PluginMetadata.class);
-        version = Mockito.mock(ArtifactVersion.class);
+        this.plugin = Mockito.mock(ZonePlugin.class);
+        this.container = Mockito.mock(PluginContainer.class);
+        this.metadata = Mockito.mock(PluginMetadata.class);
+        this.version = Mockito.mock(ArtifactVersion.class);
         ZoneConfig config = Mockito.mock(ZoneConfig.class);
 
 
         Mockito.when(config.getOrElse(ZoneNodes.MAX_OWNER)).thenReturn(99);
-        Mockito.mockStatic(ZonePlugin.class).when(ZonePlugin::getZonesPlugin).thenReturn(plugin);
-        Mockito.when(plugin.getPluginContainer()).thenReturn(container);
-        Mockito.when(plugin.getConfig()).thenReturn(config);
-        Mockito.when(container.metadata()).thenReturn(metadata);
-        Mockito.when(metadata.id()).thenReturn("zones");
+        Mockito.mockStatic(ZonePlugin.class).when(ZonePlugin::getZonesPlugin).thenReturn(this.plugin);
+        Mockito.when(this.plugin.getPluginContainer()).thenReturn(this.container);
+        Mockito.when(this.plugin.getConfig()).thenReturn(config);
+        Mockito.when(this.container.metadata()).thenReturn(this.metadata);
+        Mockito.when(this.metadata.id()).thenReturn("zones");
 
-        zone = Mockito.mock(Zone.class);
+        this.zone = Mockito.mock(Zone.class);
 
 
-        Mockito.when(zone.getId()).thenReturn("zones:test");
-        Mockito.when(zone.getParentId()).thenReturn(Optional.empty());
-        Mockito.when(zone.getFlag(FlagTypes.GREETINGS)).thenReturn(Optional.of(this.flag));
+        Mockito.when(this.zone.getId()).thenReturn("zones:test");
+        Mockito.when(this.zone.getParentId()).thenReturn(Optional.empty());
+        Mockito.when(this.zone.getFlag(FlagTypes.GREETINGS)).thenReturn(Optional.of(this.flag));
 
-        zoneManager.register(zone);
+        this.zoneManager.register(this.zone);
 
     }
 
@@ -76,7 +78,7 @@ public class TestGreetingsSetCommand {
         UUID uuid = UUID.randomUUID();
         members.addMember(DefaultGroups.OWNER, uuid);
         Mockito.when(player.uniqueId()).thenReturn(uuid);
-        Mockito.when(zone.getMembers()).thenReturn(members);
+        Mockito.when(this.zone.getMembers()).thenReturn(members);
 
 
         CommandResult commandResult = Mockito.mock(CommandResult.class);
@@ -104,13 +106,12 @@ public class TestGreetingsSetCommand {
                 "set",
                 "test",
                 "two");
-        Optional<Component> opResult = flag.getMessage();
+        Component greetingsResult = this.flag.getGreetingsMessage();
 
         //compare
         Assertions.assertEquals(commandResult, result);
-        Assertions.assertTrue(opResult.isPresent());
         Assertions.assertEquals("test",
-                PlainTextComponentSerializer.plainText().serialize(opResult.get()));
+                PlainTextComponentSerializer.plainText().serialize(greetingsResult));
     }
 
     @Test
@@ -122,7 +123,7 @@ public class TestGreetingsSetCommand {
         UUID uuid = UUID.randomUUID();
         members.addMember(DefaultGroups.OWNER, uuid);
         Mockito.when(player.uniqueId()).thenReturn(uuid);
-        Mockito.when(zone.getMembers()).thenReturn(members);
+        Mockito.when(this.zone.getMembers()).thenReturn(members);
 
 
         CommandResult commandResult = Mockito.mock(CommandResult.class);
@@ -149,13 +150,12 @@ public class TestGreetingsSetCommand {
                 "message",
                 "set",
                 "test");
-        Optional<Component> opResult = flag.getMessage();
+        Component greetingsResult = this.flag.getGreetingsMessage();
 
         //compare
         Assertions.assertEquals(commandResult, result);
-        Assertions.assertTrue(opResult.isPresent());
         Assertions.assertEquals("test",
-                PlainTextComponentSerializer.plainText().serialize(opResult.get()));
+                PlainTextComponentSerializer.plainText().serialize(greetingsResult));
     }
 
     //should be checking audience, not subject

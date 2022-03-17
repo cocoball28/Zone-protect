@@ -48,7 +48,7 @@ public class ZoneCreateEndCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Ends the creation by bounds. Will use your location as ending");
+        return Messages.getZoneCreateEndCommandDescription();
     }
 
     @Override

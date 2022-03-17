@@ -54,7 +54,7 @@ public class ZoneCreateSubStartCommand extends AbstractCreateZoneStartCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Creates a sub region by walking end to end");
+        return Messages.getZoneCreateSubStartCommandDescription();
     }
 
     @Override

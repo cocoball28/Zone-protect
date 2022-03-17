@@ -54,7 +54,7 @@ public class FlagManager implements IdentifiableManager.Typed<FlagType<?>> {
     }
 
     /**
-     * Gets a instance of the {@link DefaultFlagFile}
+     * Gets an instance of the {@link DefaultFlagFile}
      *
      * @return The instance
      */

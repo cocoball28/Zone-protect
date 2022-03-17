@@ -73,6 +73,6 @@ public class JoinRequestFlagType implements FlagType.SerializableType<JoinReques
 
     @Override
     public @NotNull Optional<JoinRequestFlag> createCopyOfDefaultFlag() {
-        return Optional.of(new JoinRequestFlag());
+        return Optional.empty();
     }
 }

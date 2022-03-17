@@ -40,7 +40,7 @@ public class ZoneFlagEnderMiteGriefViewCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("View info on EnderMite Grief");
+        return Messages.getEnderManGriefViewCommandDescription();
     }
 
     @Override

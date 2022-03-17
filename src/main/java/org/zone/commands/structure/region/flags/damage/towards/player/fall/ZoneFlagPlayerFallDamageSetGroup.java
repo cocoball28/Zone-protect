@@ -43,7 +43,7 @@ public class ZoneFlagPlayerFallDamageSetGroup implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Sets the group for Entity Damage Player flag");
+        return Messages.getPlayerFallDamageSetGroupCommandDescription();
     }
 
     @Override
