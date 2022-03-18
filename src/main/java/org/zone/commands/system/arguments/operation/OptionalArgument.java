@@ -13,14 +13,18 @@ import java.util.Collection;
 
 public class OptionalArgument<T> implements CommandArgument<T> {
 
-    private final CommandArgument<T> arg;
-    private final ParseCommandArgument<T> value;
+    private final @NotNull CommandArgument<T> arg;
+    private final @NotNull ParseCommandArgument<T> value;
 
+    /**
+     * Used to wrap a single fixed value into a ParseCommandArgument
+     * @param <T> The type of the fixed value
+     */
     public static class WrappedParser<T> implements ParseCommandArgument<T> {
 
-        private final T value;
+        private final @NotNull T value;
 
-        public WrappedParser(T value) {
+        public WrappedParser(@NotNull T value) {
             this.value = value;
         }
 
@@ -31,15 +35,31 @@ public class OptionalArgument<T> implements CommandArgument<T> {
         }
     }
 
-    public OptionalArgument(CommandArgument<T> arg, T value) {
+    /**
+     * Creates the argument
+     * @param arg The argument to attempt
+     * @param value The fixed value to use if the argument fails
+     */
+    public OptionalArgument(@NotNull CommandArgument<T> arg, @NotNull T value) {
         this(arg, new WrappedParser<>(value));
     }
 
-    public OptionalArgument(CommandArgument<T> arg, ParseCommandArgument<T> value) {
+    /**
+     * Creates the argument
+     * @param arg The argument to attempt
+     * @param value The value to use if the argument fails
+     */
+    public OptionalArgument(
+            @NotNull CommandArgument<T> arg,
+            @NotNull ParseCommandArgument<T> value) {
         this.arg = arg;
         this.value = value;
     }
 
+    /**
+     * Gets the argument to attempt
+     * @return The argument to attempt to use
+     */
     public CommandArgument<T> getOriginalArgument() {
         return this.arg;
     }
@@ -56,7 +76,7 @@ public class OptionalArgument<T> implements CommandArgument<T> {
     }
 
     @Override
-    public CommandArgumentResult<T> parse(
+    public @NotNull CommandArgumentResult<T> parse(
             CommandContext context, CommandArgumentContext<T> argument) throws IOException {
         if (context.getCommand().length == argument.getFirstArgument()) {
             return CommandArgumentResult.from(argument,

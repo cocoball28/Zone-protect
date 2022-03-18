@@ -32,6 +32,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Gets a zone from the command
+ */
 public class ZoneArgument implements GUICommandArgument<Zone> {
 
     private final @NotNull ZoneArgumentPropertiesBuilder builder;
@@ -97,10 +100,21 @@ public class ZoneArgument implements GUICommandArgument<Zone> {
         }
     }
 
+    /**
+     * Creates a zone argument that will provide any zone
+     *
+     * @param id The id of the argument
+     */
     public ZoneArgument(@NotNull String id) {
         this(id, new ZoneArgumentPropertiesBuilder());
     }
 
+    /**
+     * Creates a zone argument that will only allow the properties provided
+     *
+     * @param id      The id of the argument
+     * @param builder The properties to accept
+     */
     public ZoneArgument(@NotNull String id, @NotNull ZoneArgumentPropertiesBuilder builder) {
         this.id = id;
         this.builder = builder;

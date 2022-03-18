@@ -11,10 +11,17 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Set;
 
+/**
+ * Used for getting whole numbers from a command
+ */
 public class IntegerArgument implements CommandArgument<Integer> {
 
     private final String id;
 
+    /**
+     * Used for creating the argument
+     * @param id The id to use for the argument
+     */
     public IntegerArgument(String id) {
         this.id = id;
     }

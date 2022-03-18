@@ -26,5 +26,5 @@ public interface BoundMode {
             @NotNull Location<? extends World<?, ?>, ?> current, @NotNull Vector3i other);
 
     @NotNull Location<? extends World<?, ?>, ?> shiftOther(
-            Location<? extends World<?, ?>, ?> other, @NotNull Vector3i current);
+            @NotNull Location<? extends World<?, ?>, ?> other, @NotNull Vector3i current);
 }

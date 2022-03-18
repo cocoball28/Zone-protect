@@ -27,7 +27,7 @@ public class BoundedRegion implements Region {
         this.position2 = position2;
     }
 
-    public Vector3i getSize(){
+    public @NotNull Vector3i getSize(){
         Vector3i min = this.getMin();
         Vector3i max = this.getMax();
         return new Vector3i(max.x() - min.x(), max.y() - min.y(), max.z() - min.z());
@@ -84,16 +84,16 @@ public class BoundedRegion implements Region {
     }
 
     @Override
-    public boolean contains(@NotNull Vector3d vector3d, boolean ignoreY) {
+    public boolean contains(@NotNull Vector3d location, boolean ignoreY) {
         Vector3i max = this.getMax();
         Vector3i min = this.getMin();
-        if (!(min.x() <= vector3d.x() && max.x() >= vector3d.x())) {
+        if (!(min.x() <= location.x() && max.x() >= location.x())) {
             return false;
         }
-        if (!ignoreY && !(min.y() <= vector3d.y() && max.y() >= vector3d.y())) {
+        if (!ignoreY && !(min.y() <= location.y() && max.y() >= location.y())) {
             return false;
         }
-        return min.z() <= vector3d.z() && max.z() >= vector3d.z();
+        return min.z() <= location.z() && max.z() >= location.z();
     }
 
     @Override
@@ -102,7 +102,7 @@ public class BoundedRegion implements Region {
     }
 
     @Override
-    public Optional<Vector3i> getNearestPosition(@NotNull Vector3i vector3i) {
+    public @NotNull Optional<Vector3i> getNearestPosition(@NotNull Vector3i vector3i) {
         Vector3i min = this.getMin();
         Vector3i max = this.getMax();
         int x = vector3i.x();
@@ -130,21 +130,21 @@ public class BoundedRegion implements Region {
     }
 
     @Override
-    public Optional<Vector2i> getNearestPosition(Vector2i vector2i) {
+    public @NotNull Optional<Vector2i> getNearestPosition(@NotNull Vector2i vector) {
         Vector3i min = this.getMin();
         Vector3i max = this.getMax();
-        int x = vector2i.x();
-        int z = vector2i.y();
-        if (vector2i.x() < min.x()) {
+        int x = vector.x();
+        int z = vector.y();
+        if (vector.x() < min.x()) {
             x = min.x();
         }
-        if (vector2i.x() > max.x()) {
+        if (vector.x() > max.x()) {
             x = max.x();
         }
-        if (vector2i.y() < min.z()) {
+        if (vector.y() < min.z()) {
             z = min.z();
         }
-        if (vector2i.y() > max.z()) {
+        if (vector.y() > max.z()) {
             z = max.z();
         }
         return Optional.of(new Vector2i(x, z));

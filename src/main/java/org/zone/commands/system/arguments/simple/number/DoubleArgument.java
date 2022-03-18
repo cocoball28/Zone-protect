@@ -11,10 +11,18 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 
+/**
+ * Argument for accepting doubles
+ */
 public class DoubleArgument implements CommandArgument<Double> {
 
     private final @NotNull String id;
 
+    /**
+     * Create the DoubleArgument
+     *
+     * @param id the id to use for the argument
+     */
     public DoubleArgument(@NotNull String id) {
         this.id = id;
     }

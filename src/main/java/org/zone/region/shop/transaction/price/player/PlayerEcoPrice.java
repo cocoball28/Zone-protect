@@ -15,6 +15,9 @@ import org.zone.region.shop.transaction.price.PriceType;
 import java.math.BigDecimal;
 import java.util.Optional;
 
+/**
+ * A price class for player economy
+ */
 public class PlayerEcoPrice implements Price.PlayerPrice<BigDecimal>, Price.EcoPrice<Player> {
 
     private final @NotNull Currency currency;

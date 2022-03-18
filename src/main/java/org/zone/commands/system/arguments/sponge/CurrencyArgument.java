@@ -19,6 +19,9 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * Gets currency from the command
+ */
 public class CurrencyArgument implements CommandArgument<Currency> {
 
     private final @NotNull String id;

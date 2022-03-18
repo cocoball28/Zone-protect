@@ -5,6 +5,7 @@ import org.spongepowered.api.command.CommandCompletion;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.CommandArgumentResult;
 import org.zone.commands.system.ParseCommandArgument;
+import org.zone.commands.system.arguments.operation.OptionalArgument;
 import org.zone.commands.system.context.CommandArgumentContext;
 import org.zone.commands.system.context.CommandContext;
 
@@ -13,12 +14,24 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 
+/**
+ * Get a number between a range and fails if the input is above or below that range, such as
+ * 0-10, a input of -1 would fail the argument while a number of 0 would be accepted
+ *
+ * @param <N> The number type that should be accepted
+ */
 public class RangeArgument<N extends Number> implements CommandArgument<N> {
 
     private final CommandArgument<N> parser;
     private final ParseCommandArgument<N> lower;
     private final ParseCommandArgument<N> higher;
 
+    /**
+     * Creates a range argument
+     * @param parser the command argument to gain the number
+     * @param lower the minimum value that can be accepted
+     * @param higher the maximum value that can be accepted
+     */
     public RangeArgument(
             CommandArgument<N> parser,
             ParseCommandArgument<N> lower,
@@ -70,5 +83,32 @@ public class RangeArgument<N extends Number> implements CommandArgument<N> {
         } catch (IOException e) {
             return Collections.emptyList();
         }
+    }
+
+    /**
+     * Creates a range argument based on a fixed input
+     * @param id The id of the argument
+     * @param min the minimum value that can be accepted
+     * @param max the maximum value that can be accepted
+     * @return The created range argument
+     */
+    public static RangeArgument<Double> createArgument(String id, double min, double max) {
+        return new RangeArgument<>(new DoubleArgument(id),
+                new OptionalArgument.WrappedParser<>(min),
+                new OptionalArgument.WrappedParser<>(max));
+    }
+
+
+    /**
+     * Creates a range argument based on a fixed input
+     * @param id The id of the argument
+     * @param min the minimum value that can be accepted
+     * @param max the maximum value that can be accepted
+     * @return The created range argument
+     */
+    public static RangeArgument<Integer> createArgument(String id, int min, int max) {
+        return new RangeArgument<>(new IntegerArgument(id),
+                new OptionalArgument.WrappedParser<>(min),
+                new OptionalArgument.WrappedParser<>(max));
     }
 }

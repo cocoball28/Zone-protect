@@ -5,13 +5,16 @@ import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.service.economy.Currency;
 import org.zone.region.Zone;
 import org.zone.region.flag.meta.eco.balance.BalanceFlag;
+import org.zone.region.shop.transaction.TransactionState;
 import org.zone.region.shop.transaction.price.Price;
 import org.zone.region.shop.transaction.price.PriceBuilder;
 import org.zone.region.shop.transaction.price.PriceType;
-import org.zone.region.shop.transaction.TransactionState;
 
 import java.math.BigDecimal;
 
+/**
+ * A price for a zones economy
+ */
 public class ZoneEcoPrice implements Price.ZonePrice<BigDecimal>, Price.EcoPrice<Zone> {
 
     private final @NotNull Currency currency;

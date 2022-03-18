@@ -15,15 +15,26 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * Gets a Zone group from a command
+ */
 public class ZoneGroupArgument implements CommandArgument<Group> {
 
     private final @NotNull String id;
     private final @NotNull String zoneKey;
 
+    /**
+     * Creates a zone group argument -> Note that groups are specific to zones and therefore the
+     * zone must be known before parsing the group, therefore it should be passed in the command
+     *
+     * @param id           The id to use for the argument
+     * @param zoneArgument The argument of the zone
+     */
     public ZoneGroupArgument(@NotNull String id, @NotNull CommandArgument<Zone> zoneArgument) {
         this(id, zoneArgument.getId());
     }
 
+    @Deprecated(since = "1.0.1", forRemoval = true)
     public ZoneGroupArgument(@NotNull String id, @NotNull String zoneKey) {
         this.id = id;
         this.zoneKey = zoneKey;
@@ -51,8 +62,9 @@ public class ZoneGroupArgument implements CommandArgument<Group> {
 
     @Override
     public @NotNull Collection<CommandCompletion> suggest(
-            @NotNull CommandContext context, @NotNull CommandArgumentContext<Group> argument) {
-        Zone zone = context.getArgument(argument.getArgumentCommand(), this.zoneKey);
+            @NotNull CommandContext commandContext,
+            @NotNull CommandArgumentContext<Group> argument) {
+        Zone zone = commandContext.getArgument(argument.getArgumentCommand(), this.zoneKey);
         Set<Group> groups = zone.getMembers().getGroups();
         String target = argument.getFocusArgument().toLowerCase();
         return groups

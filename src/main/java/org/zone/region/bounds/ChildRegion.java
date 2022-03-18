@@ -32,8 +32,8 @@ public class ChildRegion implements Region {
      *
      * @param region The region to add
      */
-    public void add(@NotNull Region region) {
-        this.bounds.add(region);
+    public boolean add(@NotNull Region region) {
+        return this.bounds.add(region);
     }
 
     /**
@@ -41,8 +41,8 @@ public class ChildRegion implements Region {
      *
      * @param region The region to remove
      */
-    public void remove(@NotNull Region region) {
-        this.bounds.remove(region);
+    public boolean remove(@NotNull Region region) {
+        return this.bounds.remove(region);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class ChildRegion implements Region {
     }
 
     @Override
-    public Collection<? extends Entity> getEntities(World<?, ?> world) {
+    public Collection<? extends Entity> getEntities(@NotNull World<?, ?> world) {
         return this.bounds
                 .stream()
                 .flatMap(region -> region.getEntities(world).stream())
@@ -81,11 +81,11 @@ public class ChildRegion implements Region {
     }
 
     @Override
-    public Optional<Vector2i> getNearestPosition(Vector2i vector2i) {
+    public Optional<Vector2i> getNearestPosition(@NotNull Vector2i vector) {
         Set<Vector2i> nearestPositions = this
                 .getTrueChildren()
                 .stream()
-                .map(region -> region.getNearestPosition(vector2i))
+                .map(region -> region.getNearestPosition(vector))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .collect(Collectors.toSet());
@@ -93,7 +93,7 @@ public class ChildRegion implements Region {
         double closesDistance = Integer.MAX_VALUE;
 
         for (Vector2i position : nearestPositions) {
-            double distance = vector2i.distance(position);
+            double distance = vector.distance(position);
             if (closes == null || closesDistance < distance) {
                 closesDistance = distance;
                 closes = position;

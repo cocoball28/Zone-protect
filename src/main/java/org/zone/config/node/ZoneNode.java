@@ -9,6 +9,10 @@ import org.zone.config.command.ConfigCommandNode;
 import java.util.Collection;
 import java.util.Optional;
 
+/**
+ * A node within the Zone config
+ * @param <Value>
+ */
 @Typed(typesClass = ZoneNodes.class)
 public interface ZoneNode<Value> {
 

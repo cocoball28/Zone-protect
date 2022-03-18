@@ -39,7 +39,7 @@ public class ChunkBoundMode implements BoundMode {
 
     @Override
     public @NotNull Location<? extends World<?, ?>, ?> shiftOther(
-            Location<? extends World<?, ?>, ?> other, @NotNull Vector3i current) {
+            @NotNull Location<? extends World<?, ?>, ?> other, @NotNull Vector3i current) {
         Vector3i chunkPos = other.chunkPosition();
         WorldChunk chunk = other.world().chunk(chunkPos);
         Vector3i min = chunk.min();

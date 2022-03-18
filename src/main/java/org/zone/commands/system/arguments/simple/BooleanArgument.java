@@ -17,17 +17,30 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * A boolean argument for a command
+ */
 public class BooleanArgument implements GUICommandArgument<Boolean> {
 
-    private final String id;
-    private final String asTrue;
-    private final String asFalse;
+    private final @NotNull String id;
+    private final @NotNull String asTrue;
+    private final @NotNull String asFalse;
 
-    public BooleanArgument(String id) {
+    /**
+     * Accepts the traditional true/false
+     * @param id The id of the argument
+     */
+    public BooleanArgument(@NotNull String id) {
         this(id, "true", "false");
     }
 
-    public BooleanArgument(String id, String trueString, String falseString) {
+    /**
+     * for text other then true/false
+     * @param id The id of the argument
+     * @param trueString The text to use for if the value is true
+     * @param falseString The text to use for if the value is false
+     */
+    public BooleanArgument(@NotNull String id, @NotNull String trueString, @NotNull String falseString) {
         this.id = id;
         this.asFalse = falseString;
         this.asTrue = trueString;

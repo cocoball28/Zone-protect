@@ -3,10 +3,13 @@ package org.zone.region.shop.transaction.price.zone;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.zone.region.Zone;
-import org.zone.utils.Messages;
 import org.zone.region.shop.transaction.price.Price;
 import org.zone.region.shop.transaction.price.PriceType;
+import org.zone.utils.Messages;
 
+/**
+ * A price for a zones power level
+ */
 public class ZonePowerPrice implements Price.ZonePrice<Long> {
 
     private final long price;

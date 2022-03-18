@@ -26,6 +26,9 @@ import org.zone.region.Zone;
 
 import java.util.Optional;
 
+/**
+ * Event listeners for humans. No need to look at this for API
+ */
 public class HumanAIListener {
 
     @Listener
@@ -84,28 +87,6 @@ public class HumanAIListener {
         }
         event.setCancelled(true);
     }
-
-
-    //humans dont have proper inventories, this wont trigger
-    /*@Listener
-    public void onItemPickup(ChangeInventoryEvent.Pickup.Pre event) {
-        Inventory inv = event.inventory();
-        if (!(inv instanceof EquipmentInventory eInv)) {
-            return;
-        }
-        Optional<Equipable> opCarrier = eInv.carrier();
-        if (opCarrier.isEmpty()) {
-            return;
-        }
-        if (!(opCarrier.get() instanceof Human human)) {
-            return;
-        }
-        Optional<String> opZoneId = human.get(ZoneKeys.HUMAN_AI_ATTACHED_ZONE_ID);
-        if (opZoneId.isEmpty()) {
-            return;
-        }
-        event.setCancelled(true);
-    }*/
 
     @Listener
     public void onMove(MoveEntityEvent event, @Getter("entity") Human human) {

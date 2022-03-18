@@ -8,6 +8,9 @@ import org.zone.utils.Messages;
 import org.zone.region.shop.transaction.price.Price;
 import org.zone.region.shop.transaction.price.PriceType;
 
+/**
+ * The price for player exp
+ */
 public class PlayerExpPrice implements Price.PlayerPrice<Integer> {
 
     private final int exp;
