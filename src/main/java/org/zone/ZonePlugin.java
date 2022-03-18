@@ -198,6 +198,7 @@ public class ZonePlugin {
 
 
         FlagManager manager = this.getFlagManager();
+        //noinspection unchecked
         Iterable<? extends FlagType.SerializableType<?>> types = (Iterable<? extends FlagType.SerializableType<?>>) manager
                 .getRegistered(FlagType.SerializableType.class)
                 .collect(Collectors.toSet());
@@ -317,6 +318,7 @@ public class ZonePlugin {
         if (Enum.class.isAssignableFrom(typesClass)) {
             //noinspection rawtypes
             Class<? extends Enum> enumTypesClass = (Class<? extends Enum<?>>) typesClass;
+            //noinspection unchecked
             return EnumSet.allOf(enumTypesClass).stream();
         }
         return Arrays
