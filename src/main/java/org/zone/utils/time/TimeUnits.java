@@ -19,7 +19,7 @@ public enum TimeUnits {
 
     private final @NotNull TemporalUnit unit;
 
-    private TimeUnits(@NotNull TemporalUnit unit) {
+    TimeUnits(@NotNull TemporalUnit unit) {
         this.unit = unit;
     }
 

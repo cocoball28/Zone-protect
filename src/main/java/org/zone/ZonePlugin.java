@@ -69,15 +69,45 @@ import java.util.stream.Stream;
 @Plugin("zones")
 public class ZonePlugin {
 
+    /**
+     * Plugin container of this plugin
+     */
     private final PluginContainer plugin;
+    /**
+     * Logger of this plugin
+     */
     private final Logger logger;
+    /**
+     * Message Display Manager of this plugin
+     */
     private MessageDisplayManager messageDisplayManager;
+    /**
+     * Flag Manager of this plugin
+     */
     private FlagManager flagManager;
+    /**
+     * Zone manager of this plugin
+     */
     private ZoneManager zoneManager;
+    /**
+     * Group key manager of this plugin
+     */
     private GroupKeyManager groupKeyManager;
+    /**
+     * Shops manager of this plugin
+     */
     private ShopManager shopManager;
+    /**
+     * Config of this plugin
+     */
     private ZoneConfig config;
+    /**
+     * Memory Holder of this plugin
+     */
     private MemoryHolder memoryHolder;
+    /**
+     * This plugin
+     */
     private static ZonePlugin zonePlugin;
 
     @SuppressWarnings("SpongeInjection")
@@ -88,10 +118,20 @@ public class ZonePlugin {
         this.logger = logger;
     }
 
+    /**
+     * Gets the config of {@link ZonePlugin}
+     *
+     * @return An instance of the config class
+     */
     public @NotNull ZoneConfig getConfig() {
         return this.config;
     }
 
+    /**
+     * Gets the shop manager of {@link ZonePlugin}
+     *
+     * @return An instance of the shop manager
+     */
     public @NotNull ShopManager getShopManager() {
         return this.shopManager;
     }
@@ -126,7 +166,7 @@ public class ZonePlugin {
     /**
      * Gets the Memory holder
      *
-     * @return the instance of the memory holder
+     * @return The instance of the memory holder
      */
     public @NotNull MemoryHolder getMemoryHolder() {
         return this.memoryHolder;
@@ -150,8 +190,16 @@ public class ZonePlugin {
         return this.logger;
     }
 
+    /**
+     * Listener of Construct plugin event
+     *
+     * Mainly initializes fields available in this plugin class by creating a new instance of the
+     * field type
+     *
+     * @param event The event to listen to. Here, {@link ConstructPluginEvent}
+     */
     @Listener
-    public void onConstructor(ConstructPluginEvent event) {
+    public void onConstruct(ConstructPluginEvent event) {
         this.messageDisplayManager = new MessageDisplayManager();
         this.flagManager = new FlagManager();
         this.zoneManager = new ZoneManager();
@@ -161,6 +209,9 @@ public class ZonePlugin {
         this.config = new ZoneConfig(new File("config/zone/config.conf"));
     }
 
+    /**
+     * Method where listeners of events are registered (Only listeners of flags)
+     */
     private void registerListeners() {
         EventManager eventManager = Sponge.eventManager();
         eventManager.registerListeners(this.plugin, new PlayerListener());
@@ -187,11 +238,21 @@ public class ZonePlugin {
         eventManager.registerListeners(this.plugin, new DisplayCaseShopListener());
     }
 
+    /**
+     * Listener of Starting Engine Event
+     *
+     * @param event The event to listen to. Here, {@link StartedEngineEvent<Server>}
+     */
     @Listener
     public void onServerStarting(final StartingEngineEvent<Server> event) {
         this.registerListeners();
     }
 
+    /**
+     * Listener of Started Engine Event
+     *
+     * @param event The event to listen to. Here, {@link StartedEngineEvent<Server>}
+     */
     @Listener
     public void onServerStarted(final StartedEngineEvent<Server> event) {
         this.config.loadDefaults();
@@ -261,6 +322,11 @@ public class ZonePlugin {
                 .sendMessage(Messages.getZonesLoaded(this.getZoneManager().getRegistered()));
     }
 
+    /**
+     * Listener of RegisterCommandEvent
+     *
+     * @param event The event to listen to. Here, {@link RegisterCommandEvent<Command.Raw>}
+     */
     @Listener
     public void onRegisterCommands(@SuppressWarnings("BoundedWildcard") final RegisterCommandEvent<Command.Raw> event) {
         event.register(this.plugin,
@@ -271,21 +337,31 @@ public class ZonePlugin {
                 "protect");
     }
 
+    /**
+     * Listener to RegisterDataEvent
+     *
+     * @param event The event to listen to. Here, {@link RegisterDataEvent}
+     */
     @Listener
     public void onRegisterData(RegisterDataEvent event) {
         event.register(DataRegistration.of(ZoneKeys.HUMAN_AI_ATTACHED_ZONE_ID, Human.class));
     }
 
+    /**
+     * Listener to RefreshGameEvent
+     *
+     * @param event The event to listen to. Here, {@link RefreshGameEvent}
+     */
     @Listener
     public void onReload(RefreshGameEvent event) {
-        Optional<Audience> cSender = event.cause().first(Audience.class);
+        Optional<Audience> opCSender = event.cause().first(Audience.class);
         try {
             this.config.getLoader().load();
-            cSender.ifPresent(audience -> audience.sendMessage(Messages.getZoneConfigReloadedInfo()));
+            opCSender.ifPresent(audience -> audience.sendMessage(Messages.getZoneConfigReloadedInfo()));
             this.zoneManager.reloadZones();
-            cSender.ifPresent(audience -> audience.sendMessage(Messages.getZonesReloadedInfo()));
+            opCSender.ifPresent(audience -> audience.sendMessage(Messages.getZonesReloadedInfo()));
         } catch (ConfigurateException ce) {
-            cSender.ifPresent(audience -> audience.sendMessage(Messages.getZoneConfigReloadFail()));
+            opCSender.ifPresent(audience -> audience.sendMessage(Messages.getZoneConfigReloadFail()));
             ce.printStackTrace();
             this.logger.error("Event terminated!");
         }
@@ -309,6 +385,15 @@ public class ZonePlugin {
         return zonePlugin;
     }
 
+    /**
+     * Gets fields from a type class which extends Identifiable
+     *
+     * @param type The types class which accepts classes which extend {@link Identifiable}
+     *
+     * @param <T> A variable which accepts classes which extends {@link Identifiable}
+     *
+     * @return The fields from a type class
+     */
     public <T extends Identifiable> Stream<T> getVanillaTypes(Class<T> type) {
         Typed typedAnnotation = type.getAnnotation(Typed.class);
         if (typedAnnotation == null) {

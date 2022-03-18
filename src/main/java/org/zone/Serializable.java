@@ -20,9 +20,10 @@ public interface Serializable<F> {
     @NotNull F load(@NotNull ConfigurationNode node) throws IOException;
 
     /**
-     * serializes the value to the node
+     * Serializes the value to the node
      *
      * @param node The node to serialize to
+     *
      * @param save The value to save
      *
      * @throws IOException If failed to save

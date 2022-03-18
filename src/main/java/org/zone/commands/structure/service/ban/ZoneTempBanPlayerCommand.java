@@ -1,4 +1,4 @@
-package org.zone.commands.structure.invite;
+package org.zone.commands.structure.service.ban;
 
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
@@ -9,53 +9,56 @@ import org.spongepowered.configurate.ConfigurateException;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
-import org.zone.commands.system.arguments.operation.OptionalArgument;
 import org.zone.commands.system.arguments.operation.RemainingArgument;
+import org.zone.commands.system.arguments.simple.TimeUnitArgument;
+import org.zone.commands.system.arguments.simple.number.RangeArgument;
 import org.zone.commands.system.arguments.sponge.UserArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
-import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.meta.request.join.JoinRequestFlag;
+import org.zone.region.flag.meta.member.MembersFlag;
 import org.zone.region.flag.meta.service.ban.flag.BanFlag;
 import org.zone.utils.Messages;
 
+import java.time.LocalDateTime;
+import java.time.temporal.TemporalUnit;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
-public class ZoneInvitePlayerCommand implements ArgumentCommand {
+public class ZoneTempBanPlayerCommand implements ArgumentCommand {
 
-    public static final ZoneArgument ZONE_ID = new ZoneArgument("zoneId", new ZoneArgument
-            .ZoneArgumentPropertiesBuilder()
-            .setVisitorOnly(false)
-            .setBypassSuggestionPermission(ZonePermissions.OVERRIDE_FLAG_INVITE_PLAYER));
+    public static final ZoneArgument ZONE_ID = new ZoneArgument("zoneId",
+            new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
+                    ZonePermissions.OVERRIDE_TEMP_BAN));
     public static final RemainingArgument<GameProfile> USERS =
             new RemainingArgument<>(new UserArgument("users"));
-    public static final OptionalArgument<String> CONFIRM =
-            new OptionalArgument<>(new ExactArgument("confirm"), (String) null, true);
+    public static final RangeArgument<Integer> AMOUNT = RangeArgument.createArgument("amount",
+            0, Integer.MAX_VALUE);
+    public static final TimeUnitArgument UNIT = new TimeUnitArgument("time");
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
-                             new ExactArgument("invite"),
                              ZONE_ID,
+                             new ExactArgument("ban"),
+                             new ExactArgument("temp"),
                              USERS,
-                             CONFIRM);
+                             AMOUNT,
+                             UNIT);
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Messages.getZoneInvitePlayerCommandDescription();
+        return Messages.getTempBanPlayerCommandDescription();
     }
 
     @Override
     public @NotNull Optional<ZonePermission> getPermissionNode() {
-        return Optional.of(ZonePermissions.FLAG_INVITE_PLAYER);
+        return Optional.of(ZonePermissions.TEMP_BAN);
     }
 
     @Override
@@ -63,35 +66,26 @@ public class ZoneInvitePlayerCommand implements ArgumentCommand {
             @NotNull CommandContext commandContext, @NotNull String... args) {
         Zone zone = commandContext.getArgument(this, ZONE_ID);
         List<GameProfile> players = commandContext.getArgument(this, USERS);
-        boolean wasConfirmed = commandContext.getArgument(this, CONFIRM) != null;
+        long amount = commandContext.getArgument(this, AMOUNT);
+        TemporalUnit unit = commandContext.getArgument(this, UNIT);
+        LocalDateTime releaseTime = LocalDateTime.now().plus(amount, unit);
+        MembersFlag membersFlag = zone.getMembers();
         BanFlag banFlag = new BanFlag();
-        JoinRequestFlag joinRequestFlag = zone
-                .getFlag(FlagTypes.JOIN_REQUEST)
-                .orElse(new JoinRequestFlag());
         players.forEach(profile -> {
-            if (wasConfirmed) {
-                if (banFlag.isBanned(profile.uniqueId())) {
-                    commandContext.sendMessage(Messages.getBannedWarning(profile.name().orElse(null)));
-                }
-            }
+            membersFlag.removeMember(profile.uniqueId());
+            banFlag.banPlayer(profile.uniqueId(), releaseTime);
         });
-        joinRequestFlag
-                .registerInvites(players
-                        .stream()
-                        .map(GameProfile::uuid)
-                        .collect(Collectors.toList()));
-        zone.setFlag(joinRequestFlag);
+        players
+                .stream()
+                .map(profile -> Sponge
+                        .server()
+                        .player(profile.uniqueId())
+                        .orElse(null))
+                .filter(Objects::nonNull)
+                .forEach(sPlayer -> sPlayer.sendMessage(Messages.getGotTemporarilyBannedFromZone(zone, releaseTime)));
         try {
             zone.save();
-            players
-                    .stream()
-                    .map(profile -> Sponge
-                            .server()
-                            .player(profile.uniqueId())
-                            .orElse(null))
-                    .filter(Objects::nonNull)
-                    .forEach(player -> player.sendMessage(Messages.getGotInvite(player, zone)));
-            commandContext.sendMessage(Messages.getInvitedPlayer());
+            commandContext.sendMessage(Messages.getTemporarilyBannedPlayers());
         } catch (ConfigurateException ce) {
             ce.printStackTrace();
             return CommandResult.error(Messages.getZoneSavingError(ce));

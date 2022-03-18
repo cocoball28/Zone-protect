@@ -21,6 +21,8 @@ import org.zone.region.group.Group;
 import org.zone.region.shop.transaction.price.PriceType;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.UUID;
 
@@ -766,6 +768,22 @@ public final class Messages {
         return Component.text("Set the display type of the leaving message to boss bar");
     }
 
+    public static Component getKickPlayerCommandDescription() {
+        return Component.text("Kicks players from a zone");
+    }
+
+    public static Component getBanPlayerCommandDescription() {
+        return Component.text("Bans players from a zone");
+    }
+
+    public static Component getTempBanPlayerCommandDescription() {
+        return Component.text("Temporarily bans players from a zone");
+    }
+
+    public static Component getUnbanPlayerCommandDescription() {
+        return Component.text("Unbans players from a zone");
+    }
+
     public static Component getAllZoneCommandsTag() {
         return Component.text("All Zone commands");
     }
@@ -849,7 +867,46 @@ public final class Messages {
     }
 
     public static Component getNotInvited() {
-        return Component.text("You have not been invited");
+        return Component.text("You have not been invited").color(NamedTextColor.RED);
+    }
+
+    public static Component getGotKickedFromZone(Identifiable zone) {
+        return Component.text("You have been kicked from " + zone.getName()).color(NamedTextColor.DARK_AQUA);
+    }
+
+    public static Component getKickedPlayers() {
+        return Component.text("Players have been kicked from your zone").color(NamedTextColor.AQUA);
+    }
+
+    public static Component getGotBannedFromZone(Identifiable zone) {
+        return Component.text("You have been banned from " + zone.getName()).color(NamedTextColor.DARK_AQUA);
+    }
+
+    public static Component getGotTemporarilyBannedFromZone(Identifiable zone,
+            LocalDateTime releaseTime) {
+        return Component.text("You have been temporarily banned from " + zone.getName() + " for " + releaseTime.format(
+                DateTimeFormatter.ISO_DATE_TIME)).color(NamedTextColor.DARK_AQUA);
+    }
+
+    public static Component getBannedPlayers() {
+        return Component.text("Players have been banned from your zone").color(NamedTextColor.AQUA);
+    }
+
+    public static Component getTemporarilyBannedPlayers() {
+        return Component.text("Players have been temporarily banned from your zone").color(NamedTextColor.AQUA);
+    }
+
+    public static Component getIsBanned() {
+        return Component.text("You are banned from the zone").color(NamedTextColor.DARK_AQUA);
+    }
+
+    public static Component getWarningTag() {
+        return Component.text("WARNING: ").color(NamedTextColor.YELLOW);
+    }
+
+    public static Component getBannedWarning(String name) {
+        return Component.text(getWarningTag() + name + " is currently banned from the zone are" +
+                " you sure u want to invite this player?").color(NamedTextColor.AQUA);
     }
 
 }

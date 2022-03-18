@@ -10,9 +10,12 @@ import org.zone.commands.system.context.CommandContext;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Optional;
 
 public class OptionalArgument<T> implements CommandArgument<T> {
 
+    private boolean blockSuggestions;
     private final @NotNull CommandArgument<T> arg;
     private final @NotNull ParseCommandArgument<T> value;
 
@@ -35,6 +38,17 @@ public class OptionalArgument<T> implements CommandArgument<T> {
         }
     }
 
+    public OptionalArgument(CommandArgument<T> arg, T value, boolean blockSuggestions) {
+        this(arg, new WrappedParser<>(value), blockSuggestions);
+    }
+
+    public OptionalArgument(CommandArgument<T> arg, ParseCommandArgument<T> value,
+            boolean blockSuggestions) {
+        this.arg = arg;
+        this.value = value;
+        this.blockSuggestions = blockSuggestions;
+    }
+
     /**
      * Creates the argument
      * @param arg The argument to attempt
@@ -49,11 +63,8 @@ public class OptionalArgument<T> implements CommandArgument<T> {
      * @param arg The argument to attempt
      * @param value The value to use if the argument fails
      */
-    public OptionalArgument(
-            @NotNull CommandArgument<T> arg,
-            @NotNull ParseCommandArgument<T> value) {
-        this.arg = arg;
-        this.value = value;
+    public OptionalArgument(CommandArgument<T> arg, ParseCommandArgument<T> value) {
+        this(arg, value, false);
     }
 
     /**
@@ -95,6 +106,9 @@ public class OptionalArgument<T> implements CommandArgument<T> {
     @Override
     public @NotNull Collection<CommandCompletion> suggest(
             @NotNull CommandContext commandContext, @NotNull CommandArgumentContext<T> argument) {
+        if (this.blockSuggestions) {
+            return Collections.emptySet();
+        }
         return this.arg.suggest(commandContext, argument);
     }
 }

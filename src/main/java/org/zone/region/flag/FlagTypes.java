@@ -28,6 +28,7 @@ import org.zone.region.flag.meta.member.MembersFlagType;
 import org.zone.region.flag.meta.request.join.JoinRequestFlagType;
 import org.zone.region.flag.meta.request.visibility.ZoneVisibilityFlagType;
 import org.zone.region.flag.meta.tag.TagsFlagType;
+import org.zone.region.flag.meta.service.ban.flag.BanFlagType;
 
 /**
  * All known default flag types found within the zones plugin
@@ -62,6 +63,7 @@ public final class FlagTypes {
     public static final WitherGriefFlagType WITHER_GRIEF = new WitherGriefFlagType();
     public static final EnderMiteGriefFlagType ENDER_MITE_GRIEF = new EnderMiteGriefFlagType();
     public static final ShopsFlagType SHOPS = new ShopsFlagType();
+    public static final BanFlagType BAN = new BanFlagType();
 
     private FlagTypes() {
         throw new RuntimeException("Should not init");

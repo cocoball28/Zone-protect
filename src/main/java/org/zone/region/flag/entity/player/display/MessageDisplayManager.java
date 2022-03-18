@@ -1,8 +1,11 @@
 package org.zone.region.flag.entity.player.display;
 
+import org.zone.ZonePlugin;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.stream.Collectors;
 
 public class MessageDisplayManager {
 
@@ -10,7 +13,11 @@ public class MessageDisplayManager {
             new HashSet<>();
 
     public MessageDisplayManager() {
-        this.displayTypes.addAll(MessageDisplayTypes.getVanillaDisplayTypes());
+        this.displayTypes.addAll(ZonePlugin
+                .getZonesPlugin()
+                .getVanillaTypes(MessageDisplayType.class)
+                .map(type -> (MessageDisplayType<?>) type)
+                .collect(Collectors.toSet()));
     }
 
     /**
