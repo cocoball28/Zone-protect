@@ -31,7 +31,7 @@ public interface Region {
      */
     boolean contains(@NotNull Vector3d location, boolean ignoreY);
 
-    Collection<? extends Entity> getEntities(World<?, ?> world);
+    Collection<? extends Entity> getEntities(@NotNull World<?, ?> world);
 
     /**
      * Gets the location within the region that is nearest to the provided block position
@@ -61,7 +61,7 @@ public interface Region {
      *
      * @throws SerializationException If the zone could not be serialized
      */
-    void save(ConfigurationNode node) throws SerializationException;
+    void save(@NotNull ConfigurationNode node) throws SerializationException;
 
     /**
      * Gets the children of this region
@@ -127,7 +127,7 @@ public interface Region {
      * then the
      * closes could not be found
      */
-    default Optional<Vector3i> getNearestPosition(Vector3i vector, boolean ignoreHeight) {
+    default Optional<Vector3i> getNearestPosition(@NotNull Vector3i vector, boolean ignoreHeight) {
         if (ignoreHeight) {
             return this
                     .getNearestPosition(new Vector2i(vector.x(), vector.z()))

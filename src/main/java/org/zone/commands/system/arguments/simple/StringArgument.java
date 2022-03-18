@@ -10,11 +10,19 @@ import org.zone.commands.system.context.CommandContext;
 import java.util.Collections;
 import java.util.Set;
 
+/**
+ * Gets a string value from a command
+ */
 public class StringArgument implements CommandArgument<String> {
 
-    private final String id;
+    private final @NotNull String id;
 
-    public StringArgument(String id) {
+    /**
+     * Creates a string argument
+     *
+     * @param id The id of the argument
+     */
+    public StringArgument(@NotNull String id) {
         this.id = id;
     }
 

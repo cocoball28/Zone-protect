@@ -18,7 +18,7 @@ public class MemoryHolder {
     private final Map<UUID, BossBar> zoneBuilderBossBars = new HashMap<>();
 
 
-    public Optional<BossBar> getZoneBuilderBossBar(UUID uuid) {
+    public Optional<BossBar> getZoneBuilderBossBar(@NotNull UUID uuid) {
         return this.zoneBuilderBossBars
                 .entrySet()
                 .stream()
@@ -27,7 +27,7 @@ public class MemoryHolder {
                 .findAny();
     }
 
-    public void registerZoneBuilderBossBar(UUID uuid, BossBar bossBar) {
+    public void registerZoneBuilderBossBar(@NotNull UUID uuid, @NotNull BossBar bossBar) {
         if (this.zoneBuilderBossBars.containsKey(uuid)) {
             this.zoneBuilderBossBars.replace(uuid, bossBar);
             return;
@@ -35,7 +35,7 @@ public class MemoryHolder {
         this.zoneBuilderBossBars.put(uuid, bossBar);
     }
 
-    public void unregisterZoneBuilderBossBar(UUID uuid){
+    public void unregisterZoneBuilderBossBar(@NotNull UUID uuid){
         this.zoneBuilderBossBars.remove(uuid);
     }
 

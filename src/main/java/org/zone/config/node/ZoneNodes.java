@@ -9,13 +9,17 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@SuppressWarnings("unused")
+/**
+ * All known nodes for the Zone Config
+ */
 public final class ZoneNodes {
 
     public static final MaxOwnerNode MAX_OWNER = new MaxOwnerNode();
     public static final PriceForNewLandNode PRICE_FOR_LAND = new PriceForNewLandNode();
 
     private ZoneNodes() {
+        throw new RuntimeException("should not be init");
+
     }
 
     public static Set<ZoneNode<?>> getNodes() {

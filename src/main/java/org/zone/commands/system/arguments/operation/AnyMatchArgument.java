@@ -15,9 +15,9 @@ import java.util.stream.Collectors;
 
 public class AnyMatchArgument<T> implements CommandArgument<T> {
 
-    private final String id;
-    private final Function<? super T, String> asString;
-    private final Collection<? extends T> results;
+    private final @NotNull String id;
+    private final @NotNull Function<? super T, String> asString;
+    private final @NotNull Collection<? extends T> results;
 
     @Deprecated
     public AnyMatchArgument(String id, Function<? super T, String> asString) {
@@ -25,12 +25,14 @@ public class AnyMatchArgument<T> implements CommandArgument<T> {
     }
 
     @SafeVarargs
-    public AnyMatchArgument(String id, Function<? super T, String> asString, T... results) {
+    public AnyMatchArgument(@NotNull String id, @NotNull Function<? super T, String> asString,
+            T... results) {
         this(id, asString, Arrays.asList(results));
     }
 
     public AnyMatchArgument(
-            String id, Function<? super T, String> asString, Collection<? extends T> results) {
+            @NotNull String id, @NotNull Function<? super T, String> asString,
+            @NotNull Collection<? extends T> results) {
         this.id = id;
         this.asString = asString;
         this.results = results;

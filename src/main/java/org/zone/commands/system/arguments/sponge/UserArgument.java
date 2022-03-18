@@ -16,10 +16,18 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * Gets a user from a command
+ */
 public class UserArgument implements CommandArgument<GameProfile> {
 
     private final @NotNull String id;
 
+    /**
+     * Creates the argument
+     *
+     * @param id The id of the argument
+     */
     public UserArgument(@NotNull String id) {
         this.id = id;
     }

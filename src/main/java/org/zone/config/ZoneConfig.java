@@ -14,6 +14,9 @@ import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.util.Optional;
 
+/**
+ * The zone config itself
+ */
 public class ZoneConfig {
 
     private final File file;

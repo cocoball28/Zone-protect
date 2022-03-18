@@ -1,5 +1,6 @@
 package org.zone.permissions;
 
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.service.permission.PermissionService;
 import org.spongepowered.api.service.permission.Subject;
@@ -10,11 +11,11 @@ import java.util.Optional;
 @Typed(typesClass = ZonePermissions.class)
 public interface ZonePermission {
 
-    String[] getPermissionNode();
+    @NotNull String[] getPermissionNode();
 
     boolean isDefaultAllowed();
 
-    default boolean hasPermission(Subject subject) {
+    default boolean hasPermission(@NotNull Subject subject) {
         if (subject.hasPermission(this.getPermission())) {
             return true;
         }
@@ -27,7 +28,7 @@ public interface ZonePermission {
         return this.isDefaultAllowed();
     }
 
-    default String getPermission() {
+    default @NotNull String getPermission() {
         return String.join(".", this.getPermissionNode());
     }
 }

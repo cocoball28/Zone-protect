@@ -17,19 +17,23 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Gets currency accepted by a account from the command
+ */
 public class AccountCurrencyArgument implements CommandArgument<Currency> {
 
     private final String id;
     private final ParseCommandArgument<UUID> account;
 
-    public AccountCurrencyArgument(@NotNull String id, String argumentId) {
+
+    public AccountCurrencyArgument(@NotNull String id, @NotNull String argumentId) {
         this(id,
                 ((context, argument) -> CommandArgumentResult.from(argument,
                         0,
                         context.getArgument(argument.getArgumentCommand(), argumentId))));
     }
 
-    public AccountCurrencyArgument(@NotNull String id, UUID uuid) {
+    public AccountCurrencyArgument(@NotNull String id, @NotNull UUID uuid) {
         this(id, (context, argument) -> CommandArgumentResult.from(argument, 0, uuid));
     }
 

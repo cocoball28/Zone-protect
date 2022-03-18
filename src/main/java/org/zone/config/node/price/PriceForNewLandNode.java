@@ -25,6 +25,9 @@ import org.zone.utils.Messages;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * The price for a new region
+ */
 public class PriceForNewLandNode implements ZoneNode<Price.PlayerPrice<?>> {
 
     private class TypeConfigCommandNode implements ConfigCommandNode<PriceType> {

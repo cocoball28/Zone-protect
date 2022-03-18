@@ -15,6 +15,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
 
+/**
+ * The max amount of owners a single zone can have
+ */
 public class MaxOwnerNode implements ZoneNode.WithDefault<Integer> {
 
     private class MaxOwnerConfigCommandNode implements ConfigCommandNode<Integer> {
@@ -61,31 +64,6 @@ public class MaxOwnerNode implements ZoneNode.WithDefault<Integer> {
     public Collection<ConfigCommandNode<?>> getNodes() {
         return Collections.singleton(new MaxOwnerConfigCommandNode());
     }
-
-    /*@Override
-    public List<CommandCompletion> getSuggestions(String peek) {
-        if (peek.isBlank()) {
-            List<CommandCompletion> completion = new ArrayList<>();
-            for (int i = 0; i < 10; i++) {
-                completion.add(CommandCompletion.of(i + ""));
-            }
-            return completion;
-        }
-        int value;
-        try {
-            value = Integer.parseInt(peek);
-        } catch (NumberFormatException e) {
-            return Collections.emptyList();
-        }
-        if (value <= 0) {
-            return Collections.emptyList();
-        }
-        List<CommandCompletion> completion = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            completion.add(CommandCompletion.of(value + "" + i));
-        }
-        return completion;
-    }*/
 
     @Override
     public void set(CommentedConfigurationNode node, Integer integer) throws

@@ -21,15 +21,18 @@ import java.util.Collections;
 import java.util.Optional;
 import java.util.function.Function;
 
+/**
+ * Gets a location from the command
+ */
 public class LocationArgument implements CommandArgument<Location<?, ?>> {
 
     private final @NotNull String id;
     private final @NotNull Function<? super String, ? extends Number> toNumber;
-    private final Function<Location<?, ?>, Vector3d> suggestion;
-    private final Function<Double, String> suggestionFormat;
+    private final Function<? super Location<?, ?>, Vector3d> suggestion;
+    private final Function<? super Double, String> suggestionFormat;
 
-    public static final Function<Location<?, ?>, Vector3d> AS_EXACT = Location::position;
-    public static final Function<Location<?, ?>, Vector3d> AS_BLOCK = loc -> loc
+    public static final Function<? super Location<?, ?>, Vector3d> AS_EXACT = Location::position;
+    public static final Function<? super Location<?, ?>, Vector3d> AS_BLOCK = loc -> loc
             .blockPosition()
             .toDouble();
 
@@ -39,8 +42,8 @@ public class LocationArgument implements CommandArgument<Location<?, ?>> {
     public LocationArgument(
             @NotNull String id,
             @NotNull Function<? super String, ? extends Number> toNumber,
-            Function<Location<?, ?>, Vector3d> suggestion,
-            Function<Double, String> suggestionFormat) {
+            Function<? super Location<?, ?>, Vector3d> suggestion,
+            Function<? super Double, String> suggestionFormat) {
         this.id = id;
         this.toNumber = toNumber;
         this.suggestion = suggestion;
@@ -125,5 +128,27 @@ public class LocationArgument implements CommandArgument<Location<?, ?>> {
             }
             default -> Collections.emptyList();
         };
+    }
+
+    /**
+     * Creates a Location argument that only accepts block locations
+     *
+     * @param id The id of the argument
+     *
+     * @return the location argument
+     */
+    public @NotNull LocationArgument createBlockLocation(@NotNull String id) {
+        return new LocationArgument(id, Integer::parseInt, AS_BLOCK, INTEGER_FORMAT);
+    }
+
+    /**
+     * Creates a location argument that accepts any position
+     *
+     * @param id The id of the argument
+     *
+     * @return the location argument
+     */
+    public @NotNull LocationArgument createExactLocation(@NotNull String id) {
+        return new LocationArgument(id, Double::parseDouble, AS_EXACT, DOUBLE_FORMAT);
     }
 }

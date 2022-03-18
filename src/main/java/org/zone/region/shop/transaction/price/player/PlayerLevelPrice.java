@@ -4,10 +4,13 @@ import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.data.Keys;
 import org.spongepowered.api.entity.living.player.Player;
-import org.zone.utils.Messages;
 import org.zone.region.shop.transaction.price.Price;
 import org.zone.region.shop.transaction.price.PriceType;
+import org.zone.utils.Messages;
 
+/**
+ * The price for players exp level
+ */
 public class PlayerLevelPrice implements Price.PlayerPrice<Integer> {
 
     private final int exp;
