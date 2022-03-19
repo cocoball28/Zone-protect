@@ -7,8 +7,8 @@ import java.util.UUID;
 
 public class TemporaryBanInfo implements BanInfo {
 
-    public final @NotNull LocalDateTime releaseDateTime;
-    public final @NotNull UUID uuid;
+    private final @NotNull LocalDateTime releaseDateTime;
+    private final @NotNull UUID uuid;
 
     public TemporaryBanInfo(@NotNull UUID uuid, @NotNull LocalDateTime releaseDateTime) {
         this.uuid = uuid;

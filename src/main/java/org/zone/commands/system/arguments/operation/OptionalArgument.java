@@ -15,7 +15,7 @@ import java.util.Optional;
 
 public class OptionalArgument<T> implements CommandArgument<T> {
 
-    private boolean blockSuggestions;
+    private final boolean blockSuggestions;
     private final @NotNull CommandArgument<T> arg;
     private final @NotNull ParseCommandArgument<T> value;
 

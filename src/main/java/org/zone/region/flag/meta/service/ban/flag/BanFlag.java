@@ -22,7 +22,7 @@ public class BanFlag implements Flag.Serializable {
     /**
      * Collection of ban info
      */
-    public final Collection<BanInfo> banInfo = new HashSet<>();
+    private final Collection<BanInfo> banInfo = new HashSet<>();
 
     /**
      * Constructor of BanFlag class
@@ -52,11 +52,11 @@ public class BanFlag implements Flag.Serializable {
     }
 
     /**
-     * Bans a player from a zone
+     * Temporarily bans a player from a zone
      *
-     * @param uuid the uuid of the player
+     * @param uuid The uuid of the player
      *
-     * @param localDateTime the local date and time of when the player was banned (this can be null)
+     * @param localDateTime The local date and time of when the player was banned (this can be null)
      */
     public void banPlayer(@NotNull UUID uuid, @Nullable LocalDateTime localDateTime) {
         BanInfo banInfo;
@@ -69,11 +69,20 @@ public class BanFlag implements Flag.Serializable {
     }
 
     /**
+     * Permanently bans a player from a zone
+     *
+     * @param uuid The uuid of the player
+     */
+    public void banPlayer(@NotNull UUID uuid) {
+        this.banPlayer(uuid, null);
+    }
+
+    /**
      * Unbans a player from a zone
      *
      * @param uuid the of the player
      */
-    public void unbanPlayer(UUID uuid) {
+    public void unbanPlayer(@NotNull UUID uuid) {
         Optional<BanInfo> banInfo = this.banInfo
                 .stream()
                 .filter(banInfo1 -> banInfo1.getId().equals(uuid))
@@ -91,7 +100,7 @@ public class BanFlag implements Flag.Serializable {
      *
      * @return a boolean checking whether the player is in the list of banned players
      */
-    public boolean isBanned(UUID uuid) {
+    public boolean isBanned(@NotNull UUID uuid) {
         return this.banInfo.stream().anyMatch(banInfo1 -> banInfo1.getId().equals(uuid));
     }
 

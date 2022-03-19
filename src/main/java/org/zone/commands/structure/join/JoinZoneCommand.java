@@ -60,7 +60,7 @@ public class JoinZoneCommand implements ArgumentCommand {
                 .getFlag(FlagTypes.ZONE_VISIBILITY)
                 .map(ZoneVisibilityFlag::getZoneVisibility)
                 .orElse(ZoneVisibility.PUBLIC);
-        BanFlag banFlag = new BanFlag();
+        BanFlag banFlag = zone.getFlag(FlagTypes.BAN).orElse(new BanFlag());
         if (zoneVisibility == ZoneVisibility.PRIVATE || zoneVisibility == ZoneVisibility.SEMI_PRIVATE) {
             return CommandResult.error(Messages.getZonePrivateError());
         }

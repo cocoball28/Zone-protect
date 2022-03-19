@@ -16,6 +16,7 @@ import org.zone.commands.system.context.CommandContext;
 import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
+import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.meta.member.MembersFlag;
 import org.zone.region.flag.meta.service.ban.flag.BanFlag;
 import org.zone.utils.Messages;
@@ -54,10 +55,10 @@ public class ZoneBanPlayerCommand implements ArgumentCommand {
         Zone zone = commandContext.getArgument(this, ZONE_ID);
         List<GameProfile> players = commandContext.getArgument(this, USERS);
         MembersFlag membersFlag = zone.getMembers();
-        BanFlag banFlag = new BanFlag();
+        BanFlag banFlag = zone.getFlag(FlagTypes.BAN).orElse(new BanFlag());
         players.forEach(profile -> {
             membersFlag.removeMember(profile.uniqueId());
-            banFlag.banPlayer(profile.uniqueId(), null);
+            banFlag.banPlayer(profile.uniqueId());
         });
         players
                 .stream()

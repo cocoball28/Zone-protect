@@ -64,17 +64,18 @@ public class ZoneInvitePlayerCommand implements ArgumentCommand {
         Zone zone = commandContext.getArgument(this, ZONE_ID);
         List<GameProfile> players = commandContext.getArgument(this, USERS);
         boolean wasConfirmed = commandContext.getArgument(this, CONFIRM) != null;
-        BanFlag banFlag = new BanFlag();
+        BanFlag banFlag = zone.getFlag(FlagTypes.BAN).orElse(new BanFlag());
         JoinRequestFlag joinRequestFlag = zone
                 .getFlag(FlagTypes.JOIN_REQUEST)
                 .orElse(new JoinRequestFlag());
-        players.forEach(profile -> {
-            if (wasConfirmed) {
-                if (banFlag.isBanned(profile.uniqueId())) {
-                    commandContext.sendMessage(Messages.getBannedWarning(profile.name().orElse(null)));
-                }
-            }
-        });
+        if (wasConfirmed) {
+            players
+                    .forEach(profile -> {
+                        if (banFlag.isBanned(profile.uniqueId())) {
+                            commandContext.sendMessage(Messages.getBannedWarning(profile.name().orElse(null)));
+                        }
+                    });
+        }
         joinRequestFlag
                 .registerInvites(players
                         .stream()

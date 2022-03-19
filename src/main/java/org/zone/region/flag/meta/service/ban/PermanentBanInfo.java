@@ -5,7 +5,7 @@ import java.util.UUID;
 
 public class PermanentBanInfo implements BanInfo {
 
-    public final @NotNull UUID uuid;
+    private final @NotNull UUID uuid;
 
     public PermanentBanInfo(@NotNull UUID uuid) {
         this.uuid = uuid;

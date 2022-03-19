@@ -10,6 +10,7 @@ import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.operation.OptionalArgument;
 import org.zone.commands.system.arguments.simple.number.IntegerArgument;
+import org.zone.commands.system.arguments.simple.number.RangeArgument;
 import org.zone.commands.system.arguments.sponge.ComponentRemainingArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.context.CommandContext;
@@ -35,12 +36,12 @@ public class ZoneFlagGreetingsDisplaySetTitleCommand implements ArgumentCommand 
                     ZonePermissions.OVERRIDE_FLAG_GREETINGS_MESSAGE_DISPLAY_SET_TITLE));
     public static final OptionalArgument<Component> SUB_TITLE =
             new OptionalArgument<>(new ComponentRemainingArgument("subTitle"), (Component) null);
-    public static final OptionalArgument<Integer> FADE_IN =
-            new OptionalArgument<>(new IntegerArgument("fadeIn"), (Integer) null);
-    public static final OptionalArgument<Integer> STAY =
-            new OptionalArgument<>(new IntegerArgument("stay"), (Integer) null);
-    public static final OptionalArgument<Integer> FADE_OUT =
-            new OptionalArgument<>(new IntegerArgument("fadeOut"), (Integer) null);
+    public static final RangeArgument<Integer> FADE_IN = RangeArgument.createArgument("fadeIn", 0
+            , Integer.MAX_VALUE);
+    public static final RangeArgument<Integer> STAY = RangeArgument.createArgument("stay", 0,
+            Integer.MAX_VALUE);
+    public static final RangeArgument<Integer> FADE_OUT = RangeArgument.createArgument("fadeOut",
+            0, Integer.MAX_VALUE);
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {

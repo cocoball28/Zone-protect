@@ -18,6 +18,7 @@ import org.zone.commands.system.context.CommandContext;
 import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
+import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.meta.member.MembersFlag;
 import org.zone.region.flag.meta.service.ban.flag.BanFlag;
 import org.zone.utils.Messages;
@@ -38,7 +39,7 @@ public class ZoneTempBanPlayerCommand implements ArgumentCommand {
             new RemainingArgument<>(new UserArgument("users"));
     public static final RangeArgument<Integer> AMOUNT = RangeArgument.createArgument("amount",
             0, Integer.MAX_VALUE);
-    public static final TimeUnitArgument UNIT = new TimeUnitArgument("time");
+    public static final TimeUnitArgument UNIT = new TimeUnitArgument("unit");
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
@@ -70,7 +71,7 @@ public class ZoneTempBanPlayerCommand implements ArgumentCommand {
         TemporalUnit unit = commandContext.getArgument(this, UNIT);
         LocalDateTime releaseTime = LocalDateTime.now().plus(amount, unit);
         MembersFlag membersFlag = zone.getMembers();
-        BanFlag banFlag = new BanFlag();
+        BanFlag banFlag = zone.getFlag(FlagTypes.BAN).orElse(new BanFlag());
         players.forEach(profile -> {
             membersFlag.removeMember(profile.uniqueId());
             banFlag.banPlayer(profile.uniqueId(), releaseTime);
