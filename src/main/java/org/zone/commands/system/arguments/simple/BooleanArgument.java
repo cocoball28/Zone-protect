@@ -35,7 +35,7 @@ public class BooleanArgument implements GUICommandArgument<Boolean> {
     }
 
     /**
-     * for text other then true/false
+     * For text other then true/false
      * @param id The id of the argument
      * @param trueString The text to use for if the value is true
      * @param falseString The text to use for if the value is false

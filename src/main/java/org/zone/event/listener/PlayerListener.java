@@ -94,7 +94,7 @@ public class PlayerListener {
 
         final float finalPercent = percent;
 
-        BossBar bar = ZonePlugin
+        BossBar bossBar = ZonePlugin
                 .getZonesPlugin()
                 .getMemoryHolder()
                 .getZoneBuilderBossBar(player.uniqueId())
@@ -102,15 +102,15 @@ public class PlayerListener {
                         finalPercent,
                         BossBar.Color.BLUE,
                         BossBar.Overlay.PROGRESS));
-        bar.name(costPrice.getDisplayName());
-        bar.progress(percent / 100);
-        bar.color(percent < 0.0 ? BossBar.Color.RED : BossBar.Color.GREEN);
+        bossBar.name(costPrice.getDisplayName());
+        bossBar.progress(percent / 100);
+        bossBar.color(percent < 0.0 ? BossBar.Color.RED : BossBar.Color.GREEN);
 
         ZonePlugin
                 .getZonesPlugin()
                 .getMemoryHolder()
-                .registerZoneBuilderBossBar(player.uniqueId(), bar);
-        player.showBossBar(bar);
+                .registerZoneBuilderBossBar(player.uniqueId(), bossBar);
+        player.showBossBar(bossBar);
 
     }
 

@@ -4,7 +4,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- * This is sealed annotation designed to repersent classes that will be sealed when it gets
+ * This is sealed annotation designed to represent classes that will be sealed when it gets
  * released into Java
  */
 @Retention(RetentionPolicy.CLASS)
