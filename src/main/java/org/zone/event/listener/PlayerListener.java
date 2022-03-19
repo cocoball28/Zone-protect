@@ -92,7 +92,7 @@ public class PlayerListener {
             percent = 0;
         }
 
-        final float finalPercent = percent;
+        final float finalPercent = percent / 100;
 
         BossBar bossBar = ZonePlugin
                 .getZonesPlugin()
