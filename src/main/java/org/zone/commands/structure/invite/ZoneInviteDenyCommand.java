@@ -30,7 +30,7 @@ public class ZoneInviteDenyCommand implements ArgumentCommand {
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("invite"),
-                             new ExactArgument("accept"),
+                             new ExactArgument("deny"),
                              ZONE_ID);
     }
 
