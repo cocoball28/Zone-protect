@@ -905,8 +905,8 @@ public final class Messages {
     }
 
     public static Component getBannedWarning(String name) {
-        return Component.text(getWarningTag() + name + " is currently banned from the zone are" +
-                " you sure u want to invite this player?").color(NamedTextColor.AQUA);
+        return getWarningTag().append(Component.text( name + " is currently banned from the zone are" +
+                " you sure u want to invite this player?").color(NamedTextColor.AQUA));
     }
 
 }
