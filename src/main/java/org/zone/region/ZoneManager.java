@@ -49,7 +49,7 @@ public class ZoneManager implements IdentifiableManager<Zone> {
     private static final Object[] WORLD = {"Region", "World"};
 
     /**
-     * gets all the zones
+     * Gets all the zones
      *
      * @return A collection of the zones
      */
@@ -67,7 +67,7 @@ public class ZoneManager implements IdentifiableManager<Zone> {
      * Gets a zone that was created by the provided plugin with the key name of the provided
      *
      * @param container The plugin that created the zone
-     * @param key       the key name of the zone
+     * @param key       The key name of the zone
      *
      * @return The zone that matches the provided information
      */
@@ -78,7 +78,7 @@ public class ZoneManager implements IdentifiableManager<Zone> {
     /**
      * Gets a zone that has the provided id
      *
-     * @param id the id to get
+     * @param id The id to get
      *
      * @return The zone that has the provided id
      */

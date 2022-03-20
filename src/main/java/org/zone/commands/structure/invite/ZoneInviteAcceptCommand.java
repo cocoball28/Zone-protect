@@ -32,7 +32,8 @@ public class ZoneInviteAcceptCommand implements ArgumentCommand {
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
-        return Arrays.asList(new ExactArgument("invite"),
+        return Arrays.asList(new ExactArgument("region"),
+                             new ExactArgument("invite"),
                              new ExactArgument("accept"),
                              ZONE_ID);
     }

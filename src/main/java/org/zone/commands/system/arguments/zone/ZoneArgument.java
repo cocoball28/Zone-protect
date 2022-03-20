@@ -94,8 +94,8 @@ public class ZoneArgument implements GUICommandArgument<Zone> {
             return this;
         }
 
-        public ZoneArgumentPropertiesBuilder setVisitorOnly(boolean value) {
-            this.isVisitor = value;
+        public ZoneArgumentPropertiesBuilder setVisitorOnly(boolean isVisitor) {
+            this.isVisitor = isVisitor;
             return this;
         }
     }
@@ -145,8 +145,8 @@ public class ZoneArgument implements GUICommandArgument<Zone> {
 
     @Override
     public @NotNull Collection<CommandCompletion> suggest(
-            @NotNull CommandContext context, @NotNull CommandArgumentContext<Zone> argument) {
-        return this.suggest(context, argument.getFocusArgument());
+            @NotNull CommandContext commandContext, @NotNull CommandArgumentContext<Zone> argument) {
+        return this.suggest(commandContext, argument.getFocusArgument());
     }
 
     private ItemStack getItem(Zone zone) {
@@ -199,7 +199,6 @@ public class ZoneArgument implements GUICommandArgument<Zone> {
 
     private Collection<CommandCompletion> suggest(
             @NotNull CommandContext context, @NotNull String focus) {
-
         return this
                 .getZones(context)
                 .filter(zone -> zone.getId().toLowerCase().startsWith(focus.toLowerCase()))

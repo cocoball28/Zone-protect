@@ -25,7 +25,7 @@ public class PlayerLevelPrice implements Price.PlayerPrice<Integer> {
 
     @Override
     public boolean hasEnough(@NotNull Player player) {
-        return player.get(Keys.EXPERIENCE_LEVEL).orElse(0) <= this.exp;
+        return player.get(Keys.EXPERIENCE_LEVEL).orElse(0) >= this.exp;
     }
 
     @Override

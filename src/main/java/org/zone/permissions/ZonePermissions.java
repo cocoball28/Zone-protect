@@ -987,17 +987,21 @@ public enum ZonePermissions implements ZonePermission {
     //balance override
     OVERRIDE_FLAG_BALANCE_VIEW(false, "zone", "override", "region", "flag", "balance", "view"),
 
-    //utility commands
+    //service commands
     KICK(true, "zone", "region", "kick"),
     BAN(true, "zone", "region", "ban"),
     TEMP_BAN(true,"zone", "region", "ban", "temp"),
     UNBAN(true, "zone", "region", "unban"),
 
-    //utility commands override
+    //service commands override
     OVERRIDE_KICK(false, "zone", "override", "region", "kick"),
     OVERRIDE_BAN(false, "zone", "override", "region", "ban"),
     OVERRIDE_TEMP_BAN(false,"zone", "override", "region", "ban", "temp"),
     OVERRIDE_UNBAN(false, "zone", "override", "region", "unban"),
+
+    //shops
+    SHOPS_DISPLAY_CREATE(true, "zone", "region", "shop", "create", "display"),
+    SHOPS_ITEM_SELL_ADD(true, "zone", "region", "shop", "sell", "item", "add"),
 
     //bypasses
     BYPASS_DOOR_INTERACTION(false, "zone", "bypass", "interaction", "door"),

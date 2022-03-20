@@ -909,4 +909,8 @@ public final class Messages {
                 " you sure u want to invite this player?").color(NamedTextColor.AQUA));
     }
 
+    public static Component getOwnZone() {
+        return Component.text("You can't join your own zone").color(NamedTextColor.RED);
+    }
+
 }

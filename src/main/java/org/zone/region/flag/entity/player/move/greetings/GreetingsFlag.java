@@ -54,14 +54,14 @@ public class GreetingsFlag implements Flag.Serializable {
         return this.messageDisplay;
     }
 
-    @Deprecated(forRemoval = true)
     /**
      * Method to set the greetings message
      *
-     * @deprecated since 1.0.1
+     * @deprecated Since 1.0.1
      *
      * @param component The component to be set
      */
+    @Deprecated(forRemoval = true)
     public void setLegacyMessage(@NotNull Component component) {
         this.text = component;
     }

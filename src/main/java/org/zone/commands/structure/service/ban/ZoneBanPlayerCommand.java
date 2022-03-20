@@ -68,6 +68,7 @@ public class ZoneBanPlayerCommand implements ArgumentCommand {
                         .orElse(null))
                 .filter(Objects::nonNull)
                 .forEach(sPlayer -> sPlayer.sendMessage(Messages.getGotBannedFromZone(zone)));
+        zone.setFlag(banFlag);
         try {
             zone.save();
             commandContext.sendMessage(Messages.getBannedPlayers());

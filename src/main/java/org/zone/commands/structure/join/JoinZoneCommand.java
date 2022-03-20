@@ -18,6 +18,8 @@ import org.zone.region.flag.meta.request.join.JoinRequestFlag;
 import org.zone.region.flag.meta.request.visibility.ZoneVisibility;
 import org.zone.region.flag.meta.request.visibility.ZoneVisibilityFlag;
 import org.zone.region.flag.meta.service.ban.flag.BanFlag;
+import org.zone.region.group.DefaultGroups;
+import org.zone.region.group.key.GroupKeys;
 import org.zone.utils.Messages;
 
 import java.util.Arrays;
@@ -53,6 +55,9 @@ public class JoinZoneCommand implements ArgumentCommand {
             return CommandResult.error(Messages.getPlayerOnlyMessage());
         }
         Zone zone = commandContext.getArgument(this, ZONE_ID);
+        if (!(zone.getMembers().getGroup(player.uniqueId()).equals(DefaultGroups.VISITOR))) {
+            return CommandResult.error(Messages.getOwnZone());
+        }
         JoinRequestFlag joinRequestFlag = zone
                 .getFlag(FlagTypes.JOIN_REQUEST)
                 .orElse(new JoinRequestFlag());
