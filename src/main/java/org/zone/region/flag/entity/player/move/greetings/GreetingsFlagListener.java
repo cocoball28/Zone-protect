@@ -47,7 +47,7 @@ public class GreetingsFlagListener {
             return;
         }
 
-        // gets the flag -> then gets the message -> then if the message is present -> send that message to the player
+        // gets the flag -> then gets the message -> then if the message is present -> send that message to the player in the display type set
         opFlag.get().getDisplayType().sendMessage(opFlag.get().getGreetingsMessage(), player);
     }
 
