@@ -24,20 +24,21 @@ import java.util.Optional;
 public class ZoneFlagFireDamageView implements ArgumentCommand {
 
     public static final ZoneArgument ZONE_ID = new ZoneArgument("zoneId",
-            new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(ZonePermissions.OVERRIDE_FLAG_FIRE_DAMAGE_VIEW));
-    public static final OptionalArgument<String> VIEW =
-            new OptionalArgument<>(new ExactArgument("view"), (String) null);
+            new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
+                    ZonePermissions.OVERRIDE_FLAG_FIRE_DAMAGE_VIEW));
+    public static final OptionalArgument<Optional<String>> VIEW = OptionalArgument.createArgument(
+            new ExactArgument("view"));
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
-                             new ExactArgument("flag"),
-                             ZONE_ID,
-                             new ExactArgument("damage"),
-                             new ExactArgument("fire"),
-                             new ExactArgument("towards"),
-                             new ExactArgument("player"),
-                             VIEW);
+                new ExactArgument("flag"),
+                ZONE_ID,
+                new ExactArgument("damage"),
+                new ExactArgument("fire"),
+                new ExactArgument("towards"),
+                new ExactArgument("player"),
+                VIEW);
     }
 
     @Override

@@ -9,6 +9,9 @@ import org.zone.region.shop.transaction.price.zone.ZonePowerPrice;
 
 import java.math.BigDecimal;
 
+/**
+ * A helper class for creating prices
+ */
 public class PriceBuilder {
 
     private double amount;

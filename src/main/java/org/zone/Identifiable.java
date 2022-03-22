@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.spongepowered.plugin.PluginContainer;
 
 public interface Identifiable {
+
     @NotNull String getName();
 
     @NotNull PluginContainer getPlugin();

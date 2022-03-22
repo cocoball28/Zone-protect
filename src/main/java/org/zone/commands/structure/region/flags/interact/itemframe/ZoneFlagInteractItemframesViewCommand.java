@@ -29,8 +29,8 @@ public class ZoneFlagInteractItemframesViewCommand implements ArgumentCommand {
     public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zoneId",
             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
                     ZonePermissions.OVERRIDE_FLAG_ITEM_FRAME_INTERACTION_VIEW));
-    public static final OptionalArgument<String> VIEW = new OptionalArgument<>(new ExactArgument(
-            "view"), (String) null);
+    public static final OptionalArgument<Optional<String>> VIEW = OptionalArgument.createArgument(
+            new ExactArgument("view"));
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {

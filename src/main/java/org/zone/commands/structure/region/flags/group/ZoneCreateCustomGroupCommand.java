@@ -29,6 +29,7 @@ public class ZoneCreateCustomGroupCommand implements ArgumentCommand {
     public static final ZoneArgument ZONE_ID = new ZoneArgument("zoneId",
             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
                     ZonePermissions.OVERRIDE_CREATE_CUSTOM_GROUP));
+    @SuppressWarnings("allow-string-argument")
     public static final StringArgument KEY = new StringArgument("key");
     public static final ZoneGroupArgument PARENT = new ZoneGroupArgument("parent", ZONE_ID);
 

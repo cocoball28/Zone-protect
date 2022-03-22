@@ -23,19 +23,19 @@ import java.util.Optional;
 public class ZoneFlagFarmLandTrampleViewCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE_ID = new ZoneArgument("zoneId",
-            new ZoneArgument.ZoneArgumentPropertiesBuilder()
-                    .setBypassSuggestionPermission(ZonePermissions.OVERRIDE_FLAG_FARMLAND_TRAMPLE_VIEW));
-    public static final OptionalArgument<String> VIEW = new OptionalArgument<>(new
-            ExactArgument("view"), (String) null);
+            new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
+                    ZonePermissions.OVERRIDE_FLAG_FARMLAND_TRAMPLE_VIEW));
+    public static final OptionalArgument<Optional<String>> VIEW = OptionalArgument.createArgument(
+            new ExactArgument("view"));
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
-                             new ExactArgument("flag"),
-                             ZONE_ID,
-                             new ExactArgument("farmland"),
-                             new ExactArgument("trample"),
-                             VIEW);
+                new ExactArgument("flag"),
+                ZONE_ID,
+                new ExactArgument("farmland"),
+                new ExactArgument("trample"),
+                VIEW);
     }
 
     @Override

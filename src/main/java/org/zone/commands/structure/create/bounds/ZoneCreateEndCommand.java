@@ -24,9 +24,9 @@ import org.zone.region.ZoneBuilder;
 import org.zone.region.bounds.BoundedRegion;
 import org.zone.region.bounds.ChildRegion;
 import org.zone.region.bounds.Region;
-import org.zone.region.shop.transaction.price.Price;
 import org.zone.region.flag.meta.member.MembersFlag;
 import org.zone.region.group.DefaultGroups;
+import org.zone.region.shop.transaction.price.Price;
 import org.zone.utils.Messages;
 
 import java.util.Arrays;
@@ -57,8 +57,8 @@ public class ZoneCreateEndCommand implements ArgumentCommand {
     }
 
     @Override
-    public @NotNull CommandResult run(CommandContext context, String... args) {
-        Subject subject = context.getSource();
+    public @NotNull CommandResult run(CommandContext commandContext, String... args) {
+        Subject subject = commandContext.getSource();
         if (!(subject instanceof Player player)) {
             return CommandResult.error(Messages.getPlayerOnlyMessage());
         }
@@ -115,10 +115,10 @@ public class ZoneCreateEndCommand implements ArgumentCommand {
                 .get(ZoneNodes.PRICE_FOR_LAND);
         if (opPriceForLand.isPresent()) {
             Price.PlayerPrice<?> price = opPriceForLand.get();
-            if(!price.hasEnough(player)){
+            if (!price.hasEnough(player)) {
                 return CommandResult.error(Messages.getNotEnough());
             }
-            if (!price.withdraw(player)){
+            if (!price.withdraw(player)) {
                 return CommandResult.error(Messages.getNotEnough());
             }
         }
