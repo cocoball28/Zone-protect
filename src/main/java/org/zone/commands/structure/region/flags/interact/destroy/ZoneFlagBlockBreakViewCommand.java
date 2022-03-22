@@ -37,7 +37,7 @@ public class ZoneFlagBlockBreakViewCommand implements ArgumentCommand {
                 new ExactArgument("interact"),
                 new ExactArgument("block"),
                 new ExactArgument("break"),
-                new OptionalArgument<>(new ExactArgument("view"), (String) null));
+                OptionalArgument.createArgument(new ExactArgument("view")));
     }
 
     @Override
