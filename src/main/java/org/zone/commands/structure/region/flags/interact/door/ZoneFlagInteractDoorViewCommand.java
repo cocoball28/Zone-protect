@@ -37,7 +37,7 @@ public class ZoneFlagInteractDoorViewCommand implements ArgumentCommand {
                 ZONE,
                 new ExactArgument("interact"),
                 new ExactArgument("door"),
-                new OptionalArgument<>(new ExactArgument("view"), (String) null));
+                OptionalArgument.createArgument(new ExactArgument("view")));
     }
 
     @Override
