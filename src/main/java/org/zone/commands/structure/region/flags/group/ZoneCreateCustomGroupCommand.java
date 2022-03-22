@@ -36,11 +36,11 @@ public class ZoneCreateCustomGroupCommand implements ArgumentCommand {
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
-                             new ExactArgument("create"),
-                             new ExactArgument("group"),
-                             ZONE_ID,
-                             KEY,
-                             PARENT);
+                new ExactArgument("create"),
+                new ExactArgument("group"),
+                ZONE_ID,
+                KEY,
+                PARENT);
     }
 
     @Override
@@ -59,9 +59,7 @@ public class ZoneCreateCustomGroupCommand implements ArgumentCommand {
         Zone zone = commandContext.getArgument(this, ZONE_ID);
         String key = commandContext.getArgument(this, KEY);
         Group parent = commandContext.getArgument(this, PARENT);
-        Group group = new SimpleGroup(ZonePlugin
-                .getZonesPlugin()
-                .getPluginContainer(),
+        Group group = new SimpleGroup(ZonePlugin.getZonesPlugin().getPluginContainer(),
                 key,
                 parent);
         MembersFlag membersFlag = zone.getMembers();

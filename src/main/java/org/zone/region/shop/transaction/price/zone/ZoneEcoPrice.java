@@ -31,16 +31,6 @@ public class ZoneEcoPrice implements Price.ZonePrice<BigDecimal>, Price.EcoPrice
     }
 
     @Override
-    public @NotNull BigDecimal getAmount() {
-        return this.amount;
-    }
-
-    @Override
-    public PriceType getType() {
-        return PriceType.ECO;
-    }
-
-    @Override
     public boolean hasEnough(@NotNull Zone zone) {
         BalanceFlag flag = zone.getEconomy();
         return flag.hasBalance(this.currency, this.amount);
@@ -70,15 +60,25 @@ public class ZoneEcoPrice implements Price.ZonePrice<BigDecimal>, Price.EcoPrice
     }
 
     @Override
-    public PriceBuilder asBuilder() {
-        return new PriceBuilder()
-                .setAmount(this.amount.doubleValue())
-                .setCurrency(this.currency)
-                .setType(PriceType.ECO);
+    public @NotNull BigDecimal getAmount() {
+        return this.amount;
+    }
+
+    @Override
+    public PriceType getType() {
+        return PriceType.ECO;
     }
 
     @Override
     public @NotNull Component getDisplayName() {
         return this.currency.format(this.amount);
+    }
+
+    @Override
+    public PriceBuilder asBuilder() {
+        return new PriceBuilder()
+                .setAmount(this.amount.doubleValue())
+                .setCurrency(this.currency)
+                .setType(PriceType.ECO);
     }
 }

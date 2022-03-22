@@ -2,8 +2,6 @@ package org.zone.region.flag.entity.player.damage.fire;
 
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
-import org.spongepowered.api.event.cause.entity.damage.DamageType;
-import org.spongepowered.api.event.cause.entity.damage.DamageTypes;
 import org.spongepowered.api.event.cause.entity.damage.source.DamageSource;
 import org.spongepowered.api.event.cause.entity.damage.source.DamageSources;
 import org.spongepowered.api.event.entity.DamageEntityEvent;
@@ -31,7 +29,7 @@ public class PlayerFireDamageListener {
             }
         }
 
-        Optional<DamageSource> opDamageSource  = event.cause().first(DamageSource.class);
+        Optional<DamageSource> opDamageSource = event.cause().first(DamageSource.class);
         if (opDamageSource.isEmpty() || !opDamageSource.get().equals(DamageSources.FIRE_TICK)) {
             return;
         }

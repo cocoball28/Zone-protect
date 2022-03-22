@@ -39,10 +39,6 @@ public class FlagManager implements IdentifiableManager.Typed<FlagType<?>> {
         return Collections.unmodifiableCollection(this.flags);
     }
 
-    public <F extends Flag, T extends FlagType<F>> Stream<? extends T> getRegistered(Class<T> clazz) {
-        return this.flags.stream().filter(clazz::isInstance).map(type -> (T) type);
-    }
-
     /**
      * Registers your custom flag type
      *
@@ -51,6 +47,10 @@ public class FlagManager implements IdentifiableManager.Typed<FlagType<?>> {
     @Override
     public void register(FlagType<?> type) {
         this.flags.add(type);
+    }
+
+    public <F extends Flag, T extends FlagType<F>> Stream<? extends T> getRegistered(Class<T> clazz) {
+        return this.flags.stream().filter(clazz::isInstance).map(type -> (T) type);
     }
 
     /**

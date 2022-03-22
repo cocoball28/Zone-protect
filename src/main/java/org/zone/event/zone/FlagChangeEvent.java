@@ -25,10 +25,7 @@ public abstract class FlagChangeEvent implements ZoneEvent {
         private boolean isCancelled;
 
         public UpdateFlag(
-                Zone zone,
-                @NotNull Flag previous,
-                @NotNull Flag updated,
-                @NotNull Cause cause) {
+                Zone zone, @NotNull Flag previous, @NotNull Flag updated, @NotNull Cause cause) {
             super(zone, cause);
             this.previous = previous;
             this.updated = updated;

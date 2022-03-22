@@ -26,19 +26,21 @@ public class ZoneFlagFireDamageSetEnable implements ArgumentCommand {
     public static final ZoneArgument ZONE_ID = new ZoneArgument("zoneId",
             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
                     ZonePermissions.OVERRIDE_FLAG_FIRE_DAMAGE_ENABLE));
-    public static final BooleanArgument VALUE = new BooleanArgument("enabledValue", "enable", "disable");
+    public static final BooleanArgument VALUE = new BooleanArgument("enabledValue",
+            "enable",
+            "disable");
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
-                             new ExactArgument("flag"),
-                             ZONE_ID,
-                             new ExactArgument("damage"),
-                             new ExactArgument("fire"),
-                             new ExactArgument("towards"),
-                             new ExactArgument("player"),
-                             new ExactArgument("set"),
-                             VALUE);
+                new ExactArgument("flag"),
+                ZONE_ID,
+                new ExactArgument("damage"),
+                new ExactArgument("fire"),
+                new ExactArgument("towards"),
+                new ExactArgument("player"),
+                new ExactArgument("set"),
+                VALUE);
     }
 
     @Override

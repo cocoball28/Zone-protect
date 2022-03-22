@@ -29,19 +29,18 @@ public class TitleMessageDisplayType implements MessageDisplayType<TitleMessageD
     }
 
     @Override
-    public @NotNull TitleMessageDisplay load(@NotNull ConfigurationNode node)
-            throws IOException {
+    public @NotNull TitleMessageDisplay load(@NotNull ConfigurationNode node) throws IOException {
         String displayTypeID = node.node("DisplayType").getString();
         if (displayTypeID == null) {
             throw new IOException("Couldn't get the display type");
         }
-        return new TitleMessageDisplay(Component.empty(), Title.Times.of(Duration.ZERO,
-                Duration.ofSeconds(10), Duration.ofSeconds(5)));
+        return new TitleMessageDisplay(Component.empty(),
+                Title.Times.of(Duration.ZERO, Duration.ofSeconds(10), Duration.ofSeconds(5)));
     }
 
     @Override
-    public void save(@NotNull ConfigurationNode node, @Nullable TitleMessageDisplay save)
-            throws IOException {
+    public void save(@NotNull ConfigurationNode node, @Nullable TitleMessageDisplay save) throws
+            IOException {
         if (save == null) {
             throw new IOException("Display type can't be null");
         }
@@ -51,7 +50,7 @@ public class TitleMessageDisplayType implements MessageDisplayType<TitleMessageD
 
     @Override
     public TitleMessageDisplay createCopyOfDefault() {
-        return new TitleMessageDisplay(Component.empty(), Title.Times.of(Duration.ZERO,
-                Duration.ofSeconds(10), Duration.ofSeconds(5)));
+        return new TitleMessageDisplay(Component.empty(),
+                Title.Times.of(Duration.ZERO, Duration.ofSeconds(10), Duration.ofSeconds(5)));
     }
 }

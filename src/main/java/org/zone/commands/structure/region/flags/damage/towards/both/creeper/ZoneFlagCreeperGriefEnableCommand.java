@@ -24,8 +24,8 @@ import java.util.Optional;
 public class ZoneFlagCreeperGriefEnableCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE_ID = new ZoneArgument("zoneId",
-            new ZoneArgument.ZoneArgumentPropertiesBuilder()
-                    .setBypassSuggestionPermission(ZonePermissions.OVERRIDE_FLAG_CREEPER_GRIEF_ENABLE));
+            new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
+                    ZonePermissions.OVERRIDE_FLAG_CREEPER_GRIEF_ENABLE));
     public static final BooleanArgument ENABLE = new BooleanArgument("enableValue",
             "enable",
             "disable");
@@ -33,12 +33,12 @@ public class ZoneFlagCreeperGriefEnableCommand implements ArgumentCommand {
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
-                             new ExactArgument("flag"),
-                             ZONE_ID,
-                             new ExactArgument("grief"),
-                             new ExactArgument("creeper"),
-                             new ExactArgument("set"),
-                             ENABLE);
+                new ExactArgument("flag"),
+                ZONE_ID,
+                new ExactArgument("grief"),
+                new ExactArgument("creeper"),
+                new ExactArgument("set"),
+                ENABLE);
     }
 
     @Override

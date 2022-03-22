@@ -31,7 +31,7 @@ import java.util.concurrent.CompletableFuture;
  */
 public class ZoneFlagMemberGroupViewCommand implements ArgumentCommand {
 
-    public final OptionalArgument<Integer> PAGE = new OptionalArgument<>(new RangeArgument<>(new IntegerArgument(
+    public final OptionalArgument<Integer> page = new OptionalArgument<>(new RangeArgument<>(new IntegerArgument(
             "page"), (c, a) -> CommandArgumentResult.from(a, 1), (c, a) -> {
         Zone zone = c.getArgument(this, ZONE);
         Group group = c.getArgument(this, GROUP);
@@ -50,7 +50,7 @@ public class ZoneFlagMemberGroupViewCommand implements ArgumentCommand {
                 ZONE,
                 new ExactArgument("view"),
                 GROUP,
-                this.PAGE);
+                this.page);
     }
 
     @Override
@@ -67,7 +67,7 @@ public class ZoneFlagMemberGroupViewCommand implements ArgumentCommand {
     public @NotNull CommandResult run(CommandContext commandContext, String... args) {
         Zone zone = commandContext.getArgument(this, ZONE);
         Group group = commandContext.getArgument(this, GROUP);
-        int page = commandContext.getArgument(this, this.PAGE);
+        int page = commandContext.getArgument(this, this.page);
         if (page <= 0) {
             return CommandResult.error(Messages.getPageTooLow());
         }

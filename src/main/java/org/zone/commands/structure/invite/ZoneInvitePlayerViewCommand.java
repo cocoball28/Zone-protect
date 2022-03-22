@@ -23,16 +23,15 @@ import java.util.stream.Collectors;
 public class ZoneInvitePlayerViewCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE_ID = new ZoneArgument("zoneId",
-            new ZoneArgument
-                    .ZoneArgumentPropertiesBuilder()
-                    .setBypassSuggestionPermission(ZonePermissions.OVERRIDE_FLAG_INVITE_PLAYER_VIEW));
+            new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
+                    ZonePermissions.OVERRIDE_FLAG_INVITE_PLAYER_VIEW));
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
-                             new ExactArgument("invite"),
-                             ZONE_ID,
-                             new ExactArgument("view"));
+                new ExactArgument("invite"),
+                ZONE_ID,
+                new ExactArgument("view"));
     }
 
     @Override
@@ -53,7 +52,13 @@ public class ZoneInvitePlayerViewCommand implements ArgumentCommand {
                 .getFlag(FlagTypes.JOIN_REQUEST)
                 .orElse(new JoinRequestFlag());
         Collection<UUID> inviteUUIDs = joinRequestFlag.getInvites();
-        List<GameProfile> profiles = Sponge.server().gameProfileManager().cache().stream().sorted().toList();
+        List<GameProfile> profiles = Sponge
+                .server()
+                .gameProfileManager()
+                .cache()
+                .stream()
+                .sorted()
+                .toList();
 
         Collection<GameProfile> inviteProfiles = profiles
                 .stream()
@@ -61,12 +66,9 @@ public class ZoneInvitePlayerViewCommand implements ArgumentCommand {
                 .collect(Collectors.toSet());
 
         commandContext.sendMessage(Messages.getInvitesPlayersTag());
-        inviteProfiles
-                .forEach(profile -> commandContext
-                        .sendMessage(Messages
-                                .getEntry(profile.
-                                        name()
-                                        .orElse("Unknown Username"))));
+        inviteProfiles.forEach(profile -> commandContext.sendMessage(Messages.getEntry(profile
+                .name()
+                .orElse("Unknown Username"))));
         return CommandResult.success();
     }
 }

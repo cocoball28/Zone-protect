@@ -24,15 +24,15 @@ import java.util.Optional;
 public class ZoneVisibilityViewCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE_ID = new ZoneArgument("zoneId",
-            new ZoneArgument.ZoneArgumentPropertiesBuilder()
-                    .setBypassSuggestionPermission(ZonePermissions.OVERRIDE_ZONE_VISIBILITY_VIEW));
+            new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
+                    ZonePermissions.OVERRIDE_ZONE_VISIBILITY_VIEW));
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
-                             new ExactArgument("visibility"),
-                             ZONE_ID,
-                             new ExactArgument("view"));
+                new ExactArgument("visibility"),
+                ZONE_ID,
+                new ExactArgument("view"));
     }
 
     @Override
@@ -56,8 +56,7 @@ public class ZoneVisibilityViewCommand implements ArgumentCommand {
         String visibilityName = zoneVisibility.toString();
         commandContext
                 .getCause()
-                .sendMessage(Identity.nil(),
-                        Messages.getZoneVisibility(visibilityName));
+                .sendMessage(Identity.nil(), Messages.getZoneVisibility(visibilityName));
         return CommandResult.success();
     }
 }

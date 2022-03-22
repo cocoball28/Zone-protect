@@ -28,10 +28,10 @@ public class ZoneFlagGreetingsRemoveCommand implements ArgumentCommand {
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
-                             new ExactArgument("flag"),
-                             ZONE_VALUE,
-                             new ExactArgument("greetings"),
-                             new ExactArgument("remove"));
+                new ExactArgument("flag"),
+                ZONE_VALUE,
+                new ExactArgument("greetings"),
+                new ExactArgument("remove"));
     }
 
     @Override

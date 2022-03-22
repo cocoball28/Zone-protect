@@ -28,10 +28,10 @@ public class ZoneFlagLeavingViewCommand implements ArgumentCommand {
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
-                             new ExactArgument("flag"),
-                             ZONE,
-                             new ExactArgument("leaving"),
-                             new ExactArgument("view"));
+                new ExactArgument("flag"),
+                ZONE,
+                new ExactArgument("leaving"),
+                new ExactArgument("view"));
     }
 
     @Override

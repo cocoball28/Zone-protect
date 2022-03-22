@@ -28,19 +28,19 @@ import java.util.stream.Collectors;
 
 public class ZoneInvitePlayerCommand implements ArgumentCommand {
 
-    public static final ZoneArgument ZONE_ID = new ZoneArgument("zoneId", new ZoneArgument
-            .ZoneArgumentPropertiesBuilder()
-            .setVisitorOnly(false)
-            .setBypassSuggestionPermission(ZonePermissions.OVERRIDE_FLAG_INVITE_PLAYER));
-    public static final RemainingArgument<GameProfile> USERS =
-            new RemainingArgument<>(new UserArgument("users"));
+    public static final ZoneArgument ZONE_ID = new ZoneArgument("zoneId",
+            new ZoneArgument.ZoneArgumentPropertiesBuilder()
+                    .setVisitorOnly(false)
+                    .setBypassSuggestionPermission(ZonePermissions.OVERRIDE_FLAG_INVITE_PLAYER));
+    public static final RemainingArgument<GameProfile> USERS = new RemainingArgument<>(new UserArgument(
+            "users"));
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
-                             new ExactArgument("invite"),
-                             ZONE_ID,
-                             USERS);
+                new ExactArgument("invite"),
+                ZONE_ID,
+                USERS);
     }
 
     @Override
@@ -61,20 +61,16 @@ public class ZoneInvitePlayerCommand implements ArgumentCommand {
         JoinRequestFlag joinRequestFlag = zone
                 .getFlag(FlagTypes.JOIN_REQUEST)
                 .orElse(new JoinRequestFlag());
-        joinRequestFlag
-                .registerInvites(players
-                        .stream()
-                        .map(GameProfile::uuid)
-                        .collect(Collectors.toList()));
+        joinRequestFlag.registerInvites(players
+                .stream()
+                .map(GameProfile::uuid)
+                .collect(Collectors.toList()));
         zone.setFlag(joinRequestFlag);
         try {
             zone.save();
             players
                     .stream()
-                    .map(profile -> Sponge
-                            .server()
-                            .player(profile.uniqueId())
-                            .orElse(null))
+                    .map(profile -> Sponge.server().player(profile.uniqueId()).orElse(null))
                     .filter(Objects::nonNull)
                     .forEach(player -> player.sendMessage(Messages.getGotInvite(player, zone)));
             commandContext.sendMessage(Messages.getInvitedPlayer());

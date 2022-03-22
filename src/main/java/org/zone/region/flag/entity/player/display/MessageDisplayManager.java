@@ -6,8 +6,7 @@ import java.util.HashSet;
 
 public class MessageDisplayManager {
 
-    private final Collection<MessageDisplayType<?>> displayTypes =
-            new HashSet<>();
+    private final Collection<MessageDisplayType<?>> displayTypes = new HashSet<>();
 
     public MessageDisplayManager() {
         this.displayTypes.addAll(MessageDisplayTypes.getVanillaDisplayTypes());

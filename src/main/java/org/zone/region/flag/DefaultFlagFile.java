@@ -123,7 +123,8 @@ public class DefaultFlagFile {
      *
      * @throws IOException if fails to save
      */
-    public void removeDefault(@SuppressWarnings("TypeMayBeWeakened") FlagType.SerializableType<? extends Flag> type) throws IOException {
+    public void removeDefault(@SuppressWarnings("TypeMayBeWeakened") FlagType.SerializableType<? extends Flag> type) throws
+            IOException {
         type.save(this.node.node("flags"), null);
     }
 

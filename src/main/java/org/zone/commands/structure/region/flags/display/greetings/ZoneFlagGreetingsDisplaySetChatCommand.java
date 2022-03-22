@@ -30,13 +30,13 @@ public class ZoneFlagGreetingsDisplaySetChatCommand implements ArgumentCommand {
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
-                             new ExactArgument("flag"),
-                             ZONE_ID,
-                             new ExactArgument("greetings"),
-                             new ExactArgument("message"),
-                             new ExactArgument("display"),
-                             new ExactArgument("set"),
-                             new ExactArgument("chat"));
+                new ExactArgument("flag"),
+                ZONE_ID,
+                new ExactArgument("greetings"),
+                new ExactArgument("message"),
+                new ExactArgument("display"),
+                new ExactArgument("set"),
+                new ExactArgument("chat"));
     }
 
     @Override

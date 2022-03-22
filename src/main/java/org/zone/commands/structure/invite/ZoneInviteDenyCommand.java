@@ -22,16 +22,14 @@ import java.util.*;
 
 public class ZoneInviteDenyCommand implements ArgumentCommand {
 
-    public static final RemainingArgument<Zone> ZONE_ID =
-            new RemainingArgument<>(new ZoneArgument("zoneId",
-                    new ZoneArgument.ZoneArgumentPropertiesBuilder()
-                            .setBypassSuggestionPermission(ZonePermissions.OVERRIDE_FLAG_INVITE_DENY)));
+    public static final RemainingArgument<Zone> ZONE_ID = new RemainingArgument<>(new ZoneArgument(
+            "zoneId",
+            new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
+                    ZonePermissions.OVERRIDE_FLAG_INVITE_DENY)));
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
-        return Arrays.asList(new ExactArgument("invite"),
-                             new ExactArgument("accept"),
-                             ZONE_ID);
+        return Arrays.asList(new ExactArgument("invite"), new ExactArgument("accept"), ZONE_ID);
     }
 
     @Override
@@ -51,26 +49,24 @@ public class ZoneInviteDenyCommand implements ArgumentCommand {
             return CommandResult.error(Messages.getPlayerOnlyMessage());
         }
         List<Zone> zones = commandContext.getArgument(this, ZONE_ID);
-        zones
-                .forEach(zone -> {
-                    Optional<JoinRequestFlag> opJoinRequestFlag = zone
-                            .getFlag(FlagTypes.JOIN_REQUEST);
-                    Collection<UUID> invites = opJoinRequestFlag
-                            .map(JoinRequestFlag::getInvites)
-                            .orElse(Collections.emptySet());
-                    if (!(invites.contains(player.uniqueId()))) {
-                        return;
-                    }
-                    invites.remove(player.uniqueId());
-                    zone.setFlag(opJoinRequestFlag.get());
-                    try {
-                        zone.save();
-                        commandContext.sendMessage(Messages.getInvitationDenied(zone));
-                    } catch (ConfigurateException ce) {
-                        ce.printStackTrace();
-                        commandContext.sendMessage(Messages.getZoneSavingError(ce));
-                    }
-                });
+        zones.forEach(zone -> {
+            Optional<JoinRequestFlag> opJoinRequestFlag = zone.getFlag(FlagTypes.JOIN_REQUEST);
+            Collection<UUID> invites = opJoinRequestFlag
+                    .map(JoinRequestFlag::getInvites)
+                    .orElse(Collections.emptySet());
+            if (!(invites.contains(player.uniqueId()))) {
+                return;
+            }
+            invites.remove(player.uniqueId());
+            zone.setFlag(opJoinRequestFlag.get());
+            try {
+                zone.save();
+                commandContext.sendMessage(Messages.getInvitationDenied(zone));
+            } catch (ConfigurateException ce) {
+                ce.printStackTrace();
+                commandContext.sendMessage(Messages.getZoneSavingError(ce));
+            }
+        });
         return CommandResult.success();
     }
 }

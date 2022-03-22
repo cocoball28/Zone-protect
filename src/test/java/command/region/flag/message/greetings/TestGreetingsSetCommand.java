@@ -52,7 +52,10 @@ public class TestGreetingsSetCommand {
 
 
         Mockito.when(config.getOrElse(ZoneNodes.MAX_OWNER)).thenReturn(99);
-        Mockito.mockStatic(ZonePlugin.class).when(ZonePlugin::getZonesPlugin).thenReturn(this.plugin);
+        Mockito
+                .mockStatic(ZonePlugin.class)
+                .when(ZonePlugin::getZonesPlugin)
+                .thenReturn(this.plugin);
         Mockito.when(this.plugin.getPluginContainer()).thenReturn(this.container);
         Mockito.when(this.plugin.getConfig()).thenReturn(config);
         Mockito.when(this.container.metadata()).thenReturn(this.metadata);

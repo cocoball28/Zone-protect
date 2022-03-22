@@ -26,18 +26,19 @@ public class ZoneFlagFarmLandTrampleEnableCommand implements ArgumentCommand {
     public static final ZoneArgument ZONE_ID = new ZoneArgument("zoneId",
             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
                     ZonePermissions.OVERRIDE_FLAG_FARMLAND_TRAMPLE_SET_ENABLE));
-    public static final BooleanArgument ENABLE = new BooleanArgument("enableValue", "enable",
+    public static final BooleanArgument ENABLE = new BooleanArgument("enableValue",
+            "enable",
             "disable");
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
-                             new ExactArgument("flag"),
-                             ZONE_ID,
-                             new ExactArgument("farmland"),
-                             new ExactArgument("trample"),
-                             new ExactArgument("set"),
-                             ENABLE);
+                new ExactArgument("flag"),
+                ZONE_ID,
+                new ExactArgument("farmland"),
+                new ExactArgument("trample"),
+                new ExactArgument("set"),
+                ENABLE);
     }
 
     @Override

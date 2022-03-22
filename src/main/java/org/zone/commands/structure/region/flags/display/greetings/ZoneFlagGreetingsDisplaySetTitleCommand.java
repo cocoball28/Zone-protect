@@ -18,7 +18,6 @@ import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.entity.player.display.MessageDisplay;
-import org.zone.region.flag.entity.player.display.MessageDisplayTypes;
 import org.zone.region.flag.entity.player.display.title.TitleMessageDisplay;
 import org.zone.region.flag.entity.player.move.greetings.GreetingsFlag;
 import org.zone.utils.Messages;
@@ -33,29 +32,29 @@ public class ZoneFlagGreetingsDisplaySetTitleCommand implements ArgumentCommand 
     public static final ZoneArgument ZONE_ID = new ZoneArgument("zoneId",
             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
                     ZonePermissions.OVERRIDE_FLAG_GREETINGS_MESSAGE_DISPLAY_SET_TITLE));
-    public static final OptionalArgument<Component> SUB_TITLE =
-            new OptionalArgument<>(new ComponentRemainingArgument("subTitle"), (Component) null);
-    public static final OptionalArgument<Integer> FADE_IN =
-            new OptionalArgument<>(new IntegerArgument("fadeIn"), (Integer) null);
-    public static final OptionalArgument<Integer> STAY =
-            new OptionalArgument<>(new IntegerArgument("stay"), (Integer) null);
-    public static final OptionalArgument<Integer> FADE_OUT =
-            new OptionalArgument<>(new IntegerArgument("fadeOut"), (Integer) null);
+    public static final OptionalArgument<Component> SUB_TITLE = new OptionalArgument<>(new ComponentRemainingArgument(
+            "subTitle"), (Component) null);
+    public static final OptionalArgument<Integer> FADE_IN = new OptionalArgument<>(new IntegerArgument(
+            "fadeIn"), (Integer) null);
+    public static final OptionalArgument<Integer> STAY = new OptionalArgument<>(new IntegerArgument(
+            "stay"), (Integer) null);
+    public static final OptionalArgument<Integer> FADE_OUT = new OptionalArgument<>(new IntegerArgument(
+            "fadeOut"), (Integer) null);
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
-                             new ExactArgument("flag"),
-                             ZONE_ID,
-                             new ExactArgument("greetings"),
-                             new ExactArgument("message"),
-                             new ExactArgument("display"),
-                             new ExactArgument("set"),
-                             new ExactArgument("title"),
-                             SUB_TITLE,
-                             FADE_IN,
-                             STAY,
-                             FADE_OUT);
+                new ExactArgument("flag"),
+                ZONE_ID,
+                new ExactArgument("greetings"),
+                new ExactArgument("message"),
+                new ExactArgument("display"),
+                new ExactArgument("set"),
+                new ExactArgument("title"),
+                SUB_TITLE,
+                FADE_IN,
+                STAY,
+                FADE_OUT);
     }
 
     @Override
@@ -81,7 +80,8 @@ public class ZoneFlagGreetingsDisplaySetTitleCommand implements ArgumentCommand 
             return CommandResult.error(Messages.getGreetingsFlagNotFound());
         }
         MessageDisplay titleMessageDisplay = new TitleMessageDisplay(subTitle,
-                Title.Times.of(Duration.ofSeconds(fadeIn), Duration.ofSeconds(stay),
+                Title.Times.of(Duration.ofSeconds(fadeIn),
+                        Duration.ofSeconds(stay),
                         Duration.ofSeconds(fadeOut)));
         opGreetingsFlag.get().setDisplayType(titleMessageDisplay);
         zone.setFlag(opGreetingsFlag.get());

@@ -4,12 +4,9 @@ import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.configurate.ConfigurateException;
-import org.zone.ZonePlugin;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
-import org.zone.commands.system.arguments.operation.AnyMatchArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
-import org.zone.commands.system.arguments.operation.OptionalArgument;
 import org.zone.commands.system.arguments.sponge.ComponentRemainingArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.context.CommandContext;
@@ -17,7 +14,6 @@ import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.entity.player.display.MessageDisplayType;
 import org.zone.region.flag.entity.player.display.MessageDisplayTypes;
 import org.zone.region.flag.entity.player.move.greetings.GreetingsFlag;
 import org.zone.utils.Messages;
@@ -37,12 +33,12 @@ public class ZoneFlagGreetingsSetMessageCommand implements ArgumentCommand {
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
-                             new ExactArgument("flag"),
-                             ZONE_VALUE,
-                             new ExactArgument("greetings"),
-                             new ExactArgument("message"),
-                             new ExactArgument("set"),
-                             MESSAGE_VALUE);
+                new ExactArgument("flag"),
+                ZONE_VALUE,
+                new ExactArgument("greetings"),
+                new ExactArgument("message"),
+                new ExactArgument("set"),
+                MESSAGE_VALUE);
     }
 
     @Override

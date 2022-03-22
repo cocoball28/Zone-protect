@@ -30,13 +30,13 @@ public class ZoneFlagLeavingMessageDisplaySetTitleCommand implements ArgumentCom
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
-                             new ExactArgument("flag"),
-                             ZONE_ID,
-                             new ExactArgument("leaving"),
-                             new ExactArgument("message"),
-                             new ExactArgument("display"),
-                             new ExactArgument("set"),
-                             new ExactArgument("title"));
+                new ExactArgument("flag"),
+                ZONE_ID,
+                new ExactArgument("leaving"),
+                new ExactArgument("message"),
+                new ExactArgument("display"),
+                new ExactArgument("set"),
+                new ExactArgument("title"));
     }
 
     @Override

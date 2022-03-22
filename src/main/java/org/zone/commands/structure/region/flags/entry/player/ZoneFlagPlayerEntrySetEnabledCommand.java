@@ -80,8 +80,8 @@ public class ZoneFlagPlayerEntrySetEnabledCommand implements ArgumentCommand {
                             .getRegion()
                             .getEntities(world)
                             .stream()
-                            .filter(entity -> entity instanceof Player)
-                            .map(entity -> (Player) entity)
+                            .filter(Player.class::isInstance)
+                            .map(Player.class::cast)
                             .filter(player -> preventPlayersFlag.hasPermission(zone,
                                     player.uniqueId()))
                             .forEach(entity -> PreventPlayersListener.getOutsidePosition(zone,

@@ -72,8 +72,8 @@ public class GreetingsFlagType implements FlagType.SerializableType<GreetingsFla
         node.node("Message").set(componentAsString);
     }
 
-    public <T extends MessageDisplay> void saveDisplay(ConfigurationNode node, T displayType)
-            throws IOException {
+    public <T extends MessageDisplay> void saveDisplay(ConfigurationNode node, T displayType) throws
+            IOException {
         Serializable<T> type = (Serializable<T>) displayType.getType();
         type.save(node, displayType);
     }

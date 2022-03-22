@@ -30,14 +30,14 @@ public class ZoneFlagLeavingMessageDisplaySetBossBarCommand implements ArgumentC
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
-                             new ExactArgument("flag"),
-                             ZONE_ID,
-                             new ExactArgument("leaving"),
-                             new ExactArgument("message"),
-                             new ExactArgument("display"),
-                             new ExactArgument("set"),
-                             new ExactArgument("boss"),
-                             new ExactArgument("bar"));
+                new ExactArgument("flag"),
+                ZONE_ID,
+                new ExactArgument("leaving"),
+                new ExactArgument("message"),
+                new ExactArgument("display"),
+                new ExactArgument("set"),
+                new ExactArgument("boss"),
+                new ExactArgument("bar"));
     }
 
     @Override

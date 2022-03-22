@@ -17,7 +17,6 @@ import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.entity.player.display.MessageDisplay;
-import org.zone.region.flag.entity.player.display.MessageDisplayTypes;
 import org.zone.region.flag.entity.player.display.bossbar.BossBarMessageDisplay;
 import org.zone.region.flag.entity.player.move.greetings.GreetingsFlag;
 import org.zone.utils.Messages;
@@ -32,25 +31,25 @@ public class ZoneFlagGreetingsDisplaySetBossBarCommand implements ArgumentComman
             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
                     ZonePermissions.OVERRIDE_FLAG_GREETINGS_MESSAGE_DISPLAY_SET_BOSS_BAR));
     public static final IntegerArgument PROGRESS = new IntegerArgument("progress");
-    public static final EnumArgument<BossBar.Color> COLOR = new EnumArgument<>(
-            "color", BossBar.Color.class);
+    public static final EnumArgument<BossBar.Color> COLOR = new EnumArgument<>("color",
+            BossBar.Color.class);
     public static final EnumArgument<BossBar.Overlay> OVERLAY = new EnumArgument<>("overlay",
             BossBar.Overlay.class);
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
-                             new ExactArgument("flag"),
-                             ZONE_ID,
-                             new ExactArgument("greetings"),
-                             new ExactArgument("message"),
-                             new ExactArgument("display"),
-                             new ExactArgument("set"),
-                             new ExactArgument("boss"),
-                             new ExactArgument("bar"),
-                             PROGRESS,
-                             COLOR,
-                             OVERLAY);
+                new ExactArgument("flag"),
+                ZONE_ID,
+                new ExactArgument("greetings"),
+                new ExactArgument("message"),
+                new ExactArgument("display"),
+                new ExactArgument("set"),
+                new ExactArgument("boss"),
+                new ExactArgument("bar"),
+                PROGRESS,
+                COLOR,
+                OVERLAY);
     }
 
     @Override

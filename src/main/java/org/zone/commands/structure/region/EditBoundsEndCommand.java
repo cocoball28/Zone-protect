@@ -3,8 +3,6 @@ package org.zone.commands.structure.region;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandResult;
-import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.math.vector.Vector3i;
 import org.zone.commands.system.ArgumentCommand;
@@ -15,7 +13,6 @@ import org.zone.commands.system.context.CommandContext;
 import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
-import org.zone.region.flag.Flag;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.meta.edit.EditingFlag;
 import org.zone.utils.Messages;
@@ -33,10 +30,10 @@ public class EditBoundsEndCommand implements ArgumentCommand {
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
-                             new ExactArgument("edit"),
-                             ZONE_ID,
-                             new ExactArgument("bounds"),
-                             new ExactArgument("end"));
+                new ExactArgument("edit"),
+                ZONE_ID,
+                new ExactArgument("bounds"),
+                new ExactArgument("end"));
     }
 
     @Override

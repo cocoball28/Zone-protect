@@ -25,18 +25,18 @@ import java.util.Optional;
 public class ZoneVisibilitySetCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE_ID = new ZoneArgument("zoneId",
-            new ZoneArgument.ZoneArgumentPropertiesBuilder().
-                    setBypassSuggestionPermission(ZonePermissions.OVERRIDE_ZONE_VISIBILITY_SET));
-    public static final EnumArgument<ZoneVisibility> VALUE = new EnumArgument<>("visibility_name"
-            , ZoneVisibility.class);
+            new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
+                    ZonePermissions.OVERRIDE_ZONE_VISIBILITY_SET));
+    public static final EnumArgument<ZoneVisibility> VALUE = new EnumArgument<>("visibility_name",
+            ZoneVisibility.class);
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
-                             new ExactArgument("visibility"),
-                             ZONE_ID,
-                             new ExactArgument("set"),
-                             VALUE);
+                new ExactArgument("visibility"),
+                ZONE_ID,
+                new ExactArgument("set"),
+                VALUE);
     }
 
     @Override

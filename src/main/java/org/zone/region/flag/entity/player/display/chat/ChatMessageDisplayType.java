@@ -36,8 +36,8 @@ public class ChatMessageDisplayType implements MessageDisplayType<ChatMessageDis
     }
 
     @Override
-    public void save(@NotNull ConfigurationNode node, @Nullable ChatMessageDisplay save)
-            throws IOException {
+    public void save(@NotNull ConfigurationNode node, @Nullable ChatMessageDisplay save) throws
+            IOException {
         if (save == null) {
             throw new IOException("Display type can't be null");
         }

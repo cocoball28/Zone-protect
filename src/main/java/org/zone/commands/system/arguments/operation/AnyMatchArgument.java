@@ -25,13 +25,14 @@ public class AnyMatchArgument<T> implements CommandArgument<T> {
     }
 
     @SafeVarargs
-    public AnyMatchArgument(@NotNull String id, @NotNull Function<? super T, String> asString,
-            T... results) {
+    public AnyMatchArgument(
+            @NotNull String id, @NotNull Function<? super T, String> asString, T... results) {
         this(id, asString, Arrays.asList(results));
     }
 
     public AnyMatchArgument(
-            @NotNull String id, @NotNull Function<? super T, String> asString,
+            @NotNull String id,
+            @NotNull Function<? super T, String> asString,
             @NotNull Collection<? extends T> results) {
         this.id = id;
         this.asString = asString;

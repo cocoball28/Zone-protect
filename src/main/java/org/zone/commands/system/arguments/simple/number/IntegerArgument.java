@@ -20,6 +20,7 @@ public class IntegerArgument implements CommandArgument<Integer> {
 
     /**
      * Used for creating the argument
+     *
      * @param id The id to use for the argument
      */
     public IntegerArgument(String id) {

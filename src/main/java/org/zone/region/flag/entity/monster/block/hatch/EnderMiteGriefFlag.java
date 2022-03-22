@@ -2,7 +2,6 @@ package org.zone.region.flag.entity.monster.block.hatch;
 
 import org.jetbrains.annotations.NotNull;
 import org.zone.region.flag.Flag;
-import org.zone.region.flag.FlagType;
 import org.zone.region.flag.FlagTypes;
 
 public class EnderMiteGriefFlag implements Flag.TaggedFlag {

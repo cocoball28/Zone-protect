@@ -59,7 +59,8 @@ public class JoinZoneCommand implements ArgumentCommand {
                 .getFlag(FlagTypes.ZONE_VISIBILITY)
                 .map(ZoneVisibilityFlag::getZoneVisibility)
                 .orElse(ZoneVisibility.PUBLIC);
-        if (zoneVisibility == ZoneVisibility.PRIVATE || zoneVisibility == ZoneVisibility.SEMI_PRIVATE) {
+        if (zoneVisibility == ZoneVisibility.PRIVATE ||
+                zoneVisibility == ZoneVisibility.SEMI_PRIVATE) {
             return CommandResult.error(Messages.getZonePrivateError());
         }
         joinRequestFlag.registerJoin(player.uniqueId());

@@ -30,7 +30,6 @@ import org.zone.region.flag.meta.eco.shop.ShopsFlag;
 import org.zone.region.flag.meta.member.MembersFlag;
 import org.zone.region.group.DefaultGroups;
 import org.zone.region.group.key.GroupKeys;
-import org.zone.region.shop.Shop;
 import org.zone.region.shop.type.inventory.display.DisplayCaseShop;
 import tools.CommandAssert;
 import tools.TestLocatableBlock;

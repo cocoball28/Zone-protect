@@ -14,8 +14,8 @@ public class BossBarMessageDisplay implements MessageDisplay {
     private @NotNull BossBar.Color color;
     private @NotNull BossBar.Overlay overlay;
 
-    public BossBarMessageDisplay(float progress, @NotNull BossBar.Color color,
-            @NotNull BossBar.Overlay overlay) {
+    public BossBarMessageDisplay(
+            float progress, @NotNull BossBar.Color color, @NotNull BossBar.Overlay overlay) {
         this.progress = progress;
         this.color = color;
         this.overlay = overlay;
@@ -47,11 +47,7 @@ public class BossBarMessageDisplay implements MessageDisplay {
 
     @Override
     public void sendMessage(@NotNull Component message, @NotNull Player receiver) {
-        BossBar bossBarMessage = BossBar
-                .bossBar(message,
-                        this.progress,
-                        this.color,
-                        this.overlay);
+        BossBar bossBarMessage = BossBar.bossBar(message, this.progress, this.color, this.overlay);
         receiver.showBossBar(bossBarMessage);
     }
 

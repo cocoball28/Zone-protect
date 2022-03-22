@@ -17,26 +17,27 @@ import java.util.stream.Collectors;
 
 /**
  * A enum as a command argument -> any enum value is accepted
- * @param <T>
  */
 public class EnumArgument<T extends Enum<T>> implements GUICommandArgument<T> {
 
     private final @NotNull String id;
-    private final @NotNull EnumSet<T> set;
+    private final @NotNull Collection<T> set;
 
     /**
      * Creates the enum argument
-     * @param id The id of the argument
+     *
+     * @param id  The id of the argument
      * @param set A set of the enum values -> this can be a subset
      */
-    public EnumArgument(@NotNull String id, @NotNull EnumSet<T> set) {
+    public EnumArgument(@NotNull String id, @NotNull Collection<T> set) {
         this.id = id;
         this.set = set;
     }
 
     /**
      * Creates the enum argument
-     * @param id The id of the argument
+     *
+     * @param id        The id of the argument
      * @param enumClass The class of the enum
      */
     public EnumArgument(@NotNull String id, @NotNull Class<T> enumClass) {

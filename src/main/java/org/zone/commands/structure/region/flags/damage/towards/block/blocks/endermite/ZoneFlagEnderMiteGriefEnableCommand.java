@@ -24,8 +24,8 @@ import java.util.Optional;
 public class ZoneFlagEnderMiteGriefEnableCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE_ID = new ZoneArgument("zoneId",
-            new ZoneArgument.ZoneArgumentPropertiesBuilder()
-                    .setBypassSuggestionPermission(ZonePermissions.OVERRIDE_FLAG_ENDERMITE_GRIEF_ENABLE));
+            new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
+                    ZonePermissions.OVERRIDE_FLAG_ENDERMITE_GRIEF_ENABLE));
     public static final BooleanArgument ENABLE = new BooleanArgument("enableValue",
             "enable",
             "disable");

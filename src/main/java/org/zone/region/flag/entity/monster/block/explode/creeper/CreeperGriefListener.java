@@ -35,14 +35,11 @@ public class CreeperGriefListener {
                     if (nearestPos.isEmpty()) {
                         return false;
                     }
-                    double distance = nearestPos
-                            .get()
-                            .toDouble()
-                            .distance(location.position());
+                    double distance = nearestPos.get().toDouble().distance(location.position());
                     return distance <= explosionRadius;
                 });
-                if (contains) {
-                    event.setCancelled(true);
-                }
+        if (contains) {
+            event.setCancelled(true);
+        }
     }
 }

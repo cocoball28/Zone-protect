@@ -25,16 +25,14 @@ import java.util.*;
 
 public class ZoneInviteAcceptCommand implements ArgumentCommand {
 
-    public static final RemainingArgument<Zone> ZONE_ID =
-            new RemainingArgument<>(new ZoneArgument("zoneId",
-                    new ZoneArgument.ZoneArgumentPropertiesBuilder()
-                            .setBypassSuggestionPermission(ZonePermissions.OVERRIDE_FLAG_INVITE_ACCEPT)));
+    public static final RemainingArgument<Zone> ZONE_ID = new RemainingArgument<>(new ZoneArgument(
+            "zoneId",
+            new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
+                    ZonePermissions.OVERRIDE_FLAG_INVITE_ACCEPT)));
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
-        return Arrays.asList(new ExactArgument("invite"),
-                             new ExactArgument("accept"),
-                             ZONE_ID);
+        return Arrays.asList(new ExactArgument("invite"), new ExactArgument("accept"), ZONE_ID);
     }
 
     @Override
@@ -55,8 +53,7 @@ public class ZoneInviteAcceptCommand implements ArgumentCommand {
         }
         List<Zone> zones = commandContext.getArgument(this, ZONE_ID);
         for (Zone zone : zones) {
-            Optional<JoinRequestFlag> opJoinRequestFlag = zone
-                    .getFlag(FlagTypes.JOIN_REQUEST);
+            Optional<JoinRequestFlag> opJoinRequestFlag = zone.getFlag(FlagTypes.JOIN_REQUEST);
             Collection<UUID> invites = opJoinRequestFlag
                     .map(JoinRequestFlag::getInvites)
                     .orElse(Collections.emptySet());
@@ -73,8 +70,7 @@ public class ZoneInviteAcceptCommand implements ArgumentCommand {
             zone.setFlag(opJoinRequestFlag.get());
             try {
                 zone.save();
-                commandContext
-                        .sendMessage(Messages.getJoinedZoneMessage(zone));
+                commandContext.sendMessage(Messages.getJoinedZoneMessage(zone));
             } catch (ConfigurateException ce) {
                 ce.printStackTrace();
                 commandContext.sendMessage(Messages.getZoneSavingError(ce));

@@ -33,12 +33,12 @@ public class ZoneFlagTntDefuseSetEnableCommand implements ArgumentCommand {
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
-                             new ExactArgument("flag"),
-                             ZONE_VALUE,
-                             new ExactArgument("tnt"),
-                             new ExactArgument("defuse"),
-                             new ExactArgument("set"),
-                             ENABLE_DISABLE);
+                new ExactArgument("flag"),
+                ZONE_VALUE,
+                new ExactArgument("tnt"),
+                new ExactArgument("defuse"),
+                new ExactArgument("set"),
+                ENABLE_DISABLE);
     }
 
     @Override
