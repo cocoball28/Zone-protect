@@ -24,17 +24,17 @@ public class ZoneFlagTntDefuseView implements ArgumentCommand {
     public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zoneId",
             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
                     ZonePermissions.FLAG_TNT_DEFUSE_VIEW));
-    public static final OptionalArgument<String> VIEW = new OptionalArgument<>(new ExactArgument(
-            "view"), (String) null);
+    public static final OptionalArgument<Optional<String>> VIEW = OptionalArgument.createArgument(
+            new ExactArgument("view"));
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
-                             new ExactArgument("flag"),
-                             ZONE_VALUE,
-                             new ExactArgument("tnt"),
-                             new ExactArgument("defuse"),
-                             VIEW);
+                new ExactArgument("flag"),
+                ZONE_VALUE,
+                new ExactArgument("tnt"),
+                new ExactArgument("defuse"),
+                VIEW);
     }
 
     @Override

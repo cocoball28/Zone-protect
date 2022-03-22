@@ -61,4 +61,11 @@ public class CommandArgumentContext<T> {
         this.firstArgument = start;
     }
 
+    public <A> CommandArgumentContext<A> copyFor(CommandArgument<A> argument) {
+        return new CommandArgumentContext<>(this.commandRunner,
+                argument,
+                this.firstArgument,
+                this.command);
+    }
+
 }

@@ -38,6 +38,7 @@ public class ZoneCreateSubStartCommand extends AbstractCreateZoneStartCommand {
             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
                     ZonePermissions.OVERRIDE_REGION_CREATE_SUB_BOUNDS_EXACT));
 
+    @SuppressWarnings("allow-string-argument")
     private static final RemainingArgument<String> NAME = new RemainingArgument<>(new StringArgument(
             "name"));
 

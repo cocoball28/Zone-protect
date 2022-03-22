@@ -37,7 +37,7 @@ public class ZoneFlagBlockPlaceViewCommand implements ArgumentCommand {
                 new ExactArgument("interact"),
                 new ExactArgument("block"),
                 new ExactArgument("place"),
-                new OptionalArgument<>(new ExactArgument("view"), (String) null));
+                OptionalArgument.createArgument(new ExactArgument("view")));
     }
 
     @Override
