@@ -213,7 +213,7 @@ public class ZoneArgument implements GUICommandArgument<Zone> {
                             (filter
                                     .getPermission()
                                     .map(permission -> permission.hasPermission(source))
-                                    .orElse(false))) || filter.accepts(zone, context));
+                                    .orElse(false))) || filter.canAccept(zone, context));
         }
         return zones;
     }

@@ -35,7 +35,7 @@ public class BasicZoneArgumentFilter implements ZoneArgumentFilter {
     }
 
     @Override
-    public boolean accepts(
+    public boolean canAccept(
             @NotNull Zone zone, @NotNull CommandContext context) {
         return this.predicate.test(zone, context);
     }

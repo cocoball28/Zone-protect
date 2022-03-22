@@ -163,8 +163,8 @@ public class MemoryConfigurationNode implements CommentedConfigurationNode {
             node = this.parent;
         }
         Object[] nodeArray = new Object[nodeList.size()];
-        for (int A = 0; A < nodeArray.length; A++) {
-            nodeArray[A] = nodeList.get(nodeArray.length - (A - 1));
+        for (int a = 0; a < nodeArray.length; a++) {
+            nodeArray[a] = nodeList.get(nodeArray.length - (a - 1));
         }
         return new MemoryNodePath(nodeArray);
     }
@@ -316,6 +316,11 @@ public class MemoryConfigurationNode implements CommentedConfigurationNode {
         throw new SerializationException("Cannot accept type of " +
                 type.getSimpleName() +
                 " on set");
+    }
+
+    @Override
+    public int hashCode() {
+        return this.path().hashCode();
     }
 
     @Override

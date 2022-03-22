@@ -13,5 +13,5 @@ public interface ZoneArgumentFilter {
 
     @NotNull Optional<ZonePermission> getPermission();
 
-    boolean accepts(@NotNull Zone zone, @NotNull CommandContext context);
+    boolean canAccept(@NotNull Zone zone, @NotNull CommandContext context);
 }
