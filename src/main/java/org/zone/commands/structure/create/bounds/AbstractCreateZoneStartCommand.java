@@ -27,13 +27,13 @@ public abstract class AbstractCreateZoneStartCommand implements ArgumentCommand 
             CommandContext context, String name, BoundedRegion bounded, ZoneBuilder builder);
 
     @Override
-    public @NotNull CommandResult run(CommandContext context, String... args) {
-        Subject subject = context.getSource();
+    public @NotNull CommandResult run(CommandContext commandContext, String... args) {
+        Subject subject = commandContext.getSource();
         if (!(subject instanceof Player player)) {
             return CommandResult.error(Messages.getPlayerOnlyMessage());
         }
 
-        String name = this.getNameArgument(context);
+        String name = this.getNameArgument(commandContext);
         Vector3i vector3i = player.location().blockPosition();
         BoundMode boundMode = this.getBoundMode();
         Vector3i startVector = new Vector3i(vector3i.x(), 0, vector3i.z());
@@ -56,7 +56,7 @@ public abstract class AbstractCreateZoneStartCommand implements ArgumentCommand 
                 .setBoundMode(boundMode)
                 .setRegion(childRegion);
 
-        builder = this.updateBuilder(context, name, region, builder);
+        builder = this.updateBuilder(commandContext, name, region, builder);
         if (ZonePlugin
                 .getZonesPlugin()
                 .getZoneManager()

@@ -26,6 +26,7 @@ public class ZoneCreateChunkStartCommand extends AbstractCreateZoneStartCommand 
     public static final ExactArgument BOUNDS = new ExactArgument("bounds");
     public static final ExactArgument CHUNK = new ExactArgument("chunk");
     public static final ExactArgument START = new ExactArgument("start");
+    @SuppressWarnings("allow-string-argument")
     public static final RemainingArgument<String> NAME = new RemainingArgument<>(new StringArgument(
             "name"));
 

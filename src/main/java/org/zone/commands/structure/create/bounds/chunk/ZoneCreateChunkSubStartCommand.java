@@ -30,6 +30,7 @@ public class ZoneCreateChunkSubStartCommand extends AbstractCreateZoneStartComma
     public static final ZoneArgument ZONE = new ZoneArgument("zone",
             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
                     ZonePermissions.OVERRIDE_REGION_CREATE_SUB_BOUNDS_CHUNK));
+    @SuppressWarnings("allow-string-argument")
     public static final RemainingArgument<String> NAME = new RemainingArgument<>(new StringArgument(
             "name"));
 

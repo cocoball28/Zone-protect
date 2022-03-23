@@ -37,7 +37,6 @@ public class ZoneFlagMemberGroupViewCommand implements ArgumentCommand {
         Group group = c.getArgument(this, GROUP);
         int pages = (zone.getMembers().getMembers(group).size() / 10) + 1;
         return CommandArgumentResult.from(a, pages);
-
     }), 1);
     public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(

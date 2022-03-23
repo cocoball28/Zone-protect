@@ -25,8 +25,8 @@ public class ZoneFlagMonsterEntryViewCommand implements ArgumentCommand {
     public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zoneId",
             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
                     ZonePermissions.OVERRIDE_FLAG_ENTRY_MONSTER_VIEW));
-    public static final OptionalArgument<String> VIEW = new OptionalArgument<>(new ExactArgument(
-            "view"), (String) null);
+    public static final OptionalArgument<Optional<String>> VIEW = OptionalArgument.createArgument(
+            new ExactArgument("view"));
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {

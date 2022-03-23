@@ -10,7 +10,6 @@ import org.zone.commands.system.context.CommandContext;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Optional;
 
 public class OptionalArgument<T> implements CommandArgument<T> {
@@ -21,6 +20,7 @@ public class OptionalArgument<T> implements CommandArgument<T> {
 
     /**
      * Used to wrap a single fixed value into a ParseCommandArgument
+     *
      * @param <T> The type of the fixed value
      */
     public static class WrappedParser<T> implements ParseCommandArgument<T> {
@@ -51,7 +51,8 @@ public class OptionalArgument<T> implements CommandArgument<T> {
 
     /**
      * Creates the argument
-     * @param arg The argument to attempt
+     *
+     * @param arg   The argument to attempt
      * @param value The fixed value to use if the argument fails
      */
     public OptionalArgument(@NotNull CommandArgument<T> arg, @NotNull T value) {
@@ -60,7 +61,8 @@ public class OptionalArgument<T> implements CommandArgument<T> {
 
     /**
      * Creates the argument
-     * @param arg The argument to attempt
+     *
+     * @param arg   The argument to attempt
      * @param value The value to use if the argument fails
      */
     public OptionalArgument(CommandArgument<T> arg, ParseCommandArgument<T> value) {
@@ -69,6 +71,7 @@ public class OptionalArgument<T> implements CommandArgument<T> {
 
     /**
      * Gets the argument to attempt
+     *
      * @return The argument to attempt to use
      */
     public CommandArgument<T> getOriginalArgument() {
@@ -110,5 +113,19 @@ public class OptionalArgument<T> implements CommandArgument<T> {
             return Collections.emptySet();
         }
         return this.arg.suggest(commandContext, argument);
+    }
+
+    /**
+     * Creates a traditional optional argument whereby if the user does not enter a value, the
+     * result is {@link Optional#empty()}
+     *
+     * @param argument The argument to attempt
+     * @param <T>      The expected value type
+     *
+     * @return The optional argument
+     */
+    public static <T> OptionalArgument<Optional<T>> createArgument(CommandArgument<? extends T> argument) {
+        return new OptionalArgument<>(new MappedArgument<>(argument, Optional::of),
+                Optional.empty());
     }
 }
