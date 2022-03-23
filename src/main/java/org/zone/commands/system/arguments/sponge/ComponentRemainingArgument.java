@@ -15,7 +15,7 @@ import java.util.Collections;
 import java.util.stream.Collectors;
 
 /**
- * Gets a Text Component from the user in a easy to use format
+ * Gets a Text Component from the user in an easy-to-use format
  */
 public class ComponentRemainingArgument implements CommandArgument<Component> {
 
