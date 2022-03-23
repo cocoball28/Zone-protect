@@ -20,26 +20,58 @@ public class BossBarMessageDisplay implements MessageDisplay {
         this.overlay = builder.getOverlay();
     }
 
+    /**
+     * Gets the progress of the {@link BossBar}
+     *
+     * @return The progress
+     */
     public float getProgress() {
         return this.progress;
     }
 
+    /**
+     * Gets the colour of the {@link BossBar}
+     *
+     * @return The colour
+     */
     public @NotNull BossBar.Color getColor() {
         return this.color;
     }
 
+    /**
+     * Gets the overlay of the {@link BossBar}
+     *
+     * @return The overlay
+     */
     public @NotNull BossBar.Overlay getOverlay() {
         return this.overlay;
     }
 
+    /**
+     * Sets the progress of the {@link BossBar}
+     *
+     * @param progress The progress to be set
+     */
     public void setBossBarProgress(float progress) {
         this.progress = progress;
     }
 
+    /**
+     * Sets the colour of the {@link BossBar}
+     *
+     * @param color The colour to be set
+     * @see BossBar.Color
+     */
     public void setBossBarColor(@NotNull BossBar.Color color) {
         this.color = color;
     }
 
+    /**
+     * Sets the overlay for the {@link BossBar}
+     *
+     * @param overlay The overlay to be set
+     * @see BossBar.Overlay
+     */
     public void setBossBarOverlay(@NotNull BossBar.Overlay overlay) {
         this.overlay = overlay;
     }

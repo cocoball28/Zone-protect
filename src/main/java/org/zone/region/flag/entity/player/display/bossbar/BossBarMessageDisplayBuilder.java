@@ -10,37 +10,37 @@ public class BossBarMessageDisplayBuilder {
     private BossBar.Overlay overlay;
 
     /**
-     * Gets the {@link BossBar#progress()} for the {@link BossBar}
+     * Gets the progress of the {@link BossBar}
      *
-     * @return The progress for the {@link BossBar}
+     * @return The progress
      */
     public float getProgress() {
         return this.progress;
     }
 
     /**
-     * Gets the {@link BossBar#color()} for the {@link BossBar}
+     * Gets the colour of the {@link BossBar}
      *
-     * @return The color for the {@link BossBar}
+     * @return The colour
      */
     public BossBar.Color getColor() {
         return this.color;
     }
 
     /**
-     * Gets the {@link BossBar#overlay()} for the {@link BossBar}
+     * Gets the overlay of the {@link BossBar}
      *
-     * @return The overlay for the {@link BossBar}
+     * @return The overlay
      */
     public BossBar.Overlay getOverlay() {
         return this.overlay;
     }
 
     /**
-     * Sets the {@link BossBar#progress()} for the {@link BossBar}
+     * Sets the progress for the {@link BossBar}
      *
      * @param progress The progress to be set
-     * @return         This builder class
+     * @return         {@link BossBarMessageDisplayBuilder}
      */
     public @NotNull BossBarMessageDisplayBuilder setProgress(float progress) {
         this.progress = progress;
@@ -48,10 +48,11 @@ public class BossBarMessageDisplayBuilder {
     }
 
     /**
-     * Sets the {@link BossBar#color()} for the {@link BossBar}
+     * Sets the color of the {@link BossBar}
      *
      * @param color The color to be set
-     * @return      This builder class
+     * @return      {@link BossBarMessageDisplayBuilder}
+     * @see BossBar.Color
      */
     public @NotNull BossBarMessageDisplayBuilder setColor(BossBar.Color color) {
         this.color = color;
@@ -59,10 +60,11 @@ public class BossBarMessageDisplayBuilder {
     }
 
     /**
-     * Sets the {@link BossBar#overlay()} for the {@link BossBar}
+     * Sets the overlay of the {@link BossBar}
      *
      * @param overlay The overlay to be set
-     * @return        This builder class
+     * @return        {@link BossBarMessageDisplayBuilder}
+     * @see BossBar.Overlay
      */
     public @NotNull BossBarMessageDisplayBuilder setOverlay(BossBar.Overlay overlay) {
         this.overlay = overlay;
