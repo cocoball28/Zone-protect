@@ -18,7 +18,6 @@ import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.entity.player.display.MessageDisplay;
-import org.zone.region.flag.entity.player.display.title.TitleMessageDisplay;
 import org.zone.region.flag.entity.player.display.title.TitleMessageDisplayBuilder;
 import org.zone.region.flag.entity.player.move.greetings.GreetingsFlag;
 import org.zone.utils.Messages;
@@ -29,19 +28,18 @@ import java.time.temporal.TemporalUnit;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class ZoneFlagGreetingsDisplaySetTitleFadeInCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE_ID = new ZoneArgument("zoneId",
             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
-                    ZonePermissions.OVERRIDE_FLAG_GREETINGS_MESSAGE_DISPLAY_SET_TITLE));
-    public static final OptionalArgument<Component> SUB_TITLE =
-            new OptionalArgument<>(new ComponentRemainingArgument("subTitle"), (Component) null);
+                    ZonePermissions.OVERRIDE_FLAG_GREETINGS_MESSAGE_DISPLAY_SET_TITLE_FADE_IN));
+    public static final OptionalArgument<Component> SUB_TITLE = new OptionalArgument<>(new ComponentRemainingArgument(
+            "subTitle"), Component.empty());
     public static final RangeArgument<Integer> FADE_IN = RangeArgument.createArgument("fadeIn", 0
             , Integer.MAX_VALUE);
-    public static final TimeUnitArgument UNIT = new TimeUnitArgument("unit", Arrays.stream(TimeUnits.values()).collect(
-            Collectors.toMap(TimeUnits::name, TimeUnits::getUnit)));
+    public static final TimeUnitArgument UNIT = new TimeUnitArgument("unit",
+            Arrays.asList(TimeUnits.TICKS, TimeUnits.SECONDS));
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
@@ -60,12 +58,12 @@ public class ZoneFlagGreetingsDisplaySetTitleFadeInCommand implements ArgumentCo
 
     @Override
     public @NotNull Component getDescription() {
-        return Messages.getGreetingsDisplaySetTitleCommandDescription();
+        return Messages.getGreetingsDisplaySetTitleFadeInCommandDescription();
     }
 
     @Override
     public @NotNull Optional<ZonePermission> getPermissionNode() {
-        return Optional.of(ZonePermissions.FLAG_GREETINGS_MESSAGE_DISPLAY_SET_TITLE);
+        return Optional.of(ZonePermissions.FLAG_GREETINGS_MESSAGE_DISPLAY_SET_TITLE_FADE_IN);
     }
 
     @Override
@@ -82,10 +80,9 @@ public class ZoneFlagGreetingsDisplaySetTitleFadeInCommand implements ArgumentCo
         MessageDisplay titleMessageDisplay =
                 new TitleMessageDisplayBuilder().setSubTitle(subTitle).setFadeIn(Duration.of(fadeIn, timeUnit)).build();
         opGreetingsFlag.get().setDisplayType(titleMessageDisplay);
-        zone.setFlag(opGreetingsFlag.get());
         try {
             zone.save();
-            commandContext.sendMessage(Messages.getGreetingsDisplaySuccessfullyChangedToTitle());
+            commandContext.sendMessage(Messages.getFlagMessageDisplaySuccessfullyChangedTo(opGreetingsFlag.get().getType(), titleMessageDisplay.getType()));
         } catch (ConfigurateException ce) {
             ce.printStackTrace();
             return CommandResult.error(Messages.getZoneSavingError(ce));

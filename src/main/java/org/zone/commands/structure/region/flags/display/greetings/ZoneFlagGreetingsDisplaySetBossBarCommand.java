@@ -19,6 +19,7 @@ import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.entity.player.display.MessageDisplay;
 import org.zone.region.flag.entity.player.display.MessageDisplayTypes;
 import org.zone.region.flag.entity.player.display.bossbar.BossBarMessageDisplay;
+import org.zone.region.flag.entity.player.display.bossbar.BossBarMessageDisplayBuilder;
 import org.zone.region.flag.entity.player.move.greetings.GreetingsFlag;
 import org.zone.utils.Messages;
 
@@ -74,12 +75,13 @@ public class ZoneFlagGreetingsDisplaySetBossBarCommand implements ArgumentComman
         if (opGreetingsFlag.isEmpty()) {
             return CommandResult.error(Messages.getGreetingsFlagNotFound());
         }
-        MessageDisplay bossBarDisplay = new BossBarMessageDisplay(progress, color, overlay);
+        MessageDisplay bossBarDisplay =
+                new BossBarMessageDisplayBuilder().setProgress(progress).setColor(color).setOverlay(overlay).build();
         opGreetingsFlag.get().setDisplayType(bossBarDisplay);
-        zone.setFlag(opGreetingsFlag.get());
         try {
             zone.save();
-            commandContext.sendMessage(Messages.getGreetingsDisplaySuccessfullyChangedToBossBar());
+            commandContext.sendMessage(Messages.getFlagMessageDisplaySuccessfullyChangedTo(opGreetingsFlag.get().getType(),
+                    bossBarDisplay.getType()));
         } catch (ConfigurateException ce) {
             ce.printStackTrace();
             return CommandResult.error(Messages.getZoneSavingError(ce));

@@ -53,6 +53,7 @@ public class ZoneFlagLeavingViewCommand implements ArgumentCommand {
             return CommandResult.success();
         }
         commandContext.sendMessage(Messages.getLeavingMessage(opFlag.get()));
+        commandContext.sendMessage(Messages.getFlagMessageDisplayTypeView(opFlag.get().getDisplayType().getType()));
         return CommandResult.success();
     }
 }

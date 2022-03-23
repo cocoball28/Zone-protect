@@ -14,11 +14,10 @@ public class BossBarMessageDisplay implements MessageDisplay {
     private @NotNull BossBar.Color color;
     private @NotNull BossBar.Overlay overlay;
 
-    public BossBarMessageDisplay(float progress, @NotNull BossBar.Color color,
-            @NotNull BossBar.Overlay overlay) {
-        this.progress = progress;
-        this.color = color;
-        this.overlay = overlay;
+    public BossBarMessageDisplay(@NotNull BossBarMessageDisplayBuilder builder) {
+        this.progress = builder.getProgress();
+        this.color = builder.getColor();
+        this.overlay = builder.getOverlay();
     }
 
     public float getProgress() {

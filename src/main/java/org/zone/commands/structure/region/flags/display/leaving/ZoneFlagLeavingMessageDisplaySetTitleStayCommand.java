@@ -1,4 +1,4 @@
-package org.zone.commands.structure.region.flags.display.greetings;
+package org.zone.commands.structure.region.flags.display.leaving;
 
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
@@ -17,7 +17,7 @@ import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.entity.player.display.MessageDisplay;
 import org.zone.region.flag.entity.player.display.title.TitleMessageDisplayBuilder;
-import org.zone.region.flag.entity.player.move.greetings.GreetingsFlag;
+import org.zone.region.flag.entity.player.move.leaving.LeavingFlag;
 import org.zone.utils.Messages;
 import org.zone.utils.time.TimeUnits;
 
@@ -26,25 +26,22 @@ import java.time.temporal.TemporalUnit;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
-public class ZoneFlagGreetingsDisplaySetTitleStayCommand implements ArgumentCommand {
+public class ZoneFlagLeavingMessageDisplaySetTitleStayCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE_ID = new ZoneArgument("zoneId",
-            new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
-                    ZonePermissions.OVERRIDE_FLAG_GREETINGS_MESSAGE_DISPLAY_SET_TITLE_STAY));
-    public static final RangeArgument<Integer> STAY = RangeArgument.createArgument("stay", 0
-            , Integer.MAX_VALUE);
+            new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(ZonePermissions.OVERRIDE_FLAG_LEAVING_MESSAGE_SET_TITLE_STAY));
+    public static final RangeArgument<Integer> STAY = RangeArgument.createArgument("stay", 0,
+            Integer.MAX_VALUE);
     public static final TimeUnitArgument UNIT = new TimeUnitArgument("unit",
-            Arrays.stream(TimeUnits.values()).collect(
-                    Collectors.toMap(TimeUnits::name, TimeUnits::getUnit)));
+            Arrays.asList(TimeUnits.TICKS, TimeUnits.SECONDS));
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
                 new ExactArgument("flag"),
                 ZONE_ID,
-                new ExactArgument("greetings"),
+                new ExactArgument("leaving"),
                 new ExactArgument("message"),
                 new ExactArgument("display"),
                 new ExactArgument("set"),
@@ -55,12 +52,12 @@ public class ZoneFlagGreetingsDisplaySetTitleStayCommand implements ArgumentComm
 
     @Override
     public @NotNull Component getDescription() {
-        return Messages.getGreetingsDisplaySetTitleStayCommandDescription();
+        return Messages.getLeavingDisplaySetTitleStayCommandDescription();
     }
 
     @Override
     public @NotNull Optional<ZonePermission> getPermissionNode() {
-        return Optional.of(ZonePermissions.FLAG_GREETINGS_MESSAGE_DISPLAY_SET_TITLE_STAY);
+        return Optional.of(ZonePermissions.FLAG_LEAVING_MESSAGE_SET_TITLE_STAY);
     }
 
     @Override
@@ -68,17 +65,17 @@ public class ZoneFlagGreetingsDisplaySetTitleStayCommand implements ArgumentComm
             @NotNull CommandContext commandContext, @NotNull String... args) {
         Zone zone = commandContext.getArgument(this, ZONE_ID);
         long stay = commandContext.getArgument(this, STAY);
-        TemporalUnit timeUnit = commandContext.getArgument(this, UNIT);
-        Optional<GreetingsFlag> opGreetingsFlag = zone.getFlag(FlagTypes.GREETINGS);
-        if (opGreetingsFlag.isEmpty()) {
-            return CommandResult.error(Messages.getGreetingsFlagNotFound());
+        TemporalUnit unit = commandContext.getArgument(this, UNIT);
+        Optional<LeavingFlag> opLeavingFlag = zone.getFlag(FlagTypes.LEAVING);
+        if (opLeavingFlag.isEmpty()) {
+            return CommandResult.error(Messages.getLeavingFlagNotFound());
         }
         MessageDisplay titleMessageDisplay =
-                new TitleMessageDisplayBuilder().setStay(Duration.of(stay, timeUnit)).build();
-        opGreetingsFlag.get().setDisplayType(titleMessageDisplay);
+                new TitleMessageDisplayBuilder().setStay(Duration.of(stay, unit)).build();
+        opLeavingFlag.get().setDisplayType(titleMessageDisplay);
         try {
             zone.save();
-            commandContext.sendMessage(Messages.getFlagMessageDisplayUpdated(opGreetingsFlag.get().getType(),
+            commandContext.sendMessage(Messages.getFlagMessageDisplayUpdated(opLeavingFlag.get().getType(),
                     titleMessageDisplay.getType()));
         } catch (ConfigurateException ce) {
             ce.printStackTrace();

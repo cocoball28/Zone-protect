@@ -33,7 +33,7 @@ public class BossBarMessageDisplayType implements MessageDisplayType<BossBarMess
         if (displayTypeID == null) {
             throw new IOException("Couldn't get the display type");
         }
-        return new BossBarMessageDisplay(0, BossBar.Color.WHITE, BossBar.Overlay.PROGRESS);
+        return new BossBarMessageDisplayBuilder().setProgress(0).setColor(null).setOverlay(null).build();
     }
 
     @Override
@@ -48,6 +48,6 @@ public class BossBarMessageDisplayType implements MessageDisplayType<BossBarMess
 
     @Override
     public BossBarMessageDisplay createCopyOfDefault() {
-        return new BossBarMessageDisplay(0, BossBar.Color.WHITE, BossBar.Overlay.PROGRESS);
+        return new BossBarMessageDisplayBuilder().setProgress(0).setColor(null).setOverlay(null).build();
     }
 }

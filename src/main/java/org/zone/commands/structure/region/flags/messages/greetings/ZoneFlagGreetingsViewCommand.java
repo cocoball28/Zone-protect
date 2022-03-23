@@ -51,7 +51,8 @@ public class ZoneFlagGreetingsViewCommand implements ArgumentCommand {
         if (opGreetingsFlag.isEmpty()) {
             return CommandResult.error(Messages.getNoMessageSet());
         }
-        commandContext.sendMessage(Messages.getFlagMessageView(opGreetingsFlag.get()));
+        commandContext.sendMessage(Messages.getGreetingsFlagMessageView(opGreetingsFlag.get()));
+        commandContext.sendMessage(Messages.getFlagMessageDisplayTypeView(opGreetingsFlag.get().getDisplayType().getType()));
         return CommandResult.success();
     }
 

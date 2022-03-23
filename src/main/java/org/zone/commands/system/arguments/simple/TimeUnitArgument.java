@@ -21,6 +21,15 @@ public class TimeUnitArgument implements CommandArgument<TemporalUnit> {
     private final @NotNull String id;
     private final @NotNull Map<String, TemporalUnit> units = new HashMap<>();
 
+
+    public TimeUnitArgument(@NotNull String id, @NotNull TimeUnits... units) {
+        this(id, Arrays.asList(units));
+    }
+
+    public TimeUnitArgument(@NotNull String id, @NotNull Collection<TimeUnits> units) {
+        this(id, units.stream().collect(Collectors.toMap(Enum::name, TimeUnits::getUnit)));
+    }
+
     public TimeUnitArgument(@NotNull String id) {
         this(id,
                 Arrays
