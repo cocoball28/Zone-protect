@@ -15,8 +15,8 @@ import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
+import org.zone.region.flag.meta.invite.InviteFlag;
 import org.zone.region.flag.meta.member.MembersFlag;
-import org.zone.region.flag.meta.request.join.JoinRequestFlag;
 import org.zone.region.group.Group;
 import org.zone.region.group.key.GroupKeys;
 import org.zone.utils.Messages;
@@ -56,10 +56,13 @@ public class ZoneInviteAcceptCommand implements ArgumentCommand {
         }
         List<Zone> zones = commandContext.getArgument(this, ZONE_ID);
         for (Zone zone : zones) {
-            Optional<JoinRequestFlag> opJoinRequestFlag = zone
-                    .getFlag(FlagTypes.JOIN_REQUEST);
-            Collection<UUID> invites = opJoinRequestFlag
-                    .map(JoinRequestFlag::getInvites)
+            Optional<InviteFlag> opInviteFlag = zone
+                    .getFlag(FlagTypes.INVITE);
+            if (opInviteFlag.isEmpty()) {
+                return CommandResult.error(Messages.getInviteFlagNotFound());
+            }
+            Collection<UUID> invites = opInviteFlag
+                    .map(InviteFlag::getInvites)
                     .orElse(Collections.emptySet());
             if (!(invites.contains(player.uniqueId()))) {
                 return CommandResult.error(Messages.getNotInvited());
@@ -71,14 +74,13 @@ public class ZoneInviteAcceptCommand implements ArgumentCommand {
             }
             zone.getMembers().addMember(group.get(), player.uniqueId());
             invites.remove(player.uniqueId());
-            zone.setFlag(opJoinRequestFlag.get());
+            zone.setFlag(opInviteFlag.get());
             try {
                 zone.save();
-                commandContext
-                        .sendMessage(Messages.getJoinedZoneMessage(zone));
+                commandContext.sendMessage(Messages.getJoinedZoneMessage(zone));
             } catch (ConfigurateException ce) {
                 ce.printStackTrace();
-                commandContext.sendMessage(Messages.getZoneSavingError(ce));
+                return CommandResult.error(Messages.getZoneSavingError(ce));
             }
         }
         return CommandResult.success();

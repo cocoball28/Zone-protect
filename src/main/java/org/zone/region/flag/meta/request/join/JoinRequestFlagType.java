@@ -37,22 +37,14 @@ public class JoinRequestFlagType implements FlagType.SerializableType<JoinReques
     @Override
     public @NotNull JoinRequestFlag load(@NotNull ConfigurationNode node) throws IOException {
         List<String> joinRequestAsString = node.node("JoinRequests").getList(String.class);
-        List<String> inviteUUIDsAsString = node.node("Invites").getList(String.class);
         if (joinRequestAsString == null) {
             throw new IOException("Unknown UUID of join requests");
-        }
-        if (inviteUUIDsAsString == null) {
-            throw new IOException("Unknown UUID of invites");
         }
         Collection<UUID> joinRequests = joinRequestAsString
                 .stream()
                 .map(UUID::fromString)
                 .collect(Collectors.toList());
-        Collection<UUID> invites = inviteUUIDsAsString
-                .stream()
-                .map(UUID::fromString)
-                .collect(Collectors.toList());
-        return new JoinRequestFlag(joinRequests, invites);
+        return new JoinRequestFlag(joinRequests);
     }
 
     @Override
@@ -60,15 +52,11 @@ public class JoinRequestFlagType implements FlagType.SerializableType<JoinReques
             IOException {
         if (save == null) {
             node.set(null);
-            node.set(null);
             return;
         }
         node
                 .node("JoinRequests")
                 .set(save.getJoins().stream().map(UUID::toString).collect(Collectors.toList()));
-        node
-                .node("Invites")
-                .set(save.getInvites().stream().map(UUID::toString).collect(Collectors.toList()));
     }
 
     @Override

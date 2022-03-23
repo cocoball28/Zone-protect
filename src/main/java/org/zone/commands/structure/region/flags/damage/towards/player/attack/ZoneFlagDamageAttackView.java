@@ -7,7 +7,6 @@ import org.spongepowered.api.command.CommandResult;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
-import org.zone.commands.system.arguments.operation.OptionalArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.permissions.ZonePermission;
@@ -26,8 +25,6 @@ public class ZoneFlagDamageAttackView implements ArgumentCommand {
     public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zoneId",
             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
                     ZonePermissions.OVERRIDE_FLAG_DAMAGE_ATTACK_VIEW));
-    public static final OptionalArgument<String> VIEW = new OptionalArgument<>(new ExactArgument(
-            "view"), (String) null);
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
@@ -38,7 +35,7 @@ public class ZoneFlagDamageAttackView implements ArgumentCommand {
                 new ExactArgument("attack"),
                 new ExactArgument("towards"),
                 new ExactArgument("player"),
-                VIEW);
+                new ExactArgument("view"));
     }
 
     @Override

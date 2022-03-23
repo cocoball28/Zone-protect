@@ -24,6 +24,7 @@ import org.zone.region.flag.meta.eco.balance.BalanceFlagType;
 import org.zone.region.flag.meta.eco.payment.buy.BuyFlagType;
 import org.zone.region.flag.meta.eco.shop.ShopsFlagType;
 import org.zone.region.flag.meta.edit.EditingFlagType;
+import org.zone.region.flag.meta.invite.InviteFlagType;
 import org.zone.region.flag.meta.member.MembersFlagType;
 import org.zone.region.flag.meta.request.join.JoinRequestFlagType;
 import org.zone.region.flag.meta.request.visibility.ZoneVisibilityFlagType;
@@ -64,6 +65,7 @@ public final class FlagTypes {
     public static final EnderMiteGriefFlagType ENDER_MITE_GRIEF = new EnderMiteGriefFlagType();
     public static final ShopsFlagType SHOPS = new ShopsFlagType();
     public static final BanFlagType BAN = new BanFlagType();
+    public static final InviteFlagType INVITE = new InviteFlagType();
 
     private FlagTypes() {
         throw new RuntimeException("Should not init");

@@ -19,7 +19,6 @@ import org.zone.region.flag.meta.request.visibility.ZoneVisibility;
 import org.zone.region.flag.meta.request.visibility.ZoneVisibilityFlag;
 import org.zone.region.flag.meta.service.ban.flag.BanFlag;
 import org.zone.region.group.DefaultGroups;
-import org.zone.region.group.key.GroupKeys;
 import org.zone.utils.Messages;
 
 import java.util.Arrays;

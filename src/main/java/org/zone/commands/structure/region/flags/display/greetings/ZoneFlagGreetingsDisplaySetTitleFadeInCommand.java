@@ -1,7 +1,6 @@
 package org.zone.commands.structure.region.flags.display.greetings;
 
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.title.Title;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.configurate.ConfigurateException;
@@ -9,7 +8,7 @@ import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.operation.OptionalArgument;
-import org.zone.commands.system.arguments.simple.number.IntegerArgument;
+import org.zone.commands.system.arguments.simple.TimeUnitArgument;
 import org.zone.commands.system.arguments.simple.number.RangeArgument;
 import org.zone.commands.system.arguments.sponge.ComponentRemainingArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
@@ -19,17 +18,20 @@ import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.entity.player.display.MessageDisplay;
-import org.zone.region.flag.entity.player.display.MessageDisplayTypes;
 import org.zone.region.flag.entity.player.display.title.TitleMessageDisplay;
+import org.zone.region.flag.entity.player.display.title.TitleMessageDisplayBuilder;
 import org.zone.region.flag.entity.player.move.greetings.GreetingsFlag;
 import org.zone.utils.Messages;
+import org.zone.utils.time.TimeUnits;
 
 import java.time.Duration;
+import java.time.temporal.TemporalUnit;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
-public class ZoneFlagGreetingsDisplaySetTitleCommand implements ArgumentCommand {
+public class ZoneFlagGreetingsDisplaySetTitleFadeInCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE_ID = new ZoneArgument("zoneId",
             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
@@ -38,10 +40,8 @@ public class ZoneFlagGreetingsDisplaySetTitleCommand implements ArgumentCommand 
             new OptionalArgument<>(new ComponentRemainingArgument("subTitle"), (Component) null);
     public static final RangeArgument<Integer> FADE_IN = RangeArgument.createArgument("fadeIn", 0
             , Integer.MAX_VALUE);
-    public static final RangeArgument<Integer> STAY = RangeArgument.createArgument("stay", 0,
-            Integer.MAX_VALUE);
-    public static final RangeArgument<Integer> FADE_OUT = RangeArgument.createArgument("fadeOut",
-            0, Integer.MAX_VALUE);
+    public static final TimeUnitArgument UNIT = new TimeUnitArgument("unit", Arrays.stream(TimeUnits.values()).collect(
+            Collectors.toMap(TimeUnits::name, TimeUnits::getUnit)));
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
@@ -55,8 +55,7 @@ public class ZoneFlagGreetingsDisplaySetTitleCommand implements ArgumentCommand 
                              new ExactArgument("title"),
                              SUB_TITLE,
                              FADE_IN,
-                             STAY,
-                             FADE_OUT);
+                             UNIT);
     }
 
     @Override
@@ -75,15 +74,13 @@ public class ZoneFlagGreetingsDisplaySetTitleCommand implements ArgumentCommand 
         Zone zone = commandContext.getArgument(this, ZONE_ID);
         Component subTitle = commandContext.getArgument(this, SUB_TITLE);
         long fadeIn = commandContext.getArgument(this, FADE_IN);
-        long stay = commandContext.getArgument(this, STAY);
-        long fadeOut = commandContext.getArgument(this, FADE_OUT);
+        TemporalUnit timeUnit = commandContext.getArgument(this, UNIT);
         Optional<GreetingsFlag> opGreetingsFlag = zone.getFlag(FlagTypes.GREETINGS);
         if (opGreetingsFlag.isEmpty()) {
             return CommandResult.error(Messages.getGreetingsFlagNotFound());
         }
-        MessageDisplay titleMessageDisplay = new TitleMessageDisplay(subTitle,
-                Title.Times.of(Duration.ofSeconds(fadeIn), Duration.ofSeconds(stay),
-                        Duration.ofSeconds(fadeOut)));
+        MessageDisplay titleMessageDisplay =
+                new TitleMessageDisplayBuilder().setSubTitle(subTitle).setFadeIn(Duration.of(fadeIn, timeUnit)).build();
         opGreetingsFlag.get().setDisplayType(titleMessageDisplay);
         zone.setFlag(opGreetingsFlag.get());
         try {

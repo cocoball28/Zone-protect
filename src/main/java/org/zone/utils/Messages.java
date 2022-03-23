@@ -749,7 +749,7 @@ public final class Messages {
     }
 
     public static Component getGreetingsDisplaySetTitleCommandDescription() {
-        return Component.text("Set the display type of the greetings message to title");
+        return Component.text("Set the display type of the greetings message to title with only fadeIn duration");
     }
 
     public static Component getGreetingsDisplaySetBossBarCommandDescription() {
@@ -911,6 +911,10 @@ public final class Messages {
 
     public static Component getOwnZone() {
         return Component.text("You can't join your own zone").color(NamedTextColor.RED);
+    }
+
+    public static Component getInviteFlagNotFound() {
+        return Component.text("Invite flag not found").color(NamedTextColor.RED);
     }
 
 }

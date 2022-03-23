@@ -8,21 +8,14 @@ import java.util.*;
 
 public class JoinRequestFlag implements Flag.Serializable {
 
-    private final @NotNull Collection<UUID> inviteRequests = new HashSet<>();
-
     private final @NotNull Collection<UUID> joinRequests = new HashSet<>();
 
-    public JoinRequestFlag(
-            @NotNull Collection<UUID> joinRequests,
-            @NotNull Collection<UUID> inviteRequests) {
+    public JoinRequestFlag(@NotNull Collection<UUID> joinRequests) {
         this.joinRequests.addAll(joinRequests);
-        this.inviteRequests.addAll(inviteRequests);
     }
 
-    public JoinRequestFlag(
-            @NotNull Collection<UUID> invites, @NotNull UUID... joinRequests) {
-        this(Arrays.asList(joinRequests),
-                Collections.unmodifiableCollection(invites));
+    public JoinRequestFlag(@NotNull UUID... joinRequests) {
+        this(Arrays.asList(joinRequests));
     }
 
     public JoinRequestFlag() {
@@ -33,16 +26,8 @@ public class JoinRequestFlag implements Flag.Serializable {
         return Collections.unmodifiableCollection(this.joinRequests);
     }
 
-    public @NotNull Collection<UUID> getInvites() {
-        return Collections.unmodifiableCollection(this.inviteRequests);
-    }
-
     public void registerJoin(@NotNull UUID uuid) {
         this.joinRequests.add(uuid);
-    }
-
-    public void registerInvites(@NotNull Collection<UUID> uuids) {
-        this.inviteRequests.addAll(uuids);
     }
 
     @Override

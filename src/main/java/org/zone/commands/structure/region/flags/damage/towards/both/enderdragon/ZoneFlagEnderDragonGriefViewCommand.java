@@ -7,7 +7,6 @@ import org.spongepowered.api.command.CommandResult;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
-import org.zone.commands.system.arguments.operation.OptionalArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.permissions.ZonePermission;
@@ -25,8 +24,6 @@ public class ZoneFlagEnderDragonGriefViewCommand implements ArgumentCommand {
     public static final ZoneArgument ZONE_ID = new ZoneArgument("zoneId",
             new ZoneArgument.ZoneArgumentPropertiesBuilder()
                     .setBypassSuggestionPermission(ZonePermissions.OVERRIDE_FLAG_ENDERDRAGON_GRIEF_VIEW));
-    public static final OptionalArgument<String> VIEW = new OptionalArgument<>(new ExactArgument("view"),
-            (String) null);
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
@@ -35,7 +32,7 @@ public class ZoneFlagEnderDragonGriefViewCommand implements ArgumentCommand {
                 ZONE_ID,
                 new ExactArgument("grief"),
                 new ExactArgument("enderdragon"),
-                VIEW);
+                new ExactArgument("view"));
     }
 
     @Override

@@ -18,7 +18,7 @@ import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.meta.request.join.JoinRequestFlag;
+import org.zone.region.flag.meta.invite.InviteFlag;
 import org.zone.region.flag.meta.service.ban.flag.BanFlag;
 import org.zone.utils.Messages;
 
@@ -65,9 +65,9 @@ public class ZoneInvitePlayerCommand implements ArgumentCommand {
         List<GameProfile> players = commandContext.getArgument(this, USERS);
         boolean wasConfirmed = commandContext.getArgument(this, CONFIRM) != null;
         BanFlag banFlag = zone.getFlag(FlagTypes.BAN).orElse(new BanFlag());
-        JoinRequestFlag joinRequestFlag = zone
-                .getFlag(FlagTypes.JOIN_REQUEST)
-                .orElse(new JoinRequestFlag());
+        InviteFlag inviteFlag = zone
+                .getFlag(FlagTypes.INVITE)
+                .orElse(new InviteFlag());
         if (wasConfirmed) {
             players
                     .forEach(profile -> {
@@ -76,12 +76,12 @@ public class ZoneInvitePlayerCommand implements ArgumentCommand {
                         }
                     });
         }
-        joinRequestFlag
+        inviteFlag
                 .registerInvites(players
                         .stream()
                         .map(GameProfile::uuid)
                         .collect(Collectors.toList()));
-        zone.setFlag(joinRequestFlag);
+        zone.setFlag(inviteFlag);
         try {
             zone.save();
             players

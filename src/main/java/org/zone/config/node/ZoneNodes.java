@@ -2,6 +2,7 @@ package org.zone.config.node;
 
 import org.zone.config.node.limit.MaxOwnerNode;
 import org.zone.config.node.price.PriceForNewLandNode;
+import org.zone.config.node.title.DefaultTitleFadeInNode;
 
 import java.lang.reflect.Modifier;
 import java.util.Objects;
@@ -16,6 +17,7 @@ public final class ZoneNodes {
 
     public static final MaxOwnerNode MAX_OWNER = new MaxOwnerNode();
     public static final PriceForNewLandNode PRICE_FOR_LAND = new PriceForNewLandNode();
+    public static final DefaultTitleFadeInNode DEFAULT_TITLE_FADE_IN = new DefaultTitleFadeInNode();
 
     private ZoneNodes() {
         throw new RuntimeException("should not be init");

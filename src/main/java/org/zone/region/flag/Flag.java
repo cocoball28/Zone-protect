@@ -24,12 +24,12 @@ public interface Flag {
         @NotNull FlagType.SerializableType<? extends Serializable> getType();
 
         /**
-         * serializes this flag to the provided ConfigurationNode
+         * Serializes this flag to the provided ConfigurationNode
          *
          * @param node The node to serialize to
          * @param <T>  The class of this flag
          *
-         * @throws IOException if there is a issue saving
+         * @throws IOException If there is an issue saving
          */
         default <T extends Flag> void save(@NotNull ConfigurationNode node) throws IOException {
             FlagType.SerializableType<?> type = this.getType();
