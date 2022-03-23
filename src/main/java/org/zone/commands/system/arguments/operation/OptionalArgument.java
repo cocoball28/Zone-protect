@@ -10,6 +10,7 @@ import org.zone.commands.system.context.CommandContext;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Optional;
 
 public class OptionalArgument<T> implements CommandArgument<T> {
@@ -42,7 +43,7 @@ public class OptionalArgument<T> implements CommandArgument<T> {
         this(arg, new WrappedParser<>(value), blockSuggestions);
     }
 
-    public OptionalArgument(CommandArgument<T> arg, ParseCommandArgument<T> value,
+    public OptionalArgument(@NotNull CommandArgument<T> arg, @NotNull ParseCommandArgument<T> value,
             boolean blockSuggestions) {
         this.arg = arg;
         this.value = value;
