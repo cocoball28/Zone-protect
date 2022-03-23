@@ -2,7 +2,6 @@ package org.zone.region.flag.entity.player.display.title;
 
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.time.Duration;
 

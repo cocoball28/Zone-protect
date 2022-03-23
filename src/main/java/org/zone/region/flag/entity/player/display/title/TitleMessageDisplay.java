@@ -23,6 +23,7 @@ public class TitleMessageDisplay implements MessageDisplay {
 
     public TitleMessageDisplay(@NotNull TitleMessageDisplayBuilder builder) {
         this.subTitle = builder.getSubTitle();
+        this.fadeIn = builder.getFadeIn();
         this.stay = builder.getStay();
         this.fadeOut = builder.getFadeOut();
     }
