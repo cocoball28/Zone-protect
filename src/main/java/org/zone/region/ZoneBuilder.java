@@ -20,6 +20,8 @@ import java.util.HashSet;
 
 /**
  * A Builder for the {@link Zone} class
+ *
+ * @since 1.0.0
  */
 public class ZoneBuilder {
 

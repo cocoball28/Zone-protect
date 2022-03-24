@@ -14,7 +14,8 @@ public class TimeDuration {
      * Constructor of this class
      *
      * @param timeUnit The time unit
-     * @param length    The duration
+     * @param length   The duration
+     * @since 1.0.1
      */
     public TimeDuration(@NotNull TimeUnits timeUnit, int length) {
         this.timeUnit = timeUnit;
@@ -22,9 +23,10 @@ public class TimeDuration {
     }
 
     /**
-     * Gets the time unit
+     * Gets the time unit of the duration
      *
      * @return The time unit
+     * @since 1.0.1
      */
     public @NotNull TimeUnits getTimeUnit() {
         return this.timeUnit;
@@ -34,6 +36,7 @@ public class TimeDuration {
      * Gets the duration
      *
      * @return The duration
+     * @since 1.0.1
      */
     public int getLength() {
         return this.length;
@@ -42,7 +45,8 @@ public class TimeDuration {
     /**
      * Gets the {@link Duration} version of this
      *
-     * @return The Duration version of this
+     * @return The Duration version of {@link TimeUnits}
+     * @since 1.0.1
      */
     public @NotNull Duration asDuration() {
         return Duration.of(this.length, this.timeUnit.getUnit());

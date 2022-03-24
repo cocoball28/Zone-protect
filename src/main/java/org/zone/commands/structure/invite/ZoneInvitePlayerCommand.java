@@ -36,8 +36,8 @@ public class ZoneInvitePlayerCommand implements ArgumentCommand {
             .setBypassSuggestionPermission(ZonePermissions.OVERRIDE_FLAG_INVITE_PLAYER));
     public static final RemainingArgument<GameProfile> USERS =
             new RemainingArgument<>(new UserArgument("users"));
-    public static final OptionalArgument<String> CONFIRM =
-            new OptionalArgument<>(new ExactArgument("confirm"), (String) null, true);
+    public static final OptionalArgument<Optional<String>> CONFIRM =
+            OptionalArgument.createArgument(new ExactArgument("confirm"), true);
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
@@ -63,7 +63,7 @@ public class ZoneInvitePlayerCommand implements ArgumentCommand {
             @NotNull CommandContext commandContext, @NotNull String... args) {
         Zone zone = commandContext.getArgument(this, ZONE_ID);
         List<GameProfile> players = commandContext.getArgument(this, USERS);
-        boolean wasConfirmed = commandContext.getArgument(this, CONFIRM) != null;
+        boolean wasConfirmed = commandContext.getArgument(this, CONFIRM).isPresent();
         BanFlag banFlag = zone.getFlag(FlagTypes.BAN).orElse(new BanFlag());
         InviteFlag inviteFlag = zone
                 .getFlag(FlagTypes.INVITE)

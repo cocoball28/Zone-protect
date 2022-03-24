@@ -7,7 +7,9 @@ import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalUnit;
 
 /**
- * A enum of units of time that works on minecraft server
+ * An enum of units of time that works on minecraft server
+ *
+ * @since 1.0.1
  */
 public enum TimeUnits {
 
@@ -30,6 +32,7 @@ public enum TimeUnits {
      * Gets the temporal unit
      *
      * @return the unit of time
+     * @since 1.0.1
      */
     public @NotNull TemporalUnit getUnit() {
         return this.unit;

@@ -28,7 +28,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * A area that follows specific rules
+ * An area that follows specific rules
+ *
+ * @since 1.0.0
  */
 public class Zone implements Identifiable {
 
@@ -59,6 +61,7 @@ public class Zone implements Identifiable {
      * Gets all the entities found in the regions of the zone
      *
      * @return a collection of entities found within the region
+     * @since 1.0.0
      */
     public Collection<Entity> getEntities(double minHeight, double maxHeight) {
         Optional<? extends World<?, ?>> opWorld = this.getWorld();
@@ -80,6 +83,7 @@ public class Zone implements Identifiable {
      * default world on the client
      *
      * @return The world key
+     * @since 1.0.0
      */
     public Optional<ResourceKey> getWorldKey() {
         return Optional.ofNullable(this.world);
@@ -90,6 +94,7 @@ public class Zone implements Identifiable {
      * world is not loaded.
      *
      * @return The world object
+     * @since 1.0.0
      */
     public Optional<? extends World<?, ?>> getWorld() {
         if (this.world == null) {
@@ -99,11 +104,12 @@ public class Zone implements Identifiable {
     }
 
     /**
-     * Gets the parent to this zone. If the zone is a sub region then it will have a parent, if
-     * the zone is a regular zone then it wont. Note use {@link Zone#getParentId()} where
+     * Gets the parent to this zone. If the zone is a subregion then it will have a parent, if
+     * the zone is a regular zone then it won't. Note use {@link Zone#getParentId()} where
      * possible as this searches for the zone
      *
      * @return The parent zone
+     * @since 1.0.0
      */
     public @NotNull Optional<Zone> getParent() {
         return ZonePlugin.getZonesPlugin().getZoneManager().getZone(this.parentId);
@@ -114,6 +120,7 @@ public class Zone implements Identifiable {
      * the zone is a regular zone then it wont.
      *
      * @return The id of the parent zone
+     * @since 1.0.0
      */
     public @NotNull Optional<String> getParentId() {
         return Optional.ofNullable(this.parentId);
@@ -125,6 +132,7 @@ public class Zone implements Identifiable {
      * @param flag The instance to check
      *
      * @return true if the flag is present
+     * @since 1.0.0
      */
     public boolean containsFlag(@NotNull Flag flag) {
         //noinspection SuspiciousMethodCalls
@@ -137,6 +145,7 @@ public class Zone implements Identifiable {
      * @param type the type of flag
      *
      * @return true if a flag has the same type as provided
+     * @since 1.0.0
      */
     public boolean containsFlag(@NotNull FlagType<?> type) {
         //noinspection unchecked
@@ -149,6 +158,7 @@ public class Zone implements Identifiable {
      * Gets the flags of this zone
      *
      * @return A collection of the flags that zone has
+     * @since 1.0.0
      */
     public @NotNull Collection<Flag> getFlags() {
         return Collections.unmodifiableCollection(this.flags);
@@ -160,6 +170,7 @@ public class Zone implements Identifiable {
      * @param type The flag type to remove
      *
      * @return if the flag was removed
+     * @since 1.0.0
      */
     public boolean removeFlag(@NotNull FlagType<?> type) {
         return this.removeFlag(type, true);
@@ -197,6 +208,7 @@ public class Zone implements Identifiable {
      * @param flag The flag to add
      *
      * @return If the flag was added
+     * @since 1.0.0
      */
     public boolean addFlag(@NotNull Flag flag) {
         return this.addFlag(flag, true);
@@ -226,6 +238,7 @@ public class Zone implements Identifiable {
      * @param flag The flag to add
      *
      * @return If the flag was added
+     * @since 1.0.0
      */
     @SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
     public boolean setFlag(@NotNull Flag flag) {
@@ -248,15 +261,17 @@ public class Zone implements Identifiable {
      * Gets the regions that the zone covers. A zone can cover multiple regions at once
      *
      * @return The region the zone is covering
+     * @since 1.0.0
      */
     public @NotNull ChildRegion getRegion() {
         return this.region;
     }
 
     /**
-     * saves the zone
+     * Saves the zone
      *
      * @throws ConfigurateException If the zone cannot be saved
+     * @since 1.0.0
      */
     public void save() throws ConfigurateException {
         ZonePlugin.getZonesPlugin().getZoneManager().save(this);
@@ -270,7 +285,8 @@ public class Zone implements Identifiable {
      * @param <T>  the class of the flag type
      *
      * @return The flag that is assigned to the type, if {@link Optional#empty()} then the flag
-     * is not applied to this zone
+     *         is not applied to this zone
+     * @since 1.0.0
      */
     public <F extends Flag, T extends FlagType<F>> @NotNull Optional<F> getFlag(@NotNull T type) {
         Optional<F> opFlag = this
@@ -301,6 +317,7 @@ public class Zone implements Identifiable {
      * Gets the member flag of this zone. This is a flag that should never be removed from the zone
      *
      * @return The membersFlag
+     * @since 1.0.0
      */
     public MembersFlag getMembers() {
         //noinspection no-member-method
@@ -315,6 +332,7 @@ public class Zone implements Identifiable {
      * zone
      *
      * @return The economy flag
+     * @since 1.0.1
      */
     public BalanceFlag getEconomy() {
         //noinspection no-eco-method
@@ -359,7 +377,8 @@ public class Zone implements Identifiable {
      * @param world    The world to compare
      * @param vector3i the block position to compare
      *
-     * @return true if found within the zone
+     * @return True if found within the zone
+     * @since 1.0.0
      */
     public boolean inRegion(@Nullable World<?, ?> world, @NotNull Vector3d vector3i) {
         if (world != null) {
@@ -377,7 +396,8 @@ public class Zone implements Identifiable {
      *
      * @param location The location to compare
      *
-     * @return true if found within the zone
+     * @return True if found within the zone
+     * @since 1.0.0
      */
     public boolean inRegion(@NotNull Location<?, ?> location) {
         return this.inRegion(location.world(), location.position());
@@ -389,7 +409,8 @@ public class Zone implements Identifiable {
      *
      * @param locatable The locatable to compare
      *
-     * @return true if found within the zone
+     * @return True if found within the zone
+     * @since 1.0.0
      */
     public boolean inRegion(@NotNull Locatable locatable) {
         return this.inRegion(locatable.location());

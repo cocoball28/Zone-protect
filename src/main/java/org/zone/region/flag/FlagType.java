@@ -10,7 +10,7 @@ import org.zone.region.flag.meta.tag.TagsFlagType;
 import java.util.Optional;
 
 /**
- * A flag type is the specific type of a flag, each flag should have a unique FlagType which is
+ * A flag type is the specific type of flag, each flag should have a unique FlagType which is
  * designed to serialize and deserialize the flag as well as provide generic metadata about the flag itself
  *
  * @param <F> The class type of the attached flag
@@ -42,7 +42,7 @@ public interface FlagType<F extends Flag> extends Identifiable, Comparable<FlagT
     }
 
     /**
-     * Checks if the provided zone can accept a instance of this flag
+     * Checks if the provided zone can accept an instance of this flag
      *
      * @param zone the zone to compare
      *

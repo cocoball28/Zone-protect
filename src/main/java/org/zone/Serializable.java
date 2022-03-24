@@ -16,6 +16,7 @@ public interface Serializable<F> {
      * @return The loaded value
      *
      * @throws IOException If failed to load
+     * @since 1.0.1
      */
     @NotNull F load(@NotNull ConfigurationNode node) throws IOException;
 
@@ -27,6 +28,7 @@ public interface Serializable<F> {
      * @param save The value to save
      *
      * @throws IOException If failed to save
+     * @since 1.0.1
      */
     void save(@NotNull ConfigurationNode node, @Nullable F save) throws IOException;
 

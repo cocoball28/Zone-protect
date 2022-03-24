@@ -18,13 +18,13 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Optional;
 
-public class DefaultTitleFadeInNode implements ZoneNode.WithDefault<TimeDuration> {
+public class DefaultTitleFadeOutNode implements ZoneNode.WithDefault<TimeDuration> {
 
-    private class DefaultTitleFadeInConfigCommandTimeNode implements ConfigCommandNode<Integer> {
+    private class DefaultTitleFadeOutConfigCommandTimeNode implements ConfigCommandNode<Integer> {
 
         @Override
         public String getDisplayId() {
-            return "zone.message.title.fadeIn.length";
+            return "zone.message.title.fadeOut.length";
         }
 
         @Override
@@ -36,12 +36,12 @@ public class DefaultTitleFadeInNode implements ZoneNode.WithDefault<TimeDuration
         public CommandResult onChange(
                 CommandContext context, Integer newValue) {
             try {
-                if (DefaultTitleFadeInNode.this.get(ZonePlugin.getZonesPlugin().getConfig()).isEmpty()) {
-                    DefaultTitleFadeInNode.this.set(ZonePlugin.getZonesPlugin().getConfig(),
+                if (DefaultTitleFadeOutNode.this.get(ZonePlugin.getZonesPlugin().getConfig()).isEmpty()) {
+                    DefaultTitleFadeOutNode.this.set(ZonePlugin.getZonesPlugin().getConfig(),
                             new TimeDuration(TimeUnits.SECONDS, newValue));
                 }
-                DefaultTitleFadeInNode.this.set(ZonePlugin.getZonesPlugin().getConfig(),
-                        new TimeDuration(DefaultTitleFadeInNode.this.get(ZonePlugin.getZonesPlugin()
+                DefaultTitleFadeOutNode.this.set(ZonePlugin.getZonesPlugin().getConfig(),
+                        new TimeDuration(DefaultTitleFadeOutNode.this.get(ZonePlugin.getZonesPlugin()
                                 .getConfig()).get().getTimeUnit(),
                                 newValue));
                 return CommandResult.success();
@@ -52,11 +52,11 @@ public class DefaultTitleFadeInNode implements ZoneNode.WithDefault<TimeDuration
         }
     }
 
-    private class DefaultTitleFadeInConfigCommandTimeUnitsNode implements ConfigCommandNode<TimeUnits> {
+    private class DefaultTitleFadeOutTimeUnitConfigCommandNode implements ConfigCommandNode<TimeUnits> {
 
         @Override
         public String getDisplayId() {
-            return "zone.message.title.fadeIn.timeUnit";
+            return "zone.message.title,fadeOut.timeUnit";
         }
 
         @Override
@@ -67,13 +67,13 @@ public class DefaultTitleFadeInNode implements ZoneNode.WithDefault<TimeDuration
         @Override
         public CommandResult onChange(CommandContext context, TimeUnits newValue) {
             try {
-                if (DefaultTitleFadeInNode.this.get(ZonePlugin.getZonesPlugin().getConfig()).isEmpty()) {
-                    DefaultTitleFadeInNode.this.set(ZonePlugin.getZonesPlugin().getConfig(),
+                if (DefaultTitleFadeOutNode.this.get(ZonePlugin.getZonesPlugin().getConfig()).isEmpty()) {
+                    DefaultTitleFadeOutNode.this.set(ZonePlugin.getZonesPlugin().getConfig(),
                             new TimeDuration(newValue, 5));
                 } else {
-                    DefaultTitleFadeInNode.this.set(ZonePlugin.getZonesPlugin().getConfig(),
+                    DefaultTitleFadeOutNode.this.set(ZonePlugin.getZonesPlugin().getConfig(),
                             new TimeDuration(newValue,
-                                    DefaultTitleFadeInNode.this.get(ZonePlugin.getZonesPlugin()
+                                    DefaultTitleFadeOutNode.this.get(ZonePlugin.getZonesPlugin()
                                             .getConfig()).get().getLength()));
                 }
                 return CommandResult.success();
@@ -91,7 +91,7 @@ public class DefaultTitleFadeInNode implements ZoneNode.WithDefault<TimeDuration
 
     @Override
     public Object[] getNode() {
-        return new Object[] {"zone", "message", "title", "fadeIn"};
+        return new Object[] {"zone", "message", "title", "fadeOut"};
     }
 
     @Override
@@ -101,12 +101,13 @@ public class DefaultTitleFadeInNode implements ZoneNode.WithDefault<TimeDuration
 
     @Override
     public Collection<ConfigCommandNode<?>> getNodes() {
-        return Arrays.asList(new DefaultTitleFadeInConfigCommandTimeNode(), new DefaultTitleFadeInConfigCommandTimeUnitsNode());
+        return Arrays.asList(new DefaultTitleFadeOutConfigCommandTimeNode(), new DefaultTitleFadeOutTimeUnitConfigCommandNode());
     }
 
     @Override
-    public void set(CommentedConfigurationNode node, TimeDuration timeDuration)
-            throws SerializationException {
+    public void set(
+            CommentedConfigurationNode node, TimeDuration timeDuration) throws
+            SerializationException {
         node.node("Length").set(timeDuration.getLength());
         node.node("Unit").set(timeDuration.getTimeUnit().name());
     }
@@ -121,5 +122,4 @@ public class DefaultTitleFadeInNode implements ZoneNode.WithDefault<TimeDuration
         }
         return Optional.of(new TimeDuration(unit, length));
     }
-
 }

@@ -103,7 +103,7 @@ public class PlayerListener {
                         BossBar.Color.BLUE,
                         BossBar.Overlay.PROGRESS));
         bossBar.name(costPrice.getDisplayName());
-        bossBar.progress(percent / 100);
+        bossBar.progress(finalPercent);
         bossBar.color(percent < 0.0 ? BossBar.Color.RED : BossBar.Color.GREEN);
 
         ZonePlugin

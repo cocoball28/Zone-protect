@@ -9,6 +9,7 @@ public interface Identifiable {
      * Gets the name of the {@link Identifiable}
      *
      * @return The name of the {@link Identifiable}
+     * @since 1.0.0
      */
     @NotNull String getName();
 
@@ -16,6 +17,7 @@ public interface Identifiable {
      * Gets the plugin container of a plugin. Here, {@link ZonePlugin#getPluginContainer()}
      *
      * @return The plugin container of a plugin.
+     * @since 1.0.0
      */
     @NotNull PluginContainer getPlugin();
 
@@ -25,6 +27,7 @@ public interface Identifiable {
      * A key is just the name of the {@link Identifiable} in lower case
      *
      * @return The key of the {@link Identifiable}
+     * @since 1.0.0
      */
     @NotNull String getKey();
 
@@ -34,6 +37,7 @@ public interface Identifiable {
      * An id is just the Plugin id + the key
      *
      * @return The id of the {@link Identifiable}
+     * @since 1.0.0
      */
     default @NotNull String getId() {
         return this.getPlugin().metadata().id() + ":" + this.getKey();

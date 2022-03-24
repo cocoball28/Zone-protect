@@ -12,7 +12,6 @@ import org.zone.region.flag.entity.player.display.MessageDisplayType;
 import org.zone.region.flag.entity.player.display.MessageDisplayTypes;
 
 import java.time.Duration;
-import java.util.Optional;
 
 public class TitleMessageDisplay implements MessageDisplay {
 
@@ -40,10 +39,13 @@ public class TitleMessageDisplay implements MessageDisplay {
     /**
      * Gets the fade in duration of the Title message
      *
-     * @return Optional nullable version of fade in duration
+     * @return The fade in duration
      */
-    public @NotNull Optional<Duration> getFadeIn() {
-        return Optional.ofNullable(this.fadeIn);
+    public @NotNull Duration getFadeIn() {
+        if (this.fadeIn == null) {
+            return ZonePlugin.getZonesPlugin().getConfig().getOrElse(ZoneNodes.DEFAULT_TITLE_FADE_IN).asDuration();
+        }
+        return this.fadeIn;
     }
 
     /**
@@ -51,8 +53,11 @@ public class TitleMessageDisplay implements MessageDisplay {
      *
      * @return Optional nullable version of stay duration
      */
-    public @NotNull Optional<Duration> getStay() {
-        return Optional.ofNullable(this.stay);
+    public @NotNull Duration getStay() {
+        if (this.stay == null) {
+            return ZonePlugin.getZonesPlugin().getConfig().getOrElse(ZoneNodes.DEFAULT_TITLE_STAY).asDuration();
+        }
+        return this.stay;
     }
 
     /**
@@ -60,8 +65,11 @@ public class TitleMessageDisplay implements MessageDisplay {
      *
      * @return Optional nullable version of fade out duration
      */
-    public @NotNull Optional<Duration> getFadeOut() {
-        return Optional.ofNullable(this.fadeOut);
+    public @NotNull Duration getFadeOut() {
+        if (this.fadeOut == null) {
+            return ZonePlugin.getZonesPlugin().getConfig().getOrElse(ZoneNodes.DEFAULT_TITLE_FADE_OUT).asDuration();
+        }
+        return this.fadeOut;
     }
 
     /**
@@ -106,12 +114,9 @@ public class TitleMessageDisplay implements MessageDisplay {
      * @return {@link Title.Times} for the title
      */
     public @NotNull Title.Times getTimes() {
-        Duration fadeIn =
-                this.getFadeIn().orElseGet(() -> ZonePlugin.getZonesPlugin().getConfig().getOrElse(ZoneNodes.DEFAULT_TITLE_FADE_IN).asDuration());
-        Duration stay =
-                this.getStay().orElseGet(() -> ZonePlugin.getZonesPlugin().getConfig().getOrElse(ZoneNodes.DEFAULT_TITLE_FADE_IN).asDuration());
-        Duration fadeOut =
-                this.getFadeOut().orElseGet(() -> ZonePlugin.getZonesPlugin().getConfig().getOrElse(ZoneNodes.DEFAULT_TITLE_FADE_IN).asDuration());
+        Duration fadeIn = this.getFadeIn();
+        Duration stay = this.getStay();
+        Duration fadeOut = this.getFadeOut();
         return Title.Times.of(fadeIn, stay, fadeOut);
     }
 

@@ -3,6 +3,7 @@ package org.zone.utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import org.checkerframework.checker.units.qual.C;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.profile.GameProfile;
 import org.spongepowered.api.service.economy.Currency;
@@ -409,7 +410,7 @@ public final class Messages {
 
     public static Component getZoneConfigReloadFail() {
         return Component
-                .text("Couldn't reload config! Below is the cause of the error")
+                .text("Couldn't reload config! Below is the cause of the error:")
                 .color(NamedTextColor.RED);
     }
 
@@ -756,16 +757,20 @@ public final class Messages {
         return Component.text("Set the display type of the greetings message to chat");
     }
 
+    public static Component getGreetingsDisplaySetTitleSubtitleCommandDescription() {
+        return Component.text("Sets the display type of greetings message to title with subtitle");
+    }
+
     public static Component getGreetingsDisplaySetTitleFadeInCommandDescription() {
-        return Component.text("Set the display type of the greetings message to title with only fadeIn duration and subtitle");
+        return Component.text("Sets the display type of greetings message to title with fadeIn duration");
     }
 
     public static Component getGreetingsDisplaySetTitleStayCommandDescription() {
-        return Component.text("Set the display type of the greetings message to title with only stay duration");
+        return Component.text("Sets the display type of greetings message to title with stay duration");
     }
 
     public static Component getGreetingsDisplaySetTitleFadeOutCommandDescription() {
-        return Component.text("Set the display type of the greetings message to title with only fadeOut duration");
+        return Component.text("Sets the display type of greetings message to title with fadeOut duration");
     }
 
     public static Component getGreetingsDisplaySetBossBarCommandDescription() {
@@ -776,16 +781,20 @@ public final class Messages {
         return Component.text("Set the display type of the leaving message to chat");
     }
 
+    public static Component getLeavingDisplaySetTitleSubtitleCommandDescription() {
+        return Component.text("Sets the display type of the leaving message to title with subtitle");
+    }
+
     public static Component getLeavingDisplaySetTitleFadeInCommandDescription() {
-        return Component.text("Set the display type of the leaving message to title with only fade in duration and subtitle");
+        return Component.text("Sets the display type of the leaving message to title with fade in duration and subtitle");
     }
 
     public static Component getLeavingDisplaySetTitleStayCommandDescription() {
-        return Component.text("Set the display type of the leaving message to title with stay duration");
+        return Component.text("Sets the display type of the leaving message to title with stay duration");
     }
 
     public static Component getLeavingDisplaySetTitleFadeOutCommandDescription() {
-        return Component.text("Set the display type of the leaving message to title with fade out duration");
+        return Component.text("Sets the display type of the leaving message to title with fade out duration");
     }
 
     public static Component getLeavingDisplaySetBossBarCommandDescription() {

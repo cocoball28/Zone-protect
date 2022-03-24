@@ -1,6 +1,5 @@
 package org.zone.region.flag.entity.player.display.bossbar;
 
-import net.kyori.adventure.bossbar.BossBar;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
@@ -33,7 +32,7 @@ public class BossBarMessageDisplayType implements MessageDisplayType<BossBarMess
         if (displayTypeID == null) {
             throw new IOException("Couldn't get the display type");
         }
-        return new BossBarMessageDisplayBuilder().setProgress(0).setColor(null).setOverlay(null).build();
+        return new BossBarMessageDisplayBuilder().build();
     }
 
     @Override
@@ -48,6 +47,6 @@ public class BossBarMessageDisplayType implements MessageDisplayType<BossBarMess
 
     @Override
     public BossBarMessageDisplay createCopyOfDefault() {
-        return new BossBarMessageDisplayBuilder().setProgress(0).setColor(null).setOverlay(null).build();
+        return new BossBarMessageDisplayBuilder().build();
     }
 }

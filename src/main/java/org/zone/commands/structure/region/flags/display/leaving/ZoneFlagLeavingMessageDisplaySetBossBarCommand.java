@@ -9,7 +9,7 @@ import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.simple.EnumArgument;
-import org.zone.commands.system.arguments.simple.number.IntegerArgument;
+import org.zone.commands.system.arguments.simple.number.RangeArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.permissions.ZonePermission;
@@ -30,7 +30,8 @@ public class ZoneFlagLeavingMessageDisplaySetBossBarCommand implements ArgumentC
     public static final ZoneArgument ZONE_ID = new ZoneArgument("zoneId",
             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
                     ZonePermissions.OVERRIDE_FLAG_LEAVING_MESSAGE_SET_BOSS_BAR));
-    public static final IntegerArgument PROGRESS = new IntegerArgument("progress");
+    public static final RangeArgument<Integer> PROGRESS = RangeArgument.createArgument("progress"
+            , 0, 100);
     public static final EnumArgument<BossBar.Color> COLOR = new EnumArgument<>(
             "color", BossBar.Color.class);
     public static final EnumArgument<BossBar.Overlay> OVERLAY = new EnumArgument<>("overlay",

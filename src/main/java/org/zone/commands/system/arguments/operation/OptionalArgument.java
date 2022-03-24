@@ -129,4 +129,9 @@ public class OptionalArgument<T> implements CommandArgument<T> {
         return new OptionalArgument<>(new MappedArgument<>(argument, Optional::of),
                 Optional.empty());
     }
+
+    public static <T> OptionalArgument<Optional<T>> createArgument(CommandArgument<? extends T> argument, boolean blockSuggestions) {
+        return new OptionalArgument<>(new MappedArgument<>(argument, Optional::of),
+                Optional.empty(), blockSuggestions);
+    }
 }

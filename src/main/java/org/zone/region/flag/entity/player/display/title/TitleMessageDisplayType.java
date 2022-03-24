@@ -1,6 +1,5 @@
 package org.zone.region.flag.entity.player.display.title;
 
-import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
@@ -33,7 +32,7 @@ public class TitleMessageDisplayType implements MessageDisplayType<TitleMessageD
         if (displayTypeID == null) {
             throw new IOException("Couldn't get the display type");
         }
-        return new TitleMessageDisplayBuilder().setSubTitle(Component.empty()).setFadeIn(null).setStay(null).setFadeOut(null).build();
+        return new TitleMessageDisplayBuilder().build();
     }
 
     @Override
@@ -48,6 +47,6 @@ public class TitleMessageDisplayType implements MessageDisplayType<TitleMessageD
 
     @Override
     public TitleMessageDisplay createCopyOfDefault() {
-        return new TitleMessageDisplayBuilder().setSubTitle(Component.empty()).setFadeIn(null).setStay(null).setFadeOut(null).build();
+        return new TitleMessageDisplayBuilder().build();
     }
 }

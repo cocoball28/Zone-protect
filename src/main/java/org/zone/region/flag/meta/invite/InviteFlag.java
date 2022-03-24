@@ -22,8 +22,6 @@ public class InviteFlag implements Flag.Serializable {
         this(Arrays.asList(invites));
     }
 
-    public InviteFlag() {}
-
     public @NotNull Collection<UUID> getInvites() {
         return this.invites;
     }

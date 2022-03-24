@@ -1,12 +1,8 @@
 package org.zone.region.flag.entity.player.display;
 
-import org.jetbrains.annotations.NotNull;
 import org.zone.region.flag.entity.player.display.bossbar.BossBarMessageDisplayType;
 import org.zone.region.flag.entity.player.display.chat.ChatMessageDisplayType;
 import org.zone.region.flag.entity.player.display.title.TitleMessageDisplayType;
-
-import java.util.*;
-import java.util.stream.Collectors;
 
 public final class MessageDisplayTypes {
 

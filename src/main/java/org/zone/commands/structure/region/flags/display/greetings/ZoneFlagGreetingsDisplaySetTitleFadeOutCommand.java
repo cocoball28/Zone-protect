@@ -36,8 +36,7 @@ public class ZoneFlagGreetingsDisplaySetTitleFadeOutCommand implements ArgumentC
     public static final RangeArgument<Integer> FADE_OUT = RangeArgument.createArgument("fadeOut", 0
             , Integer.MAX_VALUE);
     public static final TimeUnitArgument UNIT = new TimeUnitArgument("unit",
-            Arrays.stream(TimeUnits.values()).collect(
-                    Collectors.toMap(TimeUnits::name, TimeUnits::getUnit)));
+            Arrays.asList(TimeUnits.TICKS, TimeUnits.SECONDS));
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {

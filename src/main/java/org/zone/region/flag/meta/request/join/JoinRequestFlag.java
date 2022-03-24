@@ -18,10 +18,6 @@ public class JoinRequestFlag implements Flag.Serializable {
         this(Arrays.asList(joinRequests));
     }
 
-    public JoinRequestFlag() {
-        //empty constructor
-    }
-
     public @NotNull Collection<UUID> getJoins() {
         return Collections.unmodifiableCollection(this.joinRequests);
     }
