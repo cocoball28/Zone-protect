@@ -422,7 +422,7 @@ public enum ZonePermissions implements ZonePermission {
             "display",
             "set",
             "chat"),
-    OVERRIDE_FLAG_LEAVING_MESSAGE_SET_TITLE_SUBTITLE(false,
+    OVERRIDE_FLAG_LEAVING_MESSAGE_SET_SUBTITLE(false,
             "zone",
             "override",
             "region",
