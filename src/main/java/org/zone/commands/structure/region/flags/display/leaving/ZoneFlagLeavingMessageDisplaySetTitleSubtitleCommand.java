@@ -27,7 +27,7 @@ public class ZoneFlagLeavingMessageDisplaySetTitleSubtitleCommand implements Arg
 
     public static final ZoneArgument ZONE_ID = new ZoneArgument("zoneId",
             new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
-                    ZonePermissions.OVERRIDE_FLAG_LEAVING_MESSAGE_SET_TITLE_SUBTITLE));
+                    ZonePermissions.OVERRIDE_FLAG_LEAVING_MESSAGE_SET_SUBTITLE));
     public static final ComponentRemainingArgument SUBTITLE = new ComponentRemainingArgument(
             "subtitle");
 
