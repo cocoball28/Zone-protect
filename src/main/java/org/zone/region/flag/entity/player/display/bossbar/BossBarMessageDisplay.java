@@ -24,6 +24,7 @@ public class BossBarMessageDisplay implements MessageDisplay {
      * Gets the progress of the {@link BossBar}
      *
      * @return The progress
+     * @since 1.0.1
      */
     public float getProgress() {
         return this.progress;
@@ -33,6 +34,7 @@ public class BossBarMessageDisplay implements MessageDisplay {
      * Gets the colour of the {@link BossBar}
      *
      * @return The colour
+     * @since 1.0.1
      */
     public @NotNull BossBar.Color getColor() {
         return this.color;
@@ -42,6 +44,7 @@ public class BossBarMessageDisplay implements MessageDisplay {
      * Gets the overlay of the {@link BossBar}
      *
      * @return The overlay
+     * @since 1.0.1
      */
     public @NotNull BossBar.Overlay getOverlay() {
         return this.overlay;
@@ -51,6 +54,7 @@ public class BossBarMessageDisplay implements MessageDisplay {
      * Sets the progress of the {@link BossBar}
      *
      * @param progress The progress to be set
+     * @since 1.0.1
      */
     public void setBossBarProgress(float progress) {
         this.progress = progress;
@@ -60,7 +64,7 @@ public class BossBarMessageDisplay implements MessageDisplay {
      * Sets the colour of the {@link BossBar}
      *
      * @param color The colour to be set
-     * @see BossBar.Color
+     * @since 1.0.1
      */
     public void setBossBarColor(@NotNull BossBar.Color color) {
         this.color = color;
@@ -70,7 +74,7 @@ public class BossBarMessageDisplay implements MessageDisplay {
      * Sets the overlay for the {@link BossBar}
      *
      * @param overlay The overlay to be set
-     * @see BossBar.Overlay
+     * @since 1.0.1
      */
     public void setBossBarOverlay(@NotNull BossBar.Overlay overlay) {
         this.overlay = overlay;

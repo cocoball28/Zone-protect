@@ -9,6 +9,8 @@ import org.zone.utils.Messages;
 
 /**
  * A price for a zones power level
+ *
+ * @since 1.0.1
  */
 public class ZonePowerPrice implements Price.ZonePrice<Long> {
 
@@ -41,12 +43,12 @@ public class ZonePowerPrice implements Price.ZonePrice<Long> {
     }
 
     @Override
-    public Long getAmount() {
+    public @NotNull Long getAmount() {
         return this.price;
     }
 
     @Override
-    public PriceType getType() {
+    public @NotNull PriceType getType() {
         return PriceType.POWER;
     }
 

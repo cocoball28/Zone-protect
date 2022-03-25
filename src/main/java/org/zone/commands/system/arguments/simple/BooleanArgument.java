@@ -19,6 +19,8 @@ import java.util.Set;
 
 /**
  * A boolean argument for a command
+ *
+ * @since 1.0.0
  */
 public class BooleanArgument implements GUICommandArgument<Boolean> {
 
@@ -29,16 +31,18 @@ public class BooleanArgument implements GUICommandArgument<Boolean> {
     /**
      * Accepts the traditional true/false
      * @param id The id of the argument
+     * @since 1.0.0
      */
     public BooleanArgument(@NotNull String id) {
         this(id, "true", "false");
     }
 
     /**
-     * For text other then true/false
+     * For text other than true/false
      * @param id The id of the argument
      * @param trueString The text to use for if the value is true
      * @param falseString The text to use for if the value is false
+     * @since 1.0.0
      */
     public BooleanArgument(@NotNull String id, @NotNull String trueString, @NotNull String falseString) {
         this.id = id;

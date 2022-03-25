@@ -6,7 +6,9 @@ import org.spongepowered.api.world.World;
 import org.spongepowered.math.vector.Vector3i;
 
 /**
- * Used to wrap the shift. Does not changes the position
+ * Used to wrap the shift. Does not change the position
+ *
+ * @since 1.0.0
  */
 public class BlockBoundMode implements BoundMode {
     @Override

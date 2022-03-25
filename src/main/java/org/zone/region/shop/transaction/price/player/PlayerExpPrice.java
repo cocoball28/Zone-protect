@@ -10,6 +10,8 @@ import org.zone.region.shop.transaction.price.PriceType;
 
 /**
  * The price for player exp
+ *
+ * @since 1.0.1
  */
 public class PlayerExpPrice implements Price.PlayerPrice<Integer> {
 
@@ -53,12 +55,12 @@ public class PlayerExpPrice implements Price.PlayerPrice<Integer> {
     }
 
     @Override
-    public Integer getAmount() {
+    public @NotNull Integer getAmount() {
         return this.exp;
     }
 
     @Override
-    public PriceType getType() {
+    public @NotNull PriceType getType() {
         return PriceType.EXP;
     }
 

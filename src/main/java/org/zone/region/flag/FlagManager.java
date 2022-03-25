@@ -14,7 +14,8 @@ import java.util.stream.Stream;
 /**
  * The manager of all flags, this is where you should register your custom flag or get all flags.
  * <p>
- * use {@link ZonePlugin#getFlagManager()} to get an instance of this flag manager
+ * Use {@link ZonePlugin#getFlagManager()} to get an instance of this flag manager
+ * @since 1.0.0
  */
 public class FlagManager implements IdentifiableManager.Typed<FlagType<?>> {
 
@@ -33,6 +34,7 @@ public class FlagManager implements IdentifiableManager.Typed<FlagType<?>> {
      * Gets all known flag types in an unmodifiable collection
      *
      * @return A collection of all known flag types
+     * @since 1.0.0
      */
     @Override
     public Collection<FlagType<?>> getRegistered() {
@@ -47,6 +49,7 @@ public class FlagManager implements IdentifiableManager.Typed<FlagType<?>> {
      * Registers your custom flag type
      *
      * @param type The type to register
+     * @since 1.0.0
      */
     @Override
     public void register(FlagType<?> type) {
@@ -57,6 +60,7 @@ public class FlagManager implements IdentifiableManager.Typed<FlagType<?>> {
      * Gets an instance of the {@link DefaultFlagFile}
      *
      * @return The instance
+     * @since 1.0.0
      */
     public DefaultFlagFile getDefaultFlags() {
         return this.defaultFlags;

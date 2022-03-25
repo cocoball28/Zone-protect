@@ -19,6 +19,8 @@ import java.util.stream.Collectors;
 
 /**
  * Flag used to hold all members
+ *
+ * @since 1.0.0
  */
 public class MembersFlagType implements FlagType.SerializableType<MembersFlag> {
 
@@ -111,7 +113,7 @@ public class MembersFlagType implements FlagType.SerializableType<MembersFlag> {
                                 .map(keyId -> ZonePlugin
                                         .getZonesPlugin()
                                         .getGroupKeyManager()
-                                        .getKeys()
+                                        .getRegistered()
                                         .parallelStream()
                                         .filter(groupKey -> groupKey.getId().equals(keyId))
                                         .findFirst())

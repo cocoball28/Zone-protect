@@ -6,6 +6,8 @@ import java.math.BigDecimal;
 
 /**
  * Builder used for building Transactions
+ *
+ * @since 1.0.1
  */
 public class TransactionBuilder {
 

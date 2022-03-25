@@ -6,6 +6,8 @@ import org.zone.ZonePlugin;
 
 /**
  * All known group keys found within the zones plugin
+ *
+ * @since 1.0.1
  */
 public enum GroupKeys implements GroupKey {
 

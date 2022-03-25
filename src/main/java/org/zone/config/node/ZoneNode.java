@@ -12,6 +12,7 @@ import java.util.Optional;
 /**
  * A node within the Zone config
  * @param <Value>
+ * @since 1.0.1
  */
 @Typed(typesClass = ZoneNodes.class)
 public interface ZoneNode<Value> {

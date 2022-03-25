@@ -16,18 +16,18 @@ import java.util.stream.Collectors;
 
 /**
  * Flag for banning players from a zone
+ *
+ * @since 1.0.1
  */
 public class BanFlag implements Flag.Serializable {
 
-    /**
-     * Collection of ban info
-     */
     private final Collection<BanInfo> banInfo = new HashSet<>();
 
     /**
      * Constructor of BanFlag class
      *
      * @param banInfo the ban information in the form of a collection
+     * @since 1.0.1
      */
     public BanFlag(Collection<? extends BanInfo> banInfo) {
         this.banInfo.addAll(banInfo);
@@ -37,6 +37,7 @@ public class BanFlag implements Flag.Serializable {
      * Second constructor of BanFlag class that can accept a none param
      *
      * @param banInfo the ban information in the form of varag arrays
+     * @since 1.0.1
      */
     public BanFlag(BanInfo... banInfo) {
         this(Arrays.asList(banInfo));
@@ -45,7 +46,8 @@ public class BanFlag implements Flag.Serializable {
     /**
      * Gets the collection of ban information
      *
-     * @return the ban info collection
+     * @return The ban info collection
+     * @since 1.0.1
      */
     public @NotNull Collection<BanInfo> getBanInfo() {
         return this.banInfo;
@@ -54,9 +56,10 @@ public class BanFlag implements Flag.Serializable {
     /**
      * Temporarily bans a player from a zone
      *
-     * @param uuid The uuid of the player
+     * @param uuid          The uuid of the player
      *
      * @param localDateTime The local date and time of when the player was banned (this can be null)
+     * @since 1.0.1
      */
     public void banPlayer(@NotNull UUID uuid, @Nullable LocalDateTime localDateTime) {
         BanInfo banInfo;
@@ -72,6 +75,7 @@ public class BanFlag implements Flag.Serializable {
      * Permanently bans a player from a zone
      *
      * @param uuid The uuid of the player
+     * @since 1.0.1
      */
     public void banPlayer(@NotNull UUID uuid) {
         this.banPlayer(uuid, null);
@@ -81,6 +85,7 @@ public class BanFlag implements Flag.Serializable {
      * Unbans a player from a zone
      *
      * @param uuid the of the player
+     * @since 1.0.1
      */
     public void unbanPlayer(@NotNull UUID uuid) {
         Optional<BanInfo> banInfo = this.banInfo
@@ -99,16 +104,12 @@ public class BanFlag implements Flag.Serializable {
      * @param uuid the uuid of the player
      *
      * @return a boolean checking whether the player is in the list of banned players
+     * @since 1.0.1
      */
     public boolean isBanned(@NotNull UUID uuid) {
         return this.banInfo.stream().anyMatch(banInfo1 -> banInfo1.getId().equals(uuid));
     }
 
-    /**
-     * Gets the type class of this flag
-     *
-     * @return The type from {@link FlagTypes} class. Here, {@link FlagTypes#BAN}
-     */
     @Override
     public @NotNull FlagType.SerializableType<? extends Serializable> getType() {
         return FlagTypes.BAN;

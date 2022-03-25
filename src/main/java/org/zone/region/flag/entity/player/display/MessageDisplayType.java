@@ -11,6 +11,7 @@ public interface MessageDisplayType<T extends MessageDisplay> extends Identifiab
      * Creates an object of the display class
      *
      * @return new object of the display class
+     * @since 1.0.1
      */
     T createCopyOfDefault();
 

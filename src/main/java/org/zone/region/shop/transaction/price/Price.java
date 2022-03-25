@@ -14,6 +14,7 @@ import java.math.BigDecimal;
  *
  * @param <O> The accepting price holder -> such as a {@link org.spongepowered.api.service.economy.account.Account}
  * @param <N> The amount type such as int, double, float, etc
+ * @since 1.0.1
  */
 public interface Price<O, N extends Number> {
 
@@ -35,25 +36,28 @@ public interface Price<O, N extends Number> {
      *
      * @param player The price holder
      *
-     * @return true if they have enough, false if they don't
+     * @return True if they have enough, false if they don't
+     * @since 1.0.1
      */
     boolean hasEnough(@NotNull O player);
 
     /**
-     * withdraws the amount from the price holder
+     * Withdraws the amount from the price holder
      *
      * @param player The price holder
      *
-     * @return true if successful, false if unsuccessful
+     * @return True if successful, false if unsuccessful
+     * @since 1.0.1
      */
     boolean withdraw(O player);
 
     float getPercentLeft(@NotNull O player);
 
     /**
-     * gets the amount of the price
+     * Gets the amount of the price
      *
      * @return The price amount
+     * @since 1.0.1
      */
     @NotNull N getAmount();
 
@@ -61,6 +65,7 @@ public interface Price<O, N extends Number> {
      * The type of the price
      *
      * @return The type of price
+     * @since 1.0.1
      */
     @NotNull PriceType getType();
 
@@ -69,6 +74,7 @@ public interface Price<O, N extends Number> {
      * currency of 30GBP, then it would return '£30'
      *
      * @return The display format
+     * @since 1.0.1
      */
     @NotNull Component getDisplayName();
 
@@ -76,6 +82,7 @@ public interface Price<O, N extends Number> {
      * Returns the price as a builder
      *
      * @return The builder
+     * @since 1.0.1
      */
     default @NotNull PriceBuilder asBuilder() {
         return new PriceBuilder().setType(this.getType()).setAmount(this.getAmount().doubleValue());

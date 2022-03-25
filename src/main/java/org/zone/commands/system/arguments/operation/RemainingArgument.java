@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 /**
  * Gets the remaining arguments left in the command. This must include at least one argument
  * @param <T> The type the remaining should be
+ * @since 1.0.0
  */
 public class RemainingArgument<T> implements CommandArgument<List<T>> {
 
@@ -34,6 +35,7 @@ public class RemainingArgument<T> implements CommandArgument<List<T>> {
     /**
      * Used for if you wish to gain the remaining arguments of a single type
      * @param argument The single argument to check for each remaining argument
+     * @since 1.0.0
      */
     public RemainingArgument(CommandArgument<T> argument) {
         this(argument.getId(), argument);
@@ -41,9 +43,10 @@ public class RemainingArgument<T> implements CommandArgument<List<T>> {
 
     /**
      * Used for if there are multiple possibilities for the remaining argument
-     * @param id The id of the argument -> the arguments in the next parameter, the Id is
+     * @param id The id of the argument -> the arguments in the next parameter, the ID is
      *           ignored, so enter anything you wish
      * @param argument The arguments to check -> this is checked in the order they are passed in
+     * @since 1.0.0
      */
     @SafeVarargs
     public RemainingArgument(String id, CommandArgument<T>... argument) {
@@ -52,9 +55,10 @@ public class RemainingArgument<T> implements CommandArgument<List<T>> {
 
     /**
      * Used for if there are multiple possibilities for the remaining argument
-     * @param id The id of the argument -> the arguments in the next parameter, the Id is
+     * @param id The id of the argument -> the arguments in the next parameter, the ID is
      *           ignored, so enter anything you wish
      * @param argument The arguments to check
+     * @since 1.0.0
      */
     public RemainingArgument(String id, Collection<CommandArgument<T>> argument) {
         if (argument.isEmpty()) {

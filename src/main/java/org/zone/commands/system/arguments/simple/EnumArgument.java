@@ -16,8 +16,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * A enum as a command argument -> any enum value is accepted
- * @param <T>
+ * An enum as a command argument -> any enum value is accepted
+ * @param <T> The enum class
+ * @since 1.0.0
  */
 public class EnumArgument<T extends Enum<T>> implements GUICommandArgument<T> {
 
@@ -28,6 +29,7 @@ public class EnumArgument<T extends Enum<T>> implements GUICommandArgument<T> {
      * Creates the enum argument
      * @param id The id of the argument
      * @param set A set of the enum values -> this can be a subset
+     * @since 1.0.0
      */
     public EnumArgument(@NotNull String id, @NotNull EnumSet<T> set) {
         this.id = id;
@@ -38,6 +40,7 @@ public class EnumArgument<T extends Enum<T>> implements GUICommandArgument<T> {
      * Creates the enum argument
      * @param id The id of the argument
      * @param enumClass The class of the enum
+     * @since 1.0.0
      */
     public EnumArgument(@NotNull String id, @NotNull Class<T> enumClass) {
         this(id, EnumSet.allOf(enumClass));

@@ -70,45 +70,15 @@ import java.util.stream.Stream;
 @Plugin("zones")
 public class ZonePlugin {
 
-    /**
-     * Plugin container of this plugin
-     */
     private final PluginContainer plugin;
-    /**
-     * Logger of this plugin
-     */
     private final Logger logger;
-    /**
-     * Message Display Manager of this plugin
-     */
     private MessageDisplayManager messageDisplayManager;
-    /**
-     * Flag Manager of this plugin
-     */
     private FlagManager flagManager;
-    /**
-     * Zone manager of this plugin
-     */
     private ZoneManager zoneManager;
-    /**
-     * Group key manager of this plugin
-     */
     private GroupKeyManager groupKeyManager;
-    /**
-     * Shops manager of this plugin
-     */
     private ShopManager shopManager;
-    /**
-     * Config of this plugin
-     */
     private ZoneConfig config;
-    /**
-     * Memory Holder of this plugin
-     */
     private MemoryHolder memoryHolder;
-    /**
-     * This plugin
-     */
     private static ZonePlugin zonePlugin;
 
     @SuppressWarnings("SpongeInjection")

@@ -9,6 +9,8 @@ import org.zone.region.flag.FlagType;
 
 /**
  * Fired when a flag is either remove, set or replaced
+ *
+ * @since 1.0.1
  */
 public abstract class FlagChangeEvent implements ZoneEvent {
 
@@ -17,6 +19,8 @@ public abstract class FlagChangeEvent implements ZoneEvent {
 
     /**
      * Fired when a flag is replaced
+     *
+     * @since 1.0.1
      */
     public static class UpdateFlag extends FlagChangeEvent implements Cancellable {
 
@@ -60,6 +64,8 @@ public abstract class FlagChangeEvent implements ZoneEvent {
 
     /**
      * Fired when a flag is removed
+     *
+     * @since 1.0.1
      */
     public static class RemoveFlag extends FlagChangeEvent implements Cancellable {
 
@@ -89,6 +95,8 @@ public abstract class FlagChangeEvent implements ZoneEvent {
 
     /**
      * Fired when a flag is added
+     *
+     * @since 1.0.1
      */
     public static class AddFlag extends FlagChangeEvent implements Cancellable {
 

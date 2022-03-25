@@ -34,6 +34,8 @@ import java.util.stream.Stream;
 
 /**
  * Gets a zone from the command
+ *
+ * @since 1.0.0
  */
 public class ZoneArgument implements GUICommandArgument<Zone> {
 
@@ -104,6 +106,7 @@ public class ZoneArgument implements GUICommandArgument<Zone> {
      * Creates a zone argument that will provide any zone
      *
      * @param id The id of the argument
+     * @since 1.0.0
      */
     public ZoneArgument(@NotNull String id) {
         this(id, new ZoneArgumentPropertiesBuilder());
@@ -114,6 +117,7 @@ public class ZoneArgument implements GUICommandArgument<Zone> {
      *
      * @param id      The id of the argument
      * @param builder The properties to accept
+     * @since 1.0.0
      */
     public ZoneArgument(@NotNull String id, @NotNull ZoneArgumentPropertiesBuilder builder) {
         this.id = id;

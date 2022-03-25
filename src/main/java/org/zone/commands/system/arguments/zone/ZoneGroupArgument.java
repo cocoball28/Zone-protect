@@ -17,6 +17,8 @@ import java.util.stream.Collectors;
 
 /**
  * Gets a Zone group from a command
+ *
+ * @since 1.0.0
  */
 public class ZoneGroupArgument implements CommandArgument<Group> {
 
@@ -29,6 +31,7 @@ public class ZoneGroupArgument implements CommandArgument<Group> {
      *
      * @param id           The id to use for the argument
      * @param zoneArgument The argument of the zone
+     * @since 1.0.0
      */
     public ZoneGroupArgument(@NotNull String id, @NotNull CommandArgument<Zone> zoneArgument) {
         this(id, zoneArgument.getId());

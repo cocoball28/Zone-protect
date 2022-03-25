@@ -1,5 +1,6 @@
 package org.zone.region.flag.entity.player.display;
 
+import org.zone.IdentifiableManager;
 import org.zone.ZonePlugin;
 
 import java.util.Collection;
@@ -7,34 +8,34 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.stream.Collectors;
 
-public class MessageDisplayManager {
+public class MessageDisplayManager implements IdentifiableManager.Typed<MessageDisplayType<?>> {
 
     private final Collection<MessageDisplayType<?>> displayTypes =
-            new HashSet<>();
-
-    public MessageDisplayManager() {
-        this.displayTypes.addAll(ZonePlugin
-                .getZonesPlugin()
-                .getVanillaTypes(MessageDisplayType.class)
-                .map(type -> (MessageDisplayType<?>) type)
-                .collect(Collectors.toSet()));
-    }
+            new HashSet<>(ZonePlugin
+                    .getZonesPlugin()
+                    .getVanillaTypes(MessageDisplayType.class)
+                    .map(type -> (MessageDisplayType<?>) type)
+                    .collect(Collectors.toSet()));
 
     /**
      * Get the registered display types
      *
      * @return The display types available
+     * @since 1.0.1
      */
-    public Collection<MessageDisplayType<?>> getDisplayTypes() {
-        return Collections.unmodifiableCollection(this.displayTypes);
+    @Override
+    public Collection<MessageDisplayType<?>> getRegistered() {
+        return this.displayTypes;
     }
 
     /**
      * Register a new display type
      *
-     * @param displayType The display type
+     * @param type The display type
+     * @since 1.0.1
      */
-    public void registerDisplay(MessageDisplayType<?> displayType) {
-        this.displayTypes.add(displayType);
+    @Override
+    public void register(MessageDisplayType<?> type) {
+        this.displayTypes.add(type);
     }
 }

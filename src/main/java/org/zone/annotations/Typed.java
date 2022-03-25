@@ -10,6 +10,7 @@ import java.lang.annotation.Target;
  * Types class for it.
  *
  * This then allows for {@link org.zone.ZonePlugin#getVanillaTypes(Class)} usage
+ * @since 1.0.1
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})

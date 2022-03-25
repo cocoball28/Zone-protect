@@ -14,6 +14,8 @@ import java.util.stream.Stream;
 
 /**
  * All known nodes for the Zone Config
+ *
+ * @since 1.0.1
  */
 public final class ZoneNodes {
 

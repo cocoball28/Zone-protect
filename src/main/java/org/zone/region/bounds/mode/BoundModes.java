@@ -2,6 +2,8 @@ package org.zone.region.bounds.mode;
 
 /**
  * All known {@link BoundMode} within the ZonePlugin
+ *
+ * @since 1.0.0
  */
 public final class BoundModes {
 

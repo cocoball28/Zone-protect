@@ -22,6 +22,8 @@ import java.util.stream.Collectors;
 
 /**
  * Flag used to hold the zones balance
+ *
+ * @since 1.0.0
  */
 public class BalanceFlagType implements FlagType.SerializableType<BalanceFlag> {
 
@@ -82,7 +84,7 @@ public class BalanceFlagType implements FlagType.SerializableType<BalanceFlag> {
     }
 
     @Override
-    public boolean canApply(Zone zone) {
+    public boolean canApply(@NotNull Zone zone) {
         return zone.getParentId().isEmpty();
     }
 

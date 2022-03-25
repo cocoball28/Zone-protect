@@ -14,6 +14,8 @@ import java.math.BigDecimal;
 
 /**
  * A price for a zones economy
+ *
+ * @since 1.0.1
  */
 public class ZoneEcoPrice implements Price.ZonePrice<BigDecimal>, Price.EcoPrice<Zone> {
 
@@ -36,7 +38,7 @@ public class ZoneEcoPrice implements Price.ZonePrice<BigDecimal>, Price.EcoPrice
     }
 
     @Override
-    public PriceType getType() {
+    public @NotNull PriceType getType() {
         return PriceType.ECO;
     }
 
@@ -70,7 +72,7 @@ public class ZoneEcoPrice implements Price.ZonePrice<BigDecimal>, Price.EcoPrice
     }
 
     @Override
-    public PriceBuilder asBuilder() {
+    public @NotNull PriceBuilder asBuilder() {
         return new PriceBuilder()
                 .setAmount(this.amount.doubleValue())
                 .setCurrency(this.currency)

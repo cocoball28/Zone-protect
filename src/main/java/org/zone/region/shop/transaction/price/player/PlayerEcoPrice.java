@@ -17,6 +17,8 @@ import java.util.Optional;
 
 /**
  * A price class for player economy
+ *
+ * @since 1.0.1
  */
 public class PlayerEcoPrice implements Price.PlayerPrice<BigDecimal>, Price.EcoPrice<Player> {
 
@@ -39,7 +41,7 @@ public class PlayerEcoPrice implements Price.PlayerPrice<BigDecimal>, Price.EcoP
     }
 
     @Override
-    public PriceType getType() {
+    public @NotNull PriceType getType() {
         return PriceType.ECO;
     }
 
@@ -104,7 +106,7 @@ public class PlayerEcoPrice implements Price.PlayerPrice<BigDecimal>, Price.EcoP
     }
 
     @Override
-    public PriceBuilder asBuilder() {
+    public @NotNull PriceBuilder asBuilder() {
         return new PriceBuilder()
                 .setType(PriceType.ECO)
                 .setAmount(this.amount.doubleValue())

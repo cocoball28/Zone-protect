@@ -25,6 +25,8 @@ import java.util.function.Consumer;
 
 /**
  * The listener for all none flag related sponge listeners
+ *
+ * @since 1.0.1
  */
 public class PlayerListener {
 

@@ -10,6 +10,8 @@ import java.util.Optional;
 
 /**
  * All known price types
+ *
+ * @since 1.0.1
  */
 public enum PriceType {
 

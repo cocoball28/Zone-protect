@@ -13,6 +13,7 @@ public class ZoneVisibilityFlag implements Flag.Serializable {
      * Gets the visibility of the zone. By default, it is {@link ZoneVisibility#PRIVATE}
      *
      * @return The visibility of the zone
+     * @since 1.0.1
      */
     public @NotNull ZoneVisibility getZoneVisibility() {
         return this.zoneVisibility;
@@ -22,6 +23,7 @@ public class ZoneVisibilityFlag implements Flag.Serializable {
      * Sets the visibility of the zone
      *
      * @param zoneVisibility The visibility to set
+     * @since 1.0.1
      */
     public void setZoneVisibility(@NotNull ZoneVisibility zoneVisibility) {
         this.zoneVisibility = zoneVisibility;

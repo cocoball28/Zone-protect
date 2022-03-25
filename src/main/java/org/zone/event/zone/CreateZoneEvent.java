@@ -7,6 +7,8 @@ import org.zone.region.Zone;
 
 /**
  * Fired when a zone is created
+ *
+ * @since 1.0.1
  */
 public abstract class CreateZoneEvent implements ZoneEvent {
 
@@ -15,6 +17,8 @@ public abstract class CreateZoneEvent implements ZoneEvent {
 
     /**
      * Fired just before the zone is created
+     *
+     * @since 1.0.1
      */
     public static class Pre extends CreateZoneEvent implements Cancellable {
 
@@ -37,6 +41,8 @@ public abstract class CreateZoneEvent implements ZoneEvent {
 
     /**
      * Fired after the zone is created
+     *
+     * @since 1.0.1
      */
     public static class Post extends CreateZoneEvent {
 

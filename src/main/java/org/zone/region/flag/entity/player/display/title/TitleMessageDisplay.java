@@ -31,6 +31,7 @@ public class TitleMessageDisplay implements MessageDisplay {
      * Gets the subtitle of the Title Message
      *
      * @return The subtitle
+     * @since 1.0.1
      */
     public @NotNull Component getSubTitle() {
         return this.subTitle;
@@ -40,6 +41,7 @@ public class TitleMessageDisplay implements MessageDisplay {
      * Gets the fade in duration of the Title message
      *
      * @return The fade in duration
+     * @since 1.0.1
      */
     public @NotNull Duration getFadeIn() {
         if (this.fadeIn == null) {
@@ -51,7 +53,8 @@ public class TitleMessageDisplay implements MessageDisplay {
     /**
      * Gets the stay duration of the Title message
      *
-     * @return Optional nullable version of stay duration
+     * @return The stay duration
+     * @since 1.0.1
      */
     public @NotNull Duration getStay() {
         if (this.stay == null) {
@@ -63,7 +66,8 @@ public class TitleMessageDisplay implements MessageDisplay {
     /**
      * Gets the fade out duration of the Title message
      *
-     * @return Optional nullable version of fade out duration
+     * @return The fade out duration
+     * @since 1.0.1
      */
     public @NotNull Duration getFadeOut() {
         if (this.fadeOut == null) {
@@ -76,6 +80,7 @@ public class TitleMessageDisplay implements MessageDisplay {
      * Sets the subtitle of the Title message
      *
      * @param subTitle The subtitle component to be set
+     * @since 1.0.1
      */
     public void setSubTitle(@NotNull Component subTitle) {
         this.subTitle = subTitle;
@@ -85,6 +90,7 @@ public class TitleMessageDisplay implements MessageDisplay {
      * Sets the fade in duration of the Title message
      *
      * @param fadeIn The fade in duration to set
+     * @since 1.0.1
      */
     public void setFadeIn(@NotNull Duration fadeIn) {
         this.fadeIn = fadeIn;
@@ -94,6 +100,7 @@ public class TitleMessageDisplay implements MessageDisplay {
      * Sets the stay duration of the Title message
      *
      * @param stay The stay duration to set
+     * @since 1.0.1
      */
     public void setStay(@NotNull Duration stay) {
         this.stay = stay;
@@ -103,6 +110,7 @@ public class TitleMessageDisplay implements MessageDisplay {
      * Sets the fade out duration of the Title message
      *
      * @param fadeOut The fade out duration to set
+     * @since 1.0.1
      */
     public void setFadeOut(@NotNull Duration fadeOut) {
         this.fadeOut = fadeOut;
@@ -112,6 +120,7 @@ public class TitleMessageDisplay implements MessageDisplay {
      * Gets {@link Title.Times} for the title
      *
      * @return {@link Title.Times} for the title
+     * @since 1.0.1
      */
     public @NotNull Title.Times getTimes() {
         Duration fadeIn = this.getFadeIn();

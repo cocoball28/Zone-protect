@@ -15,6 +15,8 @@ import java.util.stream.Collectors;
 
 /**
  * Flag used to hold all members
+ *
+ * @since 1.0.0
  */
 public class MembersFlag implements Flag.Serializable {
 
@@ -65,6 +67,7 @@ public class MembersFlag implements Flag.Serializable {
      * Gets the power level this zone has
      *
      * @return The power level this zone has
+     * @since 1.0.0
      */
     public long getPowerLevel() {
         return this.groups.values().parallelStream().flatMap(Collection::parallelStream).count() -
@@ -85,6 +88,7 @@ public class MembersFlag implements Flag.Serializable {
      * @param key The key to check
      *
      * @return The group holding the key, {@link Optional#empty()} if no group holds the specified key
+     * @since 1.0.0
      */
     public Optional<Group> getGroup(@NotNull GroupKey key) {
         return this.groups
@@ -99,6 +103,7 @@ public class MembersFlag implements Flag.Serializable {
      * Removes the key from all groups
      *
      * @param key The key to remove
+     * @since 1.0.0
      */
     public void removeKey(@NotNull GroupKey key) {
         this.groups.keySet().forEach(group -> group.remove(key));
@@ -109,6 +114,7 @@ public class MembersFlag implements Flag.Serializable {
      *
      * @param group the group to have the key
      * @param key   the key to use
+     * @since 1.0.0
      */
     public void addKey(@NotNull Group group, @NotNull GroupKey key) {
         this.removeKey(key);
@@ -120,6 +126,7 @@ public class MembersFlag implements Flag.Serializable {
      *
      * @param group The group to use
      * @param uuid  the UUID of the player
+     * @since 1.0.0
      */
     public boolean addMember(@NotNull Group group, @NotNull UUID uuid) {
         if (group.contains(GroupKeys.OWNER)) {
@@ -146,6 +153,7 @@ public class MembersFlag implements Flag.Serializable {
      * Gets all members found within this flag
      *
      * @return A collection of members
+     * @since 1.0.0
      */
     public @NotNull Collection<UUID> getMembers() {
         return this.groups
@@ -161,6 +169,7 @@ public class MembersFlag implements Flag.Serializable {
      * @param group the group to check
      *
      * @return A collection of members for that group
+     * @since 1.0.0
      */
     public @NotNull Collection<UUID> getMembers(@NotNull Group group) {
         return this.groups.getOrDefault(group, Collections.emptyList());
@@ -170,6 +179,7 @@ public class MembersFlag implements Flag.Serializable {
      * Gets the groups found in this flag
      *
      * @return a set of groups
+     * @since 1.0.0
      */
     public @NotNull Set<Group> getGroups() {
         return this.groups.keySet();
@@ -181,6 +191,7 @@ public class MembersFlag implements Flag.Serializable {
      * @param uuid UUID of the player
      *
      * @return The group the player belongs to
+     * @since 1.0.0
      */
     public @NotNull Group getGroup(@NotNull UUID uuid) {
         for (java.util.Map.Entry<Group, Collection<UUID>> entry : this.groups.entrySet()) {
@@ -197,6 +208,7 @@ public class MembersFlag implements Flag.Serializable {
      * Sets a player into the visitor group
      *
      * @param uuid the UUID of the player
+     * @since 1.0.0
      */
     public void removeMember(@NotNull UUID uuid) {
         for (Collection<UUID> uuids : this.groups.values()) {
@@ -210,6 +222,8 @@ public class MembersFlag implements Flag.Serializable {
 
     /**
      * Registers custom groups
+     *
+     * @since 1.0.0
      */
     public void registerGroup(@NotNull Group group) {
         this.groups.put(group, new HashSet<>());

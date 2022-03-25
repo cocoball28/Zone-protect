@@ -11,6 +11,8 @@ import java.math.BigDecimal;
 
 /**
  * A helper class for creating prices
+ *
+ * @since 1.0.1
  */
 public class PriceBuilder {
 

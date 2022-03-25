@@ -33,6 +33,8 @@ import org.zone.region.flag.meta.service.ban.flag.BanFlagType;
 
 /**
  * All known default flag types found within the zones plugin
+ *
+ * @since 1.0.0
  */
 public final class FlagTypes {
 

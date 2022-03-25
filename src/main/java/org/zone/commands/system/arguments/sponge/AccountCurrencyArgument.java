@@ -19,6 +19,8 @@ import java.util.stream.Collectors;
 
 /**
  * Gets currency accepted by a account from the command
+ *
+ * @since 1.0.1
  */
 public class AccountCurrencyArgument implements CommandArgument<Currency> {
 

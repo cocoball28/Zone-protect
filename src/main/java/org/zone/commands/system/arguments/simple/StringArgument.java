@@ -12,6 +12,8 @@ import java.util.Set;
 
 /**
  * Gets a string value from a command
+ *
+ * @since 1.0.0
  */
 public class StringArgument implements CommandArgument<String> {
 
@@ -21,6 +23,7 @@ public class StringArgument implements CommandArgument<String> {
      * Creates a string argument
      *
      * @param id The id of the argument
+     * @since 1.0.0
      */
     public StringArgument(@NotNull String id) {
         this.id = id;

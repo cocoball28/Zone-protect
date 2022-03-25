@@ -28,6 +28,8 @@ import java.util.Optional;
 
 /**
  * Event listeners for humans. No need to look at this for API
+ *
+ * @since 1.0.1
  */
 public class HumanAIListener {
 

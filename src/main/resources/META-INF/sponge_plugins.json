@@ -6,7 +6,7 @@
   "license": "GNU GPL 3.0",
   "plugins": [
     {
-      "id": "zone-protect",
+      "id": "zones",
       "name": "zone-protect",
       "version": "1.0.1",
       "entrypoint": "org.zone.ZonePlugin",

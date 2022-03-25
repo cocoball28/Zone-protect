@@ -14,6 +14,7 @@ import java.util.Optional;
  * designed to serialize and deserialize the flag as well as provide generic metadata about the flag itself
  *
  * @param <F> The class type of the attached flag
+ * @since 1.0.0
  */
 @Typed(typesClass = FlagTypes.class)
 public interface FlagType<F extends Flag> extends Identifiable, Comparable<FlagType<?>> {
@@ -46,7 +47,8 @@ public interface FlagType<F extends Flag> extends Identifiable, Comparable<FlagT
      *
      * @param zone the zone to compare
      *
-     * @return if the zone can accept the flag
+     * @return If the zone can accept the flag
+     * @since 1.0.0
      */
     default boolean canApply(@NotNull Zone zone) {
         return true;
@@ -56,6 +58,7 @@ public interface FlagType<F extends Flag> extends Identifiable, Comparable<FlagT
      * Creates a copy of the defaults to this flag. This will be used if a flag cannot be found on a zone
      *
      * @return A copy of the defaults
+     * @since 1.0.0
      */
     @NotNull Optional<F> createCopyOfDefaultFlag();
 

@@ -16,6 +16,7 @@ public class TitleMessageDisplayBuilder {
      * Gets the subtitle of the {@link net.kyori.adventure.title.Title}
      *
      * @return The subtitle
+     * @since 1.0.1
      */
     public Component getSubTitle() {
         return this.subTitle;
@@ -25,6 +26,7 @@ public class TitleMessageDisplayBuilder {
      * Gets the fade in duration for the {@link net.kyori.adventure.title.Title}
      *
      * @return The duration of fade in
+     * @since 1.0.1
      */
     public Duration getFadeIn() {
         return this.fadeIn;
@@ -34,6 +36,7 @@ public class TitleMessageDisplayBuilder {
      * Gets the stay duration for the {@link net.kyori.adventure.title.Title}
      *
      * @return The duration of stay
+     * @since 1.0.1
      */
     public Duration getStay() {
         return this.stay;
@@ -43,6 +46,7 @@ public class TitleMessageDisplayBuilder {
      * Gets the fade in duration for the {@link net.kyori.adventure.title.Title}
      *
      * @return The duration of fade out
+     * @since 1.0.1
      */
     public Duration getFadeOut() {
         return this.fadeOut;
@@ -53,6 +57,7 @@ public class TitleMessageDisplayBuilder {
      *
      * @param subTitle The subtitle to be set
      * @return {@link TitleMessageDisplayBuilder}
+     * @since 1.0.1
      */
     public @NotNull TitleMessageDisplayBuilder setSubTitle(@NotNull Component subTitle) {
         this.subTitle = subTitle;
@@ -64,6 +69,7 @@ public class TitleMessageDisplayBuilder {
      *
      * @param fadeIn The fade in duration to be set
      * @return {@link TitleMessageDisplayBuilder}
+     * @since 1.0.1
      */
     public @NotNull TitleMessageDisplayBuilder setFadeIn(Duration fadeIn) {
         this.fadeIn = fadeIn;
@@ -75,6 +81,7 @@ public class TitleMessageDisplayBuilder {
      *
      * @param stay The stay duration to be set
      * @return {@link TitleMessageDisplayBuilder}
+     * @since 1.0.1
      */
     public @NotNull TitleMessageDisplayBuilder setStay(Duration stay) {
         this.stay = stay;
@@ -86,6 +93,7 @@ public class TitleMessageDisplayBuilder {
      *
      * @param fadeOut The fade out duration to be set
      * @return {@link TitleMessageDisplayBuilder}
+     * @since 1.0.1
      */
     public @NotNull TitleMessageDisplayBuilder setFadeOut(Duration fadeOut) {
         this.fadeOut = fadeOut;
@@ -97,6 +105,7 @@ public class TitleMessageDisplayBuilder {
      * settings
      *
      * @return {@link TitleMessageDisplay} object with the builder being this
+     * @since 1.0.1
      */
     public @NotNull TitleMessageDisplay build() {
         return new TitleMessageDisplay(this);

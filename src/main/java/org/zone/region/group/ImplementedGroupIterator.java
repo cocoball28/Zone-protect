@@ -5,6 +5,8 @@ import java.util.NoSuchElementException;
 
 /**
  * Used for looping over groups
+ *
+ * @since 1.0.0
  */
 public class ImplementedGroupIterator implements Iterator<Group> {
 

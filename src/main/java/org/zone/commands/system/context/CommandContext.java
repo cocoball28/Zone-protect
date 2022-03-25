@@ -24,17 +24,14 @@ public class CommandContext {
      * @param source   The command source who is running the command
      * @param commands The potential commands of the command context
      * @param command  The string arguments that the source wrote
+     * @since 1.0.0
      */
     public CommandContext(
             @NotNull CommandCause source,
             @NotNull Collection<ArgumentCommand> commands,
             @NotNull String... command) {
         Collection<ArgumentCommand> duped = commands.parallelStream().filter(cmd -> {
-            List<String> argIds = cmd
-                    .getArguments()
-                    .stream()
-                    .map(CommandArgument::getId)
-                    .collect(Collectors.toList());
+            List<String> argIds = cmd.getArguments().stream().map(CommandArgument::getId).toList();
             return argIds.parallelStream().anyMatch(arg -> Collections.frequency(argIds, arg) > 1);
         }).collect(Collectors.toSet());
         if (!duped.isEmpty()) {
@@ -53,6 +50,7 @@ public class CommandContext {
      * Gets the raw string arguments that the command source used
      *
      * @return A String array of the raw string arguments
+     * @since 1.0.0
      */
     public @NotNull String[] getCommand() {
         return this.commands;
@@ -62,6 +60,7 @@ public class CommandContext {
      * The source of the command
      *
      * @return The command sender
+     * @since 1.0.0
      */
     public @NotNull Subject getSource() {
         return this.cause.subject();
@@ -83,6 +82,7 @@ public class CommandContext {
      * @param command The command to target
      *
      * @return A list of suggestions for the current context and provided command
+     * @since 1.0.0
      */
     public @NotNull Collection<CommandCompletion> getSuggestions(@NotNull ArgumentCommand command) {
         List<CommandArgument<?>> arguments = command.getArguments();
@@ -133,6 +133,7 @@ public class CommandContext {
      *
      * @throws IllegalArgumentException If the provided id argument is not part of the command
      * @throws IllegalStateException    Argument requested is asking for string requirements then what is provided
+     * @since 1.0.0
      */
     public <T> @NotNull T getArgument(
             @NotNull ArgumentCommand command, @NotNull CommandArgument<T> id) {
@@ -150,6 +151,7 @@ public class CommandContext {
      *
      * @throws IllegalArgumentException If the provided id argument is not part of the command
      * @throws IllegalStateException    Argument requested is asking for string requirements then what is provided
+     * @since 1.0.0
      */
     public <T> @NotNull T getArgument(@NotNull ArgumentCommand command, @NotNull String id) {
         List<CommandArgument<?>> arguments = command.getArguments();
@@ -189,6 +191,7 @@ public class CommandContext {
      * get all the errors with this function. The error is not specific to the command argument
      *
      * @return A set of all errors
+     * @since 1.0.0
      */
     public @NotNull Set<ErrorContext> getErrors() {
         Collection<ErrorContext> map = new HashSet<>();
@@ -246,6 +249,8 @@ public class CommandContext {
      * Gets the command the user is targeting
      *
      * @return A single argument command, if none can be found then {@link Optional#empty()} will be used
+     *
+     * @since 1.0.0
      */
     public @NotNull Optional<ArgumentCommand> getCompleteCommand() {
         return this.potentialCommands.stream().filter(command -> {
@@ -274,11 +279,12 @@ public class CommandContext {
      * Gets all potential commands from what the user has entered
      *
      * @return A set of all the potential commands
+     * @since 1.0.0
      */
     public @NotNull Set<ArgumentCommand> getPotentialCommands() {
         Map<ArgumentCommand, Integer> map = new HashMap<>();
-        this.potentialCommands.forEach(c -> {
-            List<CommandArgument<?>> arguments = c.getArguments();
+        this.potentialCommands.forEach(command -> {
+            List<CommandArgument<?>> arguments = command.getArguments();
             int commandArgument = 0;
             int completeArguments = 0;
             for (CommandArgument<?> arg : arguments) {
@@ -286,21 +292,21 @@ public class CommandContext {
                     continue;
                 }
                 if (this.commands.length <= commandArgument) {
-                    map.put(c, completeArguments);
+                    map.put(command, completeArguments);
                     return;
                 }
                 try {
-                    CommandArgumentResult<?> entry = this.parse(c, arg, commandArgument);
+                    CommandArgumentResult<?> entry = this.parse(command, arg, commandArgument);
                     if (commandArgument != entry.position()) {
                         commandArgument = entry.position();
                         completeArguments++;
                     }
                 } catch (IOException e) {
-                    map.put(c, completeArguments);
+                    map.put(command, completeArguments);
                     return;
                 }
             }
-            map.put(c, completeArguments);
+            map.put(command, completeArguments);
         });
 
         Set<ArgumentCommand> set = new HashSet<>();

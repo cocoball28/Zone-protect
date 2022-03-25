@@ -16,6 +16,8 @@ import java.util.Optional;
 
 /**
  * The zone config itself
+ *
+ * @since 1.0.1
  */
 public class ZoneConfig {
 

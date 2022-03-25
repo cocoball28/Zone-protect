@@ -16,6 +16,8 @@ import java.util.stream.Collectors;
 
 /**
  * All defaults will be saved and loaded in here.
+ *
+ * @since 1.0.0
  */
 public class DefaultFlagFile {
 
@@ -84,6 +86,7 @@ public class DefaultFlagFile {
      * @param <T>  The flag type class
      *
      * @return The loaded flag, if it fails to load then the default from the type will be used.
+     * @since 1.0.0
      */
     public <F extends Flag.Serializable, T extends FlagType.SerializableType<F>> Optional<F> loadDefault(
             T type) {
@@ -109,6 +112,7 @@ public class DefaultFlagFile {
      * @param <T>  The flag type class
      *
      * @throws IOException If fails to save
+     * @since 1.0.0
      */
     public <F extends Flag.Serializable, T extends FlagType.SerializableType<F>> void setDefault(F flag) throws
             IOException {
@@ -122,6 +126,7 @@ public class DefaultFlagFile {
      * @param type The type to remove
      *
      * @throws IOException if fails to save
+     * @since 1.0.0
      */
     public void removeDefault(@SuppressWarnings("TypeMayBeWeakened") FlagType.SerializableType<? extends Flag> type) throws IOException {
         type.save(this.node.node("flags"), null);
@@ -131,6 +136,7 @@ public class DefaultFlagFile {
      * Saves the file
      *
      * @throws ConfigurateException If fails to save
+     * @since 1.0.0
      */
     public void save() throws ConfigurateException {
         this.loader.save(this.node);

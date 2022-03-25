@@ -18,6 +18,8 @@ import java.util.stream.Collectors;
 
 /**
  * Gets a user from a command
+ *
+ * @since 1.0.0
  */
 public class UserArgument implements CommandArgument<GameProfile> {
 
@@ -27,6 +29,7 @@ public class UserArgument implements CommandArgument<GameProfile> {
      * Creates the argument
      *
      * @param id The id of the argument
+     * @since 1.0.0
      */
     public UserArgument(@NotNull String id) {
         this.id = id;

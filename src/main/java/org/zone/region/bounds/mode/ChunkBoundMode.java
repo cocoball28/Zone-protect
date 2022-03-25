@@ -8,6 +8,8 @@ import org.spongepowered.math.vector.Vector3i;
 
 /**
  * Shifts the position to the closest edge of a chunk
+ *
+ * @since 1.0.0
  */
 public class ChunkBoundMode implements BoundMode {
     @Override
