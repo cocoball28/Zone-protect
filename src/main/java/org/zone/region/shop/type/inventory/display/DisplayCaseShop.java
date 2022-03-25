@@ -121,7 +121,7 @@ public class DisplayCaseShop extends InventoryShop {
                 .stream()
                 .map(SellingItemStack::getItem)
                 .sorted(Comparator.comparing(TO_NAME))
-                .collect(Collectors.toList());
+                .toList();
         if (items.isEmpty()) {
             throw new IllegalStateException("No items to sell");
         }

@@ -122,6 +122,7 @@ public class ZoneBuilder {
         return this;
     }
 
+    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public ZoneBuilder addFlags(Flag... flags) {
         this.flags.addAll(Arrays.asList(flags));
         return this;

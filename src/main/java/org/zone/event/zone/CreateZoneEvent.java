@@ -10,6 +10,7 @@ import org.zone.region.Zone;
  *
  * @since 1.0.1
  */
+@SuppressWarnings("AbstractClassWithoutAbstractMethods")
 public abstract class CreateZoneEvent implements ZoneEvent {
 
     private final @NotNull Zone zone;

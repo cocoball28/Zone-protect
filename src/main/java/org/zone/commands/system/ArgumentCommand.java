@@ -70,6 +70,7 @@ public interface ArgumentCommand {
         return opNode.map(permission -> permission.hasPermission(source.subject())).orElse(true);
     }
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     default boolean canApply(@NotNull CommandContext context) {
         return this.getArguments().stream().allMatch(arg -> arg.canApply(context));
     }

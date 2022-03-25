@@ -1,5 +1,6 @@
 package org.zone.region.shop.utils;
 
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.service.context.Context;
 import org.spongepowered.api.service.economy.Currency;
@@ -27,12 +28,12 @@ public class TransactionResultBuilder {
         return this.account;
     }
 
-    public TransactionResultBuilder setAccount(Account account) {
+    public @NotNull TransactionResultBuilder setAccount(Account account) {
         this.account = account;
         return this;
     }
 
-    public TransactionResultBuilder setAccount(Identifiable player) {
+    public @NotNull TransactionResultBuilder setAccount(Identifiable player) {
         this.account = Sponge
                 .serviceProvider()
                 .provide(EconomyService.class)
@@ -47,7 +48,7 @@ public class TransactionResultBuilder {
         return this.currency;
     }
 
-    public TransactionResultBuilder setCurrency(Currency currency) {
+    public @NotNull TransactionResultBuilder setCurrency(Currency currency) {
         this.currency = currency;
         return this;
     }
@@ -56,7 +57,7 @@ public class TransactionResultBuilder {
         return this.amount;
     }
 
-    public TransactionResultBuilder setAmount(BigDecimal amount) {
+    public @NotNull TransactionResultBuilder setAmount(BigDecimal amount) {
         this.amount = amount;
         return this;
     }
@@ -65,17 +66,18 @@ public class TransactionResultBuilder {
         return this.context;
     }
 
-    public TransactionResultBuilder setContext(Set<Context> context) {
+    public @NotNull TransactionResultBuilder setContext(Set<Context> context) {
         this.context = context;
         return this;
     }
 
-    public TransactionResultBuilder setContext(Collection<Context> context) {
+    public @NotNull TransactionResultBuilder setContext(Collection<Context> context) {
         this.context = new HashSet<>(context);
         return this;
     }
 
-    public TransactionResultBuilder addContext(Context context) {
+    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
+    public @NotNull TransactionResultBuilder addContext(Context context) {
         this.context.add(context);
         return this;
     }
@@ -84,7 +86,7 @@ public class TransactionResultBuilder {
         return this.resultType;
     }
 
-    public TransactionResultBuilder setResultType(ResultType resultType) {
+    public @NotNull TransactionResultBuilder setResultType(ResultType resultType) {
         this.resultType = resultType;
         return this;
     }
@@ -93,12 +95,12 @@ public class TransactionResultBuilder {
         return this.transactionType;
     }
 
-    public TransactionResultBuilder setTransactionType(TransactionType transactionType) {
+    public @NotNull TransactionResultBuilder setTransactionType(TransactionType transactionType) {
         this.transactionType = transactionType;
         return this;
     }
 
-    public ZoneTransactionResult build() {
+    public @NotNull ZoneTransactionResult build() {
         return new ZoneTransactionResult(this);
     }
 }

@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.zone.region.shop.transaction.price.Price;
 
 /**
- * A item a shop is selling
+ * An item a shop is selling
  *
  * @param <I> The item class
  * @param <P> The price type

@@ -380,6 +380,7 @@ public class Zone implements Identifiable {
      * @return True if found within the zone
      * @since 1.0.0
      */
+    @SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
     public boolean inRegion(@Nullable World<?, ?> world, @NotNull Vector3d vector3i) {
         if (world != null) {
             Optional<? extends World<?, ?>> opWorld = this.getWorld();
@@ -399,6 +400,7 @@ public class Zone implements Identifiable {
      * @return True if found within the zone
      * @since 1.0.0
      */
+    @SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
     public boolean inRegion(@NotNull Location<?, ?> location) {
         return this.inRegion(location.world(), location.position());
     }
@@ -412,6 +414,7 @@ public class Zone implements Identifiable {
      * @return True if found within the zone
      * @since 1.0.0
      */
+    @SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
     public boolean inRegion(@NotNull Locatable locatable) {
         return this.inRegion(locatable.location());
     }

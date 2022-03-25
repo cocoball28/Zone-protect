@@ -143,6 +143,7 @@ public interface Group extends Identifiable, Comparable<Group> {
      * @return true if it's a parent
      * @since 1.0.0
      */
+    @SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
     default boolean inherits(@NotNull Group group) {
         return this.getImplements().anyMatch(g -> g.equals(group));
     }

@@ -128,6 +128,7 @@ public class DefaultFlagFile {
      * @throws IOException if fails to save
      * @since 1.0.0
      */
+    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public void removeDefault(@SuppressWarnings("TypeMayBeWeakened") FlagType.SerializableType<? extends Flag> type) throws IOException {
         type.save(this.node.node("flags"), null);
     }
