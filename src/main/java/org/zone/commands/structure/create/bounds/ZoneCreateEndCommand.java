@@ -57,7 +57,7 @@ public class ZoneCreateEndCommand implements ArgumentCommand {
     }
 
     @Override
-    public @NotNull CommandResult run(CommandContext commandContext, String... args) {
+    public @NotNull CommandResult run(@NotNull CommandContext commandContext, @NotNull String... args) {
         Subject subject = commandContext.getSource();
         if (!(subject instanceof Player player)) {
             return CommandResult.error(Messages.getPlayerOnlyMessage());

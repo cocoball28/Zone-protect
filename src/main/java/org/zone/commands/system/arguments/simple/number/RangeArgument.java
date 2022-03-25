@@ -78,8 +78,8 @@ public class RangeArgument<N extends Number> implements CommandArgument<N> {
             Collection<CommandCompletion> ret = new HashSet<>();
             ret.add(CommandCompletion.of(lowest.toString()));
             ret.add(CommandCompletion.of(highest.toString()));
-            for (int A = lowest.intValue() + 1; A < highest.intValue(); A++) {
-                ret.add(CommandCompletion.of(A + ""));
+            for (int value = lowest.intValue() + 1; value < highest.intValue(); value++) {
+                ret.add(CommandCompletion.of(value + ""));
             }
             return ret;
         } catch (IOException e) {

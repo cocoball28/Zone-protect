@@ -45,7 +45,7 @@ public class ZoneFlagGreetingsViewCommand implements ArgumentCommand {
     }
 
     @Override
-    public @NotNull CommandResult run(CommandContext commandContext, String... args) {
+    public @NotNull CommandResult run(@NotNull CommandContext commandContext, @NotNull String... args) {
         Zone zone = commandContext.getArgument(this, ZONE_VALUE);
         @NotNull Optional<GreetingsFlag> opGreetingsFlag = zone.getFlag(FlagTypes.GREETINGS);
         if (opGreetingsFlag.isEmpty()) {

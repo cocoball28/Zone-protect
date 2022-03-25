@@ -45,7 +45,7 @@ public class ZoneFlagGreetingsRemoveCommand implements ArgumentCommand {
     }
 
     @Override
-    public @NotNull CommandResult run(CommandContext commandContext, String... args) {
+    public @NotNull CommandResult run(@NotNull CommandContext commandContext, @NotNull String... args) {
         Zone zone = commandContext.getArgument(this, ZONE_VALUE);
         zone.removeFlag(FlagTypes.GREETINGS);
         try {
