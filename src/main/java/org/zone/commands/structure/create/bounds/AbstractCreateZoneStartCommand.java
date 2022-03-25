@@ -73,7 +73,7 @@ public abstract class AbstractCreateZoneStartCommand implements ArgumentCommand 
     }
 
     @Override
-    public boolean hasPermission(CommandCause source) {
+    public boolean hasPermission(@NotNull CommandCause source) {
         if (!(source.subject() instanceof Player)) {
             return false;
         }

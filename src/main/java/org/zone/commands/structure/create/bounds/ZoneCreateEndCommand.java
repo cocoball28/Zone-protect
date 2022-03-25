@@ -152,7 +152,7 @@ public class ZoneCreateEndCommand implements ArgumentCommand {
     }
 
     @Override
-    public boolean hasPermission(CommandCause source) {
+    public boolean hasPermission(@NotNull CommandCause source) {
         if (!(source.subject() instanceof Player)) {
             return false;
         }
@@ -160,7 +160,7 @@ public class ZoneCreateEndCommand implements ArgumentCommand {
     }
 
     @Override
-    public boolean canApply(CommandContext context) {
+    public boolean canApply(@NotNull CommandContext context) {
         Subject subject = context.getSource();
         if (!(subject instanceof Player player)) {
             return false;
