@@ -10,12 +10,15 @@ import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.simple.BooleanArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilterBuilder;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilters;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.entity.player.interact.block.destroy.BlockBreakFlag;
+import org.zone.region.group.key.GroupKeys;
 import org.zone.utils.Messages;
 
 import java.util.Arrays;
@@ -31,8 +34,10 @@ public class ZoneFlagBlockBreakSetEnabledCommand implements ArgumentCommand {
             "enable",
             "disable");
     public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
-            new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
-                    ZonePermissions.OVERRIDE_FLAG_BLOCK_INTERACTION_BREAK_ENABLE));
+            ZonePermissions.OVERRIDE_FLAG_BLOCK_INTERACTION_BREAK_ENABLE,
+            new ZoneArgumentFilterBuilder()
+                    .setFilter(ZoneArgumentFilters.withGroupKey(GroupKeys.OWNER))
+                    .build());
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {

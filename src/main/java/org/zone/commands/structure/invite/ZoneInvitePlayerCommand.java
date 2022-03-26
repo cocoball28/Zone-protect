@@ -12,12 +12,15 @@ import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.operation.RemainingArgument;
 import org.zone.commands.system.arguments.sponge.UserArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilterBuilder;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilters;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.meta.request.join.JoinRequestFlag;
+import org.zone.region.group.key.GroupKeys;
 import org.zone.utils.Messages;
 
 import java.util.Arrays;
@@ -29,9 +32,10 @@ import java.util.stream.Collectors;
 public class ZoneInvitePlayerCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE_ID = new ZoneArgument("zoneId",
-            new ZoneArgument.ZoneArgumentPropertiesBuilder()
-                    .setVisitorOnly(false)
-                    .setBypassSuggestionPermission(ZonePermissions.OVERRIDE_FLAG_INVITE_PLAYER));
+            ZonePermissions.OVERRIDE_FLAG_INVITE_PLAYER,
+            new ZoneArgumentFilterBuilder()
+                    .setFilter(ZoneArgumentFilters.withGroupKey(GroupKeys.OWNER))
+                    .build());
     public static final RemainingArgument<GameProfile> USERS = new RemainingArgument<>(new UserArgument(
             "users"));
 

@@ -37,7 +37,7 @@ public class ZoneEcoPrice implements Price.ZonePrice<BigDecimal>, Price.EcoPrice
     }
 
     @Override
-    public boolean withdraw(Zone zone) {
+    public boolean withdraw(@NotNull Zone zone) {
         BalanceFlag flag = zone.getEconomy();
         if (!flag.hasBalance(this.currency, this.amount)) {
             return false;
@@ -65,7 +65,7 @@ public class ZoneEcoPrice implements Price.ZonePrice<BigDecimal>, Price.EcoPrice
     }
 
     @Override
-    public PriceType getType() {
+    public @NotNull PriceType getType() {
         return PriceType.ECO;
     }
 
@@ -75,7 +75,7 @@ public class ZoneEcoPrice implements Price.ZonePrice<BigDecimal>, Price.EcoPrice
     }
 
     @Override
-    public PriceBuilder asBuilder() {
+    public @NotNull PriceBuilder asBuilder() {
         return new PriceBuilder()
                 .setAmount(this.amount.doubleValue())
                 .setCurrency(this.currency)

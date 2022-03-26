@@ -10,6 +10,7 @@ import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.operation.RemainingArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilterBuilder;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
@@ -27,8 +28,17 @@ public class ZoneInviteAcceptCommand implements ArgumentCommand {
 
     public static final RemainingArgument<Zone> ZONE_ID = new RemainingArgument<>(new ZoneArgument(
             "zoneId",
-            new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
-                    ZonePermissions.OVERRIDE_FLAG_INVITE_ACCEPT)));
+            ZonePermissions.OVERRIDE_FLAG_INVITE_ACCEPT,
+            new ZoneArgumentFilterBuilder().setFilter((zone, context) -> {
+                if (!(context.getSource() instanceof Player player)) {
+                    return false;
+                }
+                return zone
+                        .getFlag(FlagTypes.JOIN_REQUEST)
+                        .map(flag -> flag.getJoins().contains(player.uniqueId()))
+                        .orElse(false);
+            }).build()));
+
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {

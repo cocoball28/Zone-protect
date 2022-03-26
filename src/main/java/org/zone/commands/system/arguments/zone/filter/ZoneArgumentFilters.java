@@ -16,6 +16,12 @@ public interface ZoneArgumentFilters {
             !zone.getMembers().getGroup(player.uniqueId()).equals(DefaultGroups.VISITOR);
     BiPredicate<Zone, CommandContext> VISITORS_ONLY = (zone, context) -> !(context.getSource() instanceof Player player) ||
             zone.getMembers().getGroup(player.uniqueId()).equals(DefaultGroups.VISITOR);
+    BiPredicate<Zone, CommandContext> INSIDE = (zone, context) -> {
+        if (!(context.getSource() instanceof Player player)) {
+            return false;
+        }
+        return zone.inRegion(player);
+    };
 
     static BiPredicate<Zone, CommandContext> withGroupKey(@NotNull GroupKey key) {
         return new WithGroupKeyZoneFilter(key);

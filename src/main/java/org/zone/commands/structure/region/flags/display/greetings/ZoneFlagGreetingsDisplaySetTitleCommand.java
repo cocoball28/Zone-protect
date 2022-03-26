@@ -12,6 +12,8 @@ import org.zone.commands.system.arguments.operation.OptionalArgument;
 import org.zone.commands.system.arguments.simple.number.IntegerArgument;
 import org.zone.commands.system.arguments.sponge.ComponentRemainingArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilterBuilder;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilters;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
@@ -20,6 +22,7 @@ import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.entity.player.display.MessageDisplay;
 import org.zone.region.flag.entity.player.display.title.TitleMessageDisplay;
 import org.zone.region.flag.entity.player.move.greetings.GreetingsFlag;
+import org.zone.region.group.key.GroupKeys;
 import org.zone.utils.Messages;
 
 import java.time.Duration;
@@ -29,9 +32,10 @@ import java.util.Optional;
 
 public class ZoneFlagGreetingsDisplaySetTitleCommand implements ArgumentCommand {
 
-    public static final ZoneArgument ZONE_ID = new ZoneArgument("zoneId",
-            new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
-                    ZonePermissions.OVERRIDE_FLAG_GREETINGS_MESSAGE_DISPLAY_SET_TITLE));
+    public static final ZoneArgument ZONE_ID = new ZoneArgument("zoneId",ZonePermissions.OVERRIDE_FLAG_GREETINGS_MESSAGE_DISPLAY_SET_TITLE,            new ZoneArgumentFilterBuilder()
+            .setFilter(ZoneArgumentFilters.withGroupKey(GroupKeys.OWNER))
+            .build());
+
     public static final OptionalArgument<Component> SUB_TITLE = new OptionalArgument<>(new ComponentRemainingArgument(
             "subTitle"), (Component) null);
     public static final OptionalArgument<Integer> FADE_IN = new OptionalArgument<>(new IntegerArgument(

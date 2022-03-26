@@ -192,7 +192,7 @@ public class ZoneArgument implements GUICommandArgument<Zone> {
         return this.suggest(commandContext, argument.getFocusArgument());
     }
 
-    private ItemStack getItem(Zone zone) {
+    private ItemStack getItem(Identifiable zone) {
         return ItemStack
                 .builder()
                 .quantity(1)

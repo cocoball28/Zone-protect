@@ -26,7 +26,7 @@ public class ZonePowerPrice implements Price.ZonePrice<Long> {
     }
 
     @Override
-    public boolean withdraw(Zone player) {
+    public boolean withdraw(@NotNull Zone player) {
         return true;
     }
 
@@ -41,12 +41,12 @@ public class ZonePowerPrice implements Price.ZonePrice<Long> {
     }
 
     @Override
-    public Long getAmount() {
+    public @NotNull Long getAmount() {
         return this.price;
     }
 
     @Override
-    public PriceType getType() {
+    public @NotNull PriceType getType() {
         return PriceType.POWER;
     }
 

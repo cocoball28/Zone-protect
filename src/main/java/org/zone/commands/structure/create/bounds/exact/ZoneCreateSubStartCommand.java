@@ -12,6 +12,8 @@ import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.operation.RemainingArgument;
 import org.zone.commands.system.arguments.simple.StringArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilterBuilder;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilters;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
@@ -35,8 +37,11 @@ import java.util.Optional;
 public class ZoneCreateSubStartCommand extends AbstractCreateZoneStartCommand {
 
     private static final ZoneArgument ZONE = new ZoneArgument("zoneId",
-            new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
-                    ZonePermissions.OVERRIDE_REGION_CREATE_SUB_BOUNDS_EXACT));
+            ZonePermissions.OVERRIDE_REGION_CREATE_SUB_BOUNDS_EXACT,
+            new ZoneArgumentFilterBuilder()
+                    .setFilter(ZoneArgumentFilters.INSIDE)
+                    .setShouldRunWithoutGlobalPermissionCheck(true)
+                    .build());
 
     @SuppressWarnings("allow-string-argument")
     private static final RemainingArgument<String> NAME = new RemainingArgument<>(new StringArgument(
