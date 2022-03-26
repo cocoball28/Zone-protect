@@ -8,6 +8,8 @@ import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.operation.OptionalArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilterBuilder;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilters;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
@@ -27,8 +29,10 @@ import java.util.Optional;
 public class ZoneFlagInteractItemframesViewCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zoneId",
-            new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
-                    ZonePermissions.OVERRIDE_FLAG_ITEM_FRAME_INTERACTION_VIEW));
+            ZonePermissions.OVERRIDE_FLAG_ITEM_FRAME_INTERACTION_VIEW,
+            new ZoneArgumentFilterBuilder()
+                    .setFilter(ZoneArgumentFilters.withGroupKey(GroupKeys.OWNER))
+                    .build());
     public static final OptionalArgument<Optional<String>> VIEW = OptionalArgument.createArgument(
             new ExactArgument("view"));
 

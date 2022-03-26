@@ -16,11 +16,14 @@ import org.zone.commands.system.arguments.simple.number.IntegerArgument;
 import org.zone.commands.system.arguments.simple.number.RangeArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.arguments.zone.ZoneGroupArgument;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilterBuilder;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilters;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.group.Group;
+import org.zone.region.group.key.GroupKeys;
 import org.zone.utils.Messages;
 
 import java.util.*;
@@ -31,16 +34,19 @@ import java.util.concurrent.CompletableFuture;
  */
 public class ZoneFlagMemberGroupViewCommand implements ArgumentCommand {
 
-    public final OptionalArgument<Integer> PAGE = new OptionalArgument<>(new RangeArgument<>(new IntegerArgument(
+    public final OptionalArgument<Integer> page = new OptionalArgument<>(new RangeArgument<>(new IntegerArgument(
             "page"), (c, a) -> CommandArgumentResult.from(a, 1), (c, a) -> {
         Zone zone = c.getArgument(this, ZONE);
         Group group = c.getArgument(this, GROUP);
         int pages = (zone.getMembers().getMembers(group).size() / 10) + 1;
         return CommandArgumentResult.from(a, pages);
     }), 1);
-    public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
-            new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
-                    ZonePermissions.OVERRIDE_FLAG_MEMBERS_VIEW));
+    public static final ZoneArgument ZONE =
+            new ZoneArgument("zoneId",
+                    ZonePermissions.OVERRIDE_FLAG_MEMBERS_VIEW,
+                    new ZoneArgumentFilterBuilder()
+                            .setFilter(ZoneArgumentFilters.withGroupKey(GroupKeys.OWNER))
+                            .build());
     public static final ZoneGroupArgument GROUP = new ZoneGroupArgument("groupId", ZONE);
 
     @Override
@@ -50,7 +56,7 @@ public class ZoneFlagMemberGroupViewCommand implements ArgumentCommand {
                 ZONE,
                 new ExactArgument("view"),
                 GROUP,
-                this.PAGE);
+                this.page);
     }
 
     @Override
@@ -67,7 +73,7 @@ public class ZoneFlagMemberGroupViewCommand implements ArgumentCommand {
     public @NotNull CommandResult run(CommandContext commandContext, String... args) {
         Zone zone = commandContext.getArgument(this, ZONE);
         Group group = commandContext.getArgument(this, GROUP);
-        int page = commandContext.getArgument(this, this.PAGE);
+        int page = commandContext.getArgument(this, this.page);
         if (page <= 0) {
             return CommandResult.error(Messages.getPageTooLow());
         }

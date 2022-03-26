@@ -110,9 +110,7 @@ public class MembersFlagType implements FlagType.SerializableType<MembersFlag> {
                                 .parallelStream()
                                 .map(keyId -> ZonePlugin
                                         .getZonesPlugin()
-                                        .getGroupKeyManager()
-                                        .getKeys()
-                                        .parallelStream()
+                                        .getVanillaTypes(GroupKey.class)
                                         .filter(groupKey -> groupKey.getId().equals(keyId))
                                         .findFirst())
                                 .filter(Optional::isPresent)

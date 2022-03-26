@@ -1,5 +1,6 @@
 package org.zone.config.node.limit;
 
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.serialize.SerializationException;
@@ -23,18 +24,18 @@ public class MaxOwnerNode implements ZoneNode.WithDefault<Integer> {
     private class MaxOwnerConfigCommandNode implements ConfigCommandNode<Integer> {
 
         @Override
-        public String getDisplayId() {
+        public @NotNull String getDisplayId() {
             return "zones.limits.owner.max";
         }
 
         @Override
-        public CommandArgument<Integer> getCommandArgument() {
+        public @NotNull CommandArgument<Integer> getCommandArgument() {
             return new IntegerArgument("max");
         }
 
         @Override
-        public CommandResult onChange(
-                CommandContext context, Integer newValue) {
+        public @NotNull CommandResult onChange(
+                @NotNull CommandContext context, @NotNull Integer newValue) {
             try {
                 MaxOwnerNode.this.set(ZonePlugin.getZonesPlugin().getConfig(), newValue);
                 return CommandResult.success();
@@ -46,33 +47,33 @@ public class MaxOwnerNode implements ZoneNode.WithDefault<Integer> {
     }
 
     @Override
-    public Integer getDefault() {
+    public @NotNull Integer getDefault() {
         return -1;
     }
 
     @Override
-    public String[] getNode() {
+    public @NotNull String[] getNode() {
         return new String[]{"limits", "zone", "owner", "max"};
     }
 
     @Override
-    public Integer getInitialValue() {
+    public @NotNull Integer getInitialValue() {
         return -1;
     }
 
     @Override
-    public Collection<ConfigCommandNode<?>> getNodes() {
+    public @NotNull Collection<ConfigCommandNode<?>> getNodes() {
         return Collections.singleton(new MaxOwnerConfigCommandNode());
     }
 
     @Override
-    public void set(CommentedConfigurationNode node, Integer integer) throws
+    public void set(@NotNull CommentedConfigurationNode node, @NotNull Integer integer) throws
             SerializationException {
         node.set(integer);
     }
 
     @Override
-    public Optional<Integer> get(CommentedConfigurationNode node) {
+    public @NotNull Optional<Integer> get(@NotNull CommentedConfigurationNode node) {
         int value = node.getInt();
         if (value < -1) {
             return Optional.empty();

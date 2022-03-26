@@ -11,13 +11,12 @@ import java.util.stream.Collectors;
 
 public class MemoryConfigurationNode implements CommentedConfigurationNode {
 
+    private final @Nullable MemoryConfigurationNode parent;
+    private final @NotNull Object key;
+    private final Set<CommentedConfigurationNode> children = new HashSet<>();
     private @Nullable String comment;
     private @Nullable Object value;
     private @Nullable Class<?> setAs;
-    private final @Nullable MemoryConfigurationNode parent;
-    private final @NotNull Object key;
-
-    private final Set<CommentedConfigurationNode> children = new HashSet<>();
 
     public MemoryConfigurationNode(@NotNull Object key, @Nullable MemoryConfigurationNode parent) {
         this.key = key;
@@ -59,18 +58,6 @@ public class MemoryConfigurationNode implements CommentedConfigurationNode {
     }
 
     @Override
-    public <S, T, E extends Exception> T visit(
-            ConfigurationVisitor<S, T, E> visitor, S state) throws E {
-        throw new RuntimeException("Not implemented");
-    }
-
-    @Override
-    public <S, T> T visit(ConfigurationVisitor.Safe<S, T> visitor, S state) {
-        throw new RuntimeException("Not implemented");
-
-    }
-
-    @Override
     public CommentedConfigurationNode node(Object... path) {
         return this.node(Arrays.asList(path));
     }
@@ -100,6 +87,86 @@ public class MemoryConfigurationNode implements CommentedConfigurationNode {
         }
         this.children.add(configNode);
         return configNode;
+    }
+
+    @Override
+    public @Nullable CommentedConfigurationNode parent() {
+        return this.parent;
+    }
+
+    @Override
+    public CommentedConfigurationNode from(@NotNull ConfigurationNode other) {
+        throw new RuntimeException("Not implemented");
+
+    }
+
+    @Override
+    public CommentedConfigurationNode mergeFrom(@NotNull ConfigurationNode other) {
+        throw new RuntimeException("Not implemented");
+    }
+
+    @Override
+    public CommentedConfigurationNode set(@Nullable Object value) throws SerializationException {
+        if (value == null) {
+            this.children.clear();
+            this.value = null;
+            this.setAs = null;
+            return this;
+        }
+        if (value instanceof Collection collection) {
+            this.setAs = Collection.class;
+            if (!collection.isEmpty()) {
+                this.setAs = this.getBasicType(collection.iterator().next().getClass());
+            }
+        } else {
+            this.setAs = this.getBasicType(value.getClass());
+        }
+        this.value = value;
+        return this;
+    }
+
+    @Override
+    public CommentedConfigurationNode raw(@Nullable Object value) {
+        throw new RuntimeException("Not implemented");
+    }
+
+    @Override
+    public List<CommentedConfigurationNode> childrenList() {
+        return new ArrayList<>(this.children);
+    }
+
+    @Override
+    public Map<Object, CommentedConfigurationNode> childrenMap() {
+        return this.children
+                .stream()
+                .collect(Collectors.toMap(ConfigurationNode::key, node -> node));
+    }
+
+    @Override
+    public <V> CommentedConfigurationNode hint(
+            RepresentationHint<V> hint, @Nullable V value) {
+        throw new RuntimeException("Not implemented");
+
+    }
+
+    @Override
+    public @Nullable Object key() {
+        return this.key;
+    }
+
+    @Override
+    public NodePath path() {
+        List<Object> nodeList = new ArrayList<>();
+        MemoryConfigurationNode node = this;
+        while (node != null) {
+            nodeList.add(node.key);
+            node = this.parent;
+        }
+        Object[] nodeArray = new Object[nodeList.size()];
+        for (int a = 0; a < nodeArray.length; a++) {
+            nodeArray[a] = nodeList.get(nodeArray.length - (a - 1));
+        }
+        return new MemoryNodePath(nodeArray);
     }
 
     @Override
@@ -150,100 +217,26 @@ public class MemoryConfigurationNode implements CommentedConfigurationNode {
     }
 
     @Override
-    public @Nullable Object key() {
-        return this.key;
+    public @Nullable Object get(Type type) throws SerializationException {
+        if (this.setAs == type) {
+            return this.value;
+        }
+        throw new SerializationException("The saved value is not of type '" +
+                type.getTypeName() +
+                "'");
     }
 
     @Override
-    public NodePath path() {
-        List<Object> nodeList = new ArrayList<>();
-        MemoryConfigurationNode node = this;
-        while (node != null) {
-            nodeList.add(node.key);
-            node = this.parent;
+    public @Nullable <V> List<V> getList(Class<V> type) throws SerializationException {
+        if (this.setAs == type && this.value instanceof Collection value) {
+            return new ArrayList<V>(value);
         }
-        Object[] nodeArray = new Object[nodeList.size()];
-        for (int A = 0; A < nodeArray.length; A++) {
-            nodeArray[A] = nodeList.get(nodeArray.length - (A - 1));
-        }
-        return new MemoryNodePath(nodeArray);
-    }
 
-    @Override
-    public @Nullable CommentedConfigurationNode parent() {
-        return this.parent;
-    }
-
-    @Override
-    public CommentedConfigurationNode from(@NotNull ConfigurationNode other) {
-        throw new RuntimeException("Not implemented");
-
-    }
-
-    @Override
-    public CommentedConfigurationNode mergeFrom(@NotNull ConfigurationNode other) {
-        throw new RuntimeException("Not implemented");
-    }
-
-    @Override
-    public boolean removeChild(@NotNull Object key) {
-        Optional<CommentedConfigurationNode> opToRemove = this.children
-                .stream()
-                .filter(node -> node.key() != null)
-                .filter(node -> key.equals(node.key()))
-                .findAny();
-        if (opToRemove.isPresent()) {
-            this.children.remove(opToRemove.get());
-            return true;
-        }
-        return false;
-    }
-
-    private Class<?> getBasicType(Class<?> type) throws SerializationException {
-        if (CharSequence.class.isAssignableFrom(type)) {
-            return String.class;
-        }
-        if (type.isAssignableFrom(char.class) || type.isAssignableFrom(Character.class)) {
-            return char.class;
-        }
-        if (type.isAssignableFrom(int.class) || type.isAssignableFrom(Integer.class)) {
-            return int.class;
-        }
-        if (type.isAssignableFrom(double.class) || type.isAssignableFrom(Double.class)) {
-            return double.class;
-        }
-        throw new SerializationException("Cannot accept type of " +
-                type.getSimpleName() +
-                " on set");
-    }
-
-    @Override
-    public CommentedConfigurationNode set(@Nullable Object value) throws SerializationException {
-        if (value == null) {
-            this.children.clear();
-            this.value = null;
-            this.setAs = null;
-            return this;
-        }
-        if (value instanceof Collection collection) {
-            this.setAs = Collection.class;
-            if (!collection.isEmpty()) {
-                this.setAs = this.getBasicType(collection.iterator().next().getClass());
-            }
-        } else {
-            this.setAs = this.getBasicType(value.getClass());
-        }
-        this.value = value;
-        return this;
+        return CommentedConfigurationNode.super.getList(type);
     }
 
     @Override
     public @Nullable Object raw() {
-        throw new RuntimeException("Not implemented");
-    }
-
-    @Override
-    public CommentedConfigurationNode raw(@Nullable Object value) {
         throw new RuntimeException("Not implemented");
     }
 
@@ -267,39 +260,27 @@ public class MemoryConfigurationNode implements CommentedConfigurationNode {
     }
 
     @Override
-    public List<CommentedConfigurationNode> childrenList() {
-        return new ArrayList<>(this.children);
-    }
-
-    @Override
-    public Map<Object, CommentedConfigurationNode> childrenMap() {
-        return this.children
+    public boolean removeChild(@NotNull Object key) {
+        Optional<CommentedConfigurationNode> opToRemove = this.children
                 .stream()
-                .collect(Collectors.toMap(ConfigurationNode::key, node -> node));
-    }
-
-    @Override
-    public @Nullable Object get(Type type) throws SerializationException {
-        if (this.setAs == type) {
-            return this.value;
+                .filter(node -> node.key() != null)
+                .filter(node -> key.equals(node.key()))
+                .findAny();
+        if (opToRemove.isPresent()) {
+            this.children.remove(opToRemove.get());
+            return true;
         }
-        throw new SerializationException("The saved value is not of type '" +
-                type.getTypeName() +
-                "'");
+        return false;
     }
 
     @Override
-    public @Nullable <V> List<V> getList(Class<V> type) throws SerializationException {
-        if (this.setAs == type && this.value instanceof Collection value) {
-            return new ArrayList<V>(value);
-        }
-
-        return CommentedConfigurationNode.super.getList(type);
+    public <S, T, E extends Exception> T visit(
+            ConfigurationVisitor<S, T, E> visitor, S state) throws E {
+        throw new RuntimeException("Not implemented");
     }
 
     @Override
-    public <V> CommentedConfigurationNode hint(
-            RepresentationHint<V> hint, @Nullable V value) {
+    public <S, T> T visit(ConfigurationVisitor.Safe<S, T> visitor, S state) {
         throw new RuntimeException("Not implemented");
 
     }
@@ -319,11 +300,44 @@ public class MemoryConfigurationNode implements CommentedConfigurationNode {
         throw new RuntimeException("Not implemented");
     }
 
+    private Class<?> getBasicType(Class<?> type) throws SerializationException {
+        if (CharSequence.class.isAssignableFrom(type)) {
+            return String.class;
+        }
+        if (type.isAssignableFrom(char.class) || type.isAssignableFrom(Character.class)) {
+            return char.class;
+        }
+        if (type.isAssignableFrom(int.class) || type.isAssignableFrom(Integer.class)) {
+            return int.class;
+        }
+        if (type.isAssignableFrom(double.class) || type.isAssignableFrom(Double.class)) {
+            return double.class;
+        }
+        throw new SerializationException("Cannot accept type of " +
+                type.getSimpleName() +
+                " on set");
+    }
+
+    public String nodePath() {
+        StringBuilder builder = new StringBuilder();
+        MemoryConfigurationNode node = this;
+        while (node != null && !node.key.equals("root")) {
+            builder.append(node.key);
+            node = this.parent;
+        }
+        return builder.toString();
+    }
+
+    @Override
+    public int hashCode() {
+        return this.nodePath().hashCode();
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof MemoryConfigurationNode node)) {
             return false;
         }
-        return Arrays.equals(this.path().array(), node.path().array());
+        return this.nodePath().equals(node.nodePath());
     }
 }

@@ -4,9 +4,9 @@ import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.data.Keys;
 import org.spongepowered.api.entity.living.player.Player;
-import org.zone.utils.Messages;
 import org.zone.region.shop.transaction.price.Price;
 import org.zone.region.shop.transaction.price.PriceType;
+import org.zone.utils.Messages;
 
 /**
  * The price for player exp
@@ -53,12 +53,12 @@ public class PlayerExpPrice implements Price.PlayerPrice<Integer> {
     }
 
     @Override
-    public Integer getAmount() {
+    public @NotNull Integer getAmount() {
         return this.exp;
     }
 
     @Override
-    public PriceType getType() {
+    public @NotNull PriceType getType() {
         return PriceType.EXP;
     }
 

@@ -10,6 +10,8 @@ import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.simple.EnumArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilterBuilder;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilters;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
@@ -20,6 +22,7 @@ import org.zone.region.bounds.mode.BoundModes;
 import org.zone.region.flag.Flag;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.meta.edit.EditingFlag;
+import org.zone.region.group.key.GroupKeys;
 import org.zone.utils.Messages;
 
 import java.util.Arrays;
@@ -29,8 +32,11 @@ import java.util.Optional;
 public class EditBoundsStartCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
-            new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
-                    ZonePermissions.OVERRIDE_REGION_EDIT_BOUNDS_EXACT));
+            ZonePermissions.OVERRIDE_REGION_EDIT_BOUNDS_EXACT,
+            new ZoneArgumentFilterBuilder()
+                    .setFilter(ZoneArgumentFilters.withGroupKey(GroupKeys.OWNER))
+                    .setPermission(ZonePermissions.REGION_EDIT_BOUNDS_EXACT)
+                    .build());
     public static final EnumArgument<PositionType> SIDE = new EnumArgument<>("side",
             PositionType.class);
 

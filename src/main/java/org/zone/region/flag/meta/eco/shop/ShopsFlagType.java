@@ -38,7 +38,7 @@ public class ShopsFlagType implements FlagType.SerializableType<ShopsFlag> {
     }
 
     @Override
-    public @NotNull ShopsFlag load(@NotNull ConfigurationNode node) throws IOException {
+    public @NotNull ShopsFlag load(@NotNull ConfigurationNode node) {
         @NotNull ShopManager shopManager = ZonePlugin.getZonesPlugin().getShopManager();
         List<? extends ConfigurationNode> shopsNodes = node.node("shops").childrenList();
         Set<Shop> shops = shopsNodes.stream().map(shopNode -> {

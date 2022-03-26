@@ -31,15 +31,15 @@ public class TestLocatableBlock implements LocatableBlock {
     }
 
     @Override
-    public boolean validateRawData(DataView container) {
-        throw new RuntimeException("Not implemented");
-    }
-
-    @Override
     public LocatableBlock copy() {
         TestLocatableBlock block = new TestLocatableBlock();
         block.location = this.location;
         return block;
+    }
+
+    @Override
+    public boolean validateRawData(DataView container) {
+        throw new RuntimeException("Not implemented");
     }
 
     @Override

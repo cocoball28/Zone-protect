@@ -19,9 +19,9 @@ import java.util.Optional;
  */
 public class ZoneConfig {
 
-    private final File file;
-    private final HoconConfigurationLoader loader;
-    private final CommentedConfigurationNode node;
+    private final @NotNull File file;
+    private final @NotNull HoconConfigurationLoader loader;
+    private final @NotNull CommentedConfigurationNode node;
 
     public ZoneConfig(@NotNull File file) {
         this.file = file;
@@ -35,15 +35,15 @@ public class ZoneConfig {
         this.node = node;
     }
 
-    public File getFile() {
+    public @NotNull File getFile() {
         return this.file;
     }
 
-    public HoconConfigurationLoader getLoader() {
+    public @NotNull HoconConfigurationLoader getLoader() {
         return this.loader;
     }
 
-    public CommentedConfigurationNode getRoot() {
+    public @NotNull CommentedConfigurationNode getRoot() {
         return this.node;
     }
 
@@ -51,15 +51,15 @@ public class ZoneConfig {
         this.loader.save(this.node);
     }
 
-    public <T> Optional<T> get(ZoneNode<T> node) {
+    public <T> @NotNull Optional<T> get(@NotNull ZoneNode<T> node) {
         return node.get(this);
     }
 
-    public <T> T getOrElse(ZoneNode.WithDefault<T> node) {
+    public <T> @NotNull T getOrElse(@NotNull ZoneNode.WithDefault<T> node) {
         return node.getOrElse(this);
     }
 
-    public <T> void set(ZoneNode<T> node, T value) throws SerializationException {
+    public <T> void set(@NotNull ZoneNode<T> node, @NotNull T value) throws SerializationException {
         node.set(this, value);
     }
 

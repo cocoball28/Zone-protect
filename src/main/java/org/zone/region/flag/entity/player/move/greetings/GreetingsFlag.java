@@ -21,7 +21,9 @@ public class GreetingsFlag implements Flag.Serializable {
         this.text = greetingsMessage;
     }
 
-    public GreetingsFlag(@NotNull Component greetingsMessage, @NotNull MessageDisplay messageDisplay) {
+    public GreetingsFlag(
+            @NotNull Component greetingsMessage,
+            @NotNull MessageDisplay messageDisplay) {
         this.text = greetingsMessage;
         this.messageDisplay = messageDisplay;
     }
@@ -31,8 +33,7 @@ public class GreetingsFlag implements Flag.Serializable {
      * Method to get the greetings message
      *
      * @return The greetings message
-     */
-    public @Nullable Component getLegacyGreetingsMessage() {
+     */ public @Nullable Component getLegacyGreetingsMessage() {
         return this.text;
     }
 
@@ -54,6 +55,15 @@ public class GreetingsFlag implements Flag.Serializable {
         return this.messageDisplay;
     }
 
+    /**
+     * Method to set the display type
+     *
+     * @param messageDisplay The display type to set
+     */
+    public void setDisplayType(@NotNull MessageDisplay messageDisplay) {
+        this.messageDisplay = messageDisplay;
+    }
+
     @Deprecated(forRemoval = true)
     /**
      * Method to set the greetings message
@@ -61,8 +71,7 @@ public class GreetingsFlag implements Flag.Serializable {
      * @deprecated since 1.0.1
      *
      * @param component The component to be set
-     */
-    public void setLegacyMessage(@NotNull Component component) {
+     */ public void setLegacyMessage(@NotNull Component component) {
         this.text = component;
     }
 
@@ -73,15 +82,6 @@ public class GreetingsFlag implements Flag.Serializable {
      */
     public void setMessage(@NotNull Component component) {
         this.text = component;
-    }
-
-    /**
-     * Method to set the display type
-     *
-     * @param messageDisplay The display type to set
-     */
-    public void setDisplayType(@NotNull MessageDisplay messageDisplay) {
-        this.messageDisplay = messageDisplay;
     }
 
     @Override

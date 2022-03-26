@@ -26,7 +26,9 @@ public class SkeletonGriefListener {
     @Listener
     public void onSkeletonSetBlocksOnFire(ChangeBlockEvent.All event, @First ArrowEntity arrow) {
         Optional<ProjectileSource> opShooter = arrow.shooter().map(Value::get);
-        if (arrow.get(Keys.FIRE_TICKS).isEmpty() || opShooter.isEmpty() || !(opShooter.get() instanceof Skeleton)) {
+        if (arrow.get(Keys.FIRE_TICKS).isEmpty() ||
+                opShooter.isEmpty() ||
+                !(opShooter.get() instanceof Skeleton)) {
             return;
         }
         Map<BlockTransaction, Zone> inZone = event
@@ -34,10 +36,7 @@ public class SkeletonGriefListener {
                 .stream()
                 .filter(t -> t.original().location().isPresent())
                 .map(t -> {
-                    Location<?, ?> loc = arrow
-                            .location()
-                            .world()
-                            .location(t.original().position());
+                    Location<?, ?> loc = arrow.location().world().location(t.original().position());
                     @NotNull Optional<Zone> opZone = ZonePlugin
                             .getZonesPlugin()
                             .getZoneManager()
@@ -54,9 +53,7 @@ public class SkeletonGriefListener {
                 .filter(entry -> entry.getKey().operation() == Operations.PLACE.get())
                 .filter(entry -> entry.getValue().containsFlag(FlagTypes.SKELETON_GRIEF))
                 .forEach(entry -> {
-                    entry
-                            .getValue()
-                            .containsFlag(FlagTypes.SKELETON_GRIEF);
+                    entry.getValue().containsFlag(FlagTypes.SKELETON_GRIEF);
                     entry.getKey().invalidate();
                 });
     }

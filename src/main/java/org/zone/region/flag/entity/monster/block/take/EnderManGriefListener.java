@@ -8,7 +8,6 @@ import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.block.ChangeBlockEvent;
 import org.spongepowered.api.event.filter.cause.First;
 import org.spongepowered.api.world.Location;
-import org.spongepowered.api.world.server.ServerLocation;
 import org.zone.ZonePlugin;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
@@ -44,12 +43,11 @@ public class EnderManGriefListener {
         inZone
                 .entrySet()
                 .stream()
-                .filter(entry -> entry.getKey().operation() == Operations.BREAK.get() || entry.getKey().operation() == Operations.PLACE.get())
+                .filter(entry -> entry.getKey().operation() == Operations.BREAK.get() ||
+                        entry.getKey().operation() == Operations.PLACE.get())
                 .filter(entry -> entry.getValue().getFlag(FlagTypes.ENDER_MAN_GRIEF).isPresent())
                 .forEach(entry -> {
-                    entry
-                            .getValue()
-                            .containsFlag(FlagTypes.ENDER_MAN_GRIEF);
+                    entry.getValue().containsFlag(FlagTypes.ENDER_MAN_GRIEF);
                     entry.getKey().invalidate();
                 });
     }

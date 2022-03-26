@@ -13,11 +13,14 @@ import org.zone.commands.system.CommandArgumentResult;
 import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.sponge.CurrencyArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilterBuilder;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilters;
 import org.zone.commands.system.context.CommandArgumentContext;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
+import org.zone.region.group.key.GroupKeys;
 import org.zone.utils.Messages;
 
 import java.math.BigDecimal;
@@ -32,8 +35,10 @@ import java.util.Optional;
 public class ZoneFlagViewBalanceCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
-            new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
-                    ZonePermissions.OVERRIDE_FLAG_BALANCE_VIEW));
+            ZonePermissions.OVERRIDE_FLAG_BALANCE_VIEW,
+            new ZoneArgumentFilterBuilder()
+                    .setFilter(ZoneArgumentFilters.withGroupKey(GroupKeys.OWNER))
+                    .build());
 
     public static final CurrencyArgument CURRENCY = new CurrencyArgument("currency_value",
             (context, argument) -> {

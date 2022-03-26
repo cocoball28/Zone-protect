@@ -28,6 +28,7 @@ public class BooleanArgument implements GUICommandArgument<Boolean> {
 
     /**
      * Accepts the traditional true/false
+     *
      * @param id The id of the argument
      */
     public BooleanArgument(@NotNull String id) {
@@ -36,11 +37,15 @@ public class BooleanArgument implements GUICommandArgument<Boolean> {
 
     /**
      * for text other then true/false
-     * @param id The id of the argument
-     * @param trueString The text to use for if the value is true
+     *
+     * @param id          The id of the argument
+     * @param trueString  The text to use for if the value is true
      * @param falseString The text to use for if the value is false
      */
-    public BooleanArgument(@NotNull String id, @NotNull String trueString, @NotNull String falseString) {
+    public BooleanArgument(
+            @NotNull String id,
+            @NotNull String trueString,
+            @NotNull String falseString) {
         this.id = id;
         this.asFalse = falseString;
         this.asTrue = trueString;

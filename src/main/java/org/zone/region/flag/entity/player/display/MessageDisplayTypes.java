@@ -5,7 +5,9 @@ import org.zone.region.flag.entity.player.display.bossbar.BossBarMessageDisplayT
 import org.zone.region.flag.entity.player.display.chat.ChatMessageDisplayType;
 import org.zone.region.flag.entity.player.display.title.TitleMessageDisplayType;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public final class MessageDisplayTypes {

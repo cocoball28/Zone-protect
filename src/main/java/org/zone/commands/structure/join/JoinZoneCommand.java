@@ -4,11 +4,13 @@ import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.configurate.ConfigurateException;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilterBuilder;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
@@ -26,9 +28,27 @@ import java.util.Optional;
 public class JoinZoneCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE_ID = new ZoneArgument("zoneId",
-            new ZoneArgument.ZoneArgumentPropertiesBuilder()
-                    .setVisitorOnly(true)
-                    .setBypassSuggestionPermission(ZonePermissions.OVERRIDE_FLAG_JOIN_ZONE));
+            null,
+            new ZoneArgumentFilterBuilder()
+                    .setFilter((zone, context) -> zone
+                            .getFlag(FlagTypes.ZONE_VISIBILITY)
+                            .map(flag -> flag.getZoneVisibility() == ZoneVisibility.PUBLIC)
+                            .orElse(false))
+                    .setShouldRunWithoutGlobalPermissionCheck(true)
+                    .build(),
+            new ZoneArgumentFilterBuilder()
+                    .setShouldRunWithoutGlobalPermissionCheck(true)
+                    .setFilter((zone, context) -> {
+                        @NotNull Subject subject = context.getSource();
+                        if (!(subject instanceof Player player)) {
+                            return false;
+                        }
+                        return zone
+                                .getFlag(FlagTypes.JOIN_REQUEST)
+                                .map(flag -> flag.getInvites().contains(player.uniqueId()))
+                                .orElse(false);
+                    })
+                    .build());
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
@@ -59,7 +79,8 @@ public class JoinZoneCommand implements ArgumentCommand {
                 .getFlag(FlagTypes.ZONE_VISIBILITY)
                 .map(ZoneVisibilityFlag::getZoneVisibility)
                 .orElse(ZoneVisibility.PUBLIC);
-        if (zoneVisibility == ZoneVisibility.PRIVATE || zoneVisibility == ZoneVisibility.SEMI_PRIVATE) {
+        if (zoneVisibility == ZoneVisibility.PRIVATE ||
+                zoneVisibility == ZoneVisibility.SEMI_PRIVATE) {
             return CommandResult.error(Messages.getZonePrivateError());
         }
         joinRequestFlag.registerJoin(player.uniqueId());

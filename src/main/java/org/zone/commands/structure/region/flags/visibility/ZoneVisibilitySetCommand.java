@@ -9,6 +9,8 @@ import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.simple.EnumArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilterBuilder;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilters;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
@@ -16,6 +18,7 @@ import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.meta.request.visibility.ZoneVisibility;
 import org.zone.region.flag.meta.request.visibility.ZoneVisibilityFlag;
+import org.zone.region.group.key.GroupKeys;
 import org.zone.utils.Messages;
 
 import java.util.Arrays;
@@ -25,18 +28,20 @@ import java.util.Optional;
 public class ZoneVisibilitySetCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE_ID = new ZoneArgument("zoneId",
-            new ZoneArgument.ZoneArgumentPropertiesBuilder().
-                    setBypassSuggestionPermission(ZonePermissions.OVERRIDE_ZONE_VISIBILITY_SET));
-    public static final EnumArgument<ZoneVisibility> VALUE = new EnumArgument<>("visibility_name"
-            , ZoneVisibility.class);
+            ZonePermissions.OVERRIDE_ZONE_VISIBILITY_SET,
+            new ZoneArgumentFilterBuilder()
+                    .setFilter(ZoneArgumentFilters.withGroupKey(GroupKeys.OWNER))
+                    .build());
+    public static final EnumArgument<ZoneVisibility> VALUE = new EnumArgument<>("visibility_name",
+            ZoneVisibility.class);
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
-                             new ExactArgument("visibility"),
-                             ZONE_ID,
-                             new ExactArgument("set"),
-                             VALUE);
+                new ExactArgument("visibility"),
+                ZONE_ID,
+                new ExactArgument("set"),
+                VALUE);
     }
 
     @Override

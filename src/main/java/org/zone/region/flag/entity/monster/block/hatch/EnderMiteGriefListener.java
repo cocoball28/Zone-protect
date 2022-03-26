@@ -20,7 +20,9 @@ import java.util.stream.Collectors;
 public class EnderMiteGriefListener {
 
     @Listener
-    public void onEnderMiteBreakBlockOnHatch(ChangeBlockEvent.All event, @First Endermite endermite) {
+    public void onEnderMiteBreakBlockOnHatch(
+            ChangeBlockEvent.All event,
+            @First Endermite endermite) {
         Map<BlockTransaction, Zone> inZone = event
                 .transactions()
                 .stream()
@@ -46,9 +48,7 @@ public class EnderMiteGriefListener {
                 .filter(entry -> entry.getKey().operation() == Operations.PLACE.get())
                 .filter(entry -> entry.getValue().getFlag(FlagTypes.ENDER_MITE_GRIEF).isPresent())
                 .forEach(entry -> {
-                    entry
-                            .getValue()
-                            .containsFlag(FlagTypes.ENDER_MITE_GRIEF);
+                    entry.getValue().containsFlag(FlagTypes.ENDER_MITE_GRIEF);
                     entry.getKey().invalidate();
                 });
     }

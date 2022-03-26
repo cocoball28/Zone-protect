@@ -9,12 +9,15 @@ import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.simple.BooleanArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilterBuilder;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilters;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.entity.monster.block.explode.creeper.CreeperGriefFlag;
+import org.zone.region.group.key.GroupKeys;
 import org.zone.utils.Messages;
 
 import java.util.Arrays;
@@ -24,8 +27,10 @@ import java.util.Optional;
 public class ZoneFlagCreeperGriefEnableCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE_ID = new ZoneArgument("zoneId",
-            new ZoneArgument.ZoneArgumentPropertiesBuilder()
-                    .setBypassSuggestionPermission(ZonePermissions.OVERRIDE_FLAG_CREEPER_GRIEF_ENABLE));
+            ZonePermissions.OVERRIDE_FLAG_CREEPER_GRIEF_ENABLE,
+            new ZoneArgumentFilterBuilder()
+                    .setFilter(ZoneArgumentFilters.withGroupKey(GroupKeys.OWNER))
+                    .build());
     public static final BooleanArgument ENABLE = new BooleanArgument("enableValue",
             "enable",
             "disable");
@@ -33,12 +38,12 @@ public class ZoneFlagCreeperGriefEnableCommand implements ArgumentCommand {
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
-                             new ExactArgument("flag"),
-                             ZONE_ID,
-                             new ExactArgument("grief"),
-                             new ExactArgument("creeper"),
-                             new ExactArgument("set"),
-                             ENABLE);
+                new ExactArgument("flag"),
+                ZONE_ID,
+                new ExactArgument("grief"),
+                new ExactArgument("creeper"),
+                new ExactArgument("set"),
+                ENABLE);
     }
 
     @Override

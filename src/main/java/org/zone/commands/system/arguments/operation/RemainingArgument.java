@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 /**
  * Gets the remaining arguments left in the command. This must include at least one argument
+ *
  * @param <T> The type the remaining should be
  */
 public class RemainingArgument<T> implements CommandArgument<List<T>> {
@@ -23,7 +24,9 @@ public class RemainingArgument<T> implements CommandArgument<List<T>> {
 
     /**
      * Do not use, only here to prevent 0 arguments entered to the varArg
+     *
      * @param id ignored
+     *
      * @deprecated A command argument is required
      */
     @Deprecated
@@ -33,6 +36,7 @@ public class RemainingArgument<T> implements CommandArgument<List<T>> {
 
     /**
      * Used for if you wish to gain the remaining arguments of a single type
+     *
      * @param argument The single argument to check for each remaining argument
      */
     public RemainingArgument(CommandArgument<T> argument) {
@@ -41,8 +45,9 @@ public class RemainingArgument<T> implements CommandArgument<List<T>> {
 
     /**
      * Used for if there are multiple possibilities for the remaining argument
-     * @param id The id of the argument -> the arguments in the next parameter, the Id is
-     *           ignored, so enter anything you wish
+     *
+     * @param id       The id of the argument -> the arguments in the next parameter, the Id is
+     *                 ignored, so enter anything you wish
      * @param argument The arguments to check -> this is checked in the order they are passed in
      */
     @SafeVarargs
@@ -52,8 +57,9 @@ public class RemainingArgument<T> implements CommandArgument<List<T>> {
 
     /**
      * Used for if there are multiple possibilities for the remaining argument
-     * @param id The id of the argument -> the arguments in the next parameter, the Id is
-     *           ignored, so enter anything you wish
+     *
+     * @param id       The id of the argument -> the arguments in the next parameter, the Id is
+     *                 ignored, so enter anything you wish
      * @param argument The arguments to check
      */
     public RemainingArgument(String id, Collection<CommandArgument<T>> argument) {
@@ -109,7 +115,8 @@ public class RemainingArgument<T> implements CommandArgument<List<T>> {
 
     @Override
     public @NotNull Set<CommandCompletion> suggest(
-            @NotNull CommandContext commandContext, @NotNull CommandArgumentContext<List<T>> argument) {
+            @NotNull CommandContext commandContext,
+            @NotNull CommandArgumentContext<List<T>> argument) {
         int A = argument.getFirstArgument();
         while (A < commandContext.getCommand().length) {
             final int B = A;

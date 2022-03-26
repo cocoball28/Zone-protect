@@ -13,16 +13,14 @@ public class JoinRequestFlag implements Flag.Serializable {
     private final @NotNull Collection<UUID> joinRequests = new HashSet<>();
 
     public JoinRequestFlag(
-            @NotNull Collection<UUID> joinRequests,
-            @NotNull Collection<UUID> inviteRequests) {
+            @NotNull Collection<UUID> joinRequests, @NotNull Collection<UUID> inviteRequests) {
         this.joinRequests.addAll(joinRequests);
         this.inviteRequests.addAll(inviteRequests);
     }
 
     public JoinRequestFlag(
             @NotNull Collection<UUID> invites, @NotNull UUID... joinRequests) {
-        this(Arrays.asList(joinRequests),
-                Collections.unmodifiableCollection(invites));
+        this(Arrays.asList(joinRequests), Collections.unmodifiableCollection(invites));
     }
 
     public JoinRequestFlag() {

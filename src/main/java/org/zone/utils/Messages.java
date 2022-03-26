@@ -442,7 +442,12 @@ public final class Messages {
     }
 
     public static Component getCreatedGroup(Identifiable group, Identifiable parentGroup) {
-        return Component.text("Created group with the name " + group.getName() + " based on " + parentGroup.getName() + " group")
+        return Component
+                .text("Created group with the name " +
+                        group.getName() +
+                        " based on " +
+                        parentGroup.getName() +
+                        " group")
                 .color(NamedTextColor.AQUA);
     }
 
@@ -804,48 +809,44 @@ public final class Messages {
 
     public static Component getGreetingsDisplaySuccessfullyChangedToChat() {
         return Component
-                .text("Greetings message" +
-                        getDisplaySuccessfullyChangedStatement() +
-                        "chat").color(NamedTextColor.AQUA);
+                .text("Greetings message" + getDisplaySuccessfullyChangedStatement() + "chat")
+                .color(NamedTextColor.AQUA);
     }
 
     public static Component getGreetingsDisplaySuccessfullyChangedToTitle() {
         return Component
-                .text("Greetings message" +
-                        getDisplaySuccessfullyChangedStatement() +
-                        "title").color(NamedTextColor.AQUA);
+                .text("Greetings message" + getDisplaySuccessfullyChangedStatement() + "title")
+                .color(NamedTextColor.AQUA);
     }
 
     public static Component getGreetingsDisplaySuccessfullyChangedToBossBar() {
         return Component
-                .text("Greetings message" +
-                        getDisplaySuccessfullyChangedStatement() +
-                        "boss bar").color(NamedTextColor.AQUA);
+                .text("Greetings message" + getDisplaySuccessfullyChangedStatement() + "boss bar")
+                .color(NamedTextColor.AQUA);
     }
 
     public static Component getLeavingDisplaySuccessfullyChangedToChat() {
         return Component
-                .text("Leaving message" +
-                        getDisplaySuccessfullyChangedStatement() +
-                        "chat").color(NamedTextColor.AQUA);
+                .text("Leaving message" + getDisplaySuccessfullyChangedStatement() + "chat")
+                .color(NamedTextColor.AQUA);
     }
 
     public static Component getLeavingDisplaySuccessfullyChangedToTitle() {
         return Component
-                .text("Leaving message" +
-                        getDisplaySuccessfullyChangedStatement() +
-                        "title").color(NamedTextColor.AQUA);
+                .text("Leaving message" + getDisplaySuccessfullyChangedStatement() + "title")
+                .color(NamedTextColor.AQUA);
     }
 
     public static Component getLeavingDisplaySuccessfullyChangedToBossBar() {
         return Component
-                .text("Leaving message" +
-                        getDisplaySuccessfullyChangedStatement() +
-                        "boss bar").color(NamedTextColor.AQUA);
+                .text("Leaving message" + getDisplaySuccessfullyChangedStatement() + "boss bar")
+                .color(NamedTextColor.AQUA);
     }
 
     public static Component getNoGroupWithTheGroupKey(Identifiable groupKey) {
-        return Component.text("No Group found with the GroupKey " + groupKey.getName()).color(NamedTextColor.RED);
+        return Component
+                .text("No Group found with the GroupKey " + groupKey.getName())
+                .color(NamedTextColor.RED);
     }
 
     public static Component getNotInvited() {

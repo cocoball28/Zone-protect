@@ -22,12 +22,12 @@ public class TitleMessageDisplay implements MessageDisplay {
         return this.subTitle;
     }
 
-    public @NotNull Title.Times getTimes() {
-        return this.times;
-    }
-
     public void setSubTitle(@NotNull Component subTitle) {
         this.subTitle = subTitle;
+    }
+
+    public @NotNull Title.Times getTimes() {
+        return this.times;
     }
 
     public void setTimes(@NotNull Title.Times times) {
