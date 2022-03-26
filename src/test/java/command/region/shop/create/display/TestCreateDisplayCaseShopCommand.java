@@ -5,7 +5,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.mockito.MockedStatic;
 import org.mockito.Mockito;
+import org.mockito.exceptions.base.MockitoException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.Living;
@@ -74,8 +76,15 @@ public class TestCreateDisplayCaseShopCommand {
 
 
         Mockito.mockStatic(RayTrace.class).when(RayTrace::block).thenReturn(rayTrace);
-        Mockito.mockStatic(ZonePlugin.class).when(ZonePlugin::getZonesPlugin).thenReturn(plugin);
+        try {
+            MockedStatic<ZonePlugin> staticZonePlugin = Mockito.mockStatic(ZonePlugin.class);
+            staticZonePlugin.when(ZonePlugin::getZonesPlugin).thenReturn(plugin);
+        } catch (MockitoException ignored) {
+            plugin = ZonePlugin.getZonesPlugin();
+        }
 
+
+        Mockito.when(loc.position()).thenReturn(atPosition.toDouble());
         Mockito.when(zone.getRegion()).thenReturn(childRegion);
         Mockito.when(rayTrace.direction(Mockito.<Living>any())).thenReturn(rayTrace);
         Mockito.when(rayTrace.sourcePosition(Mockito.<Entity>any())).thenReturn(rayTrace);
@@ -111,10 +120,12 @@ public class TestCreateDisplayCaseShopCommand {
 
 
         CommandResult commandResult = Mockito.mock(CommandResult.class);
-        Mockito
-                .mockStatic(CommandResult.class)
-                .when(CommandResult::success)
-                .thenReturn(commandResult);
+        try {
+            MockedStatic<CommandResult> commandResultStatic = Mockito.mockStatic(CommandResult.class);
+            commandResultStatic.when(CommandResult::success).thenReturn(commandResult);
+        } catch (MockitoException e) {
+            commandResult = CommandResult.success();
+        }
 
 
         //test

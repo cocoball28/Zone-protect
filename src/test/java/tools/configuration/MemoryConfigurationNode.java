@@ -318,9 +318,19 @@ public class MemoryConfigurationNode implements CommentedConfigurationNode {
                 " on set");
     }
 
+    public String nodePath() {
+        StringBuilder builder = new StringBuilder();
+        MemoryConfigurationNode node = this;
+        while (node != null && !node.key.equals("root")) {
+            builder.append(node.key);
+            node = this.parent;
+        }
+        return builder.toString();
+    }
+
     @Override
     public int hashCode() {
-        return this.path().hashCode();
+        return this.nodePath().hashCode();
     }
 
     @Override
@@ -328,6 +338,6 @@ public class MemoryConfigurationNode implements CommentedConfigurationNode {
         if (!(obj instanceof MemoryConfigurationNode node)) {
             return false;
         }
-        return Arrays.equals(this.path().array(), node.path().array());
+        return this.nodePath().equals(node.nodePath());
     }
 }

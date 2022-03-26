@@ -6,7 +6,9 @@ import org.apache.maven.artifact.versioning.ArtifactVersion;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mockito;
+import org.mockito.exceptions.base.MockitoException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.entity.living.player.server.ServerPlayer;
 import org.spongepowered.plugin.PluginContainer;
@@ -27,6 +29,7 @@ import tools.CommandAssert;
 import java.util.Optional;
 import java.util.UUID;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class TestGreetingsSetCommand {
 
     private ZoneManager zoneManager;
@@ -52,10 +55,14 @@ public class TestGreetingsSetCommand {
 
 
         Mockito.when(config.getOrElse(ZoneNodes.MAX_OWNER)).thenReturn(99);
-        Mockito
-                .mockStatic(ZonePlugin.class)
-                .when(ZonePlugin::getZonesPlugin)
-                .thenReturn(this.plugin);
+        try {
+            Mockito
+                    .mockStatic(ZonePlugin.class)
+                    .when(ZonePlugin::getZonesPlugin)
+                    .thenReturn(this.plugin);
+        } catch (MockitoException e) {
+            this.plugin = ZonePlugin.getZonesPlugin();
+        }
         Mockito.when(this.plugin.getPluginContainer()).thenReturn(this.container);
         Mockito.when(this.plugin.getConfig()).thenReturn(config);
         Mockito.when(this.container.metadata()).thenReturn(this.metadata);
@@ -85,10 +92,14 @@ public class TestGreetingsSetCommand {
 
 
         CommandResult commandResult = Mockito.mock(CommandResult.class);
-        Mockito
-                .mockStatic(CommandResult.class)
-                .when(CommandResult::success)
-                .thenReturn(commandResult);
+        try {
+            Mockito
+                    .mockStatic(CommandResult.class)
+                    .when(CommandResult::success)
+                    .thenReturn(commandResult);
+        } catch (MockitoException e) {
+            commandResult = CommandResult.success();
+        }
 
 
         //test
@@ -113,7 +124,7 @@ public class TestGreetingsSetCommand {
 
         //compare
         Assertions.assertEquals(commandResult, result);
-        Assertions.assertEquals("test",
+        Assertions.assertEquals("test two",
                 PlainTextComponentSerializer.plainText().serialize(greetingsResult));
     }
 
@@ -130,10 +141,14 @@ public class TestGreetingsSetCommand {
 
 
         CommandResult commandResult = Mockito.mock(CommandResult.class);
-        Mockito
-                .mockStatic(CommandResult.class)
-                .when(CommandResult::success)
-                .thenReturn(commandResult);
+        try {
+            Mockito
+                    .mockStatic(CommandResult.class)
+                    .when(CommandResult::success)
+                    .thenReturn(commandResult);
+        } catch (MockitoException e) {
+            commandResult = CommandResult.success();
+        }
 
 
         //test

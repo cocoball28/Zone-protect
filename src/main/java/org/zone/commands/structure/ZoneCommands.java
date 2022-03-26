@@ -41,7 +41,6 @@ import org.zone.commands.structure.region.flags.damage.towards.player.fall.ZoneF
 import org.zone.commands.structure.region.flags.damage.towards.player.fall.ZoneFlagPlayerFallDamageView;
 import org.zone.commands.structure.region.flags.display.greetings.ZoneFlagGreetingsDisplaySetBossBarCommand;
 import org.zone.commands.structure.region.flags.display.greetings.ZoneFlagGreetingsDisplaySetChatCommand;
-import org.zone.commands.structure.region.flags.display.greetings.ZoneFlagGreetingsDisplaySetTitleCommand;
 import org.zone.commands.structure.region.flags.display.leaving.ZoneFlagLeavingMessageDisplaySetBossBarCommand;
 import org.zone.commands.structure.region.flags.display.leaving.ZoneFlagLeavingMessageDisplaySetChatCommand;
 import org.zone.commands.structure.region.flags.display.leaving.ZoneFlagLeavingMessageDisplaySetTitleCommand;
@@ -118,7 +117,6 @@ public interface ZoneCommands {
     ZoneFlagLeavingMessageDisplaySetTitleCommand ZONE_FLAG_LEAVING_MESSAGE_DISPLAY_SET_TITLE_COMMAND = new ZoneFlagLeavingMessageDisplaySetTitleCommand();
     ZoneFlagLeavingMessageDisplaySetBossBarCommand ZONE_FLAG_LEAVING_MESSAGE_DISPLAY_SET_BOSS_BAR_COMMAND = new ZoneFlagLeavingMessageDisplaySetBossBarCommand();
     ZoneFlagGreetingsDisplaySetChatCommand ZONE_FLAG_GREETINGS_DISPLAY_SET_CHAT_COMMAND = new ZoneFlagGreetingsDisplaySetChatCommand();
-    ZoneFlagGreetingsDisplaySetTitleCommand ZONE_FLAG_GREETINGS_DISPLAY_SET_TITLE_COMMAND = new ZoneFlagGreetingsDisplaySetTitleCommand();
     ZoneFlagGreetingsDisplaySetBossBarCommand ZONE_FLAG_GREETINGS_DISPLAY_SET_BOSS_BAR_COMMAND = new ZoneFlagGreetingsDisplaySetBossBarCommand();
     EditBoundsStartCommand EDIT_BOUNDS_START_COMMAND = new EditBoundsStartCommand();
     EditBoundsEndCommand EDIT_BOUNDS_END_COMMAND = new EditBoundsEndCommand();
