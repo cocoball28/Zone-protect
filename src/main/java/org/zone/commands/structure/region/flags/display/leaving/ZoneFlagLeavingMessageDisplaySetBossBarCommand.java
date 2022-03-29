@@ -11,6 +11,8 @@ import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.simple.EnumArgument;
 import org.zone.commands.system.arguments.simple.number.RangeArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilterBuilder;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilters;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
@@ -19,6 +21,7 @@ import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.entity.player.display.MessageDisplay;
 import org.zone.region.flag.entity.player.display.bossbar.BossBarMessageDisplayBuilder;
 import org.zone.region.flag.entity.player.move.leaving.LeavingFlag;
+import org.zone.region.group.key.GroupKeys;
 import org.zone.utils.Messages;
 
 import java.util.Arrays;
@@ -28,8 +31,11 @@ import java.util.Optional;
 public class ZoneFlagLeavingMessageDisplaySetBossBarCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE_ID = new ZoneArgument("zoneId",
-            new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
-                    ZonePermissions.OVERRIDE_FLAG_LEAVING_MESSAGE_SET_BOSS_BAR));
+                        ZonePermissions.OVERRIDE_FLAG_LEAVING_MESSAGE_SET_BOSS_BAR,
+                        new ZoneArgumentFilterBuilder()
+                                        .setFilter(ZoneArgumentFilters.withGroupKey(GroupKeys.OWNER))
+                                        .setPermission(ZonePermissions.FLAG_LEAVING_MESSAGE_SET_BOSS_BAR)
+                                        .build());
     public static final RangeArgument<Integer> PROGRESS = RangeArgument.createArgument("progress"
             , 0, 100);
     public static final EnumArgument<BossBar.Color> COLOR = new EnumArgument<>(

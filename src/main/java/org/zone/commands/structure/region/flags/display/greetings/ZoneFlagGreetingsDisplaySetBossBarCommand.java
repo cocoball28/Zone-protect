@@ -12,16 +12,18 @@ import org.zone.commands.system.arguments.simple.EnumArgument;
 import org.zone.commands.system.arguments.simple.number.IntegerArgument;
 import org.zone.commands.system.arguments.simple.number.RangeArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilterBuilder;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilters;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.entity.player.display.MessageDisplay;
-import org.zone.region.flag.entity.player.display.MessageDisplayTypes;
 import org.zone.region.flag.entity.player.display.bossbar.BossBarMessageDisplay;
 import org.zone.region.flag.entity.player.display.bossbar.BossBarMessageDisplayBuilder;
 import org.zone.region.flag.entity.player.move.greetings.GreetingsFlag;
+import org.zone.region.group.key.GroupKeys;
 import org.zone.utils.Messages;
 
 import java.util.Arrays;
@@ -31,8 +33,9 @@ import java.util.Optional;
 public class ZoneFlagGreetingsDisplaySetBossBarCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE_ID = new ZoneArgument("zoneId",
-            new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
-                    ZonePermissions.OVERRIDE_FLAG_GREETINGS_MESSAGE_DISPLAY_SET_BOSS_BAR));
+                    ZonePermissions.OVERRIDE_FLAG_GREETINGS_MESSAGE_DISPLAY_SET_BOSS_BAR,
+                    new ZoneArgumentFilterBuilder()
+                            .setFilter(ZoneArgumentFilters.withGroupKey(GroupKeys.OWNER)).build());
     public static final RangeArgument<Integer> PROGRESS = RangeArgument.createArgument("progress"
             , 0, 100);
     public static final EnumArgument<BossBar.Color> COLOR = new EnumArgument<>(
@@ -43,17 +46,17 @@ public class ZoneFlagGreetingsDisplaySetBossBarCommand implements ArgumentComman
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
-                             new ExactArgument("flag"),
-                             ZONE_ID,
-                             new ExactArgument("greetings"),
-                             new ExactArgument("message"),
-                             new ExactArgument("display"),
-                             new ExactArgument("set"),
-                             new ExactArgument("boss"),
-                             new ExactArgument("bar"),
-                             PROGRESS,
-                             COLOR,
-                             OVERLAY);
+                new ExactArgument("flag"),
+                ZONE_ID,
+                new ExactArgument("greetings"),
+                new ExactArgument("message"),
+                new ExactArgument("display"),
+                new ExactArgument("set"),
+                new ExactArgument("boss"),
+                new ExactArgument("bar"),
+                PROGRESS,
+                COLOR,
+                OVERLAY);
     }
 
     @Override

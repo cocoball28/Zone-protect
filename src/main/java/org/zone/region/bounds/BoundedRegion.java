@@ -29,16 +29,16 @@ public class BoundedRegion implements Region {
         this.position2 = position2;
     }
 
-    public @NotNull Vector3i getSize(){
+    public @NotNull Vector3i getSize() {
         Vector3i min = this.getMin();
         Vector3i max = this.getMax();
         return new Vector3i(max.x() - min.x(), max.y() - min.y(), max.z() - min.z());
     }
 
-    public int getBlockCount(boolean ignoreHeight){
+    public int getBlockCount(boolean ignoreHeight) {
         Vector3i size = this.getSize();
         int squareSize = size.x() * size.z();
-        if(ignoreHeight){
+        if (ignoreHeight) {
             return squareSize;
         }
         return squareSize * size.y();

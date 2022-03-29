@@ -29,8 +29,9 @@ public class RangeArgument<N extends Number> implements CommandArgument<N> {
 
     /**
      * Creates a range argument
+     *
      * @param parser the command argument to gain the number
-     * @param lower the minimum value that can be accepted
+     * @param lower  the minimum value that can be accepted
      * @param higher the maximum value that can be accepted
      * @since 1.0.0
      */
@@ -89,9 +90,11 @@ public class RangeArgument<N extends Number> implements CommandArgument<N> {
 
     /**
      * Creates a range argument based on a fixed input
-     * @param id The id of the argument
+     *
+     * @param id  The id of the argument
      * @param min the minimum value that can be accepted
      * @param max the maximum value that can be accepted
+     *
      * @return The created range argument
      * @since 1.0.0
      */
@@ -104,9 +107,11 @@ public class RangeArgument<N extends Number> implements CommandArgument<N> {
 
     /**
      * Creates a range argument based on a fixed input
-     * @param id The id of the argument
+     *
+     * @param id  The id of the argument
      * @param min the minimum value that can be accepted
      * @param max the maximum value that can be accepted
+     *
      * @return The created range argument
      * @since 1.0.0
      */

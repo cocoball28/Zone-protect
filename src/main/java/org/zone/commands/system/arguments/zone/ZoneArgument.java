@@ -6,7 +6,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.api.command.CommandCompletion;
 import org.spongepowered.api.data.Keys;
-import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.service.permission.Subject;
@@ -15,20 +14,19 @@ import org.zone.ZonePlugin;
 import org.zone.commands.system.CommandArgumentResult;
 import org.zone.commands.system.GUICommandArgument;
 import org.zone.commands.system.ParseCommandArgument;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilter;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilterBuilder;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilters;
 import org.zone.commands.system.context.CommandArgumentContext;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.permissions.ZonePermission;
 import org.zone.region.Zone;
-import org.zone.region.group.DefaultGroups;
-import org.zone.region.group.Group;
 import org.zone.region.group.key.GroupKey;
 import org.zone.region.group.key.GroupKeys;
 import org.zone.utils.Messages;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -39,15 +37,17 @@ import java.util.stream.Stream;
  */
 public class ZoneArgument implements GUICommandArgument<Zone> {
 
-    private final @NotNull ZoneArgumentPropertiesBuilder builder;
+    private final @NotNull Collection<? extends ZoneArgumentFilter> filters;
+    private final @Nullable ZonePermission bypassPermission;
     private final @NotNull String id;
 
+    @Deprecated(since = "1.0.1", forRemoval = true)
     public static class ZoneArgumentPropertiesBuilder {
 
+        public boolean isVisitor;
         private @Nullable ParseCommandArgument<Zone> subZoneTo;
         private boolean onlyMainZones = true;
         private boolean onlyPartOf;
-        public boolean isVisitor;
         private @Nullable ZonePermission bypassSuggestionPermission;
         private @Nullable GroupKey level = GroupKeys.OWNER;
 
@@ -100,6 +100,31 @@ public class ZoneArgument implements GUICommandArgument<Zone> {
             this.isVisitor = isVisitor;
             return this;
         }
+
+        public Collection<ZoneArgumentFilter> getFilters() {
+            Collection<ZoneArgumentFilter> filter = new HashSet<>();
+            if (this.isVisitor) {
+                filter.add(new ZoneArgumentFilterBuilder()
+                        .setFilter(ZoneArgumentFilters.VISITORS_ONLY)
+                        .build());
+            }
+            if (this.onlyMainZones) {
+                filter.add(new ZoneArgumentFilterBuilder()
+                        .setFilter(ZoneArgumentFilters.MAIN_ONLY)
+                        .build());
+            }
+            if (this.level != null) {
+                filter.add(new ZoneArgumentFilterBuilder()
+                        .setFilter(ZoneArgumentFilters.withGroupKey(this.level))
+                        .build());
+            }
+            if (this.onlyPartOf) {
+                filter.add(new ZoneArgumentFilterBuilder()
+                        .setFilter(ZoneArgumentFilters.MEMBERS_ONLY)
+                        .build());
+            }
+            return filter;
+        }
     }
 
     /**
@@ -117,11 +142,27 @@ public class ZoneArgument implements GUICommandArgument<Zone> {
      *
      * @param id      The id of the argument
      * @param builder The properties to accept
-     * @since 1.0.0
+     *
+     * @deprecated Removed due to limiting properties, use ZoneArgument(String id, ZonePermission
+     * bypass, Collection filters) instead
      */
+    @Deprecated(since = "1.0.1", forRemoval = true)
     public ZoneArgument(@NotNull String id, @NotNull ZoneArgumentPropertiesBuilder builder) {
+        this(id, builder.getBypassSuggestionPermission(), builder.getFilters());
+    }
+
+    public ZoneArgument(
+            @NotNull String id, @Nullable ZonePermission bypass, ZoneArgumentFilter... filters) {
+        this(id, bypass, Arrays.asList(filters));
+    }
+
+    public ZoneArgument(
+            @NotNull String id,
+            @Nullable ZonePermission bypass,
+            @NotNull Collection<? extends ZoneArgumentFilter> filters) {
         this.id = id;
-        this.builder = builder;
+        this.bypassPermission = bypass;
+        this.filters = filters;
     }
 
     @Override
@@ -149,11 +190,12 @@ public class ZoneArgument implements GUICommandArgument<Zone> {
 
     @Override
     public @NotNull Collection<CommandCompletion> suggest(
-            @NotNull CommandContext commandContext, @NotNull CommandArgumentContext<Zone> argument) {
+            @NotNull CommandContext commandContext,
+            @NotNull CommandArgumentContext<Zone> argument) {
         return this.suggest(commandContext, argument.getFocusArgument());
     }
 
-    private ItemStack getItem(Zone zone) {
+    private ItemStack getItem(Identifiable zone) {
         return ItemStack
                 .builder()
                 .quantity(1)
@@ -163,40 +205,18 @@ public class ZoneArgument implements GUICommandArgument<Zone> {
                 .build();
     }
 
-    private Stream<Zone> getZones(CommandContext context) {
+    private @NotNull Stream<Zone> getZones(@NotNull CommandContext context) {
         Collection<Zone> collection = ZonePlugin.getZonesPlugin().getZoneManager().getRegistered();
         Stream<Zone> zones = collection.stream();
-        if (this.builder.isOnlyMainZones()) {
-            zones = zones.filter(zone -> zone.getParentId().isEmpty());
-        }
-        if (this.builder.isLimitedToOnlyPartOf() && context.getSource() instanceof Player player) {
-            zones = zones.filter(zone -> zone
-                    .getMembers()
-                    .getMembers()
-                    .contains(player.uniqueId()));
-        }
-        if (this.builder.getLevel() != null) {
-            Subject subject = context.getSource();
-            if (this.builder.getBypassSuggestionPermission() == null ||
-                    this.builder.getBypassSuggestionPermission() != null &&
-                            !this.builder.getBypassSuggestionPermission().hasPermission(subject)) {
-                if (subject instanceof Player player) {
-                    zones = zones.filter(zone -> {
-                        Group group = zone.getMembers().getGroup(player.uniqueId());
-                        if (this.builder.getLevel() == null) {
-                            return true;
-                        }
-                        return group.contains(this.builder.getLevel());
-                    });
-                }
-            }
-        }
-
-        if (this.builder.isVisitor && context.getSource() instanceof Player player) {
-            zones = zones.filter(zone -> zone
-                    .getMembers()
-                    .getGroup(player.uniqueId())
-                    .equals(DefaultGroups.VISITOR));
+        for (ZoneArgumentFilter filter : this.filters) {
+            @NotNull Subject source = context.getSource();
+            zones = zones.filter(zone -> this.bypassPermission != null &&
+                    !filter.mustHappen() &&
+                    (this.bypassPermission.hasPermission(source) ||
+                            (filter
+                                    .getPermission()
+                                    .map(permission -> permission.hasPermission(source))
+                                    .orElse(false))) || filter.canAccept(zone, context));
         }
         return zones;
     }

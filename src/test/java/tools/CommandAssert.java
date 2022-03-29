@@ -3,6 +3,7 @@ package tools;
 import org.apache.maven.artifact.versioning.ArtifactVersion;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
+import org.mockito.exceptions.base.MockitoException;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandCause;
 import org.spongepowered.api.command.CommandResult;
@@ -89,6 +90,7 @@ public class CommandAssert {
         MockedStatic<ZonePlugin> staticPlugin = Mockito.mockStatic(ZonePlugin.class);
         staticPlugin.when(ZonePlugin::getZonesPlugin).thenReturn(plugin);
 
+
         MockedStatic<Sponge> staticSponge = Mockito.mockStatic(Sponge.class);
         staticSponge.when(Sponge::serviceProvider).thenReturn(serviceProvider);
 
@@ -116,9 +118,12 @@ public class CommandAssert {
         ServiceProvider.GameScoped serviceProvider = Mockito.mock(ServiceProvider.GameScoped.class);
 
         CommandContext context = new CommandContext(commandCause, List.of(command), arguments);
-
-        MockedStatic<Sponge> staticSponge = Mockito.mockStatic(Sponge.class);
-        staticSponge.when(Sponge::serviceProvider).thenReturn(serviceProvider);
+        try {
+            MockedStatic<Sponge> staticSponge = Mockito.mockStatic(Sponge.class);
+            staticSponge.when(Sponge::serviceProvider).thenReturn(serviceProvider);
+        } catch (MockitoException e) {
+            serviceProvider = Sponge.serviceProvider();
+        }
 
         return test(container,
                 metadata,

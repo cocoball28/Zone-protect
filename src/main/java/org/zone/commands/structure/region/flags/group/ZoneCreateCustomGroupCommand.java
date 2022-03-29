@@ -11,6 +11,8 @@ import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.simple.StringArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.arguments.zone.ZoneGroupArgument;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilterBuilder;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilters;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
@@ -18,6 +20,7 @@ import org.zone.region.Zone;
 import org.zone.region.flag.meta.member.MembersFlag;
 import org.zone.region.group.Group;
 import org.zone.region.group.SimpleGroup;
+import org.zone.region.group.key.GroupKeys;
 import org.zone.utils.Messages;
 
 import java.util.Arrays;
@@ -27,8 +30,11 @@ import java.util.Optional;
 public class ZoneCreateCustomGroupCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE_ID = new ZoneArgument("zoneId",
-            new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
-                    ZonePermissions.OVERRIDE_CREATE_CUSTOM_GROUP));
+            ZonePermissions.OVERRIDE_CREATE_CUSTOM_GROUP,
+            new ZoneArgumentFilterBuilder()
+                    .setFilter(ZoneArgumentFilters.withGroupKey(GroupKeys.OWNER))
+                    .build());
+
     @SuppressWarnings("allow-string-argument")
     public static final StringArgument KEY = new StringArgument("key");
     public static final ZoneGroupArgument PARENT = new ZoneGroupArgument("parent", ZONE_ID);
@@ -36,11 +42,11 @@ public class ZoneCreateCustomGroupCommand implements ArgumentCommand {
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
-                             new ExactArgument("create"),
-                             new ExactArgument("group"),
-                             ZONE_ID,
-                             KEY,
-                             PARENT);
+                new ExactArgument("create"),
+                new ExactArgument("group"),
+                ZONE_ID,
+                KEY,
+                PARENT);
     }
 
     @Override
@@ -59,9 +65,7 @@ public class ZoneCreateCustomGroupCommand implements ArgumentCommand {
         Zone zone = commandContext.getArgument(this, ZONE_ID);
         String key = commandContext.getArgument(this, KEY);
         Group parent = commandContext.getArgument(this, PARENT);
-        Group group = new SimpleGroup(ZonePlugin
-                .getZonesPlugin()
-                .getPluginContainer(),
+        Group group = new SimpleGroup(ZonePlugin.getZonesPlugin().getPluginContainer(),
                 key,
                 parent);
         MembersFlag membersFlag = zone.getMembers();

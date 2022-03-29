@@ -30,7 +30,7 @@ import java.util.Optional;
 
 public class CreateDisplayShop implements ArgumentCommand {
 
-    private static final ComponentRemainingArgument SHOP_NAME = new ComponentRemainingArgument(
+    private static final CommandArgument<Component> SHOP_NAME = new ComponentRemainingArgument(
             "shop_name");
 
     @Override

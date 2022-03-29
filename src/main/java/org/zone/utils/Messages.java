@@ -453,7 +453,12 @@ public final class Messages {
     }
 
     public static Component getCreatedGroup(Identifiable group, Identifiable parentGroup) {
-        return Component.text("Created group with the name " + group.getName() + " based on " + parentGroup.getName() + " group")
+        return Component
+                .text("Created group with the name " +
+                        group.getName() +
+                        " based on " +
+                        parentGroup.getName() +
+                        " group")
                 .color(NamedTextColor.AQUA);
     }
 

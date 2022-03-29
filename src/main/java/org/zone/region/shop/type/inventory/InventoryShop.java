@@ -30,6 +30,9 @@ import java.util.stream.Collectors;
 
 public abstract class InventoryShop implements Shop.Modifiable<SellingItemStack> {
 
+    private final List<SellingItemStack> sellingItems = new ArrayList<>();
+    private final Component name;
+
     public class ShopSellClickHandler implements SlotClickHandler {
 
         @Override
@@ -59,10 +62,6 @@ public abstract class InventoryShop implements Shop.Modifiable<SellingItemStack>
             return false;
         }
     }
-
-
-    private final List<SellingItemStack> sellingItems = new ArrayList<>();
-    private final Component name;
 
     public InventoryShop(Component component) {
         this.name = component;

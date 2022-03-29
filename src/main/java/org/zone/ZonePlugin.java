@@ -39,11 +39,11 @@ import org.zone.region.flag.entity.nonliving.block.farmland.FarmTramplingListene
 import org.zone.region.flag.entity.nonliving.block.tnt.TnTDefuseListener;
 import org.zone.region.flag.entity.player.damage.attack.EntityDamagePlayerListener;
 import org.zone.region.flag.entity.player.damage.fall.PlayerFallDamageListener;
+import org.zone.region.flag.entity.player.display.MessageDisplayManager;
 import org.zone.region.flag.entity.player.interact.block.destroy.BlockBreakListener;
 import org.zone.region.flag.entity.player.interact.block.place.BlockPlaceListener;
 import org.zone.region.flag.entity.player.interact.door.DoorInteractListener;
 import org.zone.region.flag.entity.player.interact.itemframe.ItemFrameInteractionListener;
-import org.zone.region.flag.entity.player.display.MessageDisplayManager;
 import org.zone.region.flag.entity.player.move.greetings.GreetingsFlagListener;
 import org.zone.region.flag.entity.player.move.leaving.LeavingFlagListener;
 import org.zone.region.flag.entity.player.move.preventing.PreventPlayersListener;
@@ -370,26 +370,6 @@ public class ZonePlugin {
         return this.plugin;
     }
 
-    /**
-     * Gets the instance of this class
-     *
-     * @return The instance of this class
-     * @since 1.0.0
-     */
-    public static @NotNull ZonePlugin getZonesPlugin() {
-        return zonePlugin;
-    }
-
-    /**
-     * Gets fields from a type class which extends Identifiable
-     *
-     * @param type The types class which accepts classes which extend {@link Identifiable}
-     *
-     * @param <T>  A variable which accepts classes which extends {@link Identifiable}
-     *
-     * @return The fields from a type class
-     * @since 1.0.1
-     */
     public <T extends Identifiable> Stream<T> getVanillaTypes(Class<T> type) {
         Typed typedAnnotation = type.getAnnotation(Typed.class);
         if (typedAnnotation == null) {
@@ -419,4 +399,12 @@ public class ZonePlugin {
                 .filter(Objects::nonNull);
     }
 
+    /**
+     * Gets the instance of this class
+     *
+     * @return The instance of this class
+     */
+    public static @NotNull ZonePlugin getZonesPlugin() {
+        return zonePlugin;
+    }
 }

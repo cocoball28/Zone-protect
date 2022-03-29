@@ -9,6 +9,8 @@ import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.arguments.zone.ZoneGroupArgument;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilterBuilder;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilters;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
@@ -16,6 +18,7 @@ import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.entity.player.damage.fire.PlayerFireDamageFlag;
 import org.zone.region.group.Group;
+import org.zone.region.group.key.GroupKeys;
 import org.zone.utils.Messages;
 
 import java.util.Arrays;
@@ -25,21 +28,21 @@ import java.util.Optional;
 public class ZoneFlagFireDamageSetGroup implements ArgumentCommand {
 
     public static final ZoneArgument ZONE_ID = new ZoneArgument("zoneId",
-            new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
-                    ZonePermissions.OVERRIDE_FLAG_FIRE_DAMAGE_SET_GROUP));
+            ZonePermissions.OVERRIDE_FLAG_FIRE_DAMAGE_SET_GROUP,
+            new ZoneArgumentFilterBuilder().setFilter(ZoneArgumentFilters.withGroupKey(GroupKeys.OWNER)).build());
     public static final ZoneGroupArgument GROUP = new ZoneGroupArgument("groupId", ZONE_ID);
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
-                             new ExactArgument("flag"),
-                             ZONE_ID,
-                             new ExactArgument("damage"),
-                             new ExactArgument("fire"),
-                             new ExactArgument("towards"),
-                             new ExactArgument("player"),
-                             new ExactArgument("set"),
-                             GROUP);
+                new ExactArgument("flag"),
+                ZONE_ID,
+                new ExactArgument("damage"),
+                new ExactArgument("fire"),
+                new ExactArgument("towards"),
+                new ExactArgument("player"),
+                new ExactArgument("set"),
+                GROUP);
     }
 
     @Override
@@ -64,7 +67,7 @@ public class ZoneFlagFireDamageSetGroup implements ArgumentCommand {
         try {
             zone.save();
             commandContext.sendMessage(Messages.getUpdatedMessage(FlagTypes.PLAYER_FIRE_DAMAGE));
-        }catch (ConfigurateException ce) {
+        } catch (ConfigurateException ce) {
             ce.printStackTrace();
             commandContext.sendMessage(Messages.getZoneSavingError(ce));
         }

@@ -21,7 +21,9 @@ public class GreetingsFlag implements Flag.Serializable {
         this.text = greetingsMessage;
     }
 
-    public GreetingsFlag(@NotNull Component greetingsMessage, @NotNull MessageDisplay messageDisplay) {
+    public GreetingsFlag(
+            @NotNull Component greetingsMessage,
+            @NotNull MessageDisplay messageDisplay) {
         this.text = greetingsMessage;
         this.messageDisplay = messageDisplay;
     }
@@ -55,6 +57,16 @@ public class GreetingsFlag implements Flag.Serializable {
     }
 
     /**
+     * Method to set the display type
+     *
+     * @param messageDisplay The display type to set
+     */
+    public void setDisplayType(@NotNull MessageDisplay messageDisplay) {
+        this.messageDisplay = messageDisplay;
+    }
+
+    @Deprecated(forRemoval = true)
+    /**
      * Method to set the greetings message
      *
      * @deprecated Since 1.0.1
@@ -73,15 +85,6 @@ public class GreetingsFlag implements Flag.Serializable {
      */
     public void setMessage(@NotNull Component component) {
         this.text = component;
-    }
-
-    /**
-     * Method to set the display type
-     *
-     * @param messageDisplay The display type to set
-     */
-    public void setDisplayType(@NotNull MessageDisplay messageDisplay) {
-        this.messageDisplay = messageDisplay;
     }
 
     @Override

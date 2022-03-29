@@ -8,6 +8,8 @@ import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilterBuilder;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilters;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
@@ -22,8 +24,8 @@ import java.util.Optional;
 public class ZoneFlagFarmLandTrampleViewCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE_ID = new ZoneArgument("zoneId",
-            new ZoneArgument.ZoneArgumentPropertiesBuilder()
-                    .setBypassSuggestionPermission(ZonePermissions.OVERRIDE_FLAG_FARMLAND_TRAMPLE_VIEW));
+            ZonePermissions.OVERRIDE_FLAG_FARMLAND_TRAMPLE_VIEW,
+            new ZoneArgumentFilterBuilder().setFilter(ZoneArgumentFilters.MEMBERS_ONLY).build());
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {

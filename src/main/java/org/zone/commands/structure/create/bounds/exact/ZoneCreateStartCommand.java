@@ -27,8 +27,8 @@ import java.util.Optional;
 public class ZoneCreateStartCommand extends AbstractCreateZoneStartCommand {
 
     @SuppressWarnings("allow-string-argument")
-    private static final RemainingArgument<String> NAME =
-            new RemainingArgument<>(new StringArgument("name"));
+    private static final RemainingArgument<String> NAME = new RemainingArgument<>(new StringArgument(
+            "name"));
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {

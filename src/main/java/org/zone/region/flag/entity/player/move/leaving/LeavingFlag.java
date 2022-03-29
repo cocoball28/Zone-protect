@@ -18,31 +18,31 @@ public class LeavingFlag implements Flag.Serializable {
         this.messageDisplay = messageDisplay;
     }
 
-    @Deprecated(since = "1.0.1",forRemoval = true)
+    @Deprecated(since = "1.0.1", forRemoval = true)
     public LeavingFlag(@NotNull Component leavingMessage) {
         this.leavingMessage = leavingMessage;
     }
 
-    @Deprecated(since = "1.0.1",forRemoval = true)
+    @Deprecated(since = "1.0.1", forRemoval = true)
     public @Nullable Component getLegacyLeavingMessage() {
         return this.leavingMessage;
+    }
+
+    @Deprecated(since = "1.0.1", forRemoval = true)
+    public void setLegacyLeavingMessage(@NotNull Component leavingMessage) {
+        this.leavingMessage = leavingMessage;
     }
 
     public @NotNull Component getLeavingMessage() {
         return this.leavingMessage;
     }
 
-    public @NotNull MessageDisplay getDisplayType() {
-        return this.messageDisplay;
-    }
-
-    @Deprecated(since = "1.0.1",forRemoval = true)
-    public void setLegacyLeavingMessage(@NotNull Component leavingMessage) {
-        this.leavingMessage = leavingMessage;
-    }
-
     public void setLeavingMessage(@NotNull Component leavingMessage) {
         this.leavingMessage = leavingMessage;
+    }
+
+    public @NotNull MessageDisplay getDisplayType() {
+        return this.messageDisplay;
     }
 
     public void setDisplayType(@NotNull MessageDisplay displayType) {

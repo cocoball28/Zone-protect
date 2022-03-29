@@ -48,9 +48,7 @@ public class ZombieGriefListener {
                 .filter(entry -> entry.getKey().operation() == Operations.BREAK.get())
                 .filter(entry -> entry.getValue().containsFlag(FlagTypes.ZOMBIE_GRIEF))
                 .forEach(entry -> {
-                    entry
-                            .getValue()
-                            .containsFlag(FlagTypes.ZOMBIE_GRIEF);
+                    entry.getValue().containsFlag(FlagTypes.ZOMBIE_GRIEF);
                     entry.getKey().invalidate();
                 });
     }

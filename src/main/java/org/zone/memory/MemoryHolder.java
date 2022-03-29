@@ -37,7 +37,7 @@ public class MemoryHolder {
         this.zoneBuilderBossBars.put(uuid, bossBar);
     }
 
-    public void unregisterZoneBuilderBossBar(@NotNull UUID uuid){
+    public void unregisterZoneBuilderBossBar(@NotNull UUID uuid) {
         this.zoneBuilderBossBars.remove(uuid);
     }
 

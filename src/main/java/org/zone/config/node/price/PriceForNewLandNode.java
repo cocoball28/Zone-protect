@@ -1,5 +1,6 @@
 package org.zone.config.node.price;
 
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.ResourceKey;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandResult;
@@ -33,12 +34,12 @@ public class PriceForNewLandNode implements ZoneNode<Price.PlayerPrice<?>> {
     private class TypeConfigCommandNode implements ConfigCommandNode<PriceType> {
 
         @Override
-        public String getDisplayId() {
+        public @NotNull String getDisplayId() {
             return "zone.region.claim.price.type";
         }
 
         @Override
-        public CommandArgument<PriceType> getCommandArgument() {
+        public @NotNull CommandArgument<PriceType> getCommandArgument() {
             return new EnumArgument<>("type",
                     EnumSet.copyOf(Arrays
                             .stream(PriceType.values())
@@ -47,8 +48,8 @@ public class PriceForNewLandNode implements ZoneNode<Price.PlayerPrice<?>> {
         }
 
         @Override
-        public CommandResult onChange(
-                CommandContext context, PriceType newValue) {
+        public @NotNull CommandResult onChange(
+                @NotNull CommandContext context, @NotNull PriceType newValue) {
             ZoneConfig config = ZonePlugin.getZonesPlugin().getConfig();
             Optional<Currency> opCurrency = Sponge
                     .serviceProvider()
@@ -73,23 +74,23 @@ public class PriceForNewLandNode implements ZoneNode<Price.PlayerPrice<?>> {
     }
 
     @Override
-    public Object[] getNode() {
+    public @NotNull Object[] getNode() {
         return new Object[]{"zone", "region", "claim", "create", "price", "perBlock"};
     }
 
     @Override
-    public PlayerLevelPrice getInitialValue() {
+    public @NotNull PlayerLevelPrice getInitialValue() {
         return new PlayerLevelPrice(1);
     }
 
     @Override
-    public Collection<ConfigCommandNode<?>> getNodes() {
+    public @NotNull Collection<ConfigCommandNode<?>> getNodes() {
         return List.of(new TypeConfigCommandNode());
     }
 
     @Override
     public void set(
-            CommentedConfigurationNode node, Price.PlayerPrice<?> price) throws
+            @NotNull CommentedConfigurationNode node, @NotNull Price.PlayerPrice<?> price) throws
             SerializationException {
         node.node("type").set(price.getType().name());
         node.node("amount").set(price.getAmount().doubleValue());
@@ -99,7 +100,7 @@ public class PriceForNewLandNode implements ZoneNode<Price.PlayerPrice<?>> {
     }
 
     @Override
-    public Optional<Price.PlayerPrice<?>> get(CommentedConfigurationNode node) {
+    public @NotNull Optional<Price.PlayerPrice<?>> get(@NotNull CommentedConfigurationNode node) {
         String priceTypeString = node.node("type").getString();
         double amount = node.node("amount").getDouble();
         String currencyString = node.node("currency").getString();

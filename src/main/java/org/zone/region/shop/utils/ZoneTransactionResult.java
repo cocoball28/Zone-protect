@@ -16,9 +16,9 @@ public class ZoneTransactionResult implements TransactionResult {
     private final Account account;
     private final Currency currency;
     private final BigDecimal amount;
-    private Set<Context> context;
     private final ResultType resultType;
     private final TransactionType transactionType;
+    private Set<Context> context;
 
     public ZoneTransactionResult(TransactionResultBuilder builder) {
         this.account = builder.getAccount();

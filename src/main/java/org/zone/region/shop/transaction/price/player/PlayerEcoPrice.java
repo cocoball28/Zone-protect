@@ -36,16 +36,6 @@ public class PlayerEcoPrice implements Price.PlayerPrice<BigDecimal>, Price.EcoP
     }
 
     @Override
-    public @NotNull BigDecimal getAmount() {
-        return this.amount;
-    }
-
-    @Override
-    public @NotNull PriceType getType() {
-        return PriceType.ECO;
-    }
-
-    @Override
     public boolean hasEnough(@NotNull Player player) {
         Optional<EconomyService> opService = Sponge.serviceProvider().provide(EconomyService.class);
         if (opService.isEmpty()) {
@@ -106,15 +96,25 @@ public class PlayerEcoPrice implements Price.PlayerPrice<BigDecimal>, Price.EcoP
     }
 
     @Override
-    public @NotNull PriceBuilder asBuilder() {
-        return new PriceBuilder()
-                .setType(PriceType.ECO)
-                .setAmount(this.amount.doubleValue())
-                .setCurrency(this.currency);
+    public @NotNull BigDecimal getAmount() {
+        return this.amount;
+    }
+
+    @Override
+    public @NotNull PriceType getType() {
+        return PriceType.ECO;
     }
 
     @Override
     public @NotNull Component getDisplayName() {
         return this.currency.symbol().append(Component.text(this.amount.toString()));
+    }
+
+    @Override
+    public @NotNull PriceBuilder asBuilder() {
+        return new PriceBuilder()
+                .setType(PriceType.ECO)
+                .setAmount(this.amount.doubleValue())
+                .setCurrency(this.currency);
     }
 }

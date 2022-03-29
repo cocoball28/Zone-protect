@@ -9,6 +9,8 @@ import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.sponge.ComponentRemainingArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilterBuilder;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilters;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
@@ -17,6 +19,7 @@ import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.entity.player.display.MessageDisplay;
 import org.zone.region.flag.entity.player.display.title.TitleMessageDisplayBuilder;
 import org.zone.region.flag.entity.player.move.leaving.LeavingFlag;
+import org.zone.region.group.key.GroupKeys;
 import org.zone.utils.Messages;
 
 import java.util.Arrays;
@@ -26,8 +29,11 @@ import java.util.Optional;
 public class ZoneFlagLeavingMessageDisplaySetTitleSubtitleCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE_ID = new ZoneArgument("zoneId",
-            new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
-                    ZonePermissions.OVERRIDE_FLAG_LEAVING_MESSAGE_SET_SUBTITLE));
+            ZonePermissions.OVERRIDE_FLAG_LEAVING_MESSAGE_SET_TITLE_SUBTITLE,
+            new ZoneArgumentFilterBuilder()
+                .setFilter(ZoneArgumentFilters.withGroupKey(GroupKeys.OWNER))
+                .setPermission(ZonePermissions.FLAG_GREETINGS_MESSAGE_DISPLAY_SET_SUB_TITLE)
+                .build());
     public static final ComponentRemainingArgument SUBTITLE = new ComponentRemainingArgument(
             "subtitle");
 
@@ -51,7 +57,7 @@ public class ZoneFlagLeavingMessageDisplaySetTitleSubtitleCommand implements Arg
 
     @Override
     public @NotNull Optional<ZonePermission> getPermissionNode() {
-        return Optional.of(ZonePermissions.FLAG_LEAVING_MESSAGE_SET_SUBTITLE);
+        return Optional.of(ZonePermissions.FLAG_LEAVING_MESSAGE_SET_TITLE_SUBTITLE);
     }
 
     @Override

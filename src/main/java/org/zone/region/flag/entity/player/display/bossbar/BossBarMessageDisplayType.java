@@ -36,8 +36,8 @@ public class BossBarMessageDisplayType implements MessageDisplayType<BossBarMess
     }
 
     @Override
-    public void save(@NotNull ConfigurationNode node, @Nullable BossBarMessageDisplay save)
-            throws IOException {
+    public void save(@NotNull ConfigurationNode node, @Nullable BossBarMessageDisplay save) throws
+            IOException {
         if (save == null) {
             throw new IOException("Display type can't be null");
         }

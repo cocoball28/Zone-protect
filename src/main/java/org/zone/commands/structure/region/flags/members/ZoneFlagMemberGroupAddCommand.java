@@ -13,12 +13,15 @@ import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.sponge.UserArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.arguments.zone.ZoneGroupArgument;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilterBuilder;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilters;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.group.DefaultGroups;
 import org.zone.region.group.Group;
+import org.zone.region.group.key.GroupKeys;
 import org.zone.utils.Messages;
 
 import java.io.IOException;
@@ -32,8 +35,10 @@ import java.util.Optional;
 public class ZoneFlagMemberGroupAddCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
-            new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
-                    ZonePermissions.OVERRIDE_FLAG_MEMBER_CHANGE));
+            ZonePermissions.OVERRIDE_FLAG_MEMBER_CHANGE,
+            new ZoneArgumentFilterBuilder()
+                    .setFilter(ZoneArgumentFilters.withGroupKey(GroupKeys.OWNER))
+                    .build());
     public static final ZoneGroupArgument GROUP = new ZoneGroupArgument("groupId", ZONE);
     public static final UserArgument USER = new UserArgument("user");
 

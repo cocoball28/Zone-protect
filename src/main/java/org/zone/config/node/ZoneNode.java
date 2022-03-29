@@ -1,5 +1,6 @@
 package org.zone.config.node;
 
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.serialize.SerializationException;
 import org.zone.annotations.Typed;
@@ -19,33 +20,35 @@ public interface ZoneNode<Value> {
 
     interface WithDefault<Value> extends ZoneNode<Value> {
 
-        Value getDefault();
+        @NotNull Value getDefault();
 
-        default Value getOrElse(ZoneConfig config) {
+        default @NotNull Value getOrElse(@NotNull ZoneConfig config) {
             return this.get(config).orElse(this.getDefault());
         }
 
-        default Value getOrElse(CommentedConfigurationNode node) {
+        default @NotNull Value getOrElse(@NotNull CommentedConfigurationNode node) {
             return this.get(node).orElse(this.getDefault());
         }
 
     }
 
-    Object[] getNode();
+    @NotNull Object[] getNode();
 
-    Value getInitialValue();
+    @NotNull Value getInitialValue();
 
-    Collection<ConfigCommandNode<?>> getNodes();
+    @NotNull Collection<ConfigCommandNode<?>> getNodes();
 
-    void set(CommentedConfigurationNode node, Value value) throws SerializationException;
+    void set(@NotNull CommentedConfigurationNode node, @NotNull Value value) throws
+            SerializationException;
 
-    Optional<Value> get(CommentedConfigurationNode node);
+    @NotNull Optional<Value> get(@NotNull CommentedConfigurationNode node);
 
-    default void set(ZoneConfig config, Value value) throws SerializationException {
+    default void set(@NotNull ZoneConfig config, @NotNull Value value) throws
+            SerializationException {
         this.set(config.getRoot().node(this.getNode()), value);
     }
 
-    default Optional<Value> get(ZoneConfig config) {
+    default @NotNull Optional<Value> get(ZoneConfig config) {
         return this.get(config.getRoot().node(this.getNode()));
     }
 

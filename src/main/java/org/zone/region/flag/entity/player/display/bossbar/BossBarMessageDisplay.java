@@ -82,11 +82,7 @@ public class BossBarMessageDisplay implements MessageDisplay {
 
     @Override
     public void sendMessage(@NotNull Component message, @NotNull Player receiver) {
-        BossBar bossBarMessage = BossBar
-                .bossBar(message,
-                        this.progress,
-                        this.color,
-                        this.overlay);
+        BossBar bossBarMessage = BossBar.bossBar(message, this.progress, this.color, this.overlay);
         receiver.showBossBar(bossBarMessage);
     }
 

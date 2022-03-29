@@ -23,22 +23,24 @@ import java.util.stream.Collectors;
 public class EnumArgument<T extends Enum<T>> implements GUICommandArgument<T> {
 
     private final @NotNull String id;
-    private final @NotNull EnumSet<T> set;
+    private final @NotNull Collection<T> set;
 
     /**
      * Creates the enum argument
-     * @param id The id of the argument
+     *
+     * @param id  The id of the argument
      * @param set A set of the enum values -> this can be a subset
      * @since 1.0.0
      */
-    public EnumArgument(@NotNull String id, @NotNull EnumSet<T> set) {
+    public EnumArgument(@NotNull String id, @NotNull Collection<T> set) {
         this.id = id;
         this.set = set;
     }
 
     /**
      * Creates the enum argument
-     * @param id The id of the argument
+     *
+     * @param id        The id of the argument
      * @param enumClass The class of the enum
      * @since 1.0.0
      */

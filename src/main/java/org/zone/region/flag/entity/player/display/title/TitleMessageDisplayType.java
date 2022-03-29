@@ -26,8 +26,7 @@ public class TitleMessageDisplayType implements MessageDisplayType<TitleMessageD
     }
 
     @Override
-    public @NotNull TitleMessageDisplay load(@NotNull ConfigurationNode node)
-            throws IOException {
+    public @NotNull TitleMessageDisplay load(@NotNull ConfigurationNode node) throws IOException {
         String displayTypeID = node.node("DisplayType").getString();
         if (displayTypeID == null) {
             throw new IOException("Couldn't get the display type");
@@ -36,8 +35,8 @@ public class TitleMessageDisplayType implements MessageDisplayType<TitleMessageD
     }
 
     @Override
-    public void save(@NotNull ConfigurationNode node, @Nullable TitleMessageDisplay save)
-            throws IOException {
+    public void save(@NotNull ConfigurationNode node, @Nullable TitleMessageDisplay save) throws
+            IOException {
         if (save == null) {
             throw new IOException("Display type can't be null");
         }

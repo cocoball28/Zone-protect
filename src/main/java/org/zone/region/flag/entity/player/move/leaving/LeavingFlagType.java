@@ -60,7 +60,7 @@ public class LeavingFlagType implements FlagType.SerializableType<LeavingFlag> {
         Component component = GsonComponentSerializer.gson().deserialize(message);
         return new LeavingFlag(component, messageDisplay);
     }
-    
+
     @Override
     public void save(@NotNull ConfigurationNode node, @Nullable LeavingFlag save) throws
             IOException {
@@ -74,8 +74,8 @@ public class LeavingFlagType implements FlagType.SerializableType<LeavingFlag> {
         node.node("Message").set(message);
     }
 
-    public <T extends MessageDisplay> void saveDisplay(ConfigurationNode node, T displayType)
-            throws IOException {
+    public <T extends MessageDisplay> void saveDisplay(ConfigurationNode node, T displayType) throws
+            IOException {
         Serializable<T> type = (Serializable<T>) displayType.getType();
         type.save(node, displayType);
     }

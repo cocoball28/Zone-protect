@@ -44,6 +44,10 @@ import org.zone.commands.structure.region.flags.damage.towards.player.attack.Zon
 import org.zone.commands.structure.region.flags.damage.towards.player.fall.ZoneFlagPlayerFallDamageEnableDisable;
 import org.zone.commands.structure.region.flags.damage.towards.player.fall.ZoneFlagPlayerFallDamageSetGroup;
 import org.zone.commands.structure.region.flags.damage.towards.player.fall.ZoneFlagPlayerFallDamageView;
+import org.zone.commands.structure.region.flags.display.greetings.ZoneFlagGreetingsDisplaySetBossBarCommand;
+import org.zone.commands.structure.region.flags.display.greetings.ZoneFlagGreetingsDisplaySetChatCommand;
+import org.zone.commands.structure.region.flags.display.leaving.ZoneFlagLeavingMessageDisplaySetBossBarCommand;
+import org.zone.commands.structure.region.flags.display.leaving.ZoneFlagLeavingMessageDisplaySetChatCommand;
 import org.zone.commands.structure.region.flags.eco.ZoneFlagViewBalanceCommand;
 import org.zone.commands.structure.region.flags.entry.monster.ZoneFlagMonsterEntryEnabledCommand;
 import org.zone.commands.structure.region.flags.entry.monster.ZoneFlagMonsterEntryViewCommand;

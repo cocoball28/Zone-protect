@@ -67,6 +67,17 @@ public class ZoneManager implements IdentifiableManager<Zone> {
     }
 
     /**
+     * Registers a new zone
+     *
+     * @param zone The zone to add
+     */
+    public synchronized void register(@NotNull Zone zone) {
+        this.isBeingWrittenTo = true;
+        this.zones.add(zone);
+        this.isBeingWrittenTo = false;
+    }
+
+    /**
      * Gets a zone that was created by the provided plugin with the key name of the provided
      *
      * @param container The plugin that created the zone
@@ -102,7 +113,6 @@ public class ZoneManager implements IdentifiableManager<Zone> {
         }
         return this.getRegistered();
     }
-
 
     /**
      * Gets the zones that are found at a location within a world. Note that zones can cross one
@@ -250,18 +260,6 @@ public class ZoneManager implements IdentifiableManager<Zone> {
         Collection<Zone> sortedZone = new TreeSet<>(Comparator.comparing(Identifiable::getId));
         sortedZone.addAll(zones);
         return Optional.of(sortedZone.iterator().next());
-    }
-
-    /**
-     * Registers a new zone
-     *
-     * @param zone The zone to add
-     * @since 1.0.0
-     */
-    public synchronized void register(@NotNull Zone zone) {
-        this.isBeingWrittenTo = true;
-        this.zones.add(zone);
-        this.isBeingWrittenTo = false;
     }
 
     /**
