@@ -32,7 +32,7 @@ public class ZoneInviteDenyCommand implements ArgumentCommand {
                 if (!(subject instanceof Player player)) {
                     return false;
                 }
-                @NotNull Optional<JoinRequestFlag> opFlag = zone.getFlag(FlagTypes.JOIN_REQUEST);
+                @NotNull Optional<InviteFlag> opFlag = zone.getFlag(FlagTypes.INVITE);
                 return opFlag.isPresent() && opFlag.get().getInvites().contains(player.uniqueId());
             }).build()));
 

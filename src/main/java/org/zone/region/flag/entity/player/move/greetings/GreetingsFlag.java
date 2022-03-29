@@ -65,7 +65,6 @@ public class GreetingsFlag implements Flag.Serializable {
         this.messageDisplay = messageDisplay;
     }
 
-    @Deprecated(forRemoval = true)
     /**
      * Method to set the greetings message
      *

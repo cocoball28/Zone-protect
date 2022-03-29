@@ -32,7 +32,7 @@ public class ZoneFlagLeavingMessageDisplaySetTitleSubtitleCommand implements Arg
             ZonePermissions.OVERRIDE_FLAG_LEAVING_MESSAGE_SET_TITLE_SUBTITLE,
             new ZoneArgumentFilterBuilder()
                 .setFilter(ZoneArgumentFilters.withGroupKey(GroupKeys.OWNER))
-                .setPermission(ZonePermissions.FLAG_GREETINGS_MESSAGE_DISPLAY_SET_SUB_TITLE)
+                .setPermission(ZonePermissions.FLAG_GREETINGS_MESSAGE_DISPLAY_SET_TITLE_SUBTITLE)
                 .build());
     public static final ComponentRemainingArgument SUBTITLE = new ComponentRemainingArgument(
             "subtitle");

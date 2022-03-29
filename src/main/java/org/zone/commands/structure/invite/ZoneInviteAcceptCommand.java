@@ -34,8 +34,8 @@ public class ZoneInviteAcceptCommand implements ArgumentCommand {
                     return false;
                 }
                 return zone
-                        .getFlag(FlagTypes.JOIN_REQUEST)
-                        .map(flag -> flag.getJoins().contains(player.uniqueId()))
+                        .getFlag(FlagTypes.INVITE)
+                        .map(flag -> flag.getInvites().contains(player.uniqueId()))
                         .orElse(false);
             }).build()));
 

@@ -10,6 +10,8 @@ import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.simple.TimeUnitArgument;
 import org.zone.commands.system.arguments.simple.number.RangeArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilterBuilder;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilters;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
@@ -30,8 +32,8 @@ import java.util.Optional;
 public class ZoneFlagGreetingsDisplaySetTitleFadeInCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE_ID = new ZoneArgument("zoneId",
-            new ZoneArgument.ZoneArgumentPropertiesBuilder().setBypassSuggestionPermission(
-                    ZonePermissions.OVERRIDE_FLAG_GREETINGS_MESSAGE_DISPLAY_SET_TITLE_FADE_IN));
+            ZonePermissions.FLAG_GREETINGS_MESSAGE_DISPLAY_SET_TITLE_FADE_IN,
+            new ZoneArgumentFilterBuilder().setFilter(ZoneArgumentFilters.INSIDE).build());
     public static final RangeArgument<Integer> FADE_IN = RangeArgument.createArgument("fadeIn", 0
             , Integer.MAX_VALUE);
     public static final TimeUnitArgument UNIT = new TimeUnitArgument("unit",
@@ -40,16 +42,16 @@ public class ZoneFlagGreetingsDisplaySetTitleFadeInCommand implements ArgumentCo
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
-                             new ExactArgument("flag"),
-                             ZONE_ID,
-                             new ExactArgument("greetings"),
-                             new ExactArgument("message"),
-                             new ExactArgument("display"),
-                             new ExactArgument("set"),
-                             new ExactArgument("title"),
-                             FADE_IN,
-                             new ExactArgument("unit"),
-                             UNIT);
+                new ExactArgument("flag"),
+                ZONE_ID,
+                new ExactArgument("greetings"),
+                new ExactArgument("message"),
+                new ExactArgument("display"),
+                new ExactArgument("set"),
+                new ExactArgument("title"),
+                FADE_IN,
+                new ExactArgument("unit"),
+                UNIT);
     }
 
     @Override
