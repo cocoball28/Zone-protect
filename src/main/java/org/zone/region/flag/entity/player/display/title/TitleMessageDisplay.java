@@ -7,11 +7,15 @@ import org.jetbrains.annotations.Nullable;
 import org.spongepowered.api.entity.living.player.Player;
 import org.zone.ZonePlugin;
 import org.zone.config.node.ZoneNodes;
+import org.zone.config.node.title.DefaultTitleFadeInNode;
+import org.zone.config.node.title.DefaultTitleFadeOutNode;
+import org.zone.config.node.title.DefaultTitleStayNode;
 import org.zone.region.flag.entity.player.display.MessageDisplay;
 import org.zone.region.flag.entity.player.display.MessageDisplayType;
 import org.zone.region.flag.entity.player.display.MessageDisplayTypes;
 
 import java.time.Duration;
+import java.util.Objects;
 
 public class TitleMessageDisplay implements MessageDisplay {
 
@@ -86,14 +90,24 @@ public class TitleMessageDisplay implements MessageDisplay {
         this.subTitle = subTitle;
     }
 
+
     /**
      * Sets the fade in duration of the Title message
      *
      * @param fadeIn The fade in duration to set
      * @since 1.0.1
      */
-    public void setFadeIn(@NotNull Duration fadeIn) {
-        this.fadeIn = fadeIn;
+    public void setFadeIn(@Nullable Duration fadeIn) {
+        this.fadeIn = Objects.requireNonNullElseGet(fadeIn, () -> new DefaultTitleFadeInNode().getInitialValue().asDuration());
+    }
+
+    /**
+     * Sets the fade in duration of the Title message to default
+     *
+     * @since 1.0.1
+     */
+    public void setFadeIn() {
+        this.setFadeIn(null);
     }
 
     /**
@@ -102,8 +116,18 @@ public class TitleMessageDisplay implements MessageDisplay {
      * @param stay The stay duration to set
      * @since 1.0.1
      */
-    public void setStay(@NotNull Duration stay) {
-        this.stay = stay;
+    public void setStay(@Nullable Duration stay) {
+        this.fadeIn = Objects.requireNonNullElseGet(stay,
+                () -> new DefaultTitleStayNode().getInitialValue().asDuration());
+    }
+
+    /**
+     * Sets the stay duration of the Title message to default
+     *
+     * @since 1.0.1
+     */
+    public void setStay() {
+        this.setStay(null);
     }
 
     /**
@@ -112,10 +136,19 @@ public class TitleMessageDisplay implements MessageDisplay {
      * @param fadeOut The fade out duration to set
      * @since 1.0.1
      */
-    public void setFadeOut(@NotNull Duration fadeOut) {
-        this.fadeOut = fadeOut;
+    public void setFadeOut(@Nullable Duration fadeOut) {
+        this.fadeOut = Objects.requireNonNullElseGet(fadeOut,
+                () -> new DefaultTitleFadeOutNode().getInitialValue().asDuration());
     }
 
+    /**
+     * Sets the fade out duration of the Title message to default
+     *
+     * @since 1.0.1
+     */
+    public void setFadeOut() {
+        this.setFadeOut(null);
+    }
     /**
      * Gets {@link Title.Times} for the title
      *
