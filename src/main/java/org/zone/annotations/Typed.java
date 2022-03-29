@@ -20,6 +20,7 @@ public @interface Typed {
      * The class holding all vanilla types of this assigned class
      *
      * @return The class that holds all vanilla versions of the assigned class
+     * @since 1.0.1
      */
     Class<?> typesClass();
 }
