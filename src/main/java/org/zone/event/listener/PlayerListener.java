@@ -25,6 +25,8 @@ import java.util.function.Consumer;
 
 /**
  * The listener for all none flag related sponge listeners
+ *
+ * @since 1.0.1
  */
 public class PlayerListener {
 
@@ -92,9 +94,9 @@ public class PlayerListener {
             percent = 0;
         }
 
-        final float finalPercent = percent;
+        final float finalPercent = percent / 100;
 
-        BossBar bar = ZonePlugin
+        BossBar bossBar = ZonePlugin
                 .getZonesPlugin()
                 .getMemoryHolder()
                 .getZoneBuilderBossBar(player.uniqueId())
@@ -102,15 +104,15 @@ public class PlayerListener {
                         finalPercent,
                         BossBar.Color.BLUE,
                         BossBar.Overlay.PROGRESS));
-        bar.name(costPrice.getDisplayName());
-        bar.progress(percent / 100);
-        bar.color(percent < 0.0 ? BossBar.Color.RED : BossBar.Color.GREEN);
+        bossBar.name(costPrice.getDisplayName());
+        bossBar.progress(finalPercent);
+        bossBar.color(percent < 0.0 ? BossBar.Color.RED : BossBar.Color.GREEN);
 
         ZonePlugin
                 .getZonesPlugin()
                 .getMemoryHolder()
-                .registerZoneBuilderBossBar(player.uniqueId(), bar);
-        player.showBossBar(bar);
+                .registerZoneBuilderBossBar(player.uniqueId(), bossBar);
+        player.showBossBar(bossBar);
 
     }
 

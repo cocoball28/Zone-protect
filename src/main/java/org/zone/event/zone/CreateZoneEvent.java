@@ -7,7 +7,10 @@ import org.zone.region.Zone;
 
 /**
  * Fired when a zone is created
+ *
+ * @since 1.0.1
  */
+@SuppressWarnings("AbstractClassWithoutAbstractMethods")
 public abstract class CreateZoneEvent implements ZoneEvent {
 
     private final @NotNull Zone zone;
@@ -15,6 +18,8 @@ public abstract class CreateZoneEvent implements ZoneEvent {
 
     /**
      * Fired just before the zone is created
+     *
+     * @since 1.0.1
      */
     public static class Pre extends CreateZoneEvent implements Cancellable {
 
@@ -37,6 +42,8 @@ public abstract class CreateZoneEvent implements ZoneEvent {
 
     /**
      * Fired after the zone is created
+     *
+     * @since 1.0.1
      */
     public static class Post extends CreateZoneEvent {
 

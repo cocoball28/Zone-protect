@@ -7,7 +7,6 @@ import org.spongepowered.api.command.CommandResult;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
-import org.zone.commands.system.arguments.operation.OptionalArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilterBuilder;
 import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilters;
@@ -31,10 +30,6 @@ public class ZoneFlagPlayerFallDamageView implements ArgumentCommand {
                     .setFilter(ZoneArgumentFilters.withGroupKey(GroupKeys.OWNER))
                     .build());
 
-
-    public static final OptionalArgument<Optional<String>> VIEW = OptionalArgument.createArgument(
-            new ExactArgument("view"));
-
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
@@ -42,7 +37,7 @@ public class ZoneFlagPlayerFallDamageView implements ArgumentCommand {
                 ZONE_VALUE,
                 new ExactArgument("damage"),
                 new ExactArgument("fall"),
-                VIEW);
+                new ExactArgument("view"));
     }
 
     @Override

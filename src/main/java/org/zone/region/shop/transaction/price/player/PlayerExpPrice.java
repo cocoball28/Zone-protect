@@ -10,6 +10,8 @@ import org.zone.utils.Messages;
 
 /**
  * The price for player exp
+ *
+ * @since 1.0.1
  */
 public class PlayerExpPrice implements Price.PlayerPrice<Integer> {
 

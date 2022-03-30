@@ -60,7 +60,7 @@ public class ZoneInfoBoundsShowCommand implements ArgumentCommand {
     }
 
     @Override
-    public @NotNull CommandResult run(CommandContext commandContext, String... args) {
+    public @NotNull CommandResult run(@NotNull CommandContext commandContext, @NotNull String... args) {
         Subject subject = commandContext.getSource();
         if (!(subject instanceof Viewer viewer && subject instanceof Locatable locatable)) {
             return CommandResult.error(Messages.getPlayerOnlyMessage());

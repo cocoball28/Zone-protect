@@ -50,7 +50,7 @@ public class LeavingFlagType implements FlagType.SerializableType<LeavingFlag> {
             displayTypeAvailable = ZonePlugin
                     .getZonesPlugin()
                     .getMessageDisplayManager()
-                    .getDisplayTypes()
+                    .getRegistered()
                     .stream()
                     .filter(messageDisplayType -> messageDisplayType.getId().equals(displayTypeID))
                     .findAny()

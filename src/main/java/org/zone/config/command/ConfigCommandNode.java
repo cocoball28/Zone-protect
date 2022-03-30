@@ -8,6 +8,7 @@ import org.zone.commands.system.context.CommandContext;
  * A node within the config
  *
  * @param <V> The value that the node should accept
+ * @since 1.0.1
  */
 public interface ConfigCommandNode<V> {
 

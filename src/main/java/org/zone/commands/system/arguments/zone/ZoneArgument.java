@@ -32,6 +32,8 @@ import java.util.stream.Stream;
 
 /**
  * Gets a zone from the command
+ *
+ * @since 1.0.0
  */
 public class ZoneArgument implements GUICommandArgument<Zone> {
 
@@ -94,8 +96,8 @@ public class ZoneArgument implements GUICommandArgument<Zone> {
             return this;
         }
 
-        public ZoneArgumentPropertiesBuilder setVisitorOnly(boolean value) {
-            this.isVisitor = value;
+        public ZoneArgumentPropertiesBuilder setVisitorOnly(boolean isVisitor) {
+            this.isVisitor = isVisitor;
             return this;
         }
 
@@ -129,6 +131,7 @@ public class ZoneArgument implements GUICommandArgument<Zone> {
      * Creates a zone argument that will provide any zone
      *
      * @param id The id of the argument
+     * @since 1.0.0
      */
     public ZoneArgument(@NotNull String id) {
         this(id, new ZoneArgumentPropertiesBuilder());
@@ -220,7 +223,6 @@ public class ZoneArgument implements GUICommandArgument<Zone> {
 
     private Collection<CommandCompletion> suggest(
             @NotNull CommandContext context, @NotNull String focus) {
-
         return this
                 .getZones(context)
                 .filter(zone -> zone.getId().toLowerCase().startsWith(focus.toLowerCase()))

@@ -64,10 +64,9 @@ public class ZoneFlagGreetingsDisplaySetChatCommand implements ArgumentCommand {
             return CommandResult.error(Messages.getGreetingsFlagNotFound());
         }
         opGreetingsFlag.get().setDisplayType(MessageDisplayTypes.CHAT.createCopyOfDefault());
-        zone.setFlag(opGreetingsFlag.get());
         try {
             zone.save();
-            commandContext.sendMessage(Messages.getGreetingsDisplaySuccessfullyChangedToChat());
+            commandContext.sendMessage(Messages.getFlagMessageDisplaySuccessfullyChangedTo(opGreetingsFlag.get().getType(), MessageDisplayTypes.CHAT));
         } catch (ConfigurateException ce) {
             ce.printStackTrace();
             return CommandResult.error(Messages.getZoneSavingError(ce));

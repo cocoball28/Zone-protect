@@ -7,6 +7,7 @@ import org.spongepowered.configurate.ConfigurateException;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
+import org.zone.commands.system.arguments.sponge.ComponentRemainingArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilterBuilder;
 import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilters;
@@ -15,7 +16,8 @@ import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.entity.player.display.MessageDisplayTypes;
+import org.zone.region.flag.entity.player.display.MessageDisplay;
+import org.zone.region.flag.entity.player.display.title.TitleMessageDisplayBuilder;
 import org.zone.region.flag.entity.player.move.leaving.LeavingFlag;
 import org.zone.region.group.key.GroupKeys;
 import org.zone.utils.Messages;
@@ -24,14 +26,16 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class ZoneFlagLeavingMessageDisplaySetTitleCommand implements ArgumentCommand {
+public class ZoneFlagLeavingMessageDisplaySetTitleSubtitleCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE_ID = new ZoneArgument("zoneId",
-            ZonePermissions.OVERRIDE_FLAG_LEAVING_MESSAGE_SET_TITLE,
+            ZonePermissions.OVERRIDE_FLAG_LEAVING_MESSAGE_SET_TITLE_SUBTITLE,
             new ZoneArgumentFilterBuilder()
-                    .setFilter(ZoneArgumentFilters.withGroupKey(GroupKeys.OWNER))
-                    .setPermission(ZonePermissions.FLAG_GREETINGS_MESSAGE_DISPLAY_SET_CHAT)
-                    .build());
+                .setFilter(ZoneArgumentFilters.withGroupKey(GroupKeys.OWNER))
+                .setPermission(ZonePermissions.FLAG_GREETINGS_MESSAGE_DISPLAY_SET_TITLE_SUBTITLE)
+                .build());
+    public static final ComponentRemainingArgument SUBTITLE = new ComponentRemainingArgument(
+            "subtitle");
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
@@ -42,32 +46,35 @@ public class ZoneFlagLeavingMessageDisplaySetTitleCommand implements ArgumentCom
                 new ExactArgument("message"),
                 new ExactArgument("display"),
                 new ExactArgument("set"),
-                new ExactArgument("title"));
+                new ExactArgument("title"),
+                SUBTITLE);
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Messages.getLeavingDisplaySetTitleCommandDescription();
+        return Messages.getLeavingDisplaySetTitleSubtitleCommandDescription();
     }
 
     @Override
     public @NotNull Optional<ZonePermission> getPermissionNode() {
-        return Optional.of(ZonePermissions.FLAG_LEAVING_MESSAGE_SET_TITLE);
+        return Optional.of(ZonePermissions.FLAG_LEAVING_MESSAGE_SET_TITLE_SUBTITLE);
     }
 
     @Override
     public @NotNull CommandResult run(
             @NotNull CommandContext commandContext, @NotNull String... args) {
         Zone zone = commandContext.getArgument(this, ZONE_ID);
+        Component subtitle = commandContext.getArgument(this, SUBTITLE);
         Optional<LeavingFlag> opLeavingFlag = zone.getFlag(FlagTypes.LEAVING);
         if (opLeavingFlag.isEmpty()) {
             return CommandResult.error(Messages.getLeavingFlagNotFound());
         }
-        opLeavingFlag.get().setDisplayType(MessageDisplayTypes.TITLE.createCopyOfDefault());
-        zone.setFlag(opLeavingFlag.get());
+        MessageDisplay titleMessageDisplay =
+                new TitleMessageDisplayBuilder().setSubTitle(subtitle).build();
+        opLeavingFlag.get().setDisplayType(titleMessageDisplay);
         try {
             zone.save();
-            commandContext.sendMessage(Messages.getLeavingDisplaySuccessfullyChangedToTitle());
+            commandContext.sendMessage(Messages.getFlagMessageDisplayUpdated(opLeavingFlag.get().getType(), titleMessageDisplay.getType()));
         } catch (ConfigurateException ce) {
             ce.printStackTrace();
             return CommandResult.error(Messages.getZoneSavingError(ce));

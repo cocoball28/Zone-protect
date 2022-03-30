@@ -3,6 +3,7 @@ package org.zone.commands.system;
 import org.jetbrains.annotations.NotNull;
 import org.zone.commands.system.context.CommandArgumentContext;
 
+@SuppressWarnings("RecordCanBeClass")
 public record CommandArgumentResult<T>(int position, @NotNull T value) {
 
     public static <T> CommandArgumentResult<T> from(

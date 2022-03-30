@@ -16,7 +16,7 @@ public class GreetingsFlag implements Flag.Serializable {
     private @NotNull MessageDisplay messageDisplay = MessageDisplayTypes.CHAT.createCopyOfDefault();
     private @NotNull Component text;
 
-    @Deprecated(forRemoval = true)
+    @Deprecated(forRemoval = true, since = "1.0.1")
     public GreetingsFlag(@NotNull Component greetingsMessage) {
         this.text = greetingsMessage;
     }
@@ -28,12 +28,13 @@ public class GreetingsFlag implements Flag.Serializable {
         this.messageDisplay = messageDisplay;
     }
 
-    @Deprecated(forRemoval = true)
     /**
      * Method to get the greetings message
      *
      * @return The greetings message
-     */ public @Nullable Component getLegacyGreetingsMessage() {
+     */
+    @Deprecated(forRemoval = true, since = "1.0.1")
+    public @Nullable Component getLegacyGreetingsMessage() {
         return this.text;
     }
 
@@ -64,14 +65,15 @@ public class GreetingsFlag implements Flag.Serializable {
         this.messageDisplay = messageDisplay;
     }
 
-    @Deprecated(forRemoval = true)
     /**
      * Method to set the greetings message
      *
-     * @deprecated since 1.0.1
+     * @deprecated Since 1.0.1
      *
      * @param component The component to be set
-     */ public void setLegacyMessage(@NotNull Component component) {
+     */
+    @Deprecated(forRemoval = true, since = "1.0.1")
+    public void setLegacyMessage(@NotNull Component component) {
         this.text = component;
     }
 

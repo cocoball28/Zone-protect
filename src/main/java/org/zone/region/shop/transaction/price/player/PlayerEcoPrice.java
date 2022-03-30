@@ -17,6 +17,8 @@ import java.util.Optional;
 
 /**
  * A price class for player economy
+ *
+ * @since 1.0.1
  */
 public class PlayerEcoPrice implements Price.PlayerPrice<BigDecimal>, Price.EcoPrice<Player> {
 

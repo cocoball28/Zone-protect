@@ -24,13 +24,17 @@ import org.zone.region.flag.meta.eco.balance.BalanceFlagType;
 import org.zone.region.flag.meta.eco.payment.buy.BuyFlagType;
 import org.zone.region.flag.meta.eco.shop.ShopsFlagType;
 import org.zone.region.flag.meta.edit.EditingFlagType;
+import org.zone.region.flag.meta.invite.InviteFlagType;
 import org.zone.region.flag.meta.member.MembersFlagType;
 import org.zone.region.flag.meta.request.join.JoinRequestFlagType;
 import org.zone.region.flag.meta.request.visibility.ZoneVisibilityFlagType;
 import org.zone.region.flag.meta.tag.TagsFlagType;
+import org.zone.region.flag.meta.service.ban.flag.BanFlagType;
 
 /**
  * All known default flag types found within the zones plugin
+ *
+ * @since 1.0.0
  */
 public final class FlagTypes {
 
@@ -62,6 +66,8 @@ public final class FlagTypes {
     public static final WitherGriefFlagType WITHER_GRIEF = new WitherGriefFlagType();
     public static final EnderMiteGriefFlagType ENDER_MITE_GRIEF = new EnderMiteGriefFlagType();
     public static final ShopsFlagType SHOPS = new ShopsFlagType();
+    public static final BanFlagType BAN = new BanFlagType();
+    public static final InviteFlagType INVITE = new InviteFlagType();
 
     private FlagTypes() {
         throw new RuntimeException("Should not init");

@@ -15,6 +15,7 @@ import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.sponge.ComponentRemainingArgument;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.permissions.ZonePermission;
+import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.meta.eco.shop.ShopsFlag;
@@ -48,7 +49,7 @@ public class CreateDisplayShop implements ArgumentCommand {
 
     @Override
     public @NotNull Optional<ZonePermission> getPermissionNode() {
-        return Optional.empty();
+        return Optional.of(ZonePermissions.SHOPS_DISPLAY_CREATE);
     }
 
     @Override

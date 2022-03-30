@@ -15,7 +15,9 @@ import java.util.Collections;
 import java.util.Optional;
 
 /**
- * A actual region that is between two points
+ * An actual region that is between two points
+ *
+ * @since 1.0.0
  */
 public class BoundedRegion implements Region {
 
@@ -97,7 +99,7 @@ public class BoundedRegion implements Region {
     }
 
     @Override
-    public Collection<? extends Entity> getEntities(World<?, ?> world) {
+    public Collection<? extends Entity> getEntities(@NotNull World<?, ?> world) {
         return world.entities(AABB.of(this.position1, this.position2));
     }
 

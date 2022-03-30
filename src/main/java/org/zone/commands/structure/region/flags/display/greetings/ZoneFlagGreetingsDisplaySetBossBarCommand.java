@@ -10,6 +10,7 @@ import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.simple.EnumArgument;
 import org.zone.commands.system.arguments.simple.number.IntegerArgument;
+import org.zone.commands.system.arguments.simple.number.RangeArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilterBuilder;
 import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilters;
@@ -20,6 +21,7 @@ import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.entity.player.display.MessageDisplay;
 import org.zone.region.flag.entity.player.display.bossbar.BossBarMessageDisplay;
+import org.zone.region.flag.entity.player.display.bossbar.BossBarMessageDisplayBuilder;
 import org.zone.region.flag.entity.player.move.greetings.GreetingsFlag;
 import org.zone.region.group.key.GroupKeys;
 import org.zone.utils.Messages;
@@ -31,14 +33,13 @@ import java.util.Optional;
 public class ZoneFlagGreetingsDisplaySetBossBarCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE_ID = new ZoneArgument("zoneId",
-            ZonePermissions.OVERRIDE_FLAG_GREETINGS_MESSAGE_DISPLAY_SET_BOSS_BAR,
-            new ZoneArgumentFilterBuilder()
-                    .setFilter(ZoneArgumentFilters.withGroupKey(GroupKeys.OWNER))
-                    .build());
-
-    public static final IntegerArgument PROGRESS = new IntegerArgument("progress");
-    public static final EnumArgument<BossBar.Color> COLOR = new EnumArgument<>("color",
-            BossBar.Color.class);
+                    ZonePermissions.OVERRIDE_FLAG_GREETINGS_MESSAGE_DISPLAY_SET_BOSS_BAR,
+                    new ZoneArgumentFilterBuilder()
+                            .setFilter(ZoneArgumentFilters.withGroupKey(GroupKeys.OWNER)).build());
+    public static final RangeArgument<Integer> PROGRESS = RangeArgument.createArgument("progress"
+            , 0, 100);
+    public static final EnumArgument<BossBar.Color> COLOR = new EnumArgument<>(
+            "color", BossBar.Color.class);
     public static final EnumArgument<BossBar.Overlay> OVERLAY = new EnumArgument<>("overlay",
             BossBar.Overlay.class);
 
@@ -79,12 +80,13 @@ public class ZoneFlagGreetingsDisplaySetBossBarCommand implements ArgumentComman
         if (opGreetingsFlag.isEmpty()) {
             return CommandResult.error(Messages.getGreetingsFlagNotFound());
         }
-        MessageDisplay bossBarDisplay = new BossBarMessageDisplay(progress, color, overlay);
+        MessageDisplay bossBarDisplay =
+                new BossBarMessageDisplayBuilder().setProgress(progress).setColor(color).setOverlay(overlay).build();
         opGreetingsFlag.get().setDisplayType(bossBarDisplay);
-        zone.setFlag(opGreetingsFlag.get());
         try {
             zone.save();
-            commandContext.sendMessage(Messages.getGreetingsDisplaySuccessfullyChangedToBossBar());
+            commandContext.sendMessage(Messages.getFlagMessageDisplaySuccessfullyChangedTo(opGreetingsFlag.get().getType(),
+                    bossBarDisplay.getType()));
         } catch (ConfigurateException ce) {
             ce.printStackTrace();
             return CommandResult.error(Messages.getZoneSavingError(ce));

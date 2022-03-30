@@ -13,6 +13,8 @@ import java.util.Collections;
 
 /**
  * Argument for accepting doubles
+ *
+ * @since 1.0.0
  */
 public class DoubleArgument implements CommandArgument<Double> {
 
@@ -22,6 +24,7 @@ public class DoubleArgument implements CommandArgument<Double> {
      * Create the DoubleArgument
      *
      * @param id the id to use for the argument
+     * @since 1.0.0
      */
     public DoubleArgument(@NotNull String id) {
         this.id = id;

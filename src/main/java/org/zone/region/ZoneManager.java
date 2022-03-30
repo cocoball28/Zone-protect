@@ -36,6 +36,8 @@ import java.util.stream.Collectors;
 
 /**
  * Gets the manager for zones
+ *
+ * @since 1.0.0
  */
 public class ZoneManager implements IdentifiableManager<Zone> {
 
@@ -49,9 +51,10 @@ public class ZoneManager implements IdentifiableManager<Zone> {
     private static final Object[] WORLD = {"Region", "World"};
 
     /**
-     * gets all the zones
+     * Gets all the zones
      *
      * @return A collection of the zones
+     * @since 1.0.0
      */
     public @NotNull Collection<Zone> getRegistered() {
         while (this.isBeingWrittenTo) {
@@ -78,9 +81,10 @@ public class ZoneManager implements IdentifiableManager<Zone> {
      * Gets a zone that was created by the provided plugin with the key name of the provided
      *
      * @param container The plugin that created the zone
-     * @param key       the key name of the zone
+     * @param key       The key name of the zone
      *
      * @return The zone that matches the provided information
+     * @since 1.0.0
      */
     public @NotNull Optional<Zone> getZone(PluginContainer container, String key) {
         return this.getZone(container.metadata().id() + ":" + key);
@@ -89,9 +93,10 @@ public class ZoneManager implements IdentifiableManager<Zone> {
     /**
      * Gets a zone that has the provided id
      *
-     * @param id the id to get
+     * @param id The id to get
      *
      * @return The zone that has the provided id
+     * @since 1.0.0
      */
     public @NotNull Optional<Zone> getZone(String id) {
         return this.getRegistered().stream().filter(zone -> zone.getId().equals(id)).findAny();
@@ -134,6 +139,7 @@ public class ZoneManager implements IdentifiableManager<Zone> {
      * @param worldPos The location to check
      *
      * @return A collection of all the zones found that contain that location
+     * @since 1.0.0
      */
     public @NotNull Collection<Zone> getRegistered(
             @Nullable World<?, ?> world, @NotNull Vector3d worldPos) {
@@ -207,6 +213,7 @@ public class ZoneManager implements IdentifiableManager<Zone> {
      * @param locatable The locatable object such as an entity
      *
      * @return The zone to use
+     * @since 1.0.0
      */
     public @NotNull Optional<Zone> getPriorityZone(Locatable locatable) {
         return this.getPriorityZone(locatable.location());
@@ -219,6 +226,7 @@ public class ZoneManager implements IdentifiableManager<Zone> {
      * @param loc The location to compare
      *
      * @return The zone to use. {@link Optional#empty()} when no zone was found at the position
+     * @since 1.0.0
      */
     public @NotNull Optional<Zone> getPriorityZone(Location<? extends World<?, ?>, ?> loc) {
         return this.getPriorityZone(loc.world(), loc.position());
@@ -232,6 +240,7 @@ public class ZoneManager implements IdentifiableManager<Zone> {
      * @param worldPos The location to compare
      *
      * @return The zone to use. {@link Optional#empty()} when no zone was found at the position
+     * @since 1.0.0
      */
     public @NotNull Optional<Zone> getPriorityZone(
             @Nullable World<?, ?> world, @NotNull Vector3d worldPos) {
@@ -261,6 +270,7 @@ public class ZoneManager implements IdentifiableManager<Zone> {
      * @return The zone
      *
      * @throws ConfigurateException If you couldn't load
+     * @since 1.0.0
      */
     public synchronized @NotNull Zone load(File file) throws ConfigurateException {
         HoconConfigurationLoader loader = HoconConfigurationLoader.builder().file(file).build();
@@ -346,13 +356,14 @@ public class ZoneManager implements IdentifiableManager<Zone> {
     }
 
     /**
-     * saves the zone into the correct file
+     * Saves the zone into the correct file
      *
      * @param zone The zone to save
      *
      * @return The file that was saved to
      *
      * @throws ConfigurateException if fails to save
+     * @since 1.0.0
      */
     public synchronized File save(Zone zone) throws ConfigurateException {
         File file = new File("config/zone/zones/" +

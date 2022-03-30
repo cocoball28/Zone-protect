@@ -14,9 +14,11 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 /**
- * A group of players found within a zone. Think of this like a Permissions group only specifically
+ * A group of the players found within a zone. Think of this like a Permissions group only specifically
  * for a zone. A group can have GroupKeys which act like permissions for that group within the
  * zone.
+ *
+ * @since 1.0.0
  */
 @Typed(typesClass = DefaultGroups.class)
 public interface Group extends Identifiable, Comparable<Group> {
@@ -25,6 +27,7 @@ public interface Group extends Identifiable, Comparable<Group> {
      * Gets the parent of this group. All group keys are inherited from all parents
      *
      * @return The parent to this group
+     * @since 1.0.0
      */
     @NotNull Optional<Group> getParent();
 
@@ -32,6 +35,7 @@ public interface Group extends Identifiable, Comparable<Group> {
      * Sets the parent of this group
      *
      * @param group The new parent of the group
+     * @since 1.0.0
      */
     void setParent(@NotNull Group group);
 
@@ -40,6 +44,7 @@ public interface Group extends Identifiable, Comparable<Group> {
      * there is a specific reason for it such as the visitor group
      *
      * @return if the group can be removed
+     * @since 1.0.0
      */
     boolean canBeRemoved();
 
@@ -47,6 +52,7 @@ public interface Group extends Identifiable, Comparable<Group> {
      * Gets all the groupKeys for this group
      *
      * @return a collection of the group keys
+     * @since 1.0.0
      */
     @NotNull Collection<GroupKey> getKeys();
 
@@ -57,7 +63,8 @@ public interface Group extends Identifiable, Comparable<Group> {
      *
      * @param key The group key
      *
-     * @return if the key was added
+     * @return If the key was added
+     * @since 1.0.0
      */
     default boolean add(@NotNull GroupKey key) {
         return this.getKeys().add(key);
@@ -70,7 +77,8 @@ public interface Group extends Identifiable, Comparable<Group> {
      *
      * @param keys The keys to add
      *
-     * @return if the key was added
+     * @return If the key was added
+     * @since 1.0.0
      */
     default boolean addAll(@NotNull Collection<? extends GroupKey> keys) {
         return this.getKeys().addAll(keys);
@@ -81,7 +89,8 @@ public interface Group extends Identifiable, Comparable<Group> {
      *
      * @param key the key to remove
      *
-     * @return if the key was removed
+     * @return If the key was removed
+     * @since 1.0.0
      */
     default boolean remove(@NotNull GroupKey key) {
         return this.getKeys().remove(key);
@@ -92,7 +101,8 @@ public interface Group extends Identifiable, Comparable<Group> {
      *
      * @param key The groupKey to check
      *
-     * @return true if the group contains the groupKey
+     * @return True if the group contains the groupKey
+     * @since 1.0.0
      */
     default boolean contains(GroupKey key) {
         if (this.getKeys().contains(key)) {
@@ -104,7 +114,8 @@ public interface Group extends Identifiable, Comparable<Group> {
     /**
      * Gets all parents as a stream
      *
-     * @return all parent groups as a stream
+     * @return All parent groups as a stream
+     * @since 1.0.0
      */
     default @NotNull Stream<Group> getImplements() {
         return StreamSupport.stream(Spliterators.spliteratorUnknownSize(new ImplementedGroupIterator(
@@ -115,6 +126,7 @@ public interface Group extends Identifiable, Comparable<Group> {
      * All GroupKeys assigned to this and its parents
      *
      * @return All groupKeys
+     * @since 1.0.0
      */
     default @NotNull Collection<GroupKey> getAllKeys() {
         return this
@@ -128,8 +140,10 @@ public interface Group extends Identifiable, Comparable<Group> {
      *
      * @param group the group to check
      *
-     * @return true if its a parent
+     * @return true if it's a parent
+     * @since 1.0.0
      */
+    @SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
     default boolean inherits(@NotNull Group group) {
         return this.getImplements().anyMatch(g -> g.equals(group));
     }

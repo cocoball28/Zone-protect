@@ -7,7 +7,6 @@ import org.spongepowered.api.command.CommandResult;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
-import org.zone.commands.system.arguments.operation.OptionalArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilterBuilder;
 import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilters;
@@ -28,9 +27,6 @@ public class ZoneFlagEnderDragonGriefViewCommand implements ArgumentCommand {
             ZonePermissions.OVERRIDE_FLAG_ENDERDRAGON_GRIEF_VIEW,
             new ZoneArgumentFilterBuilder().setFilter(ZoneArgumentFilters.MEMBERS_ONLY).build());
 
-    public static final OptionalArgument<Optional<String>> VIEW = OptionalArgument.createArgument(
-            new ExactArgument("view"));
-
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
@@ -38,7 +34,7 @@ public class ZoneFlagEnderDragonGriefViewCommand implements ArgumentCommand {
                 ZONE_ID,
                 new ExactArgument("grief"),
                 new ExactArgument("enderdragon"),
-                VIEW);
+                new ExactArgument("view"));
     }
 
     @Override

@@ -9,7 +9,9 @@ import org.zone.region.shop.transaction.price.PriceType;
 import org.zone.utils.Messages;
 
 /**
- * The price for players exp level
+ * The price for players exp leve
+ *
+ * @since 1.0.1l
  */
 public class PlayerLevelPrice implements Price.PlayerPrice<Integer> {
 
@@ -25,7 +27,7 @@ public class PlayerLevelPrice implements Price.PlayerPrice<Integer> {
 
     @Override
     public boolean hasEnough(@NotNull Player player) {
-        return player.get(Keys.EXPERIENCE_LEVEL).orElse(0) <= this.exp;
+        return player.get(Keys.EXPERIENCE_LEVEL).orElse(0) >= this.exp;
     }
 
     @Override

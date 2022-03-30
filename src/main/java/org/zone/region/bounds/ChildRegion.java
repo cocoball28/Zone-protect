@@ -14,6 +14,8 @@ import java.util.stream.Collectors;
 
 /**
  * A region that holds only other regions, the other regions can be any type of region such as another child or a real region
+ *
+ * @since 1.0.0
  */
 public class ChildRegion implements Region {
 
@@ -31,6 +33,7 @@ public class ChildRegion implements Region {
      * Adds a region to this region
      *
      * @param region The region to add
+     * @since 1.0.0
      */
     public boolean add(@NotNull Region region) {
         return this.bounds.add(region);
@@ -40,6 +43,7 @@ public class ChildRegion implements Region {
      * Removes a region from this region
      *
      * @param region The region to remove
+     * @since 1.0.0
      */
     public boolean remove(@NotNull Region region) {
         return this.bounds.remove(region);

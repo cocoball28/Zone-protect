@@ -64,10 +64,9 @@ public class ZoneFlagLeavingMessageDisplaySetChatCommand implements ArgumentComm
             return CommandResult.error(Messages.getLeavingFlagNotFound());
         }
         opLeavingFlag.get().setDisplayType(MessageDisplayTypes.CHAT.createCopyOfDefault());
-        zone.setFlag(opLeavingFlag.get());
         try {
             zone.save();
-            commandContext.sendMessage(Messages.getLeavingDisplaySuccessfullyChangedToChat());
+            commandContext.sendMessage(Messages.getFlagMessageDisplaySuccessfullyChangedTo(opLeavingFlag.get().getType(), MessageDisplayTypes.CHAT));
         } catch (ConfigurateException ce) {
             ce.printStackTrace();
             return CommandResult.error(Messages.getZoneSavingError(ce));

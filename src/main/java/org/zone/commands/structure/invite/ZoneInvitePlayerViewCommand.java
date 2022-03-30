@@ -16,7 +16,7 @@ import org.zone.permissions.ZonePermission;
 import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.meta.request.join.JoinRequestFlag;
+import org.zone.region.flag.meta.invite.InviteFlag;
 import org.zone.region.group.key.GroupKeys;
 import org.zone.utils.Messages;
 
@@ -54,17 +54,13 @@ public class ZoneInvitePlayerViewCommand implements ArgumentCommand {
     public @NotNull CommandResult run(
             @NotNull CommandContext commandContext, @NotNull String... args) {
         Zone zone = commandContext.getArgument(this, ZONE_ID);
-        JoinRequestFlag joinRequestFlag = zone
-                .getFlag(FlagTypes.JOIN_REQUEST)
-                .orElse(new JoinRequestFlag());
-        Collection<UUID> inviteUUIDs = joinRequestFlag.getInvites();
-        List<GameProfile> profiles = Sponge
-                .server()
-                .gameProfileManager()
-                .cache()
-                .stream()
-                .sorted()
-                .toList();
+        Optional<InviteFlag> opInviteFlag = zone
+                .getFlag(FlagTypes.INVITE);
+        if (opInviteFlag.isEmpty()) {
+            return CommandResult.error(Messages.getInviteFlagNotFound());
+        }
+        Collection<UUID> inviteUUIDs = opInviteFlag.get().getInvites();
+        List<GameProfile> profiles = Sponge.server().gameProfileManager().cache().stream().sorted().toList();
 
         Collection<GameProfile> inviteProfiles = profiles
                 .stream()

@@ -50,13 +50,14 @@ public class ZoneFlagGreetingsViewCommand implements ArgumentCommand {
     }
 
     @Override
-    public @NotNull CommandResult run(CommandContext commandContext, String... args) {
+    public @NotNull CommandResult run(@NotNull CommandContext commandContext, @NotNull String... args) {
         Zone zone = commandContext.getArgument(this, ZONE_VALUE);
         @NotNull Optional<GreetingsFlag> opGreetingsFlag = zone.getFlag(FlagTypes.GREETINGS);
         if (opGreetingsFlag.isEmpty()) {
             return CommandResult.error(Messages.getNoMessageSet());
         }
-        commandContext.sendMessage(Messages.getFlagMessageView(opGreetingsFlag.get()));
+        commandContext.sendMessage(Messages.getGreetingsFlagMessageView(opGreetingsFlag.get()));
+        commandContext.sendMessage(Messages.getFlagMessageDisplayTypeView(opGreetingsFlag.get().getDisplayType().getType()));
         return CommandResult.success();
     }
 

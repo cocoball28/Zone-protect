@@ -7,6 +7,8 @@ import java.time.temporal.TemporalUnit;
 
 /**
  * Time units based upon minecraft ticks
+ *
+ * @since 1.0.1
  */
 public enum TickTime implements TemporalUnit {
     TICK(Duration.of(50000, ChronoUnit.MICROS));

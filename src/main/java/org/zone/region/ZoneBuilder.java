@@ -20,6 +20,8 @@ import java.util.HashSet;
 
 /**
  * A Builder for the {@link Zone} class
+ *
+ * @since 1.0.0
  */
 public class ZoneBuilder {
 
@@ -120,6 +122,7 @@ public class ZoneBuilder {
         return this;
     }
 
+    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
     public ZoneBuilder addFlags(Flag... flags) {
         this.flags.addAll(Arrays.asList(flags));
         return this;

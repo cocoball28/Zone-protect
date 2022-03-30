@@ -24,7 +24,7 @@ public class OverridePermissionsTest {
     @Test
     public void testAllCommandsHaveOverrides() {
         for (ZonePermissions permission : ZonePermissions.values()) {
-            if (permission == ZonePermissions.REGION_LEAVE) {
+            if (permission == ZonePermissions.REGION_LEAVE || permission == ZonePermissions.SHOPS_DISPLAY_CREATE || permission == ZonePermissions.SHOPS_ITEM_SELL_ADD) {
                 continue;
             }
 

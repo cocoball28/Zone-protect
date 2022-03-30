@@ -27,11 +27,11 @@ public class ZoneTransactionResult implements TransactionResult {
         }
         this.currency = builder.getCurrency();
         if (this.currency == null) {
-            throw new IllegalStateException("currency was not set on builder");
+            throw new IllegalStateException("Currency was not set on builder");
         }
         this.amount = builder.getAmount();
         if (this.amount == null) {
-            throw new IllegalStateException("amount was not set on builder");
+            throw new IllegalStateException("Amount was not set on builder");
         }
         this.context = builder.getContext();
         if (this.context == null) {
@@ -39,11 +39,11 @@ public class ZoneTransactionResult implements TransactionResult {
         }
         this.resultType = builder.getResultType();
         if (this.resultType == null) {
-            throw new IllegalStateException("resultType was not set on builder");
+            throw new IllegalStateException("ResultType was not set on builder");
         }
         this.transactionType = builder.getTransactionType();
         if (this.transactionType == null) {
-            throw new IllegalStateException("transactionType was not set on builder");
+            throw new IllegalStateException("TransactionType was not set on builder");
         }
     }
 

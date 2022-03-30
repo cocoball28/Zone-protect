@@ -18,6 +18,7 @@ import org.zone.commands.system.arguments.simple.number.DoubleArgument;
 import org.zone.commands.system.arguments.sponge.CurrencyArgument;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.permissions.ZonePermission;
+import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.shop.Shop;
@@ -53,7 +54,7 @@ public class ShopItemSellAdd implements ArgumentCommand {
 
     @Override
     public @NotNull Optional<ZonePermission> getPermissionNode() {
-        return Optional.empty();
+        return Optional.of(ZonePermissions.SHOPS_ITEM_SELL_ADD);
     }
 
     @Override

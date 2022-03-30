@@ -9,6 +9,8 @@ import org.zone.utils.Messages;
 
 /**
  * A price for a zones power level
+ *
+ * @since 1.0.1
  */
 public class ZonePowerPrice implements Price.ZonePrice<Long> {
 

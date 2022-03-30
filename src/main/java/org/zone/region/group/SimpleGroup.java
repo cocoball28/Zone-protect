@@ -11,6 +11,8 @@ import java.util.Optional;
 
 /**
  * Basic implementation of a group
+ *
+ * @since 1.0.0
  */
 public class SimpleGroup implements Group {
 

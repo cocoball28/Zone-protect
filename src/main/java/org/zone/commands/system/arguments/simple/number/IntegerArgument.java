@@ -13,6 +13,8 @@ import java.util.Set;
 
 /**
  * Used for getting whole numbers from a command
+ *
+ * @since 1.0.0
  */
 public class IntegerArgument implements CommandArgument<Integer> {
 
@@ -22,6 +24,7 @@ public class IntegerArgument implements CommandArgument<Integer> {
      * Used for creating the argument
      *
      * @param id The id to use for the argument
+     * @since 1.0.0
      */
     public IntegerArgument(String id) {
         this.id = id;

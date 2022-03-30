@@ -15,7 +15,9 @@ import java.util.Collections;
 import java.util.stream.Collectors;
 
 /**
- * Gets a Text Component from the user in a easy to use format
+ * Gets a Text Component from the user in an easy-to-use format
+ *
+ * @since 1.0.0
  */
 public class ComponentRemainingArgument implements CommandArgument<Component> {
 
@@ -25,6 +27,7 @@ public class ComponentRemainingArgument implements CommandArgument<Component> {
      * Creates the argument
      *
      * @param id The id of the argument
+     * @since 1.0.0
      */
     public ComponentRemainingArgument(@NotNull String id) {
         this.id = id;

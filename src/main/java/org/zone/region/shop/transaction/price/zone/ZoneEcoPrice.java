@@ -14,6 +14,8 @@ import java.math.BigDecimal;
 
 /**
  * A price for a zones economy
+ *
+ * @since 1.0.1
  */
 public class ZoneEcoPrice implements Price.ZonePrice<BigDecimal>, Price.EcoPrice<Zone> {
 

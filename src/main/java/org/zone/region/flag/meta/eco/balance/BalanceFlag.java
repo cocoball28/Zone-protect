@@ -20,6 +20,8 @@ import java.util.stream.Collectors;
 
 /**
  * Flag used to hold the zones balance
+ *
+ * @since 1.0.0
  */
 public class BalanceFlag implements Flag.Serializable {
 
@@ -43,6 +45,7 @@ public class BalanceFlag implements Flag.Serializable {
      * Gets all balances found within the zone.
      *
      * @return A map of all balances within the zone separated by currency
+     * @since 1.0.0
      */
     public @NotNull Map<Currency, BigDecimal> getMoney() {
         return Collections.unmodifiableMap(this.money);
@@ -54,6 +57,7 @@ public class BalanceFlag implements Flag.Serializable {
      * @param currency The currency to get
      *
      * @return Gets the balance from the zone, if the zone does not contain that currency, a balance of 0 will be used unless there is no eco plugin found, in that case it will be {@link Double#MAX_VALUE}
+     * @since 1.0.0
      */
     public @NotNull BigDecimal getMoney(@NotNull Currency currency) {
         return this.money.getOrDefault(currency,
@@ -70,6 +74,7 @@ public class BalanceFlag implements Flag.Serializable {
      * @param amount   The amount to check
      *
      * @return If the zone has that much, returns true if no eco plugin was found
+     * @since 1.0.0
      */
     public boolean hasBalance(@NotNull Currency currency, @NotNull BigDecimal amount) {
         return this.getMoney(currency).compareTo(amount) >= 0;
@@ -80,6 +85,7 @@ public class BalanceFlag implements Flag.Serializable {
      *
      * @param currency The currency to use
      * @param amount   The amount to set
+     * @since 1.0.0
      */
     public void setBalance(@NotNull Currency currency, @NotNull BigDecimal amount) {
         if (Sponge.serviceProvider().provide(EconomyService.class).isEmpty()) {
@@ -99,6 +105,7 @@ public class BalanceFlag implements Flag.Serializable {
      * @param amount   The amount to deposit
      *
      * @return The transaction
+     * @since 1.0.0
      */
     public @NotNull DepositTransaction deposit(
             @NotNull Currency currency, @NotNull BigDecimal amount) {
@@ -126,6 +133,7 @@ public class BalanceFlag implements Flag.Serializable {
      * @param amount   The amount to withdraw
      *
      * @return The transaction
+     * @since 1.0.0
      */
     public @NotNull WithdrawTransaction withdraw(
             @NotNull Currency currency, @NotNull BigDecimal amount) {

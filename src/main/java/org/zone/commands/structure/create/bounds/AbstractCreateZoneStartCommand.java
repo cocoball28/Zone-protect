@@ -27,7 +27,7 @@ public abstract class AbstractCreateZoneStartCommand implements ArgumentCommand 
             CommandContext context, String name, BoundedRegion bounded, ZoneBuilder builder);
 
     @Override
-    public @NotNull CommandResult run(CommandContext commandContext, String... args) {
+    public @NotNull CommandResult run(@NotNull CommandContext commandContext, @NotNull String... args) {
         Subject subject = commandContext.getSource();
         if (!(subject instanceof Player player)) {
             return CommandResult.error(Messages.getPlayerOnlyMessage());
@@ -73,7 +73,7 @@ public abstract class AbstractCreateZoneStartCommand implements ArgumentCommand 
     }
 
     @Override
-    public boolean hasPermission(CommandCause source) {
+    public boolean hasPermission(@NotNull CommandCause source) {
         if (!(source.subject() instanceof Player)) {
             return false;
         }

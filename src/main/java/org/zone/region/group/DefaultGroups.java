@@ -8,6 +8,8 @@ import java.util.TreeSet;
 
 /**
  * Gets the default groups for the zone plugin
+ *
+ * @since 1.0.0
  */
 public final class DefaultGroups {
 
@@ -57,6 +59,7 @@ public final class DefaultGroups {
      * Creates the default groups
      *
      * @return A TreeSet of the default groups
+     * @since 1.0.0
      */
     public static TreeSet<SimpleGroup> createDefaultGroups() {
         return new TreeSet<>(Arrays.asList(OWNER, HOME_OWNER, NEW_MEMBER, VISITOR));

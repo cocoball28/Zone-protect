@@ -19,6 +19,8 @@ import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.meta.request.join.JoinRequestFlag;
 import org.zone.region.flag.meta.request.visibility.ZoneVisibility;
 import org.zone.region.flag.meta.request.visibility.ZoneVisibilityFlag;
+import org.zone.region.flag.meta.service.ban.flag.BanFlag;
+import org.zone.region.group.DefaultGroups;
 import org.zone.utils.Messages;
 
 import java.util.Arrays;
@@ -44,7 +46,7 @@ public class JoinZoneCommand implements ArgumentCommand {
                             return false;
                         }
                         return zone
-                                .getFlag(FlagTypes.JOIN_REQUEST)
+                                .getFlag(FlagTypes.INVITE)
                                 .map(flag -> flag.getInvites().contains(player.uniqueId()))
                                 .orElse(false);
                     })
@@ -72,6 +74,9 @@ public class JoinZoneCommand implements ArgumentCommand {
             return CommandResult.error(Messages.getPlayerOnlyMessage());
         }
         Zone zone = commandContext.getArgument(this, ZONE_ID);
+        if (!(zone.getMembers().getGroup(player.uniqueId()).equals(DefaultGroups.VISITOR))) {
+            return CommandResult.error(Messages.getOwnZone());
+        }
         JoinRequestFlag joinRequestFlag = zone
                 .getFlag(FlagTypes.JOIN_REQUEST)
                 .orElse(new JoinRequestFlag());
@@ -79,9 +84,12 @@ public class JoinZoneCommand implements ArgumentCommand {
                 .getFlag(FlagTypes.ZONE_VISIBILITY)
                 .map(ZoneVisibilityFlag::getZoneVisibility)
                 .orElse(ZoneVisibility.PUBLIC);
-        if (zoneVisibility == ZoneVisibility.PRIVATE ||
-                zoneVisibility == ZoneVisibility.SEMI_PRIVATE) {
+        BanFlag banFlag = zone.getFlag(FlagTypes.BAN).orElse(new BanFlag());
+        if (zoneVisibility == ZoneVisibility.PRIVATE || zoneVisibility == ZoneVisibility.SEMI_PRIVATE) {
             return CommandResult.error(Messages.getZonePrivateError());
+        }
+        if (banFlag.isBanned(player.uniqueId())) {
+            return CommandResult.error(Messages.getIsBanned());
         }
         joinRequestFlag.registerJoin(player.uniqueId());
         zone.setFlag(joinRequestFlag);

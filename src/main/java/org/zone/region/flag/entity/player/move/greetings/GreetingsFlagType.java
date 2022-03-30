@@ -47,7 +47,7 @@ public class GreetingsFlagType implements FlagType.SerializableType<GreetingsFla
             displayTypeAvailable = ZonePlugin
                     .getZonesPlugin()
                     .getMessageDisplayManager()
-                    .getDisplayTypes()
+                    .getRegistered()
                     .stream()
                     .filter(messageDisplayType -> messageDisplayType.getId().equals(displayTypeID))
                     .findAny()

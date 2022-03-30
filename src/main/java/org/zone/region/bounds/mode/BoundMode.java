@@ -7,9 +7,12 @@ import org.spongepowered.math.vector.Vector3i;
 import org.zone.annotations.Typed;
 
 /**
- * A interact designed to shift the position of a creating/editing zone.
+ * An interaction designed to shift the position of a creating/editing zone.
  * <p>
- * A example of this would be that if a chunk is required, a BoundMode which shifts to the nearest chunk edge would be used
+ * An example of this would be that if a chunk is required, a BoundMode which shifts to the
+ * nearest chunk edge would be used
+ *
+ * @since 1.0.0
  */
 @Typed(typesClass = BoundModes.class)
 public interface BoundMode {
@@ -21,6 +24,7 @@ public interface BoundMode {
      * @param other   The other point within the Zone (such as if the current is {@link org.zone.region.bounds.PositionType#ONE} then the other would be {@link org.zone.region.bounds.PositionType#TWO}
      *
      * @return The shifted position
+     * @since 1.0.0
      */
     @NotNull Location<? extends World<?, ?>, ?> shift(
             @NotNull Location<? extends World<?, ?>, ?> current, @NotNull Vector3i other);

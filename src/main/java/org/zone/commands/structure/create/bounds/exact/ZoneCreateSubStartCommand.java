@@ -31,8 +31,10 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * The command for zone bound creation start of sub regions. This command activates when in a valid zone.
+ * The command for zone bound creation start of subregions. This command activates when in a valid zone.
  * <p>Command: "/zone create bounds start 'name'"</p>
+ *
+ * @since 1.0.0
  */
 public class ZoneCreateSubStartCommand extends AbstractCreateZoneStartCommand {
 
@@ -85,13 +87,13 @@ public class ZoneCreateSubStartCommand extends AbstractCreateZoneStartCommand {
     }
 
     @Override
-    public @NotNull CommandResult run(CommandContext context, String... args) {
-        Subject subject = context.getSource();
+    public @NotNull CommandResult run(@NotNull CommandContext commandContext, @NotNull String... args) {
+        Subject subject = commandContext.getSource();
         if (!(subject instanceof ServerPlayer player)) {
             return CommandResult.error(Messages.getPlayerOnlyMessage());
         }
-        Zone zone = context.getArgument(this, ZONE);
-        String name = String.join(" ", context.getArgument(this, NAME));
+        Zone zone = commandContext.getArgument(this, ZONE);
+        String name = String.join(" ", commandContext.getArgument(this, NAME));
 
         BoundedRegion region = new BoundedRegion(player.blockPosition().add(0, -1, 0),
                 player.blockPosition());

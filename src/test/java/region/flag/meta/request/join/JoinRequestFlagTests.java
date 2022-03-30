@@ -13,15 +13,13 @@ import java.util.UUID;
 
 public class JoinRequestFlagTests {
 
-    private static final Collection<UUID> INVITES = Arrays.asList(UUID.randomUUID(),
-            UUID.randomUUID());
     private static final Collection<UUID> JOINS = Arrays.asList(UUID.randomUUID(),
             UUID.randomUUID(),
             UUID.randomUUID());
 
     @Test
     public void testJoinSaveNull() {
-        JoinRequestFlag flag = new JoinRequestFlag(JOINS, INVITES);
+        JoinRequestFlag flag = new JoinRequestFlag(JOINS);
 
         try {
             if (!FlagLoadTester.testNull(flag)) {
@@ -34,7 +32,7 @@ public class JoinRequestFlagTests {
 
     @Test
     public void testJoinSave() {
-        JoinRequestFlag flag = new JoinRequestFlag(JOINS, INVITES);
+        JoinRequestFlag flag = new JoinRequestFlag(JOINS);
 
         try {
             FlagLoadTester.testSave(flag);
@@ -45,15 +43,13 @@ public class JoinRequestFlagTests {
 
     @Test
     public void testJoinLoad() {
-        JoinRequestFlag flag = new JoinRequestFlag(JOINS, INVITES);
+        JoinRequestFlag flag = new JoinRequestFlag(JOINS);
 
         try {
             JoinRequestFlag loaded = FlagLoadTester.testLoad(flag);
 
             Collection<UUID> joins = loaded.getJoins();
-            Collection<UUID> invites = loaded.getInvites();
             CollectionAssert.collectionEquals(JOINS, joins);
-            CollectionAssert.collectionEquals(INVITES, invites);
         } catch (IOException e) {
             Assertions.fail("Could not save", e);
         }

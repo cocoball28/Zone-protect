@@ -16,9 +16,10 @@ import java.util.HashSet;
 
 /**
  * Get a number between a range and fails if the input is above or below that range, such as
- * 0-10, a input of -1 would fail the argument while a number of 0 would be accepted
+ * 0-10, an input of -1 would fail the argument while a number of 0 would be accepted
  *
  * @param <N> The number type that should be accepted
+ * @since 1.0.0
  */
 public class RangeArgument<N extends Number> implements CommandArgument<N> {
 
@@ -32,6 +33,7 @@ public class RangeArgument<N extends Number> implements CommandArgument<N> {
      * @param parser the command argument to gain the number
      * @param lower  the minimum value that can be accepted
      * @param higher the maximum value that can be accepted
+     * @since 1.0.0
      */
     public RangeArgument(
             CommandArgument<N> parser,
@@ -77,8 +79,8 @@ public class RangeArgument<N extends Number> implements CommandArgument<N> {
             Collection<CommandCompletion> ret = new HashSet<>();
             ret.add(CommandCompletion.of(lowest.toString()));
             ret.add(CommandCompletion.of(highest.toString()));
-            for (int A = lowest.intValue() + 1; A < highest.intValue(); A++) {
-                ret.add(CommandCompletion.of(A + ""));
+            for (int value = lowest.intValue() + 1; value < highest.intValue(); value++) {
+                ret.add(CommandCompletion.of(value + ""));
             }
             return ret;
         } catch (IOException e) {
@@ -94,6 +96,7 @@ public class RangeArgument<N extends Number> implements CommandArgument<N> {
      * @param max the maximum value that can be accepted
      *
      * @return The created range argument
+     * @since 1.0.0
      */
     public static RangeArgument<Double> createArgument(String id, double min, double max) {
         return new RangeArgument<>(new DoubleArgument(id),
@@ -110,6 +113,7 @@ public class RangeArgument<N extends Number> implements CommandArgument<N> {
      * @param max the maximum value that can be accepted
      *
      * @return The created range argument
+     * @since 1.0.0
      */
     public static RangeArgument<Integer> createArgument(String id, int min, int max) {
         return new RangeArgument<>(new IntegerArgument(id),

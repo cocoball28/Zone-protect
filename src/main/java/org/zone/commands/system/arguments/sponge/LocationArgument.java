@@ -23,6 +23,8 @@ import java.util.function.Function;
 
 /**
  * Gets a location from the command
+ *
+ * @since 1.0.1
  */
 public class LocationArgument implements CommandArgument<Location<?, ?>> {
 
@@ -136,6 +138,7 @@ public class LocationArgument implements CommandArgument<Location<?, ?>> {
      * @param id The id of the argument
      *
      * @return the location argument
+     * @since 1.0.1
      */
     public @NotNull LocationArgument createBlockLocation(@NotNull String id) {
         return new LocationArgument(id, Integer::parseInt, AS_BLOCK, INTEGER_FORMAT);
@@ -147,6 +150,7 @@ public class LocationArgument implements CommandArgument<Location<?, ?>> {
      * @param id The id of the argument
      *
      * @return the location argument
+     * @since 1.0.1
      */
     public @NotNull LocationArgument createExactLocation(@NotNull String id) {
         return new LocationArgument(id, Double::parseDouble, AS_EXACT, DOUBLE_FORMAT);

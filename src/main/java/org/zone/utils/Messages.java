@@ -3,6 +3,7 @@ package org.zone.utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import org.checkerframework.checker.units.qual.C;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.profile.GameProfile;
 import org.spongepowered.api.service.economy.Currency;
@@ -21,6 +22,8 @@ import org.zone.region.group.Group;
 import org.zone.region.shop.transaction.price.PriceType;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.UUID;
 
@@ -89,12 +92,20 @@ public final class Messages {
         return Component.text("Message: ").color(NamedTextColor.AQUA);
     }
 
+    public static Component getDisplayTypeTag() {
+        return Component.text("Display Type: ").color(NamedTextColor.AQUA);
+    }
+
     public static Component getNoMessageSet() {
         return Component.text("No message set by user").color(NamedTextColor.RED);
     }
 
-    public static Component getFlagMessageView(GreetingsFlag greetingsFlag) {
+    public static Component getGreetingsFlagMessageView(GreetingsFlag greetingsFlag) {
         return getMessageTag().append(greetingsFlag.getGreetingsMessage());
+    }
+
+    public static Component getFlagMessageDisplayTypeView(Identifiable messageDisplayType) {
+        return getDisplayTypeTag().append(Component.text(messageDisplayType.getName())).color(NamedTextColor.GOLD);
     }
 
     public static Component getUpdatedMessage(Identifiable type) {
@@ -399,7 +410,7 @@ public final class Messages {
 
     public static Component getZoneConfigReloadFail() {
         return Component
-                .text("Couldn't reload config! Below is the cause of the error")
+                .text("Couldn't reload config! Below is the cause of the error:")
                 .color(NamedTextColor.RED);
     }
 
@@ -751,8 +762,20 @@ public final class Messages {
         return Component.text("Set the display type of the greetings message to chat");
     }
 
-    public static Component getGreetingsDisplaySetTitleCommandDescription() {
-        return Component.text("Set the display type of the greetings message to title");
+    public static Component getGreetingsDisplaySetTitleSubtitleCommandDescription() {
+        return Component.text("Sets the display type of greetings message to title with subtitle");
+    }
+
+    public static Component getGreetingsDisplaySetTitleFadeInCommandDescription() {
+        return Component.text("Sets the display type of greetings message to title with fadeIn duration");
+    }
+
+    public static Component getGreetingsDisplaySetTitleStayCommandDescription() {
+        return Component.text("Sets the display type of greetings message to title with stay duration");
+    }
+
+    public static Component getGreetingsDisplaySetTitleFadeOutCommandDescription() {
+        return Component.text("Sets the display type of greetings message to title with fadeOut duration");
     }
 
     public static Component getGreetingsDisplaySetBossBarCommandDescription() {
@@ -763,12 +786,40 @@ public final class Messages {
         return Component.text("Set the display type of the leaving message to chat");
     }
 
-    public static Component getLeavingDisplaySetTitleCommandDescription() {
-        return Component.text("Set the display type of the leaving message to title");
+    public static Component getLeavingDisplaySetTitleSubtitleCommandDescription() {
+        return Component.text("Sets the display type of the leaving message to title with subtitle");
+    }
+
+    public static Component getLeavingDisplaySetTitleFadeInCommandDescription() {
+        return Component.text("Sets the display type of the leaving message to title with fade in duration and subtitle");
+    }
+
+    public static Component getLeavingDisplaySetTitleStayCommandDescription() {
+        return Component.text("Sets the display type of the leaving message to title with stay duration");
+    }
+
+    public static Component getLeavingDisplaySetTitleFadeOutCommandDescription() {
+        return Component.text("Sets the display type of the leaving message to title with fade out duration");
     }
 
     public static Component getLeavingDisplaySetBossBarCommandDescription() {
         return Component.text("Set the display type of the leaving message to boss bar");
+    }
+
+    public static Component getKickPlayerCommandDescription() {
+        return Component.text("Kicks players from a zone");
+    }
+
+    public static Component getBanPlayerCommandDescription() {
+        return Component.text("Bans players from a zone");
+    }
+
+    public static Component getTempBanPlayerCommandDescription() {
+        return Component.text("Temporarily bans players from a zone");
+    }
+
+    public static Component getUnbanPlayerCommandDescription() {
+        return Component.text("Unbans players from a zone");
     }
 
     public static Component getAllZoneCommandsTag() {
@@ -804,53 +855,80 @@ public final class Messages {
     }
 
     public static Component getDisplaySuccessfullyChangedStatement() {
-        return Component.text(" display had been successfully changed to ");
+        return Component.text(" message display has been successfully changed to ");
     }
 
-    public static Component getGreetingsDisplaySuccessfullyChangedToChat() {
-        return Component
-                .text("Greetings message" + getDisplaySuccessfullyChangedStatement() + "chat")
+    public static Component getDisplayUpdatedStatement() {
+        return Component.text(" message display has been updated");
+    }
+
+    public static Component getFlagMessageDisplaySuccessfullyChangedTo(Identifiable flag, Identifiable displayType) {
+        return Component.text(flag.getName())
+                .append(getDisplaySuccessfullyChangedStatement())
+                .append(Component.text(displayType.getKey()))
                 .color(NamedTextColor.AQUA);
     }
 
-    public static Component getGreetingsDisplaySuccessfullyChangedToTitle() {
-        return Component
-                .text("Greetings message" + getDisplaySuccessfullyChangedStatement() + "title")
-                .color(NamedTextColor.AQUA);
-    }
-
-    public static Component getGreetingsDisplaySuccessfullyChangedToBossBar() {
-        return Component
-                .text("Greetings message" + getDisplaySuccessfullyChangedStatement() + "boss bar")
-                .color(NamedTextColor.AQUA);
-    }
-
-    public static Component getLeavingDisplaySuccessfullyChangedToChat() {
-        return Component
-                .text("Leaving message" + getDisplaySuccessfullyChangedStatement() + "chat")
-                .color(NamedTextColor.AQUA);
-    }
-
-    public static Component getLeavingDisplaySuccessfullyChangedToTitle() {
-        return Component
-                .text("Leaving message" + getDisplaySuccessfullyChangedStatement() + "title")
-                .color(NamedTextColor.AQUA);
-    }
-
-    public static Component getLeavingDisplaySuccessfullyChangedToBossBar() {
-        return Component
-                .text("Leaving message" + getDisplaySuccessfullyChangedStatement() + "boss bar")
+    public static Component getFlagMessageDisplayUpdated(Identifiable flag, Identifiable displayType) {
+        return Component.text(flag.getName())
+                .append(Component.text(" " + displayType.getKey()))
+                .append(getDisplayUpdatedStatement())
                 .color(NamedTextColor.AQUA);
     }
 
     public static Component getNoGroupWithTheGroupKey(Identifiable groupKey) {
-        return Component
-                .text("No Group found with the GroupKey " + groupKey.getName())
-                .color(NamedTextColor.RED);
+        return Component.text("No Group found with the GroupKey " + groupKey.getName()).color(NamedTextColor.RED);
     }
 
     public static Component getNotInvited() {
-        return Component.text("You have not been invited");
+        return Component.text("You have not been invited").color(NamedTextColor.RED);
+    }
+
+    public static Component getGotKickedFromZone(Identifiable zone) {
+        return Component.text("You have been kicked from " + zone.getName()).color(NamedTextColor.DARK_AQUA);
+    }
+
+    public static Component getKickedPlayers() {
+        return Component.text("Players have been kicked from your zone").color(NamedTextColor.AQUA);
+    }
+
+    public static Component getGotBannedFromZone(Identifiable zone) {
+        return Component.text("You have been banned from " + zone.getName()).color(NamedTextColor.DARK_AQUA);
+    }
+
+    public static Component getGotTemporarilyBannedFromZone(Identifiable zone,
+            LocalDateTime releaseTime) {
+        return Component.text("You have been temporarily banned from " + zone.getName() + " for " + releaseTime.format(
+                DateTimeFormatter.ISO_DATE_TIME)).color(NamedTextColor.DARK_AQUA);
+    }
+
+    public static Component getBannedPlayers() {
+        return Component.text("Players have been banned from your zone").color(NamedTextColor.AQUA);
+    }
+
+    public static Component getTemporarilyBannedPlayers() {
+        return Component.text("Players have been temporarily banned from your zone").color(NamedTextColor.AQUA);
+    }
+
+    public static Component getIsBanned() {
+        return Component.text("You are banned from the zone").color(NamedTextColor.DARK_AQUA);
+    }
+
+    public static Component getWarningTag() {
+        return Component.text("WARNING: ").color(NamedTextColor.YELLOW);
+    }
+
+    public static Component getBannedWarning(String name) {
+        return getWarningTag().append(Component.text( name + " is currently banned from the zone are" +
+                " you sure u want to invite this player?").color(NamedTextColor.AQUA));
+    }
+
+    public static Component getOwnZone() {
+        return Component.text("You can't join your own zone").color(NamedTextColor.RED);
+    }
+
+    public static Component getInviteFlagNotFound() {
+        return Component.text("Invite flag not found").color(NamedTextColor.RED);
     }
 
 }

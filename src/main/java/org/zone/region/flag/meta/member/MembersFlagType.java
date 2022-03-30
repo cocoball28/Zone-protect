@@ -19,6 +19,8 @@ import java.util.stream.Collectors;
 
 /**
  * Flag used to hold all members
+ *
+ * @since 1.0.0
  */
 public class MembersFlagType implements FlagType.SerializableType<MembersFlag> {
 

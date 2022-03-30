@@ -13,6 +13,7 @@ import java.util.HashSet;
  * Gets the Manager for GroupKeys.
  *
  * Use {@link ZonePlugin#getGroupKeyManager()} to get an instance
+ * @since 1.0.1
  */
 public class GroupKeyManager implements IdentifiableManager<GroupKey> {
 
@@ -28,6 +29,7 @@ public class GroupKeyManager implements IdentifiableManager<GroupKey> {
      * Registers a new GroupKey
      *
      * @param key The new key
+     * @since 1.0.1
      */
     public void register(@NotNull GroupKey key) {
         this.keys.add(key);

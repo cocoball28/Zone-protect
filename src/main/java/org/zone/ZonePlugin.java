@@ -65,6 +65,7 @@ import java.util.stream.Stream;
 /**
  * The zone plugin's boot and main class, use {@link ZonePlugin#getZonesPlugin()} to gain an
  * instance of this class
+ * @since 1.0.0
  */
 @Plugin("zones")
 public class ZonePlugin {
@@ -88,10 +89,24 @@ public class ZonePlugin {
         this.logger = logger;
     }
 
+    /**
+     * Gets the config of {@link ZonePlugin}
+     *
+     * @return An instance of the config class
+     * @since 1.0.1
+     * @see ZoneConfig
+     */
     public @NotNull ZoneConfig getConfig() {
         return this.config;
     }
 
+    /**
+     * Gets the shop manager of {@link ZonePlugin}
+     *
+     * @return An instance of the shop manager
+     * @since 1.0.1
+     * @see ShopManager
+     */
     public @NotNull ShopManager getShopManager() {
         return this.shopManager;
     }
@@ -100,6 +115,8 @@ public class ZonePlugin {
      * Gets the message display manager
      *
      * @return The instance of the message display manager
+     * @since 1.0.1
+     * @see MessageDisplayManager
      */
     public @NotNull MessageDisplayManager getMessageDisplayManager() {
         return this.messageDisplayManager;
@@ -109,6 +126,8 @@ public class ZonePlugin {
      * Gets the flag manager
      *
      * @return The instance of the flag manager
+     * @since 1.0.0
+     * @see FlagManager
      */
     public @NotNull FlagManager getFlagManager() {
         return this.flagManager;
@@ -118,6 +137,8 @@ public class ZonePlugin {
      * Gets the zone manager
      *
      * @return The instance of the zone manager
+     * @see 1.0.0
+     * @see ZoneManager
      */
     public @NotNull ZoneManager getZoneManager() {
         return this.zoneManager;
@@ -126,7 +147,8 @@ public class ZonePlugin {
     /**
      * Gets the Memory holder
      *
-     * @return the instance of the memory holder
+     * @return The instance of the memory holder
+     * @see MemoryHolder
      */
     public @NotNull MemoryHolder getMemoryHolder() {
         return this.memoryHolder;
@@ -136,6 +158,8 @@ public class ZonePlugin {
      * Gets the Group key manager
      *
      * @return The instance of the group key manager
+     * @since 1.0.0
+     * @see GroupKeyManager
      */
     public @NotNull GroupKeyManager getGroupKeyManager() {
         return this.groupKeyManager;
@@ -145,13 +169,23 @@ public class ZonePlugin {
      * Gets the logger for this plugin (Oh no! log4j!)
      *
      * @return The logger for this plugin
+     * @since 1.0.0
      */
     public @NotNull Logger getLogger() {
         return this.logger;
     }
 
+    /**
+     * Listener of Construct plugin event
+     *
+     * Mainly initializes fields available in this plugin class by creating a new instance of the
+     * field type
+     *
+     * @param event The event to listen to. Here, {@link ConstructPluginEvent}
+     * @since 1.0.0
+     */
     @Listener
-    public void onConstructor(ConstructPluginEvent event) {
+    public void onConstruct(ConstructPluginEvent event) {
         this.messageDisplayManager = new MessageDisplayManager();
         this.flagManager = new FlagManager();
         this.zoneManager = new ZoneManager();
@@ -161,6 +195,11 @@ public class ZonePlugin {
         this.config = new ZoneConfig(new File("config/zone/config.conf"));
     }
 
+    /**
+     * Method where listeners of events are registered (Only listeners of flags)
+     *
+     * @since 1.0.0
+     */
     private void registerListeners() {
         EventManager eventManager = Sponge.eventManager();
         eventManager.registerListeners(this.plugin, new PlayerListener());
@@ -187,11 +226,23 @@ public class ZonePlugin {
         eventManager.registerListeners(this.plugin, new DisplayCaseShopListener());
     }
 
+    /**
+     * Listener of Starting Engine Event
+     *
+     * @param event The event to listen to. Here, {@link StartedEngineEvent<Server>}
+     * @since 1.0.0
+     */
     @Listener
     public void onServerStarting(final StartingEngineEvent<Server> event) {
         this.registerListeners();
     }
 
+    /**
+     * Listener of Started Engine Event
+     *
+     * @param event The event to listen to. Here, {@link StartedEngineEvent<Server>}
+     * @since 1.0.0
+     */
     @Listener
     public void onServerStarted(final StartedEngineEvent<Server> event) {
         this.config.loadDefaults();
@@ -261,6 +312,12 @@ public class ZonePlugin {
                 .sendMessage(Messages.getZonesLoaded(this.getZoneManager().getRegistered()));
     }
 
+    /**
+     * Listener of RegisterCommandEvent
+     *
+     * @param event The event to listen to. Here, {@link RegisterCommandEvent<Command.Raw>}
+     * @since 1.0.0
+     */
     @Listener
     public void onRegisterCommands(@SuppressWarnings("BoundedWildcard") final RegisterCommandEvent<Command.Raw> event) {
         event.register(this.plugin,
@@ -271,21 +328,33 @@ public class ZonePlugin {
                 "protect");
     }
 
+    /**
+     * Listener to RegisterDataEvent
+     *
+     * @param event The event to listen to. Here, {@link RegisterDataEvent}
+     * @since 1.0.1
+     */
     @Listener
     public void onRegisterData(RegisterDataEvent event) {
         event.register(DataRegistration.of(ZoneKeys.HUMAN_AI_ATTACHED_ZONE_ID, Human.class));
     }
 
+    /**
+     * Listener to RefreshGameEvent
+     *
+     * @param event The event to listen to. Here, {@link RefreshGameEvent}
+     * @since 1.0.1
+     */
     @Listener
     public void onReload(RefreshGameEvent event) {
-        Optional<Audience> cSender = event.cause().first(Audience.class);
+        Optional<Audience> opCSender = event.cause().first(Audience.class);
         try {
             this.config.getLoader().load();
-            cSender.ifPresent(audience -> audience.sendMessage(Messages.getZoneConfigReloadedInfo()));
+            opCSender.ifPresent(audience -> audience.sendMessage(Messages.getZoneConfigReloadedInfo()));
             this.zoneManager.reloadZones();
-            cSender.ifPresent(audience -> audience.sendMessage(Messages.getZonesReloadedInfo()));
+            opCSender.ifPresent(audience -> audience.sendMessage(Messages.getZonesReloadedInfo()));
         } catch (ConfigurateException ce) {
-            cSender.ifPresent(audience -> audience.sendMessage(Messages.getZoneConfigReloadFail()));
+            opCSender.ifPresent(audience -> audience.sendMessage(Messages.getZoneConfigReloadFail()));
             ce.printStackTrace();
             this.logger.error("Event terminated!");
         }
@@ -295,6 +364,7 @@ public class ZonePlugin {
      * Gets the PluginContainer for this plugin
      *
      * @return The plugin container for this plugin
+     * @since 1.0.0
      */
     public @NotNull PluginContainer getPluginContainer() {
         return this.plugin;
@@ -327,7 +397,6 @@ public class ZonePlugin {
                     }
                 })
                 .filter(Objects::nonNull);
-
     }
 
     /**
