@@ -117,7 +117,7 @@ public class TitleMessageDisplay implements MessageDisplay {
      * @since 1.0.1
      */
     public void setStay(@Nullable Duration stay) {
-        this.fadeIn = Objects.requireNonNullElseGet(stay,
+        this.stay = Objects.requireNonNullElseGet(stay,
                 () -> new DefaultTitleStayNode().getInitialValue().asDuration());
     }
 

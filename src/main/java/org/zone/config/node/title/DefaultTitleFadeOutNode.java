@@ -1,5 +1,6 @@
 package org.zone.config.node.title;
 
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.serialize.SerializationException;
@@ -39,11 +40,13 @@ public class DefaultTitleFadeOutNode implements ZoneNode.WithDefault<TimeDuratio
                 if (DefaultTitleFadeOutNode.this.get(ZonePlugin.getZonesPlugin().getConfig()).isEmpty()) {
                     DefaultTitleFadeOutNode.this.set(ZonePlugin.getZonesPlugin().getConfig(),
                             new TimeDuration(TimeUnits.SECONDS, newValue));
+                } else {
+                    DefaultTitleFadeOutNode.this.set(ZonePlugin.getZonesPlugin().getConfig(),
+                            new TimeDuration(DefaultTitleFadeOutNode.this
+                                    .get(ZonePlugin.getZonesPlugin().getConfig())
+                                    .get()
+                                    .getTimeUnit(), newValue));
                 }
-                DefaultTitleFadeOutNode.this.set(ZonePlugin.getZonesPlugin().getConfig(),
-                        new TimeDuration(DefaultTitleFadeOutNode.this.get(ZonePlugin.getZonesPlugin()
-                                .getConfig()).get().getTimeUnit(),
-                                newValue));
                 return CommandResult.success();
             } catch (SerializationException se) {
                 se.printStackTrace();
@@ -85,7 +88,7 @@ public class DefaultTitleFadeOutNode implements ZoneNode.WithDefault<TimeDuratio
     }
 
     @Override
-    public TimeDuration getDefault() {
+    public @NotNull TimeDuration getDefault() {
         return this.getInitialValue();
     }
 
@@ -95,25 +98,25 @@ public class DefaultTitleFadeOutNode implements ZoneNode.WithDefault<TimeDuratio
     }
 
     @Override
-    public TimeDuration getInitialValue() {
+    public @NotNull TimeDuration getInitialValue() {
         return new TimeDuration(TimeUnits.SECONDS, 5);
     }
 
     @Override
-    public Collection<ConfigCommandNode<?>> getNodes() {
+    public @NotNull Collection<ConfigCommandNode<?>> getNodes() {
         return Arrays.asList(new DefaultTitleFadeOutConfigCommandTimeNode(), new DefaultTitleFadeOutTimeUnitConfigCommandNode());
     }
 
     @Override
     public void set(
-            CommentedConfigurationNode node, TimeDuration timeDuration) throws
+            @NotNull CommentedConfigurationNode node, @NotNull TimeDuration timeDuration) throws
             SerializationException {
         node.node("Length").set(timeDuration.getLength());
         node.node("Unit").set(timeDuration.getTimeUnit().name());
     }
 
     @Override
-    public Optional<TimeDuration> get(CommentedConfigurationNode node) {
+    public @NotNull Optional<TimeDuration> get(@NotNull CommentedConfigurationNode node) {
         int length = node.node("Length").getInt();
         String unitAsString = node.node("Unit").getString();
         TimeUnits unit = TimeUnits.valueOf(unitAsString);
