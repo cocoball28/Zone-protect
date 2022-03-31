@@ -70,6 +70,7 @@ public class ZoneManager implements IdentifiableManager<Zone> {
      * Registers a new zone
      *
      * @param zone The zone to add
+     * @since 1.0.0
      */
     public synchronized void register(@NotNull Zone zone) {
         this.isBeingWrittenTo = true;
@@ -125,7 +126,7 @@ public class ZoneManager implements IdentifiableManager<Zone> {
      *
      * @deprecated Typo -> use {@link #getRegistered()} instead
      */
-    @Deprecated(forRemoval = true)
+    @Deprecated(forRemoval = true, since = "1.0.1")
     public @NotNull Collection<Zone> getZone(
             @Nullable World<?, ?> world, @NotNull Vector3d worldPos) {
         return this.getRegistered(world, worldPos);

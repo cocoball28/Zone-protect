@@ -1,10 +1,10 @@
 package org.zone.region.flag.entity.player.display;
 
+import org.jetbrains.annotations.NotNull;
 import org.zone.IdentifiableManager;
 import org.zone.ZonePlugin;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.stream.Collectors;
 
@@ -18,9 +18,9 @@ public class MessageDisplayManager implements IdentifiableManager.Typed<MessageD
                     .collect(Collectors.toSet()));
 
     /**
-     * Get the registered display types
+     * Gets all message display types
      *
-     * @return The display types available
+     * @return A collection of message display types
      * @since 1.0.1
      */
     @Override
@@ -35,7 +35,7 @@ public class MessageDisplayManager implements IdentifiableManager.Typed<MessageD
      * @since 1.0.1
      */
     @Override
-    public void register(MessageDisplayType<?> type) {
+    public void register(@NotNull MessageDisplayType<?> type) {
         this.displayTypes.add(type);
     }
 }

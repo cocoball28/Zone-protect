@@ -15,7 +15,7 @@ import java.util.HashSet;
  * Use {@link ZonePlugin#getGroupKeyManager()} to get an instance
  * @since 1.0.1
  */
-public class GroupKeyManager implements IdentifiableManager<GroupKey> {
+public class GroupKeyManager implements IdentifiableManager.Typed<GroupKey> {
 
     @SuppressWarnings("vanilla-only")
     private final Collection<GroupKey> keys = new HashSet<>(Arrays.asList(GroupKeys.values()));
@@ -31,6 +31,7 @@ public class GroupKeyManager implements IdentifiableManager<GroupKey> {
      * @param key The new key
      * @since 1.0.1
      */
+    @Override
     public void register(@NotNull GroupKey key) {
         this.keys.add(key);
     }

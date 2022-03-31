@@ -1,5 +1,6 @@
 package org.zone.region.shop.type;
 
+import org.jetbrains.annotations.NotNull;
 import org.zone.IdentifiableManager;
 import org.zone.ZonePlugin;
 
@@ -21,7 +22,7 @@ public class ShopManager implements IdentifiableManager.Typed<ShopType<?>> {
     }
 
     @Override
-    public void register(ShopType<?> type) {
+    public void register(@NotNull ShopType<?> type) {
         this.shopTypes.add(type);
     }
 }
