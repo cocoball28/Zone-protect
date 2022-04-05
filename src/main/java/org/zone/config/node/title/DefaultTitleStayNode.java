@@ -36,17 +36,19 @@ public class DefaultTitleStayNode implements ZoneNode.WithDefault<TimeDuration> 
         @Override
         public CommandResult onChange(
                 CommandContext context, Integer newValue) {
+            Optional<TimeDuration> opTimeDuration =
+                    DefaultTitleStayNode.this.get(ZonePlugin.getZonesPlugin()
+                            .getConfig());
             try {
-                if (DefaultTitleStayNode.this.get(ZonePlugin.getZonesPlugin().getConfig()).isEmpty()) {
+                if (opTimeDuration.isEmpty()) {
                     DefaultTitleStayNode.this.set(ZonePlugin.getZonesPlugin().getConfig(),
                             new TimeDuration(TimeUnits.SECONDS, newValue));
-                } else {
+                    return CommandResult.success();
+                }
                     DefaultTitleStayNode.this.set(ZonePlugin.getZonesPlugin().getConfig(),
-                            new TimeDuration(DefaultTitleStayNode.this
-                                    .get(ZonePlugin.getZonesPlugin().getConfig())
+                            new TimeDuration(opTimeDuration
                                     .get()
                                     .getTimeUnit(), newValue));
-                }
                 return CommandResult.success();
             } catch (SerializationException se) {
                 se.printStackTrace();
@@ -69,16 +71,18 @@ public class DefaultTitleStayNode implements ZoneNode.WithDefault<TimeDuration> 
 
         @Override
         public CommandResult onChange(CommandContext context, TimeUnits newValue) {
+            Optional<TimeDuration> opTimeDuration =
+                    DefaultTitleStayNode.this.get(ZonePlugin.getZonesPlugin()
+                            .getConfig());
             try {
-                if (DefaultTitleStayNode.this.get(ZonePlugin.getZonesPlugin().getConfig()).isEmpty()) {
+                if (opTimeDuration.isEmpty()) {
                     DefaultTitleStayNode.this.set(ZonePlugin.getZonesPlugin().getConfig(),
                             new TimeDuration(newValue, 5));
-                } else {
-                    DefaultTitleStayNode.this.set(ZonePlugin.getZonesPlugin().getConfig(),
-                            new TimeDuration(newValue,
-                                    DefaultTitleStayNode.this.get(ZonePlugin.getZonesPlugin()
-                                            .getConfig()).get().getLength()));
+                    return CommandResult.success();
                 }
+                DefaultTitleStayNode.this.set(ZonePlugin.getZonesPlugin().getConfig(),
+                        new TimeDuration(newValue,
+                                opTimeDuration.get().getLength()));
                 return CommandResult.success();
             } catch (SerializationException se) {
                 se.printStackTrace();

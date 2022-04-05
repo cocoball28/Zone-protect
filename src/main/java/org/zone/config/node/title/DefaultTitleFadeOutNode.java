@@ -36,17 +36,19 @@ public class DefaultTitleFadeOutNode implements ZoneNode.WithDefault<TimeDuratio
         @Override
         public CommandResult onChange(
                 CommandContext context, Integer newValue) {
+            Optional<TimeDuration> opTimeDuration =
+                    DefaultTitleFadeOutNode.this.get(ZonePlugin.getZonesPlugin()
+                            .getConfig());
             try {
-                if (DefaultTitleFadeOutNode.this.get(ZonePlugin.getZonesPlugin().getConfig()).isEmpty()) {
+                if (opTimeDuration.isEmpty()) {
                     DefaultTitleFadeOutNode.this.set(ZonePlugin.getZonesPlugin().getConfig(),
                             new TimeDuration(TimeUnits.SECONDS, newValue));
-                } else {
-                    DefaultTitleFadeOutNode.this.set(ZonePlugin.getZonesPlugin().getConfig(),
-                            new TimeDuration(DefaultTitleFadeOutNode.this
-                                    .get(ZonePlugin.getZonesPlugin().getConfig())
-                                    .get()
-                                    .getTimeUnit(), newValue));
+                    return CommandResult.success();
                 }
+                DefaultTitleFadeOutNode.this.set(ZonePlugin.getZonesPlugin().getConfig(),
+                        new TimeDuration(opTimeDuration
+                                .get()
+                                .getTimeUnit(), newValue));
                 return CommandResult.success();
             } catch (SerializationException se) {
                 se.printStackTrace();
@@ -69,16 +71,18 @@ public class DefaultTitleFadeOutNode implements ZoneNode.WithDefault<TimeDuratio
 
         @Override
         public CommandResult onChange(CommandContext context, TimeUnits newValue) {
+            Optional<TimeDuration> opTimeDuration =
+                    DefaultTitleFadeOutNode.this.get(ZonePlugin.getZonesPlugin()
+                            .getConfig());
             try {
-                if (DefaultTitleFadeOutNode.this.get(ZonePlugin.getZonesPlugin().getConfig()).isEmpty()) {
+                if (opTimeDuration.isEmpty()) {
                     DefaultTitleFadeOutNode.this.set(ZonePlugin.getZonesPlugin().getConfig(),
                             new TimeDuration(newValue, 5));
-                } else {
-                    DefaultTitleFadeOutNode.this.set(ZonePlugin.getZonesPlugin().getConfig(),
-                            new TimeDuration(newValue,
-                                    DefaultTitleFadeOutNode.this.get(ZonePlugin.getZonesPlugin()
-                                            .getConfig()).get().getLength()));
+                    return CommandResult.success();
                 }
+                DefaultTitleFadeOutNode.this.set(ZonePlugin.getZonesPlugin().getConfig(),
+                        new TimeDuration(newValue,
+                                opTimeDuration.get().getLength()));
                 return CommandResult.success();
             } catch (SerializationException se) {
                 se.printStackTrace();

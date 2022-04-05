@@ -9,12 +9,14 @@ import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.simple.EnumArgument;
 import org.zone.commands.system.arguments.simple.number.IntegerArgument;
 import org.zone.commands.system.context.CommandContext;
+import org.zone.config.ZoneConfig;
 import org.zone.config.command.ConfigCommandNode;
 import org.zone.config.node.ZoneNode;
 import org.zone.utils.Messages;
 import org.zone.utils.time.TimeUnits;
 import org.zone.utils.time.duration.TimeDuration;
 
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Optional;
@@ -36,17 +38,19 @@ public class DefaultTitleFadeInNode implements ZoneNode.WithDefault<TimeDuration
         @Override
         public CommandResult onChange(
                 CommandContext context, Integer newValue) {
+            Optional<TimeDuration> opTimeDuration =
+                    DefaultTitleFadeInNode.this.get(ZonePlugin.getZonesPlugin()
+                    .getConfig());
             try {
-                if (DefaultTitleFadeInNode.this.get(ZonePlugin.getZonesPlugin().getConfig()).isEmpty()) {
+                if (opTimeDuration.isEmpty()) {
                     DefaultTitleFadeInNode.this.set(ZonePlugin.getZonesPlugin().getConfig(),
                             new TimeDuration(TimeUnits.SECONDS, newValue));
-                } else {
-                    DefaultTitleFadeInNode.this.set(ZonePlugin.getZonesPlugin().getConfig(),
-                            new TimeDuration(DefaultTitleFadeInNode.this
-                                    .get(ZonePlugin.getZonesPlugin().getConfig())
-                                    .get()
-                                    .getTimeUnit(), newValue));
+                    return CommandResult.success();
                 }
+                DefaultTitleFadeInNode.this.set(ZonePlugin.getZonesPlugin().getConfig(),
+                        new TimeDuration(opTimeDuration
+                                .get()
+                                .getTimeUnit(), newValue));
                 return CommandResult.success();
             } catch (SerializationException se) {
                 se.printStackTrace();
@@ -69,16 +73,18 @@ public class DefaultTitleFadeInNode implements ZoneNode.WithDefault<TimeDuration
 
         @Override
         public CommandResult onChange(CommandContext context, TimeUnits newValue) {
+            Optional<TimeDuration> opTimeDuration =
+                    DefaultTitleFadeInNode.this.get(ZonePlugin.getZonesPlugin()
+                            .getConfig());
             try {
-                if (DefaultTitleFadeInNode.this.get(ZonePlugin.getZonesPlugin().getConfig()).isEmpty()) {
+                if (opTimeDuration.isEmpty()) {
                     DefaultTitleFadeInNode.this.set(ZonePlugin.getZonesPlugin().getConfig(),
                             new TimeDuration(newValue, 5));
-                } else {
-                    DefaultTitleFadeInNode.this.set(ZonePlugin.getZonesPlugin().getConfig(),
-                            new TimeDuration(newValue,
-                                    DefaultTitleFadeInNode.this.get(ZonePlugin.getZonesPlugin()
-                                            .getConfig()).get().getLength()));
+                    return CommandResult.success();
                 }
+                DefaultTitleFadeInNode.this.set(ZonePlugin.getZonesPlugin().getConfig(),
+                        new TimeDuration(newValue,
+                                opTimeDuration.get().getLength()));
                 return CommandResult.success();
             } catch (SerializationException se) {
                 se.printStackTrace();
