@@ -65,6 +65,7 @@ import java.util.stream.Stream;
 /**
  * The zone plugin's boot and main class, use {@link ZonePlugin#getZonesPlugin()} to gain an
  * instance of this class
+ *
  * @since 1.0.0
  */
 @Plugin("zones")
@@ -403,6 +404,7 @@ public class ZonePlugin {
      * Gets the instance of this class
      *
      * @return The instance of this class
+     * @since 1.0.0
      */
     public static @NotNull ZonePlugin getZonesPlugin() {
         return zonePlugin;

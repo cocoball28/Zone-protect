@@ -1,5 +1,6 @@
 package org.zone.region.flag;
 
+import org.jetbrains.annotations.NotNull;
 import org.zone.Identifiable;
 import org.zone.IdentifiableManager;
 import org.zone.ZonePlugin;
@@ -48,7 +49,7 @@ public class FlagManager implements IdentifiableManager.Typed<FlagType<?>> {
      * @since 1.0.0
      */
     @Override
-    public void register(FlagType<?> type) {
+    public void register(@NotNull FlagType<?> type) {
         this.flags.add(type);
     }
 

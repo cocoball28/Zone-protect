@@ -1,5 +1,6 @@
 package org.zone.config.node.title;
 
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.serialize.SerializationException;
@@ -35,15 +36,19 @@ public class DefaultTitleStayNode implements ZoneNode.WithDefault<TimeDuration> 
         @Override
         public CommandResult onChange(
                 CommandContext context, Integer newValue) {
+            Optional<TimeDuration> opTimeDuration =
+                    DefaultTitleStayNode.this.get(ZonePlugin.getZonesPlugin()
+                            .getConfig());
             try {
-                if (DefaultTitleStayNode.this.get(ZonePlugin.getZonesPlugin().getConfig()).isEmpty()) {
+                if (opTimeDuration.isEmpty()) {
                     DefaultTitleStayNode.this.set(ZonePlugin.getZonesPlugin().getConfig(),
                             new TimeDuration(TimeUnits.SECONDS, newValue));
+                    return CommandResult.success();
                 }
-                DefaultTitleStayNode.this.set(ZonePlugin.getZonesPlugin().getConfig(),
-                        new TimeDuration(DefaultTitleStayNode.this.get(ZonePlugin.getZonesPlugin()
-                                .getConfig()).get().getTimeUnit(),
-                                newValue));
+                    DefaultTitleStayNode.this.set(ZonePlugin.getZonesPlugin().getConfig(),
+                            new TimeDuration(opTimeDuration
+                                    .get()
+                                    .getTimeUnit(), newValue));
                 return CommandResult.success();
             } catch (SerializationException se) {
                 se.printStackTrace();
@@ -66,16 +71,18 @@ public class DefaultTitleStayNode implements ZoneNode.WithDefault<TimeDuration> 
 
         @Override
         public CommandResult onChange(CommandContext context, TimeUnits newValue) {
+            Optional<TimeDuration> opTimeDuration =
+                    DefaultTitleStayNode.this.get(ZonePlugin.getZonesPlugin()
+                            .getConfig());
             try {
-                if (DefaultTitleStayNode.this.get(ZonePlugin.getZonesPlugin().getConfig()).isEmpty()) {
+                if (opTimeDuration.isEmpty()) {
                     DefaultTitleStayNode.this.set(ZonePlugin.getZonesPlugin().getConfig(),
                             new TimeDuration(newValue, 5));
-                } else {
-                    DefaultTitleStayNode.this.set(ZonePlugin.getZonesPlugin().getConfig(),
-                            new TimeDuration(newValue,
-                                    DefaultTitleStayNode.this.get(ZonePlugin.getZonesPlugin()
-                                            .getConfig()).get().getLength()));
+                    return CommandResult.success();
                 }
+                DefaultTitleStayNode.this.set(ZonePlugin.getZonesPlugin().getConfig(),
+                        new TimeDuration(newValue,
+                                opTimeDuration.get().getLength()));
                 return CommandResult.success();
             } catch (SerializationException se) {
                 se.printStackTrace();
@@ -85,7 +92,7 @@ public class DefaultTitleStayNode implements ZoneNode.WithDefault<TimeDuration> 
     }
 
     @Override
-    public TimeDuration getDefault() {
+    public @NotNull TimeDuration getDefault() {
         return this.getInitialValue();
     }
 
@@ -95,25 +102,25 @@ public class DefaultTitleStayNode implements ZoneNode.WithDefault<TimeDuration> 
     }
 
     @Override
-    public TimeDuration getInitialValue() {
+    public @NotNull TimeDuration getInitialValue() {
         return new TimeDuration(TimeUnits.SECONDS, 5);
     }
 
     @Override
-    public Collection<ConfigCommandNode<?>> getNodes() {
+    public @NotNull Collection<ConfigCommandNode<?>> getNodes() {
         return Arrays.asList(new DefaultTitleStayConfigCommandTimeNode(), new DefaultTitleStayConfigCommandTimeUnitsNode());
     }
 
     @Override
     public void set(
-            CommentedConfigurationNode node, TimeDuration timeDuration) throws
+            @NotNull CommentedConfigurationNode node, @NotNull TimeDuration timeDuration) throws
             SerializationException {
         node.node("Length").set(timeDuration.getLength());
         node.node("Unit").set(timeDuration.getTimeUnit().name());
     }
 
     @Override
-    public Optional<TimeDuration> get(CommentedConfigurationNode node) {
+    public @NotNull Optional<TimeDuration> get(@NotNull CommentedConfigurationNode node) {
         int length = node.node("Length").getInt();
         String unitAsString = node.node("Unit").getString();
         TimeUnits unit = TimeUnits.valueOf(unitAsString);

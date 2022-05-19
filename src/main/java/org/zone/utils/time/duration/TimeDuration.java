@@ -5,6 +5,11 @@ import org.zone.utils.time.TimeUnits;
 
 import java.time.Duration;
 
+/**
+ * Stores the time unit and duration
+ *
+ * @since 1.0.1
+ */
 public class TimeDuration {
 
     private final @NotNull TimeUnits timeUnit;
