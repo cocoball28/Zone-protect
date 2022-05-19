@@ -27,5 +27,6 @@ public class TestInfoCommand {
 
         //compare
         Assertions.assertEquals(successResult, result);
-    }
+   staticResult.close();
+ }
 }
