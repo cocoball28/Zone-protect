@@ -40,6 +40,7 @@ public class TestGreetingsSetCommand {
     private PluginMetadata metadata;
     private ArtifactVersion version;
     private Zone zone;
+    private MockedStatic<ZonePlugin> staticZonePlugin;
 
     @BeforeAll
     void init() {
@@ -57,8 +58,9 @@ public class TestGreetingsSetCommand {
 
         Mockito.when(config.getOrElse(ZoneNodes.MAX_OWNER)).thenReturn(99);
         try {
-            Mockito
-                    .mockStatic(ZonePlugin.class)
+            this.staticZonePlugin = Mockito
+                    .mockStatic(ZonePlugin.class);
+            this.staticZonePlugin
                     .when(ZonePlugin::getZonesPlugin)
                     .thenReturn(this.plugin);
         } catch (MockitoException e) {
@@ -131,6 +133,9 @@ public class TestGreetingsSetCommand {
         if (staticCommandResult != null) {
             staticCommandResult.close();
         }
+        if(this.staticZonePlugin != null){
+            this.staticZonePlugin.close();
+        }
     }
 
     @Test
@@ -185,6 +190,10 @@ public class TestGreetingsSetCommand {
         //end
         if(staticCommandResult != null){
             staticCommandResult.close();
+        }
+
+        if(this.staticZonePlugin != null){
+            this.staticZonePlugin.close();
         }
     }
 
