@@ -30,5 +30,7 @@ public class TestInfoCommand {
 
         //end
         staticResult.close();
+        CommandAssert.closeMocked();
+
     }
 }

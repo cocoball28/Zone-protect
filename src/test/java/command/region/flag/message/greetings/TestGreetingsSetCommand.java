@@ -136,6 +136,7 @@ public class TestGreetingsSetCommand {
         if(this.staticZonePlugin != null){
             this.staticZonePlugin.close();
         }
+        CommandAssert.closeMocked();
     }
 
     @Test
@@ -195,6 +196,7 @@ public class TestGreetingsSetCommand {
         if(this.staticZonePlugin != null){
             this.staticZonePlugin.close();
         }
+        CommandAssert.closeMocked();
     }
 
     //should be checking audience, not subject

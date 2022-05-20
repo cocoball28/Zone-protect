@@ -157,8 +157,9 @@ public class TestCreateDisplayCaseShopCommand {
         if (commandResultStatic != null) {
             commandResultStatic.close();
         }
-        if(this.staticRayTrace != null){
+        if (this.staticRayTrace != null) {
             this.staticRayTrace.close();
         }
+        CommandAssert.closeMocked();
     }
 }
