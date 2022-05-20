@@ -52,6 +52,8 @@ public class TestCreateDisplayCaseShopCommand {
     private ArtifactVersion version;
     private ZonePlugin plugin;
     private MockedStatic<RayTrace> staticRayTrace;
+    private MockedStatic<ZonePlugin> staticZonePlugin;
+
 
     private Vector3i atPosition = new Vector3i(1, 15, 0);
 
@@ -79,7 +81,7 @@ public class TestCreateDisplayCaseShopCommand {
         staticRayTrace = Mockito.mockStatic(RayTrace.class);
         staticRayTrace.when(RayTrace::block).thenReturn(rayTrace);
         try {
-            MockedStatic<ZonePlugin> staticZonePlugin = Mockito.mockStatic(ZonePlugin.class);
+            staticZonePlugin = Mockito.mockStatic(ZonePlugin.class);
             staticZonePlugin.when(ZonePlugin::getZonesPlugin).thenReturn(plugin);
         } catch (MockitoException ignored) {
             plugin = ZonePlugin.getZonesPlugin();
@@ -159,6 +161,9 @@ public class TestCreateDisplayCaseShopCommand {
         }
         if (this.staticRayTrace != null) {
             this.staticRayTrace.close();
+        }
+        if(this.staticZonePlugin != null){
+            this.staticZonePlugin.close();
         }
         CommandAssert.closeMocked();
     }
