@@ -146,9 +146,11 @@ public class TestGreetingsSetCommand {
 
 
         CommandResult commandResult = Mockito.mock(CommandResult.class);
+        MockedStatic<CommandResult> staticCommandResult = null;
         try {
-            Mockito
-                    .mockStatic(CommandResult.class)
+            staticCommandResult = Mockito
+                    .mockStatic(CommandResult.class);
+            staticCommandResult
                     .when(CommandResult::success)
                     .thenReturn(commandResult);
         } catch (MockitoException e) {
@@ -179,6 +181,11 @@ public class TestGreetingsSetCommand {
         Assertions.assertEquals(commandResult, result);
         Assertions.assertEquals("test",
                 PlainTextComponentSerializer.plainText().serialize(greetingsResult));
+
+        //end
+        if(staticCommandResult != null){
+            staticCommandResult.close();
+        }
     }
 
     //should be checking audience, not subject
