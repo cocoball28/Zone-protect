@@ -3,10 +3,7 @@ package command.region.flag.message.greetings;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.apache.maven.artifact.versioning.ArtifactVersion;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.exceptions.base.MockitoException;
@@ -42,7 +39,7 @@ public class TestGreetingsSetCommand {
     private Zone zone;
     private MockedStatic<ZonePlugin> staticZonePlugin;
 
-    @BeforeAll
+    @BeforeEach
     void init() {
         this.flag = new GreetingsFlag(Component.text("Test message"),
                 MessageDisplayTypes.CHAT.createCopyOfDefault());
@@ -87,6 +84,7 @@ public class TestGreetingsSetCommand {
         //setup
         MembersFlag members = new MembersFlag();
         MockedStatic<CommandResult> staticCommandResult = null;
+
 
         ServerPlayer player = Mockito.mock(ServerPlayer.class);
         UUID uuid = UUID.randomUUID();
