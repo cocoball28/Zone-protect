@@ -59,4 +59,5 @@ jobs:
         distribution: 'adopt'
         cache: maven
     - name: Build with Maven
+      continue-on-error: true
       run: mvn -f "pom-future-api9.xml" clean package
