@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.exceptions.base.MockitoException;
 import org.spongepowered.api.command.CommandResult;
@@ -83,6 +84,7 @@ public class TestGreetingsSetCommand {
     public void testSetOnServerWithMultiArgumentComponent() {
         //setup
         MembersFlag members = new MembersFlag();
+        MockedStatic<CommandResult> staticCommandResult = null;
 
         ServerPlayer player = Mockito.mock(ServerPlayer.class);
         UUID uuid = UUID.randomUUID();
@@ -93,10 +95,8 @@ public class TestGreetingsSetCommand {
 
         CommandResult commandResult = Mockito.mock(CommandResult.class);
         try {
-            Mockito
-                    .mockStatic(CommandResult.class)
-                    .when(CommandResult::success)
-                    .thenReturn(commandResult);
+            staticCommandResult = Mockito.mockStatic(CommandResult.class);
+            staticCommandResult.when(CommandResult::success).thenReturn(commandResult);
         } catch (MockitoException e) {
             commandResult = CommandResult.success();
         }
@@ -126,6 +126,11 @@ public class TestGreetingsSetCommand {
         Assertions.assertEquals(commandResult, result);
         Assertions.assertEquals("test two",
                 PlainTextComponentSerializer.plainText().serialize(greetingsResult));
+
+        //end
+        if (staticCommandResult != null) {
+            staticCommandResult.close();
+        }
     }
 
     @Test

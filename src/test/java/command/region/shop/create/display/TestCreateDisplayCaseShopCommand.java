@@ -120,8 +120,9 @@ public class TestCreateDisplayCaseShopCommand {
 
 
         CommandResult commandResult = Mockito.mock(CommandResult.class);
+        MockedStatic<CommandResult> commandResultStatic = null;
         try {
-            MockedStatic<CommandResult> commandResultStatic = Mockito.mockStatic(CommandResult.class);
+            commandResultStatic = Mockito.mockStatic(CommandResult.class);
             commandResultStatic.when(CommandResult::success).thenReturn(commandResult);
         } catch (MockitoException e) {
             commandResult = CommandResult.success();
@@ -149,5 +150,10 @@ public class TestCreateDisplayCaseShopCommand {
         //compare
         Assertions.assertEquals(commandResult, result);
         Assertions.assertEquals(1, flag.getShops().size());
+
+        //end
+        if(commandResultStatic != null){
+            commandResultStatic.close();
+        }
     }
 }
