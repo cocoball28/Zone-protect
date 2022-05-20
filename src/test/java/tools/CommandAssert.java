@@ -20,6 +20,9 @@ import java.util.function.Consumer;
 
 public class CommandAssert {
 
+    private static MockedStatic<ZonePlugin> staticZonePlugin;
+    private static MockedStatic<Sponge> staticSponge;
+
     public static class MockCommandBuilder {
 
         public final PluginContainer container;
@@ -48,6 +51,17 @@ public class CommandAssert {
         }
     }
 
+    public static void closeMocked(){
+        if(staticSponge != null){
+            staticSponge.close();
+            staticSponge = null;
+        }
+        if(staticZonePlugin != null){
+            staticZonePlugin.close();
+            staticZonePlugin = null;
+        }
+    }
+
     public static CommandResult test(
             PluginContainer container,
             PluginMetadata metadata,
@@ -69,7 +83,7 @@ public class CommandAssert {
         return command.run(context, arguments);
     }
 
-    public static CommandResult test(
+    public static synchronized CommandResult test(
             Consumer<MockCommandBuilder> mock, ArgumentCommand command, String... arguments) {
         PluginContainer pluginContainer = Mockito.mock(PluginContainer.class);
         PluginMetadata pluginMetadata = Mockito.mock(PluginMetadata.class);
@@ -87,11 +101,15 @@ public class CommandAssert {
         Mockito.when(pluginMetadata.version()).thenReturn(pluginVersion);
         Mockito.when(plugin.getPluginContainer()).thenReturn(pluginContainer);
 
-        MockedStatic<ZonePlugin> staticPlugin = Mockito.mockStatic(ZonePlugin.class);
-        staticPlugin.when(ZonePlugin::getZonesPlugin).thenReturn(plugin);
+        if (staticZonePlugin == null) {
+            staticZonePlugin = Mockito.mockStatic(ZonePlugin.class);
+        }
+        staticZonePlugin.when(ZonePlugin::getZonesPlugin).thenReturn(plugin);
 
 
-        MockedStatic<Sponge> staticSponge = Mockito.mockStatic(Sponge.class);
+        if (staticSponge == null) {
+            staticSponge = Mockito.mockStatic(Sponge.class);
+        }
         staticSponge.when(Sponge::serviceProvider).thenReturn(serviceProvider);
 
         return test(pluginContainer,
@@ -106,7 +124,7 @@ public class CommandAssert {
                 arguments);
     }
 
-    public static CommandResult test(
+    public static synchronized CommandResult test(
             PluginContainer container,
             PluginMetadata metadata,
             ArtifactVersion version,
@@ -119,7 +137,9 @@ public class CommandAssert {
 
         CommandContext context = new CommandContext(commandCause, List.of(command), arguments);
         try {
-            MockedStatic<Sponge> staticSponge = Mockito.mockStatic(Sponge.class);
+            if (staticSponge == null) {
+                staticSponge = Mockito.mockStatic(Sponge.class);
+            }
             staticSponge.when(Sponge::serviceProvider).thenReturn(serviceProvider);
         } catch (MockitoException e) {
             serviceProvider = Sponge.serviceProvider();

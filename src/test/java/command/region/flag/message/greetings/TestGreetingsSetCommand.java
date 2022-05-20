@@ -3,10 +3,8 @@ package command.region.flag.message.greetings;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.apache.maven.artifact.versioning.ArtifactVersion;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
+import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.exceptions.base.MockitoException;
 import org.spongepowered.api.command.CommandResult;
@@ -39,8 +37,9 @@ public class TestGreetingsSetCommand {
     private PluginMetadata metadata;
     private ArtifactVersion version;
     private Zone zone;
+    private MockedStatic<ZonePlugin> staticZonePlugin;
 
-    @BeforeAll
+    @BeforeEach
     void init() {
         this.flag = new GreetingsFlag(Component.text("Test message"),
                 MessageDisplayTypes.CHAT.createCopyOfDefault());
@@ -56,8 +55,9 @@ public class TestGreetingsSetCommand {
 
         Mockito.when(config.getOrElse(ZoneNodes.MAX_OWNER)).thenReturn(99);
         try {
-            Mockito
-                    .mockStatic(ZonePlugin.class)
+            this.staticZonePlugin = Mockito
+                    .mockStatic(ZonePlugin.class);
+            this.staticZonePlugin
                     .when(ZonePlugin::getZonesPlugin)
                     .thenReturn(this.plugin);
         } catch (MockitoException e) {
@@ -83,6 +83,8 @@ public class TestGreetingsSetCommand {
     public void testSetOnServerWithMultiArgumentComponent() {
         //setup
         MembersFlag members = new MembersFlag();
+        MockedStatic<CommandResult> staticCommandResult = null;
+
 
         ServerPlayer player = Mockito.mock(ServerPlayer.class);
         UUID uuid = UUID.randomUUID();
@@ -93,10 +95,8 @@ public class TestGreetingsSetCommand {
 
         CommandResult commandResult = Mockito.mock(CommandResult.class);
         try {
-            Mockito
-                    .mockStatic(CommandResult.class)
-                    .when(CommandResult::success)
-                    .thenReturn(commandResult);
+            staticCommandResult = Mockito.mockStatic(CommandResult.class);
+            staticCommandResult.when(CommandResult::success).thenReturn(commandResult);
         } catch (MockitoException e) {
             commandResult = CommandResult.success();
         }
@@ -126,6 +126,15 @@ public class TestGreetingsSetCommand {
         Assertions.assertEquals(commandResult, result);
         Assertions.assertEquals("test two",
                 PlainTextComponentSerializer.plainText().serialize(greetingsResult));
+
+        //end
+        if (staticCommandResult != null) {
+            staticCommandResult.close();
+        }
+        if(this.staticZonePlugin != null){
+            this.staticZonePlugin.close();
+        }
+        CommandAssert.closeMocked();
     }
 
     @Test
@@ -141,9 +150,11 @@ public class TestGreetingsSetCommand {
 
 
         CommandResult commandResult = Mockito.mock(CommandResult.class);
+        MockedStatic<CommandResult> staticCommandResult = null;
         try {
-            Mockito
-                    .mockStatic(CommandResult.class)
+            staticCommandResult = Mockito
+                    .mockStatic(CommandResult.class);
+            staticCommandResult
                     .when(CommandResult::success)
                     .thenReturn(commandResult);
         } catch (MockitoException e) {
@@ -174,6 +185,16 @@ public class TestGreetingsSetCommand {
         Assertions.assertEquals(commandResult, result);
         Assertions.assertEquals("test",
                 PlainTextComponentSerializer.plainText().serialize(greetingsResult));
+
+        //end
+        if(staticCommandResult != null){
+            staticCommandResult.close();
+        }
+
+        if(this.staticZonePlugin != null){
+            this.staticZonePlugin.close();
+        }
+        CommandAssert.closeMocked();
     }
 
     //should be checking audience, not subject

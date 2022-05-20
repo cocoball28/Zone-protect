@@ -51,6 +51,9 @@ public class TestCreateDisplayCaseShopCommand {
     private PluginMetadata metadata;
     private ArtifactVersion version;
     private ZonePlugin plugin;
+    private MockedStatic<RayTrace> staticRayTrace;
+    private MockedStatic<ZonePlugin> staticZonePlugin;
+
 
     private Vector3i atPosition = new Vector3i(1, 15, 0);
 
@@ -75,9 +78,10 @@ public class TestCreateDisplayCaseShopCommand {
         ChildRegion childRegion = new ChildRegion(List.of(region));
 
 
-        Mockito.mockStatic(RayTrace.class).when(RayTrace::block).thenReturn(rayTrace);
+        staticRayTrace = Mockito.mockStatic(RayTrace.class);
+        staticRayTrace.when(RayTrace::block).thenReturn(rayTrace);
         try {
-            MockedStatic<ZonePlugin> staticZonePlugin = Mockito.mockStatic(ZonePlugin.class);
+            staticZonePlugin = Mockito.mockStatic(ZonePlugin.class);
             staticZonePlugin.when(ZonePlugin::getZonesPlugin).thenReturn(plugin);
         } catch (MockitoException ignored) {
             plugin = ZonePlugin.getZonesPlugin();
@@ -120,8 +124,9 @@ public class TestCreateDisplayCaseShopCommand {
 
 
         CommandResult commandResult = Mockito.mock(CommandResult.class);
+        MockedStatic<CommandResult> commandResultStatic = null;
         try {
-            MockedStatic<CommandResult> commandResultStatic = Mockito.mockStatic(CommandResult.class);
+            commandResultStatic = Mockito.mockStatic(CommandResult.class);
             commandResultStatic.when(CommandResult::success).thenReturn(commandResult);
         } catch (MockitoException e) {
             commandResult = CommandResult.success();
@@ -149,5 +154,17 @@ public class TestCreateDisplayCaseShopCommand {
         //compare
         Assertions.assertEquals(commandResult, result);
         Assertions.assertEquals(1, flag.getShops().size());
+
+        //end
+        if (commandResultStatic != null) {
+            commandResultStatic.close();
+        }
+        if (this.staticRayTrace != null) {
+            this.staticRayTrace.close();
+        }
+        if(this.staticZonePlugin != null){
+            this.staticZonePlugin.close();
+        }
+        CommandAssert.closeMocked();
     }
 }

@@ -27,5 +27,10 @@ public class TestInfoCommand {
 
         //compare
         Assertions.assertEquals(successResult, result);
+
+        //end
+        staticResult.close();
+        CommandAssert.closeMocked();
+
     }
 }
