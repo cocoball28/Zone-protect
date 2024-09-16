@@ -14,11 +14,22 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.stream.Collectors;
 
+/**
+ * Gets a Text Component from the user in an easy-to-use format
+ *
+ * @since 1.0.0
+ */
 public class ComponentRemainingArgument implements CommandArgument<Component> {
 
-    private final String id;
+    private final @NotNull String id;
 
-    public ComponentRemainingArgument(String id) {
+    /**
+     * Creates the argument
+     *
+     * @param id The id of the argument
+     * @since 1.0.0
+     */
+    public ComponentRemainingArgument(@NotNull String id) {
         this.id = id;
     }
 
@@ -28,9 +39,8 @@ public class ComponentRemainingArgument implements CommandArgument<Component> {
     }
 
     @Override
-    public CommandArgumentResult<Component> parse(CommandContext context,
-                                                  CommandArgumentContext<Component> argument) throws
-            IOException {
+    public CommandArgumentResult<Component> parse(
+            CommandContext context, CommandArgumentContext<Component> argument) throws IOException {
         int first = argument.getFirstArgument();
         int length = context.getCommand().length;
 
@@ -47,8 +57,8 @@ public class ComponentRemainingArgument implements CommandArgument<Component> {
     }
 
     @Override
-    public @NotNull Collection<CommandCompletion> suggest(CommandContext commandContext,
-                                                          CommandArgumentContext<Component> argument) {
+    public @NotNull Collection<CommandCompletion> suggest(
+            CommandContext commandContext, CommandArgumentContext<Component> argument) {
         int first = argument.getFirstArgument();
         int length = commandContext.getCommand().length;
 

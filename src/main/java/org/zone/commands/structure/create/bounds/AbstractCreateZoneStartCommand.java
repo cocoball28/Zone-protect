@@ -23,24 +23,24 @@ public abstract class AbstractCreateZoneStartCommand implements ArgumentCommand 
 
     protected abstract BoundMode getBoundMode();
 
-    protected abstract ZoneBuilder updateBuilder(CommandContext context,
-                                                 String name,
-                                                 BoundedRegion bounded,
-                                                 ZoneBuilder builder);
+    protected abstract ZoneBuilder updateBuilder(
+            CommandContext context, String name, BoundedRegion bounded, ZoneBuilder builder);
 
     @Override
-    public @NotNull CommandResult run(CommandContext context, String... args) {
-        Subject subject = context.getSource();
+    public @NotNull CommandResult run(@NotNull CommandContext commandContext, @NotNull String... args) {
+        Subject subject = commandContext.getSource();
         if (!(subject instanceof Player player)) {
             return CommandResult.error(Messages.getPlayerOnlyMessage());
         }
 
-        String name = this.getNameArgument(context);
+        String name = this.getNameArgument(commandContext);
         Vector3i vector3i = player.location().blockPosition();
         BoundMode boundMode = this.getBoundMode();
         Vector3i startVector = new Vector3i(vector3i.x(), 0, vector3i.z());
         Vector3i endVector = new Vector3i(vector3i.x(), 256, vector3i.z());
-        startVector = boundMode.shiftOther(player.world().location(startVector)).blockPosition();
+        startVector = boundMode
+                .shiftOther(player.world().location(startVector), endVector)
+                .blockPosition();
         endVector = boundMode
                 .shift(player.world().location(endVector), startVector)
                 .blockPosition();
@@ -56,7 +56,7 @@ public abstract class AbstractCreateZoneStartCommand implements ArgumentCommand 
                 .setBoundMode(boundMode)
                 .setRegion(childRegion);
 
-        builder = this.updateBuilder(context, name, region, builder);
+        builder = this.updateBuilder(commandContext, name, region, builder);
         if (ZonePlugin
                 .getZonesPlugin()
                 .getZoneManager()
@@ -73,7 +73,7 @@ public abstract class AbstractCreateZoneStartCommand implements ArgumentCommand 
     }
 
     @Override
-    public boolean hasPermission(CommandCause source) {
+    public boolean hasPermission(@NotNull CommandCause source) {
         if (!(source.subject() instanceof Player)) {
             return false;
         }

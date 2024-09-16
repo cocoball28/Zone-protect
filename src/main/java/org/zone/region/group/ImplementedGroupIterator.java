@@ -3,6 +3,11 @@ package org.zone.region.group;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+/**
+ * Used for looping over groups
+ *
+ * @since 1.0.0
+ */
 public class ImplementedGroupIterator implements Iterator<Group> {
 
     private final Group rootGroup;

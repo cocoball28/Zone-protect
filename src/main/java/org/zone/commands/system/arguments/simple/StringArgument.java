@@ -10,11 +10,22 @@ import org.zone.commands.system.context.CommandContext;
 import java.util.Collections;
 import java.util.Set;
 
+/**
+ * Gets a string value from a command
+ *
+ * @since 1.0.0
+ */
 public class StringArgument implements CommandArgument<String> {
 
-    private final String id;
+    private final @NotNull String id;
 
-    public StringArgument(String id) {
+    /**
+     * Creates a string argument
+     *
+     * @param id The id of the argument
+     * @since 1.0.0
+     */
+    public StringArgument(@NotNull String id) {
         this.id = id;
     }
 
@@ -24,16 +35,17 @@ public class StringArgument implements CommandArgument<String> {
     }
 
     @Override
-    public CommandArgumentResult<String> parse(CommandContext context,
-                                               CommandArgumentContext<String> argument) {
+    public CommandArgumentResult<String> parse(
+            CommandContext context, CommandArgumentContext<String> argument) {
         String text = context.getCommand()[argument.getFirstArgument()];
         return CommandArgumentResult.from(argument, text);
 
     }
 
     @Override
-    public @NotNull Set<CommandCompletion> suggest(@NotNull CommandContext commandContext,
-                                                   @NotNull CommandArgumentContext<String> argument) {
+    public @NotNull Set<CommandCompletion> suggest(
+            @NotNull CommandContext commandContext,
+            @NotNull CommandArgumentContext<String> argument) {
         return Collections.emptySet();
     }
 }

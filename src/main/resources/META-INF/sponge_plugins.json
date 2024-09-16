@@ -7,8 +7,8 @@
   "plugins": [
     {
       "id": "zones",
-      "name": "Zones",
-      "version": "1.0.0",
+      "name": "zone-protect",
+      "version": "1.0.1",
       "entrypoint": "org.zone.ZonePlugin",
       "description": "Protection plugin for Sponge",
       "branding": {},
@@ -18,12 +18,16 @@
         {
           "name": "mosemister",
           "description": "Author"
+        },
+        {
+          "name": "Lukamon24",
+          "description": "Contributors"
         }
       ],
       "dependencies": [
         {
           "id": "spongeapi",
-          "version": "8.0.0-SNAPSHOT",
+          "version": "8.0.0",
           "load-order": "after",
           "optional": false
         }

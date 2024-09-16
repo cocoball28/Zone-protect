@@ -19,8 +19,10 @@ import java.util.stream.Collectors;
 
 /**
  * Flag used to hold all members
+ *
+ * @since 1.0.0
  */
-public class MembersFlagType implements FlagType<MembersFlag> {
+public class MembersFlagType implements FlagType.SerializableType<MembersFlag> {
 
     public static final String NAME = "Members";
     public static final String KEY = "members";
@@ -101,18 +103,16 @@ public class MembersFlagType implements FlagType<MembersFlag> {
                         continue;
                     }
                     Group newGroup = new SimpleGroup(entry.getKey(),
-                                                     groupNode.key() + "",
-                                                     name,
-                                                     opParent.get());
+                            groupNode.key() + "",
+                            name,
+                            opParent.get());
                     List<String> keyIds = groupNode.node("keys").getList(String.class);
                     if (keyIds != null) {
                         Collection<GroupKey> groupKeys = keyIds
                                 .parallelStream()
                                 .map(keyId -> ZonePlugin
                                         .getZonesPlugin()
-                                        .getGroupKeyManager()
-                                        .getKeys()
-                                        .parallelStream()
+                                        .getVanillaTypes(GroupKey.class)
                                         .filter(groupKey -> groupKey.getId().equals(keyId))
                                         .findFirst())
                                 .filter(Optional::isPresent)
@@ -131,7 +131,9 @@ public class MembersFlagType implements FlagType<MembersFlag> {
         if (added == 0) {
             ZonePlugin.getZonesPlugin().getLogger().warn("Could not load some groups for a zone.");
         }
-        return new MembersFlag(groups);
+        MembersFlag flag = new MembersFlag(groups);
+        flag.setUsedPower(node.node("usedPower").getInt());
+        return flag;
     }
 
     @Override
@@ -141,26 +143,27 @@ public class MembersFlagType implements FlagType<MembersFlag> {
             node.set(null);
             return;
         }
+        node.node("usedPower").set(save.getUsedPower());
         for (Map.Entry<Group, Collection<UUID>> entry : save.getGroupMapping().entrySet()) {
             ConfigurationNode groupNode = node.node(entry.getKey().getPlugin().metadata().id(),
-                                                    entry.getKey().getKey());
+                    entry.getKey().getKey());
             groupNode.node("name").set(entry.getKey().getName());
             groupNode
                     .node("keys")
                     .set(entry
-                                 .getKey()
-                                 .getKeys()
-                                 .parallelStream()
-                                 .map(Identifiable::getId)
-                                 .collect(Collectors.toSet()));
+                            .getKey()
+                            .getKeys()
+                            .parallelStream()
+                            .map(Identifiable::getId)
+                            .collect(Collectors.toSet()));
             groupNode
                     .node("users")
                     .set(entry
-                                 .getValue()
-                                 .stream()
-                                 .map(UUID::toString)
-                                 .sorted()
-                                 .collect(Collectors.toList()));
+                            .getValue()
+                            .stream()
+                            .map(UUID::toString)
+                            .sorted()
+                            .collect(Collectors.toList()));
             Optional<Group> opParent = entry.getKey().getParent();
             if (opParent.isPresent()) {
                 groupNode.node("parent").set(opParent.get().getId());

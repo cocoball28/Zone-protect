@@ -8,11 +8,17 @@ import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.operation.RemainingArgument;
 import org.zone.commands.system.arguments.simple.StringArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilterBuilder;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilters;
 import org.zone.commands.system.context.CommandContext;
+import org.zone.permissions.ZonePermission;
+import org.zone.permissions.ZonePermissions;
 import org.zone.region.ZoneBuilder;
 import org.zone.region.bounds.BoundedRegion;
 import org.zone.region.bounds.mode.BoundMode;
 import org.zone.region.bounds.mode.BoundModes;
+import org.zone.region.group.key.GroupKeys;
+import org.zone.utils.Messages;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,7 +30,12 @@ public class ZoneCreateChunkSubStartCommand extends AbstractCreateZoneStartComma
     public static final ExactArgument SUB = new ExactArgument("sub");
     public static final ExactArgument BOUNDS = new ExactArgument("bounds");
     public static final ExactArgument CHUNK = new ExactArgument("chunk");
-    public static final ZoneArgument ZONE = new ZoneArgument("zone");
+    public static final ZoneArgument ZONE = new ZoneArgument("zone",
+            ZonePermissions.OVERRIDE_REGION_CREATE_SUB_BOUNDS_CHUNK,
+            new ZoneArgumentFilterBuilder()
+                    .setFilter(ZoneArgumentFilters.withGroupKey(GroupKeys.OWNER))
+                    .build());
+    @SuppressWarnings("allow-string-argument")
     public static final RemainingArgument<String> NAME = new RemainingArgument<>(new StringArgument(
             "name"));
 
@@ -35,12 +46,12 @@ public class ZoneCreateChunkSubStartCommand extends AbstractCreateZoneStartComma
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Creates a sub chunk zone");
+        return Messages.getZoneCreateChunkSubStartCommandDescription();
     }
 
     @Override
-    public @NotNull Optional<String> getPermissionNode() {
-        return Optional.empty();
+    public @NotNull Optional<ZonePermission> getPermissionNode() {
+        return Optional.of(ZonePermissions.REGION_CREATE_SUB_BOUNDS_CHUNK);
     }
 
     @Override
@@ -54,10 +65,8 @@ public class ZoneCreateChunkSubStartCommand extends AbstractCreateZoneStartComma
     }
 
     @Override
-    protected ZoneBuilder updateBuilder(CommandContext context,
-                                        String name,
-                                        BoundedRegion bounded,
-                                        ZoneBuilder builder) {
+    protected ZoneBuilder updateBuilder(
+            CommandContext context, String name, BoundedRegion bounded, ZoneBuilder builder) {
         return builder.setParent(context.getArgument(this, ZONE));
     }
 }

@@ -4,7 +4,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.api.ResourceKey;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.event.Cause;
+import org.spongepowered.api.util.AABB;
 import org.spongepowered.api.world.Locatable;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
@@ -18,14 +20,17 @@ import org.zone.region.bounds.ChildRegion;
 import org.zone.region.flag.Flag;
 import org.zone.region.flag.FlagType;
 import org.zone.region.flag.FlagTypes;
-import org.zone.region.flag.meta.eco.EcoFlag;
+import org.zone.region.flag.meta.eco.balance.BalanceFlag;
 import org.zone.region.flag.meta.member.MembersFlag;
 import org.zone.region.flag.meta.tag.TagsFlag;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
- * A area that follows specific rules
+ * An area that follows specific rules
+ *
+ * @since 1.0.0
  */
 public class Zone implements Identifiable {
 
@@ -53,10 +58,32 @@ public class Zone implements Identifiable {
     }
 
     /**
+     * Gets all the entities found in the regions of the zone
+     *
+     * @return a collection of entities found within the region
+     * @since 1.0.0
+     */
+    public Collection<Entity> getEntities(double minHeight, double maxHeight) {
+        Optional<? extends World<?, ?>> opWorld = this.getWorld();
+        if (opWorld.isEmpty()) {
+            return Collections.emptyList();
+        }
+        World<?, ?> world = opWorld.get();
+        return this.getRegion().getTrueChildren().stream().flatMap(region -> {
+            AABB aabb = region.asAABB();
+            Vector3d min = aabb.min();
+            Vector3d max = aabb.max();
+            aabb = AABB.of(min.x(), minHeight, min.z(), max.x(), maxHeight, max.z());
+            return world.entities(aabb).stream();
+        }).collect(Collectors.toSet());
+    }
+
+    /**
      * Gets the world that the zone is in. If this returns {@link Optional#empty()} then use the
      * default world on the client
      *
      * @return The world key
+     * @since 1.0.0
      */
     public Optional<ResourceKey> getWorldKey() {
         return Optional.ofNullable(this.world);
@@ -67,6 +94,7 @@ public class Zone implements Identifiable {
      * world is not loaded.
      *
      * @return The world object
+     * @since 1.0.0
      */
     public Optional<? extends World<?, ?>> getWorld() {
         if (this.world == null) {
@@ -76,11 +104,12 @@ public class Zone implements Identifiable {
     }
 
     /**
-     * Gets the parent to this zone. If the zone is a sub region then it will have a parent, if
-     * the zone is a regular zone then it wont. Note use {@link Zone#getParentId()} where
+     * Gets the parent to this zone. If the zone is a subregion then it will have a parent, if
+     * the zone is a regular zone then it won't. Note use {@link Zone#getParentId()} where
      * possible as this searches for the zone
      *
      * @return The parent zone
+     * @since 1.0.0
      */
     public @NotNull Optional<Zone> getParent() {
         return ZonePlugin.getZonesPlugin().getZoneManager().getZone(this.parentId);
@@ -91,6 +120,7 @@ public class Zone implements Identifiable {
      * the zone is a regular zone then it wont.
      *
      * @return The id of the parent zone
+     * @since 1.0.0
      */
     public @NotNull Optional<String> getParentId() {
         return Optional.ofNullable(this.parentId);
@@ -102,13 +132,11 @@ public class Zone implements Identifiable {
      * @param flag The instance to check
      *
      * @return true if the flag is present
+     * @since 1.0.0
      */
     public boolean containsFlag(@NotNull Flag flag) {
-        if (this.flags.contains(flag)) {
-            return true;
-        }
         //noinspection SuspiciousMethodCalls
-        return this.getTags().getTags().contains(flag);
+        return this.flags.contains(flag) || this.getTags().getTags().contains(flag);
     }
 
     /**
@@ -117,22 +145,20 @@ public class Zone implements Identifiable {
      * @param type the type of flag
      *
      * @return true if a flag has the same type as provided
+     * @since 1.0.0
      */
     public boolean containsFlag(@NotNull FlagType<?> type) {
-        if (this.flags.parallelStream().anyMatch(flag -> flag.getType().equals(type))) {
-            return true;
-        }
-        if (type instanceof FlagType.TaggedFlagType tagType) {
-            //noinspection unchecked
-            return this.getTags().getTag(tagType).isPresent();
-        }
-        return false;
+        //noinspection unchecked
+        return this.flags.parallelStream().anyMatch(flag -> flag.getType().equals(type)) ||
+                type instanceof FlagType.TaggedFlagType tagType &&
+                        this.getTags().getTag(tagType).isPresent();
     }
 
     /**
      * Gets the flags of this zone
      *
      * @return A collection of the flags that zone has
+     * @since 1.0.0
      */
     public @NotNull Collection<Flag> getFlags() {
         return Collections.unmodifiableCollection(this.flags);
@@ -144,6 +170,7 @@ public class Zone implements Identifiable {
      * @param type The flag type to remove
      *
      * @return if the flag was removed
+     * @since 1.0.0
      */
     public boolean removeFlag(@NotNull FlagType<?> type) {
         return this.removeFlag(type, true);
@@ -152,12 +179,8 @@ public class Zone implements Identifiable {
     private boolean removeFlag(@NotNull FlagType<?> type, boolean runEvent) {
         if (runEvent) {
             FlagChangeEvent.RemoveFlag removeFlag = new FlagChangeEvent.RemoveFlag(this,
-                                                                                   type,
-                                                                                   Cause
-                                                                                           .builder()
-                                                                                           .append(type)
-                                                                                           .append(this)
-                                                                                           .build());
+                    type,
+                    Cause.builder().append(type).append(this).build());
             Sponge.eventManager().post(removeFlag);
             if (removeFlag.isCancelled()) {
                 return false;
@@ -185,6 +208,7 @@ public class Zone implements Identifiable {
      * @param flag The flag to add
      *
      * @return If the flag was added
+     * @since 1.0.0
      */
     public boolean addFlag(@NotNull Flag flag) {
         return this.addFlag(flag, true);
@@ -193,12 +217,8 @@ public class Zone implements Identifiable {
     private boolean addFlag(@NotNull Flag flag, boolean runEvent) {
         if (runEvent) {
             FlagChangeEvent.AddFlag addFlag = new FlagChangeEvent.AddFlag(this,
-                                                                          flag,
-                                                                          Cause
-                                                                                  .builder()
-                                                                                  .append(flag)
-                                                                                  .append(this)
-                                                                                  .build());
+                    flag,
+                    Cause.builder().append(flag).append(this).build());
             Sponge.eventManager().post(addFlag);
             if (addFlag.isCancelled()) {
                 return false;
@@ -218,18 +238,16 @@ public class Zone implements Identifiable {
      * @param flag The flag to add
      *
      * @return If the flag was added
+     * @since 1.0.0
      */
+    @SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
     public boolean setFlag(@NotNull Flag flag) {
         Optional<?> opFlag = this.getFlag(flag.getType());
         if (opFlag.isPresent()) {
             FlagChangeEvent.UpdateFlag event = new FlagChangeEvent.UpdateFlag(this,
-                                                                              (Flag) opFlag.get(),
-                                                                              flag,
-                                                                              Cause
-                                                                                      .builder()
-                                                                                      .append(flag)
-                                                                                      .append(this)
-                                                                                      .build());
+                    (Flag) opFlag.get(),
+                    flag,
+                    Cause.builder().append(flag).append(this).build());
             Sponge.eventManager().post(event);
             if (event.isCancelled()) {
                 return false;
@@ -243,15 +261,17 @@ public class Zone implements Identifiable {
      * Gets the regions that the zone covers. A zone can cover multiple regions at once
      *
      * @return The region the zone is covering
+     * @since 1.0.0
      */
     public @NotNull ChildRegion getRegion() {
         return this.region;
     }
 
     /**
-     * saves the zone
+     * Saves the zone
      *
      * @throws ConfigurateException If the zone cannot be saved
+     * @since 1.0.0
      */
     public void save() throws ConfigurateException {
         ZonePlugin.getZonesPlugin().getZoneManager().save(this);
@@ -265,7 +285,8 @@ public class Zone implements Identifiable {
      * @param <T>  the class of the flag type
      *
      * @return The flag that is assigned to the type, if {@link Optional#empty()} then the flag
-     * is not applied to this zone
+     *         is not applied to this zone
+     * @since 1.0.0
      */
     public <F extends Flag, T extends FlagType<F>> @NotNull Optional<F> getFlag(@NotNull T type) {
         Optional<F> opFlag = this
@@ -280,26 +301,30 @@ public class Zone implements Identifiable {
         if (type instanceof FlagType.TaggedFlagType<?> tagType) {
             return this.getTags().getTag(tagType).map(tag -> (F) tag);
         }
-        Optional<F> defaultFlag = ZonePlugin
-                .getZonesPlugin()
-                .getFlagManager()
-                .getDefaultFlags()
-                .loadDefault(type);
-        defaultFlag.ifPresent(f -> this.addFlag(f, false));
-        return defaultFlag;
+        if (type instanceof FlagType.SerializableType<? extends Flag.Serializable> serializableType) {
+            Optional<? extends Flag.Serializable> defaultFlag = ZonePlugin
+                    .getZonesPlugin()
+                    .getFlagManager()
+                    .getDefaultFlags()
+                    .loadDefault(serializableType);
+            defaultFlag.ifPresent(serializableFlag -> this.addFlag(serializableFlag, false));
+            return defaultFlag.map(serializableFlag -> (F) serializableFlag);
+        }
+        return Optional.empty();
     }
 
     /**
      * Gets the member flag of this zone. This is a flag that should never be removed from the zone
      *
      * @return The membersFlag
+     * @since 1.0.0
      */
     public MembersFlag getMembers() {
         //noinspection no-member-method
         return this
                 .getFlag(FlagTypes.MEMBERS)
                 .orElseThrow(() -> new IllegalStateException("MembersFlag is missing in zone: " +
-                                                                     this.getId()));
+                        this.getId()));
     }
 
     /**
@@ -307,14 +332,15 @@ public class Zone implements Identifiable {
      * zone
      *
      * @return The economy flag
+     * @since 1.0.1
      */
-    public EcoFlag getEconomy() {
+    public BalanceFlag getEconomy() {
         //noinspection no-eco-method
-        @NotNull Optional<EcoFlag> opEco = this.getFlag(FlagTypes.ECO);
+        @NotNull Optional<BalanceFlag> opEco = this.getFlag(FlagTypes.ECO);
         if (opEco.isPresent()) {
             return opEco.get();
         }
-        EcoFlag flag = new EcoFlag();
+        BalanceFlag flag = new BalanceFlag();
         this.addFlag(flag, false);
         return flag;
     }
@@ -351,8 +377,10 @@ public class Zone implements Identifiable {
      * @param world    The world to compare
      * @param vector3i the block position to compare
      *
-     * @return true if found within the zone
+     * @return True if found within the zone
+     * @since 1.0.0
      */
+    @SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
     public boolean inRegion(@Nullable World<?, ?> world, @NotNull Vector3d vector3i) {
         if (world != null) {
             Optional<? extends World<?, ?>> opWorld = this.getWorld();
@@ -369,8 +397,10 @@ public class Zone implements Identifiable {
      *
      * @param location The location to compare
      *
-     * @return true if found within the zone
+     * @return True if found within the zone
+     * @since 1.0.0
      */
+    @SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
     public boolean inRegion(@NotNull Location<?, ?> location) {
         return this.inRegion(location.world(), location.position());
     }
@@ -381,8 +411,10 @@ public class Zone implements Identifiable {
      *
      * @param locatable The locatable to compare
      *
-     * @return tre if found within the zone
+     * @return True if found within the zone
+     * @since 1.0.0
      */
+    @SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
     public boolean inRegion(@NotNull Locatable locatable) {
         return this.inRegion(locatable.location());
     }

@@ -11,10 +11,21 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Set;
 
+/**
+ * Used for getting whole numbers from a command
+ *
+ * @since 1.0.0
+ */
 public class IntegerArgument implements CommandArgument<Integer> {
 
     private final String id;
 
+    /**
+     * Used for creating the argument
+     *
+     * @param id The id to use for the argument
+     * @since 1.0.0
+     */
     public IntegerArgument(String id) {
         this.id = id;
     }
@@ -25,22 +36,23 @@ public class IntegerArgument implements CommandArgument<Integer> {
     }
 
     @Override
-    public CommandArgumentResult<Integer> parse(@NotNull CommandContext context,
-                                                @NotNull CommandArgumentContext<Integer> argument) throws
-            IOException {
+    public CommandArgumentResult<Integer> parse(
+            @NotNull CommandContext context,
+            @NotNull CommandArgumentContext<Integer> argument) throws IOException {
         try {
             return CommandArgumentResult.from(argument,
-                                              Integer.parseInt(context.getCommand()[argument.getFirstArgument()]));
+                    Integer.parseInt(context.getCommand()[argument.getFirstArgument()]));
         } catch (NumberFormatException e) {
             throw new IOException("'" +
-                                          context.getCommand()[argument.getFirstArgument()] +
-                                          "' is not a number");
+                    context.getCommand()[argument.getFirstArgument()] +
+                    "' is not a number");
         }
     }
 
     @Override
-    public @NotNull Set<CommandCompletion> suggest(@NotNull CommandContext commandContext,
-                                                   @NotNull CommandArgumentContext<Integer> argument) {
+    public @NotNull Set<CommandCompletion> suggest(
+            @NotNull CommandContext commandContext,
+            @NotNull CommandArgumentContext<Integer> argument) {
         return Collections.emptySet();
     }
 }

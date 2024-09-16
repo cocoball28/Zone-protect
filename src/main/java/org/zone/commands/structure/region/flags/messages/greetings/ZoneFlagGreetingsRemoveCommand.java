@@ -8,9 +8,14 @@ import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilterBuilder;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilters;
 import org.zone.commands.system.context.CommandContext;
+import org.zone.permissions.ZonePermission;
+import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
+import org.zone.region.group.key.GroupKeys;
 import org.zone.utils.Messages;
 
 import java.util.Arrays;
@@ -18,34 +23,40 @@ import java.util.List;
 import java.util.Optional;
 
 public class ZoneFlagGreetingsRemoveCommand implements ArgumentCommand {
-    public static final ExactArgument REGION = new ExactArgument("region");
-    public static final ExactArgument FLAGS = new ExactArgument("flag");
-    public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zone_value");
-    public static final ExactArgument GREETINGS = new ExactArgument("greetings");
-    public static final ExactArgument REMOVE = new ExactArgument("remove");
+
+    public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zoneId",
+            ZonePermissions.OVERRIDE_FLAG_GREETINGS_MESSAGE_REMOVE,
+            new ZoneArgumentFilterBuilder()
+                    .setFilter(ZoneArgumentFilters.withGroupKey(GroupKeys.OWNER))
+                    .setPermission(ZonePermissions.FLAG_GREETINGS_MESSAGE_REMOVE)
+                    .build());
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
-        return Arrays.asList(REGION, FLAGS, ZONE_VALUE, GREETINGS, REMOVE);
+        return Arrays.asList(new ExactArgument("region"),
+                new ExactArgument("flag"),
+                ZONE_VALUE,
+                new ExactArgument("greetings"),
+                new ExactArgument("remove"));
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Command for removing the greetings message");
+        return Messages.getGreetingsRemoveCommandDescription();
     }
 
     @Override
-    public @NotNull Optional<String> getPermissionNode() {
-        return Optional.empty();
+    public @NotNull Optional<ZonePermission> getPermissionNode() {
+        return Optional.of(ZonePermissions.FLAG_GREETINGS_MESSAGE_REMOVE);
     }
 
     @Override
-    public @NotNull CommandResult run(CommandContext commandContext, String... args) {
+    public @NotNull CommandResult run(@NotNull CommandContext commandContext, @NotNull String... args) {
         Zone zone = commandContext.getArgument(this, ZONE_VALUE);
         zone.removeFlag(FlagTypes.GREETINGS);
         try {
             zone.save();
-            commandContext.sendMessage(Messages.getZoneFlagGreetingsRemoveCommandGreetingsRemovedMessage());
+            commandContext.sendMessage(Messages.getGreetingsMessageRemoved());
         } catch (ConfigurateException e) {
             e.printStackTrace();
             return CommandResult.error(Messages.getZoneSavingError(e));

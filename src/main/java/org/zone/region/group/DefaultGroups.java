@@ -8,30 +8,39 @@ import java.util.TreeSet;
 
 /**
  * Gets the default groups for the zone plugin
+ *
+ * @since 1.0.0
  */
 public final class DefaultGroups {
 
     public static final SimpleGroup OWNER;
+    public static final SimpleGroup NEW_MEMBER;
     public static final SimpleGroup HOME_OWNER;
     public static final SimpleGroup VISITOR;
 
     static {
         VISITOR = new SimpleGroup(ZonePlugin.getZonesPlugin().getPluginContainer(),
-                                  "visitor",
-                                  "Visitor",
-                                  null,
-                                  false);
+                "visitor",
+                "Visitor",
+                null,
+                false);
+        NEW_MEMBER = new SimpleGroup(ZonePlugin.getZonesPlugin().getPluginContainer(),
+                "member",
+                "Member",
+                VISITOR);
         HOME_OWNER = new SimpleGroup(ZonePlugin.getZonesPlugin().getPluginContainer(),
-                                     "home_owner",
-                                     "Home owner",
-                                     VISITOR);
+                "home_owner",
+                "Home owner",
+                NEW_MEMBER);
         OWNER = new SimpleGroup(ZonePlugin.getZonesPlugin().getPluginContainer(),
-                                "owner",
-                                "Owner",
-                                HOME_OWNER);
+                "owner",
+                "Owner",
+                HOME_OWNER);
 
         HOME_OWNER.add(GroupKeys.HOME_OWNER);
         HOME_OWNER.add(GroupKeys.INTERACT_DOOR);
+
+        NEW_MEMBER.add(GroupKeys.NEW_MEMBER);
 
         OWNER.add(GroupKeys.OWNER);
         OWNER.add(GroupKeys.BLOCK_BREAK);
@@ -43,14 +52,16 @@ public final class DefaultGroups {
     }
 
     private DefaultGroups() {
+        throw new RuntimeException("Should not init class");
     }
 
     /**
      * Creates the default groups
      *
      * @return A TreeSet of the default groups
+     * @since 1.0.0
      */
     public static TreeSet<SimpleGroup> createDefaultGroups() {
-        return new TreeSet<>(Arrays.asList(OWNER, HOME_OWNER, VISITOR));
+        return new TreeSet<>(Arrays.asList(OWNER, HOME_OWNER, NEW_MEMBER, VISITOR));
     }
 }

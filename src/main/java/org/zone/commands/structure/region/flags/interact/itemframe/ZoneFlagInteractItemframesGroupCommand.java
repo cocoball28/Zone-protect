@@ -10,11 +10,16 @@ import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.arguments.zone.ZoneGroupArgument;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilterBuilder;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilters;
 import org.zone.commands.system.context.CommandContext;
+import org.zone.permissions.ZonePermission;
+import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.entity.player.interact.itemframe.ItemFrameInteractFlag;
 import org.zone.region.group.Group;
+import org.zone.region.group.key.GroupKeys;
 import org.zone.utils.Messages;
 
 import java.util.Arrays;
@@ -26,51 +31,55 @@ import java.util.Optional;
  */
 public class ZoneFlagInteractItemframesGroupCommand implements ArgumentCommand {
 
-    public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zone_value");
+    public static final ZoneArgument ZONE_VALUE = new ZoneArgument("zoneId",
+            ZonePermissions.OVERRIDE_FLAG_ITEM_FRAME_INTERACTION_SET_GROUP,
+            new ZoneArgumentFilterBuilder()
+                    .setFilter(ZoneArgumentFilters.withGroupKey(GroupKeys.OWNER))
+                    .build());
     public static final ZoneGroupArgument GROUP = new ZoneGroupArgument("groupID", ZONE_VALUE);
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
-                             new ExactArgument("flag"),
-                             ZONE_VALUE,
-                             new ExactArgument("interact"),
-                             new ExactArgument("itemframes"),
-                             new ExactArgument("set"),
-                             new ExactArgument("group"),
-                             GROUP);
+                new ExactArgument("flag"),
+                ZONE_VALUE,
+                new ExactArgument("interact"),
+                new ExactArgument("itemframes"),
+                new ExactArgument("set"),
+                new ExactArgument("group"),
+                GROUP);
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Sets the minimum group that can interact with itemframes");
+        return Messages.getInteractItemFrameSetGroupCommandDescription();
     }
 
     @Override
-    public @NotNull Optional<String> getPermissionNode() {
-        return Optional.empty();
+    public @NotNull Optional<ZonePermission> getPermissionNode() {
+        return Optional.of(ZonePermissions.FLAG_ITEM_FRAME_INTERACTION_SET_GROUP);
     }
 
     @Override
-    public @NotNull CommandResult run(@NotNull CommandContext commandContext,
-                                      @NotNull String... args) {
+    public @NotNull CommandResult run(
+            @NotNull CommandContext commandContext, @NotNull String... args) {
         Zone zone = commandContext.getArgument(this, ZONE_VALUE);
-        @NotNull ItemFrameInteractFlag interactItemframesFlag = zone
+        @NotNull ItemFrameInteractFlag interactItemframes = zone
                 .getFlag(FlagTypes.ITEM_FRAME_INTERACT)
                 .orElseGet(FlagTypes.ITEM_FRAME_INTERACT::createCopyOfDefault);
         Group newGroup = commandContext.getArgument(this, GROUP);
-        zone.getMembers().addKey(newGroup, interactItemframesFlag.getRequiredKey());
+        zone.getMembers().addKey(newGroup, interactItemframes.getRequiredKey());
         commandContext
                 .getCause()
                 .sendMessage(Identity.nil(),
-                             Messages.getUpdatedMessage(FlagTypes.ITEM_FRAME_INTERACT));
-        zone.setFlag(interactItemframesFlag);
+                        Messages.getUpdatedMessage(FlagTypes.ITEM_FRAME_INTERACT));
+        zone.setFlag(interactItemframes);
         try {
             zone.save();
             commandContext
                     .getCause()
                     .sendMessage(Identity.nil(),
-                                 Messages.getUpdatedMessage(FlagTypes.ITEM_FRAME_INTERACT));
+                            Messages.getUpdatedMessage(FlagTypes.ITEM_FRAME_INTERACT));
         } catch (ConfigurateException ce) {
             ce.printStackTrace();
             return CommandResult.error(Messages.getZoneSavingError(ce));

@@ -1,8 +1,11 @@
 package org.zone.region.bounds;
 
 import org.jetbrains.annotations.NotNull;
+import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.world.World;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.serialize.SerializationException;
+import org.spongepowered.math.vector.Vector2i;
 import org.spongepowered.math.vector.Vector3d;
 import org.spongepowered.math.vector.Vector3i;
 
@@ -11,6 +14,8 @@ import java.util.stream.Collectors;
 
 /**
  * A region that holds only other regions, the other regions can be any type of region such as another child or a real region
+ *
+ * @since 1.0.0
  */
 public class ChildRegion implements Region {
 
@@ -28,23 +33,33 @@ public class ChildRegion implements Region {
      * Adds a region to this region
      *
      * @param region The region to add
+     * @since 1.0.0
      */
-    public void add(@NotNull Region region) {
-        this.bounds.add(region);
+    public boolean add(@NotNull Region region) {
+        return this.bounds.add(region);
     }
 
     /**
      * Removes a region from this region
      *
      * @param region The region to remove
+     * @since 1.0.0
      */
-    public void remove(@NotNull Region region) {
-        this.bounds.remove(region);
+    public boolean remove(@NotNull Region region) {
+        return this.bounds.remove(region);
     }
 
     @Override
     public boolean contains(@NotNull Vector3d location, boolean ignoreY) {
         return this.bounds.stream().anyMatch(bound -> bound.contains(location, ignoreY));
+    }
+
+    @Override
+    public Collection<? extends Entity> getEntities(@NotNull World<?, ?> world) {
+        return this.bounds
+                .stream()
+                .flatMap(region -> region.getEntities(world).stream())
+                .collect(Collectors.toUnmodifiableSet());
     }
 
     @Override
@@ -57,11 +72,33 @@ public class ChildRegion implements Region {
                 .map(Optional::get)
                 .collect(Collectors.toSet());
         Vector3i closes = null;
-        double closesDistance = Double.MAX_VALUE;
+        double closesDistance = Integer.MAX_VALUE;
 
         for (Vector3i position : nearestPositions) {
             double distance = vector3i.distance(position);
-            if (closesDistance < distance) {
+            if (closes == null || closesDistance < distance) {
+                closesDistance = distance;
+                closes = position;
+            }
+        }
+        return Optional.ofNullable(closes);
+    }
+
+    @Override
+    public Optional<Vector2i> getNearestPosition(@NotNull Vector2i vector) {
+        Set<Vector2i> nearestPositions = this
+                .getTrueChildren()
+                .stream()
+                .map(region -> region.getNearestPosition(vector))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toSet());
+        Vector2i closes = null;
+        double closesDistance = Integer.MAX_VALUE;
+
+        for (Vector2i position : nearestPositions) {
+            double distance = vector.distance(position);
+            if (closes == null || closesDistance < distance) {
                 closesDistance = distance;
                 closes = position;
             }
@@ -93,7 +130,9 @@ public class ChildRegion implements Region {
         return new ChildRegion(regions);
     }
 
-    public static void save(@NotNull ConfigurationNode node, @SuppressWarnings("TypeMayBeWeakened") @NotNull ChildRegion region) throws
+    public static void save(
+            @NotNull ConfigurationNode node,
+            @SuppressWarnings("TypeMayBeWeakened") @NotNull ChildRegion region) throws
             SerializationException {
         for (Region child : region.getChildren()) {
             child.save(node.node("" + child.hashCode()));

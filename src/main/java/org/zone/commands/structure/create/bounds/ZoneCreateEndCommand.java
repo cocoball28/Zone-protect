@@ -10,14 +10,15 @@ import org.spongepowered.api.event.Cause;
 import org.spongepowered.api.event.Event;
 import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.configurate.ConfigurateException;
-import org.zone.Permissions;
 import org.zone.ZonePlugin;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.context.CommandContext;
+import org.zone.config.node.ZoneNodes;
 import org.zone.event.listener.PlayerListener;
 import org.zone.event.zone.CreateZoneEvent;
+import org.zone.permissions.ZonePermission;
 import org.zone.region.Zone;
 import org.zone.region.ZoneBuilder;
 import org.zone.region.bounds.BoundedRegion;
@@ -25,6 +26,7 @@ import org.zone.region.bounds.ChildRegion;
 import org.zone.region.bounds.Region;
 import org.zone.region.flag.meta.member.MembersFlag;
 import org.zone.region.group.DefaultGroups;
+import org.zone.region.shop.transaction.price.Price;
 import org.zone.utils.Messages;
 
 import java.util.Arrays;
@@ -40,23 +42,23 @@ public class ZoneCreateEndCommand implements ArgumentCommand {
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("create"),
-                             new ExactArgument("bounds"),
-                             new ExactArgument("end"));
+                new ExactArgument("bounds"),
+                new ExactArgument("end"));
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Ends the creation by bounds. Will use your location as ending");
+        return Messages.getZoneCreateEndCommandDescription();
     }
 
     @Override
-    public @NotNull Optional<String> getPermissionNode() {
-        return Optional.of(Permissions.REGION_CREATE_BOUNDS.getPermission());
+    public @NotNull Optional<ZonePermission> getPermissionNode() {
+        return Optional.empty();
     }
 
     @Override
-    public @NotNull CommandResult run(CommandContext context, String... args) {
-        Subject subject = context.getSource();
+    public @NotNull CommandResult run(@NotNull CommandContext commandContext, @NotNull String... args) {
+        Subject subject = commandContext.getSource();
         if (!(subject instanceof Player player)) {
             return CommandResult.error(Messages.getPlayerOnlyMessage());
         }
@@ -107,19 +109,34 @@ public class ZoneCreateEndCommand implements ArgumentCommand {
             return CommandResult.error(Component.empty());
         }
 
+        Optional<Price.PlayerPrice<?>> opPriceForLand = ZonePlugin
+                .getZonesPlugin()
+                .getConfig()
+                .get(ZoneNodes.PRICE_FOR_LAND);
+        if (opPriceForLand.isPresent()) {
+            Price.PlayerPrice<?> price = opPriceForLand.get();
+            if (!price.hasEnough(player)) {
+                return CommandResult.error(Messages.getNotEnough());
+            }
+            if (!price.withdraw(player)) {
+                return CommandResult.error(Messages.getNotEnough());
+            }
+        }
+
 
         ZonePlugin.getZonesPlugin().getZoneManager().register(zone);
         player.sendMessage(Messages.getCreatedZoneMessage(zone));
         ZonePlugin.getZonesPlugin().getMemoryHolder().unregisterZoneBuilder(player.uniqueId());
+        ZonePlugin
+                .getZonesPlugin()
+                .getMemoryHolder()
+                .unregisterZoneBuilderBossBar(player.uniqueId());
         ChildRegion region = zone.getRegion();
         Collection<BoundedRegion> children = region.getTrueChildren();
         children.forEach(boundedRegion -> PlayerListener.runOnOutside(boundedRegion,
-                                                                      player.location().blockY() +
-                                                                              3,
-                                                                      player::resetBlockChange,
-                                                                      zone
-                                                                              .getParent()
-                                                                              .isPresent()));
+                player.location().blockY() + 3,
+                player::resetBlockChange,
+                zone.getParent().isPresent()));
 
         try {
             zone.save();
@@ -135,7 +152,7 @@ public class ZoneCreateEndCommand implements ArgumentCommand {
     }
 
     @Override
-    public boolean hasPermission(CommandCause source) {
+    public boolean hasPermission(@NotNull CommandCause source) {
         if (!(source.subject() instanceof Player)) {
             return false;
         }
@@ -143,7 +160,7 @@ public class ZoneCreateEndCommand implements ArgumentCommand {
     }
 
     @Override
-    public boolean canApply(CommandContext context) {
+    public boolean canApply(@NotNull CommandContext context) {
         Subject subject = context.getSource();
         if (!(subject instanceof Player player)) {
             return false;

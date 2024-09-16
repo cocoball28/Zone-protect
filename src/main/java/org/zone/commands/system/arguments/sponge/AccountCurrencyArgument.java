@@ -17,20 +17,25 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Gets currency accepted by a account from the command
+ *
+ * @since 1.0.1
+ */
 public class AccountCurrencyArgument implements CommandArgument<Currency> {
 
     private final String id;
     private final ParseCommandArgument<UUID> account;
 
-    public AccountCurrencyArgument(@NotNull String id, String argumentId) {
+
+    public AccountCurrencyArgument(@NotNull String id, @NotNull String argumentId) {
         this(id,
-             ((context, argument) -> CommandArgumentResult.from(argument,
-                                                                0,
-                                                                context.getArgument(argument.getArgumentCommand(),
-                                                                                    argumentId))));
+                ((context, argument) -> CommandArgumentResult.from(argument,
+                        0,
+                        context.getArgument(argument.getArgumentCommand(), argumentId))));
     }
 
-    public AccountCurrencyArgument(@NotNull String id, UUID uuid) {
+    public AccountCurrencyArgument(@NotNull String id, @NotNull UUID uuid) {
         this(id, (context, argument) -> CommandArgumentResult.from(argument, 0, uuid));
     }
 
@@ -45,9 +50,9 @@ public class AccountCurrencyArgument implements CommandArgument<Currency> {
     }
 
     @Override
-    public CommandArgumentResult<Currency> parse(@NotNull CommandContext context,
-                                                 @NotNull CommandArgumentContext<Currency> argument) throws
-            IOException {
+    public CommandArgumentResult<Currency> parse(
+            @NotNull CommandContext context,
+            @NotNull CommandArgumentContext<Currency> argument) throws IOException {
         Optional<EconomyService> opService = Sponge.serviceProvider().provide(EconomyService.class);
         if (opService.isEmpty()) {
             throw new IOException("Eco service could not be found");
@@ -55,12 +60,12 @@ public class AccountCurrencyArgument implements CommandArgument<Currency> {
         Optional<UniqueAccount> opAccount = opService
                 .get()
                 .findOrCreateAccount(this.account
-                                             .parse(context,
-                                                    new CommandArgumentContext<>(argument.getArgumentCommand(),
-                                                                                 null,
-                                                                                 0,
-                                                                                 argument.getRemainingArguments()))
-                                             .value());
+                        .parse(context,
+                                new CommandArgumentContext<>(argument.getArgumentCommand(),
+                                        null,
+                                        0,
+                                        argument.getRemainingArguments()))
+                        .value());
         if (opAccount.isEmpty()) {
             throw new IOException("Eco service could not be found");
         }
@@ -79,13 +84,13 @@ public class AccountCurrencyArgument implements CommandArgument<Currency> {
                 .findAny();
 
         return CommandArgumentResult.from(argument,
-                                          opCurrency.orElseThrow(() -> new IOException(
-                                                  "Unknown currency")));
+                opCurrency.orElseThrow(() -> new IOException("Unknown currency")));
     }
 
     @Override
-    public @NotNull Collection<CommandCompletion> suggest(@NotNull CommandContext commandContext,
-                                                          @NotNull CommandArgumentContext<Currency> argument) {
+    public @NotNull Collection<CommandCompletion> suggest(
+            @NotNull CommandContext commandContext,
+            @NotNull CommandArgumentContext<Currency> argument) {
         Optional<EconomyService> opService = Sponge.serviceProvider().provide(EconomyService.class);
         if (opService.isEmpty()) {
             return Collections.emptyList();
@@ -94,10 +99,10 @@ public class AccountCurrencyArgument implements CommandArgument<Currency> {
         try {
             parse = this.account
                     .parse(commandContext,
-                           new CommandArgumentContext<>(argument.getArgumentCommand(),
-                                                        null,
-                                                        0,
-                                                        argument.getRemainingArguments()))
+                            new CommandArgumentContext<>(argument.getArgumentCommand(),
+                                    null,
+                                    0,
+                                    argument.getRemainingArguments()))
                     .value();
         } catch (IOException e) {
             return Collections.emptyList();
@@ -106,15 +111,9 @@ public class AccountCurrencyArgument implements CommandArgument<Currency> {
         Optional<UniqueAccount> opAccount = opService.get().findOrCreateAccount(parse);
         if (opAccount.isEmpty()) {
             return Collections.singleton(CommandCompletion.of(PlainTextComponentSerializer
-                                                                      .plainText()
-                                                                      .serialize(opService
-                                                                                         .get()
-                                                                                         .defaultCurrency()
-                                                                                         .symbol()),
-                                                              opService
-                                                                      .get()
-                                                                      .defaultCurrency()
-                                                                      .displayName()));
+                            .plainText()
+                            .serialize(opService.get().defaultCurrency().symbol()),
+                    opService.get().defaultCurrency().displayName()));
         }
         Collection<Currency> currencies = new HashSet<>(opAccount.get().balances().keySet());
         currencies.add(opService.get().defaultCurrency());
@@ -122,9 +121,8 @@ public class AccountCurrencyArgument implements CommandArgument<Currency> {
         return currencies
                 .parallelStream()
                 .map(currency -> CommandCompletion.of(PlainTextComponentSerializer
-                                                              .plainText()
-                                                              .serialize(currency.symbol()),
-                                                      currency.displayName()))
+                        .plainText()
+                        .serialize(currency.symbol()), currency.displayName()))
                 .collect(Collectors.toList());
     }
 }

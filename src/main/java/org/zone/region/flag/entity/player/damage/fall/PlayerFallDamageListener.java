@@ -5,7 +5,9 @@ import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.cause.entity.damage.source.DamageSource;
 import org.spongepowered.api.event.cause.entity.damage.source.DamageSources;
 import org.spongepowered.api.event.entity.DamageEntityEvent;
+import org.spongepowered.api.service.permission.Subject;
 import org.zone.ZonePlugin;
+import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.group.Group;
 import org.zone.region.group.key.GroupKeys;
@@ -18,6 +20,12 @@ public class PlayerFallDamageListener {
     public void onPlayerFallDamageEvent(DamageEntityEvent event) {
         if (!(event.entity() instanceof Player player)) {
             return;
+        }
+
+        if (player instanceof Subject subject) {
+            if (ZonePermissions.BYPASS_DAMAGE_FALL.hasPermission(subject)) {
+                return;
+            }
         }
 
         Optional<DamageSource> opDamageSource = event.cause().first(DamageSource.class);

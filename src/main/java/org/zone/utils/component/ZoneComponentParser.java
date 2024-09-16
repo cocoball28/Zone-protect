@@ -11,9 +11,10 @@ import java.util.stream.Collectors;
 
 public final class ZoneComponentParser {
 
-    public static final Set<ComponentPartParser> PARTS = new HashSet<>(List.of(new ComponentColourParser()));
+    public static final Collection<ComponentPartParser> PARTS = new HashSet<>(List.of(new ComponentColourParser()));
 
     private ZoneComponentParser() {
+        throw new RuntimeException("Do not init");
     }
 
     public static @NotNull Collection<String> getSuggestion(@NotNull String peek) {
@@ -63,7 +64,7 @@ public final class ZoneComponentParser {
         }
 
         String previous = buffer.toString();
-        if(previous.isEmpty() && tagStart != null){
+        if (previous.isEmpty() && tagStart != null) {
             previous = peek.substring(tagStart);
         }
         final String finalPrevious = previous;

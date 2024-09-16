@@ -9,7 +9,11 @@ import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilterBuilder;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilters;
 import org.zone.commands.system.context.CommandContext;
+import org.zone.permissions.ZonePermission;
+import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.utils.Messages;
 
@@ -20,8 +24,11 @@ import java.util.Optional;
 public class LeaveZoneCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE = new ZoneArgument("zone",
-                                                             new ZoneArgument.ZoneArgumentPropertiesBuilder().setLimitedToOnlyPartOf(
-                                                                     true));
+            null,
+            new ZoneArgumentFilterBuilder()
+                    .setFilter(ZoneArgumentFilters.MEMBERS_ONLY)
+                    .setShouldRunWithoutGlobalPermissionCheck(true)
+                    .build());
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
@@ -30,17 +37,17 @@ public class LeaveZoneCommand implements ArgumentCommand {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Leaves a zone");
+        return Messages.getLeaveZoneCommandDescription();
     }
 
     @Override
-    public @NotNull Optional<String> getPermissionNode() {
-        return Optional.empty();
+    public @NotNull Optional<ZonePermission> getPermissionNode() {
+        return Optional.of(ZonePermissions.REGION_LEAVE);
     }
 
     @Override
-    public @NotNull CommandResult run(@NotNull CommandContext commandContext,
-                                      @NotNull String... args) {
+    public @NotNull CommandResult run(
+            @NotNull CommandContext commandContext, @NotNull String... args) {
         if (!(commandContext.getSource() instanceof Player player)) {
             return CommandResult.error(Messages.getPlayerOnlyMessage());
         }

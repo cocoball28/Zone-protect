@@ -15,17 +15,36 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * An enum as a command argument -> any enum value is accepted
+ * @param <T> The enum class
+ * @since 1.0.0
+ */
 public class EnumArgument<T extends Enum<T>> implements GUICommandArgument<T> {
 
     private final @NotNull String id;
-    private final @NotNull EnumSet<T> set;
+    private final @NotNull Collection<T> set;
 
-    public EnumArgument(@NotNull String id, @NotNull EnumSet<T> set) {
+    /**
+     * Creates the enum argument
+     *
+     * @param id  The id of the argument
+     * @param set A set of the enum values -> this can be a subset
+     * @since 1.0.0
+     */
+    public EnumArgument(@NotNull String id, @NotNull Collection<T> set) {
         this.id = id;
         this.set = set;
     }
 
-    public EnumArgument(@NotNull String id, Class<T> enumClass) {
+    /**
+     * Creates the enum argument
+     *
+     * @param id        The id of the argument
+     * @param enumClass The class of the enum
+     * @since 1.0.0
+     */
+    public EnumArgument(@NotNull String id, @NotNull Class<T> enumClass) {
         this(id, EnumSet.allOf(enumClass));
     }
 
@@ -44,8 +63,8 @@ public class EnumArgument<T extends Enum<T>> implements GUICommandArgument<T> {
     }
 
     @Override
-    public CommandArgumentResult<T> parse(@NotNull CommandContext context,
-                                          @NotNull CommandArgumentContext<T> argument) throws
+    public CommandArgumentResult<T> parse(
+            @NotNull CommandContext context, @NotNull CommandArgumentContext<T> argument) throws
             IOException {
         String arg = argument.getFocusArgument();
         Optional<T> opValue = this.set
@@ -59,8 +78,8 @@ public class EnumArgument<T extends Enum<T>> implements GUICommandArgument<T> {
     }
 
     @Override
-    public @NotNull Collection<CommandCompletion> suggest(@NotNull CommandContext commandContext,
-                                                          @NotNull CommandArgumentContext<T> argument) {
+    public @NotNull Collection<CommandCompletion> suggest(
+            @NotNull CommandContext commandContext, @NotNull CommandArgumentContext<T> argument) {
         String arg = argument.getFocusArgument();
         return this.set
                 .parallelStream()

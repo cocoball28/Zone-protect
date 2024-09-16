@@ -10,7 +10,11 @@ import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.simple.BooleanArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilterBuilder;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilters;
 import org.zone.commands.system.context.CommandContext;
+import org.zone.permissions.ZonePermission;
+import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.entity.player.interact.door.DoorInteractionFlag;
@@ -26,49 +30,51 @@ import java.util.Optional;
  */
 public class ZoneFlagInteractDoorEnabledCommand implements ArgumentCommand {
     public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
-                                                             new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(
-                                                                     GroupKeys.INTERACT_DOOR));
+            ZonePermissions.OVERRIDE_FLAG_DOOR_INTERACTION_ENABLE,
+            new ZoneArgumentFilterBuilder()
+                    .setFilter(ZoneArgumentFilters.withGroupKey(GroupKeys.OWNER))
+                    .build());
 
     public static final BooleanArgument VALUE = new BooleanArgument("enabledValue",
-                                                                    "enable",
-                                                                    "disable");
+            "enable",
+            "disable");
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
-                             new ExactArgument("flag"),
-                             ZONE,
-                             new ExactArgument("interact"),
-                             new ExactArgument("door"),
-                             new ExactArgument("set"),
-                             VALUE);
+                new ExactArgument("flag"),
+                ZONE,
+                new ExactArgument("interact"),
+                new ExactArgument("door"),
+                new ExactArgument("set"),
+                VALUE);
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Sets if interaction with door should be enabled");
+        return Messages.getInteractDoorEnableCommandDescription();
     }
 
     @Override
-    public @NotNull Optional<String> getPermissionNode() {
-        return Optional.empty();
+    public @NotNull Optional<ZonePermission> getPermissionNode() {
+        return Optional.of(ZonePermissions.FLAG_DOOR_INTERACTION_ENABLE);
     }
 
     @Override
-    public @NotNull CommandResult run(CommandContext commandContext, String... args) {
+    public @NotNull CommandResult run(@NotNull CommandContext commandContext, @NotNull String... args) {
         Zone zone = commandContext.getArgument(this, ZONE);
         boolean value = commandContext.getArgument(this, VALUE);
         if (value) {
-            zone.addFlag(FlagTypes.BLOCK_BREAK.createCopyOfDefault());
+            zone.addFlag(FlagTypes.DOOR_INTERACTION.createCopyOfDefault());
         } else {
-            zone.removeFlag(FlagTypes.BLOCK_BREAK);
+            zone.removeFlag(FlagTypes.DOOR_INTERACTION);
         }
         try {
             zone.save();
             commandContext
                     .getCause()
                     .sendMessage(Identity.nil(),
-                                 Messages.getUpdatedMessage(FlagTypes.DOOR_INTERACTION));
+                            Messages.getUpdatedMessage(FlagTypes.DOOR_INTERACTION));
         } catch (ConfigurateException e) {
             e.printStackTrace();
             return CommandResult.error(Messages.getZoneSavingError(e));

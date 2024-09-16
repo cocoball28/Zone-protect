@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Optional;
 
-public class TagsFlag implements Flag {
+public class TagsFlag implements Flag.Serializable {
 
     private final Collection<TaggedFlag> flags = new HashSet<>();
 
@@ -47,7 +47,7 @@ public class TagsFlag implements Flag {
     }
 
     @Override
-    public @NotNull FlagType<?> getType() {
+    public @NotNull TagsFlagType getType() {
         return FlagTypes.TAGS;
     }
 }

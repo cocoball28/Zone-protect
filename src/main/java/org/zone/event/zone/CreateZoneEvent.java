@@ -5,8 +5,22 @@ import org.spongepowered.api.event.Cancellable;
 import org.spongepowered.api.event.Cause;
 import org.zone.region.Zone;
 
-public class CreateZoneEvent implements ZoneEvent {
+/**
+ * Fired when a zone is created
+ *
+ * @since 1.0.1
+ */
+@SuppressWarnings("AbstractClassWithoutAbstractMethods")
+public abstract class CreateZoneEvent implements ZoneEvent {
 
+    private final @NotNull Zone zone;
+    private final @NotNull Cause cause;
+
+    /**
+     * Fired just before the zone is created
+     *
+     * @since 1.0.1
+     */
     public static class Pre extends CreateZoneEvent implements Cancellable {
 
         private boolean isCancelled;
@@ -26,15 +40,17 @@ public class CreateZoneEvent implements ZoneEvent {
         }
     }
 
+    /**
+     * Fired after the zone is created
+     *
+     * @since 1.0.1
+     */
     public static class Post extends CreateZoneEvent {
 
         public Post(@NotNull Zone zone, @NotNull Cause cause) {
             super(zone, cause);
         }
     }
-
-    private final @NotNull Zone zone;
-    private final @NotNull Cause cause;
 
     public CreateZoneEvent(@NotNull Zone zone, @NotNull Cause cause) {
         this.zone = zone;

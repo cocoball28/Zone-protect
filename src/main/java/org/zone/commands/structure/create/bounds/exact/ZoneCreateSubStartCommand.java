@@ -5,7 +5,6 @@ import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.entity.living.player.server.ServerPlayer;
 import org.spongepowered.api.service.permission.Subject;
-import org.zone.Permissions;
 import org.zone.ZonePlugin;
 import org.zone.commands.structure.create.bounds.AbstractCreateZoneStartCommand;
 import org.zone.commands.system.CommandArgument;
@@ -13,7 +12,11 @@ import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.operation.RemainingArgument;
 import org.zone.commands.system.arguments.simple.StringArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilterBuilder;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilters;
 import org.zone.commands.system.context.CommandContext;
+import org.zone.permissions.ZonePermission;
+import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.ZoneBuilder;
 import org.zone.region.bounds.BoundedRegion;
@@ -28,35 +31,43 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * The command for zone bound creation start of sub regions. This command activates when in a valid zone.
+ * The command for zone bound creation start of subregions. This command activates when in a valid zone.
  * <p>Command: "/zone create bounds start 'name'"</p>
+ *
+ * @since 1.0.0
  */
 public class ZoneCreateSubStartCommand extends AbstractCreateZoneStartCommand {
 
-    private static final ZoneArgument ZONE = new ZoneArgument("zone");
+    private static final ZoneArgument ZONE = new ZoneArgument("zoneId",
+            ZonePermissions.OVERRIDE_REGION_CREATE_SUB_BOUNDS_EXACT,
+            new ZoneArgumentFilterBuilder()
+                    .setFilter(ZoneArgumentFilters.INSIDE)
+                    .setShouldRunWithoutGlobalPermissionCheck(true)
+                    .build());
 
+    @SuppressWarnings("allow-string-argument")
     private static final RemainingArgument<String> NAME = new RemainingArgument<>(new StringArgument(
             "name"));
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("create"),
-                             new ExactArgument("bounds"),
-                             new ExactArgument("block"),
-                             new ExactArgument("sub"),
-                             new ExactArgument("region"),
-                             ZONE,
-                             NAME);
+                new ExactArgument("sub"),
+                new ExactArgument("bounds"),
+                new ExactArgument("exact"),
+                new ExactArgument("zone"),
+                ZONE,
+                NAME);
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Creates a sub region by walking end to end");
+        return Messages.getZoneCreateSubStartCommandDescription();
     }
 
     @Override
-    public @NotNull Optional<String> getPermissionNode() {
-        return Optional.of(Permissions.REGION_CREATE_BOUNDS.getPermission());
+    public @NotNull Optional<ZonePermission> getPermissionNode() {
+        return Optional.of(ZonePermissions.REGION_CREATE_SUB_BOUNDS_EXACT);
     }
 
     @Override
@@ -70,24 +81,22 @@ public class ZoneCreateSubStartCommand extends AbstractCreateZoneStartCommand {
     }
 
     @Override
-    protected ZoneBuilder updateBuilder(CommandContext context,
-                                        String name,
-                                        BoundedRegion bounded,
-                                        ZoneBuilder builder) {
+    protected ZoneBuilder updateBuilder(
+            CommandContext context, String name, BoundedRegion bounded, ZoneBuilder builder) {
         return builder.setParent(context.getArgument(this, ZONE));
     }
 
     @Override
-    public @NotNull CommandResult run(CommandContext context, String... args) {
-        Subject subject = context.getSource();
+    public @NotNull CommandResult run(@NotNull CommandContext commandContext, @NotNull String... args) {
+        Subject subject = commandContext.getSource();
         if (!(subject instanceof ServerPlayer player)) {
             return CommandResult.error(Messages.getPlayerOnlyMessage());
         }
-        Zone zone = context.getArgument(this, ZONE);
-        String name = String.join(" ", context.getArgument(this, NAME));
+        Zone zone = commandContext.getArgument(this, ZONE);
+        String name = String.join(" ", commandContext.getArgument(this, NAME));
 
         BoundedRegion region = new BoundedRegion(player.blockPosition().add(0, -1, 0),
-                                                 player.blockPosition());
+                player.blockPosition());
 
         ChildRegion childRegion = new ChildRegion(Collections.singleton(region));
 

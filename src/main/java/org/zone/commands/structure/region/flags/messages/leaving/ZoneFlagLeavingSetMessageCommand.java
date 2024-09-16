@@ -4,16 +4,22 @@ import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.configurate.ConfigurateException;
-import org.zone.utils.Messages;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.sponge.ComponentRemainingArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilterBuilder;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilters;
 import org.zone.commands.system.context.CommandContext;
+import org.zone.permissions.ZonePermission;
+import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
+import org.zone.region.flag.entity.player.display.MessageDisplayTypes;
 import org.zone.region.flag.entity.player.move.leaving.LeavingFlag;
+import org.zone.region.group.key.GroupKeys;
+import org.zone.utils.Messages;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,46 +27,51 @@ import java.util.Optional;
 
 public class ZoneFlagLeavingSetMessageCommand implements ArgumentCommand {
 
-    public static final ZoneArgument ZONE = new ZoneArgument("zone_value",
-                                                             new ZoneArgument.ZoneArgumentPropertiesBuilder());
+    public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
+            ZonePermissions.OVERRIDE_FLAG_LEAVING_MESSAGE_SET,
+            new ZoneArgumentFilterBuilder()
+                    .setFilter(ZoneArgumentFilters.withGroupKey(GroupKeys.OWNER))
+                    .build());
+
     public static final ComponentRemainingArgument MESSAGE = new ComponentRemainingArgument(
             "message_value");
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
-                             new ExactArgument("flag"),
-                             ZONE,
-                             new ExactArgument("leaving"),
-                             new ExactArgument("set"),
-                             new ExactArgument("message"),
-                             MESSAGE);
+                new ExactArgument("flag"),
+                ZONE,
+                new ExactArgument("leaving"),
+                new ExactArgument("message"),
+                new ExactArgument("set"),
+                MESSAGE);
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Sets the message of the leaving message");
+        return Messages.getLeavingSetMessageCommandDescription();
     }
 
     @Override
-    public @NotNull Optional<String> getPermissionNode() {
-        return Optional.empty();
+    public @NotNull Optional<ZonePermission> getPermissionNode() {
+        return Optional.of(ZonePermissions.FLAG_LEAVING_MESSAGE_SET);
     }
 
     @Override
-    public @NotNull CommandResult run(CommandContext commandContext, String... args) {
+    public @NotNull CommandResult run(@NotNull CommandContext commandContext, @NotNull String... args) {
         Zone zone = commandContext.getArgument(this, ZONE);
         Component message = commandContext.getArgument(this, MESSAGE);
 
         LeavingFlag flag = zone
                 .getFlag(FlagTypes.LEAVING)
-                .orElse(new LeavingFlag(Messages.getZoneFlagLeavingSetMessageCommandIfNoLeavingFlagFound()));
+                .orElse(new LeavingFlag(Messages.getEnterLeavingMessage(),
+                        MessageDisplayTypes.CHAT.createCopyOfDefault()));
 
         flag.setLeavingMessage(message);
         zone.setFlag(flag);
         try {
             zone.save();
-            commandContext.sendMessage(Messages.getZoneFlagLeavingSetMessageCommandLeavingMessageSaved(message));
+            commandContext.sendMessage(Messages.getZoneFlagLeavingMessageSet(message));
         } catch (ConfigurateException e) {
             e.printStackTrace();
             return CommandResult.error(Messages.getZoneSavingError(e));

@@ -9,10 +9,10 @@ import org.spongepowered.api.command.CommandCompletion;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.exception.CommandException;
 import org.spongepowered.api.command.parameter.ArgumentReader;
-import org.zone.utils.Messages;
 import org.zone.commands.system.ArgumentCommand;
 import org.zone.commands.system.context.CommandContext;
 import org.zone.commands.system.context.ErrorContext;
+import org.zone.utils.Messages;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -75,8 +75,8 @@ public class ZoneSpongeCommand implements Command.Raw {
     }
 
     @Override
-    public CommandResult process(@NotNull CommandCause cause,
-                                 @NotNull ArgumentReader.Mutable arguments) throws
+    public CommandResult process(
+            @NotNull CommandCause cause, @NotNull ArgumentReader.Mutable arguments) throws
             CommandException {
         String input = arguments.input();
         String[] args = input.split(" ");
@@ -92,19 +92,21 @@ public class ZoneSpongeCommand implements Command.Raw {
             Set<ErrorContext> errors = commandContext.getErrors();
             if (!errors.isEmpty()) {
                 ErrorContext error = errors.iterator().next();
-                cause.sendMessage(Identity.nil(), Messages.getZoneSpongeCommandError(error));
+                cause.sendMessage(Identity.nil(), Messages.getError(error));
                 errors
                         .parallelStream()
                         .map(e -> e.argument().getUsage())
                         .collect(Collectors.toSet())
-                        .forEach(e -> cause.sendMessage(Identity.nil(), Messages.getFormattedMessage(e)));
+                        .forEach(e -> cause.sendMessage(Identity.nil(),
+                                Messages.getFormattedErrorMessage(e)));
             } else {
                 cause.sendMessage(Identity.nil(), Messages.getUnknownError());
             }
             return CommandResult.success();
         }
         if (!opCommand.get().hasPermission(cause)) {
-            cause.sendMessage(Identity.nil(), Messages.getMissingPermissionForCommand(opCommand.get()));
+            cause.sendMessage(Identity.nil(),
+                    Messages.getMissingPermissionForCommand(opCommand.get()));
             return CommandResult.success();
         }
         try {
@@ -115,13 +117,13 @@ public class ZoneSpongeCommand implements Command.Raw {
             if (message == null) {
                 message = "Unknown error";
             }
-            throw new CommandException(Messages.getFormattedMessage(message), e);
+            throw new CommandException(Messages.getFormattedErrorMessage(message), e);
         }
     }
 
     @Override
-    public List<CommandCompletion> complete(@NotNull CommandCause cause,
-                                            @NotNull ArgumentReader.Mutable arguments) {
+    public List<CommandCompletion> complete(
+            @NotNull CommandCause cause, @NotNull ArgumentReader.Mutable arguments) {
         String input = arguments.input();
         String[] args = input.split(" ");
         if (input.endsWith(" ")) {
@@ -152,16 +154,16 @@ public class ZoneSpongeCommand implements Command.Raw {
 
     @Override
     public @NotNull Optional<Component> shortDescription(@NotNull CommandCause cause) {
-        return Optional.of(Component.text("All Zone commands"));
+        return Optional.of(Messages.getAllZoneCommandsTag());
     }
 
     @Override
     public @NotNull Optional<Component> extendedDescription(@NotNull CommandCause cause) {
-        return Optional.of(Component.text("All commands for the plugin Zones"));
+        return Optional.of(Messages.getAllZoneCommandsExtendedTag());
     }
 
     @Override
     public @NotNull Component usage(@NotNull CommandCause cause) {
-        return Component.text("/Zone <Arg>");
+        return Messages.getCommandUsage();
     }
 }

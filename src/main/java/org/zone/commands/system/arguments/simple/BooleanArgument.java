@@ -17,17 +17,39 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * A boolean argument for a command
+ *
+ * @since 1.0.0
+ */
 public class BooleanArgument implements GUICommandArgument<Boolean> {
 
-    private final String id;
-    private final String asTrue;
-    private final String asFalse;
+    private final @NotNull String id;
+    private final @NotNull String asTrue;
+    private final @NotNull String asFalse;
 
-    public BooleanArgument(String id) {
+    /**
+     * Accepts the traditional true/false
+     *
+     * @param id The id of the argument
+     * @since 1.0.0
+     */
+    public BooleanArgument(@NotNull String id) {
         this(id, "true", "false");
     }
 
-    public BooleanArgument(String id, String trueString, String falseString) {
+    /**
+     * for text other then true/false
+     *
+     * @param id          The id of the argument
+     * @param trueString  The text to use for if the value is true
+     * @param falseString The text to use for if the value is false
+     * @since 1.0.0
+     */
+    public BooleanArgument(
+            @NotNull String id,
+            @NotNull String trueString,
+            @NotNull String falseString) {
         this.id = id;
         this.asFalse = falseString;
         this.asTrue = trueString;
@@ -59,9 +81,8 @@ public class BooleanArgument implements GUICommandArgument<Boolean> {
     }
 
     @Override
-    public CommandArgumentResult<Boolean> parse(CommandContext context,
-                                                CommandArgumentContext<Boolean> argument) throws
-            IOException {
+    public CommandArgumentResult<Boolean> parse(
+            CommandContext context, CommandArgumentContext<Boolean> argument) throws IOException {
         String arg = context.getCommand()[argument.getFirstArgument()];
         if (arg.equals(this.asTrue)) {
             return CommandArgumentResult.from(argument, true);
@@ -70,17 +91,17 @@ public class BooleanArgument implements GUICommandArgument<Boolean> {
             return CommandArgumentResult.from(argument, false);
         }
         throw new IOException("'" +
-                                      arg +
-                                      "' is not either '" +
-                                      this.asTrue +
-                                      "' or '" +
-                                      this.asFalse +
-                                      "'");
+                arg +
+                "' is not either '" +
+                this.asTrue +
+                "' or '" +
+                this.asFalse +
+                "'");
     }
 
     @Override
-    public @NotNull Set<CommandCompletion> suggest(CommandContext commandContext,
-                                                   CommandArgumentContext<Boolean> argument) {
+    public @NotNull Set<CommandCompletion> suggest(
+            CommandContext commandContext, CommandArgumentContext<Boolean> argument) {
         String peek = commandContext.getCommand()[argument.getFirstArgument()];
         Set<CommandCompletion> list = new HashSet<>();
         if (this.asTrue.startsWith(peek.toLowerCase())) {

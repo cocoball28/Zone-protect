@@ -16,10 +16,21 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * Gets a user from a command
+ *
+ * @since 1.0.0
+ */
 public class UserArgument implements CommandArgument<GameProfile> {
 
     private final @NotNull String id;
 
+    /**
+     * Creates the argument
+     *
+     * @param id The id of the argument
+     * @since 1.0.0
+     */
     public UserArgument(@NotNull String id) {
         this.id = id;
     }
@@ -30,9 +41,9 @@ public class UserArgument implements CommandArgument<GameProfile> {
     }
 
     @Override
-    public CommandArgumentResult<GameProfile> parse(@NotNull CommandContext context,
-                                                    @NotNull CommandArgumentContext<GameProfile> argument) throws
-            IOException {
+    public CommandArgumentResult<GameProfile> parse(
+            @NotNull CommandContext context,
+            @NotNull CommandArgumentContext<GameProfile> argument) throws IOException {
         UserManager manager;
         if (Sponge.isServerAvailable()) {
             manager = Sponge.server().userManager();
@@ -55,8 +66,9 @@ public class UserArgument implements CommandArgument<GameProfile> {
     }
 
     @Override
-    public @NotNull Collection<CommandCompletion> suggest(@NotNull CommandContext commandContext,
-                                                          @NotNull CommandArgumentContext<GameProfile> argument) {
+    public @NotNull Collection<CommandCompletion> suggest(
+            @NotNull CommandContext commandContext,
+            @NotNull CommandArgumentContext<GameProfile> argument) {
         UserManager manager;
         if (Sponge.isServerAvailable()) {
             manager = Sponge.server().userManager();

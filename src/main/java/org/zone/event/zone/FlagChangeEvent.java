@@ -7,15 +7,29 @@ import org.zone.region.Zone;
 import org.zone.region.flag.Flag;
 import org.zone.region.flag.FlagType;
 
+/**
+ * Fired when a flag is either remove, set or replaced
+ *
+ * @since 1.0.1
+ */
 public abstract class FlagChangeEvent implements ZoneEvent {
 
+    private final @NotNull Cause cause;
+    private final @NotNull Zone zone;
+
+    /**
+     * Fired when a flag is replaced
+     *
+     * @since 1.0.1
+     */
     public static class UpdateFlag extends FlagChangeEvent implements Cancellable {
 
-        private boolean isCancelled;
         private final @NotNull Flag previous;
         private final @NotNull Flag updated;
+        private boolean isCancelled;
 
-        public UpdateFlag(Zone zone, @NotNull Flag previous, @NotNull Flag updated, Cause cause) {
+        public UpdateFlag(
+                Zone zone, @NotNull Flag previous, @NotNull Flag updated, @NotNull Cause cause) {
             super(zone, cause);
             this.previous = previous;
             this.updated = updated;
@@ -45,6 +59,11 @@ public abstract class FlagChangeEvent implements ZoneEvent {
         }
     }
 
+    /**
+     * Fired when a flag is removed
+     *
+     * @since 1.0.1
+     */
     public static class RemoveFlag extends FlagChangeEvent implements Cancellable {
 
         private final @NotNull FlagType<?> type;
@@ -71,6 +90,11 @@ public abstract class FlagChangeEvent implements ZoneEvent {
         }
     }
 
+    /**
+     * Fired when a flag is added
+     *
+     * @since 1.0.1
+     */
     public static class AddFlag extends FlagChangeEvent implements Cancellable {
 
         private final @NotNull Flag flag;
@@ -100,9 +124,6 @@ public abstract class FlagChangeEvent implements ZoneEvent {
             this.isCancelled = cancel;
         }
     }
-
-    private final @NotNull Cause cause;
-    private final @NotNull Zone zone;
 
     public FlagChangeEvent(@NotNull Zone zone, @NotNull Cause cause) {
         this.cause = cause;

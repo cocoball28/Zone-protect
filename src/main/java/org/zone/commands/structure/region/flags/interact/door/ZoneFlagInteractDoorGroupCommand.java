@@ -10,7 +10,11 @@ import org.zone.commands.system.CommandArgument;
 import org.zone.commands.system.arguments.operation.ExactArgument;
 import org.zone.commands.system.arguments.zone.ZoneArgument;
 import org.zone.commands.system.arguments.zone.ZoneGroupArgument;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilterBuilder;
+import org.zone.commands.system.arguments.zone.filter.ZoneArgumentFilters;
 import org.zone.commands.system.context.CommandContext;
+import org.zone.permissions.ZonePermission;
+import org.zone.permissions.ZonePermissions;
 import org.zone.region.Zone;
 import org.zone.region.flag.FlagTypes;
 import org.zone.region.flag.entity.player.interact.door.DoorInteractionFlag;
@@ -28,52 +32,49 @@ import java.util.Optional;
 public class ZoneFlagInteractDoorGroupCommand implements ArgumentCommand {
 
     public static final ZoneArgument ZONE = new ZoneArgument("zoneId",
-                                                             new ZoneArgument.ZoneArgumentPropertiesBuilder().setLevel(
-                                                                     GroupKeys.OWNER));
+            ZonePermissions.OVERRIDE_FLAG_DOOR_INTERACTION_SET_GROUP,
+            new ZoneArgumentFilterBuilder()
+                    .setFilter(ZoneArgumentFilters.withGroupKey(GroupKeys.OWNER))
+                    .build());
 
     public static final ZoneGroupArgument GROUP = new ZoneGroupArgument("groupId", ZONE);
 
     @Override
     public @NotNull List<CommandArgument<?>> getArguments() {
         return Arrays.asList(new ExactArgument("region"),
-                             new ExactArgument("flag"),
-                             ZONE,
-                             new ExactArgument("interact"),
-                             new ExactArgument("door"),
-                             new ExactArgument("set"),
-                             new ExactArgument("group"),
-                             GROUP);
+                new ExactArgument("flag"),
+                ZONE,
+                new ExactArgument("interact"),
+                new ExactArgument("door"),
+                new ExactArgument("set"),
+                new ExactArgument("group"),
+                GROUP);
     }
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.text("Sets the minimum group that can interact with doors");
+        return Messages.getInteractDoorSetGroupCommandDescription();
     }
 
     @Override
-    public @NotNull Optional<String> getPermissionNode() {
-        return Optional.empty();
+    public @NotNull Optional<ZonePermission> getPermissionNode() {
+        return Optional.of(ZonePermissions.FLAG_DOOR_INTERACTION_SET_GROUP);
     }
 
     @Override
-    public @NotNull CommandResult run(CommandContext commandContext, String... args) {
+    public @NotNull CommandResult run(@NotNull CommandContext commandContext, @NotNull String... args) {
         Zone zone = commandContext.getArgument(this, ZONE);
         @NotNull DoorInteractionFlag flag = zone
                 .getFlag(FlagTypes.DOOR_INTERACTION)
                 .orElseGet(FlagTypes.DOOR_INTERACTION::createCopyOfDefault);
         Group newGroup = commandContext.getArgument(this, GROUP);
         zone.getMembers().addKey(newGroup, flag.getRequiredKey());
-        commandContext
-                .getCause()
-                .sendMessage(Identity.nil(),
-                             Messages.getUpdatedMessage(FlagTypes.DOOR_INTERACTION));
-        zone.setFlag(flag);
         try {
             zone.save();
             commandContext
                     .getCause()
                     .sendMessage(Identity.nil(),
-                                 Messages.getUpdatedMessage(FlagTypes.DOOR_INTERACTION));
+                            Messages.getUpdatedMessage(FlagTypes.DOOR_INTERACTION));
         } catch (ConfigurateException e) {
             e.printStackTrace();
             return CommandResult.error(Messages.getZoneSavingError(e));

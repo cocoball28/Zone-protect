@@ -1,5 +1,6 @@
 package org.zone.region.flag;
 
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
@@ -9,16 +10,20 @@ import org.zone.utils.Messages;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * All defaults will be saved and loaded in here.
+ *
+ * @since 1.0.0
  */
 public class DefaultFlagFile {
 
     private final HoconConfigurationLoader loader;
     private final ConfigurationNode node;
-    public static final File FILE = new File("config/zones/DefaultZone.conf");
+    public static final File FILE = new File("config/zone/DefaultZone.conf");
 
     public DefaultFlagFile() {
         this.loader = HoconConfigurationLoader.builder().file(FILE).build();
@@ -26,6 +31,15 @@ public class DefaultFlagFile {
         ConfigurationNode node1;
         try {
             node1 = this.loader.load();
+            try {
+                this.createFile();
+            } catch (IOException e) {
+                ZonePlugin
+                        .getZonesPlugin()
+                        .getLogger()
+                        .error("Could not create default flags " + "file");
+                e.printStackTrace();
+            }
         } catch (ConfigurateException e) {
             node1 = this.loader.createNode();
             this.updateFile();
@@ -33,17 +47,25 @@ public class DefaultFlagFile {
         this.node = node1;
     }
 
+    private void createFile() throws IOException {
+        if (!FILE.exists()) {
+            Files.createDirectories(FILE.getParentFile().toPath());
+            Files.createFile(FILE.toPath());
+        }
+    }
+
     private void updateFile() {
         try {
-            if (!FILE.exists()) {
-                FILE.getParentFile().mkdirs();
-                FILE.createNewFile();
-            }
-            for (FlagType<? extends Flag> type : ZonePlugin
+            this.createFile();
+            for (FlagType.SerializableType<? extends Flag.Serializable> type : ZonePlugin
                     .getZonesPlugin()
                     .getFlagManager()
-                    .getRegistered()) {
-                Optional<? extends Flag> opFlag = this.loadDefault(type);
+                    .getRegistered()
+                    .stream()
+                    .filter(type -> type instanceof FlagType.SerializableType)
+                    .map(type -> (FlagType.SerializableType<? extends Flag.Serializable>) type)
+                    .collect(Collectors.toSet())) {
+                Optional<? extends Flag.Serializable> opFlag = this.loadDefault(type);
                 if (opFlag.isEmpty()) {
                     this.removeDefault(type);
                     continue;
@@ -64,18 +86,19 @@ public class DefaultFlagFile {
      * @param <T>  The flag type class
      *
      * @return The loaded flag, if it fails to load then the default from the type will be used.
+     * @since 1.0.0
      */
-    public <F extends Flag, T extends FlagType<F>> Optional<F> loadDefault(T type) {
+    public <F extends Flag.Serializable, T extends FlagType.SerializableType<F>> Optional<F> loadDefault(
+            T type) {
         try {
-            return Optional.of(type.load(this.node.node("flags",
-                                                        type.getPlugin().metadata().id(),
-                                                        type.getKey())));
+            @NotNull F flag = type.load(this.node.node("flags",
+                    type.getPlugin().metadata().id(),
+                    type.getKey()));
+            return Optional.of(flag);
         } catch (IOException e) {
             return type.createCopyOfDefaultFlag();
         } catch (Throwable e) {
-            Sponge
-                    .systemSubject()
-                    .sendMessage(Messages.getFailedToLoadFlag(type));
+            Sponge.systemSubject().sendMessage(Messages.getFailedToLoadFlag(type));
             e.printStackTrace();
             return Optional.empty();
         }
@@ -89,8 +112,10 @@ public class DefaultFlagFile {
      * @param <T>  The flag type class
      *
      * @throws IOException If fails to save
+     * @since 1.0.0
      */
-    public <F extends Flag, T extends FlagType<F>> void setDefault(F flag) throws IOException {
+    public <F extends Flag.Serializable, T extends FlagType.SerializableType<F>> void setDefault(F flag) throws
+            IOException {
         T type = (T) flag.getType();
         type.save(this.node.node("flags", type.getPlugin().metadata().id(), type.getKey()), flag);
     }
@@ -101,8 +126,10 @@ public class DefaultFlagFile {
      * @param type The type to remove
      *
      * @throws IOException if fails to save
+     * @since 1.0.0
      */
-    public void removeDefault(FlagType<? extends Flag> type) throws IOException {
+    @SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
+    public void removeDefault(@SuppressWarnings("TypeMayBeWeakened") FlagType.SerializableType<? extends Flag> type) throws IOException {
         type.save(this.node.node("flags"), null);
     }
 
@@ -110,6 +137,7 @@ public class DefaultFlagFile {
      * Saves the file
      *
      * @throws ConfigurateException If fails to save
+     * @since 1.0.0
      */
     public void save() throws ConfigurateException {
         this.loader.save(this.node);

@@ -1,8 +1,12 @@
 package org.zone.region.bounds;
 
 import org.jetbrains.annotations.NotNull;
+import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.util.AABB;
+import org.spongepowered.api.world.World;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.serialize.SerializationException;
+import org.spongepowered.math.vector.Vector2i;
 import org.spongepowered.math.vector.Vector3d;
 import org.spongepowered.math.vector.Vector3i;
 
@@ -11,7 +15,9 @@ import java.util.Collections;
 import java.util.Optional;
 
 /**
- * A actual region that is between two points
+ * An actual region that is between two points
+ *
+ * @since 1.0.0
  */
 public class BoundedRegion implements Region {
 
@@ -21,6 +27,34 @@ public class BoundedRegion implements Region {
     public BoundedRegion(@NotNull Vector3i position1, @NotNull Vector3i position2) {
         this.position1 = position1;
         this.position2 = position2;
+    }
+
+    public @NotNull Vector3i getSize() {
+        Vector3i min = this.getMin();
+        Vector3i max = this.getMax();
+        return new Vector3i(max.x() - min.x(), max.y() - min.y(), max.z() - min.z());
+    }
+
+    public int getBlockCount(boolean ignoreHeight) {
+        Vector3i size = this.getSize();
+        int squareSize = size.x() * size.z();
+        if (ignoreHeight) {
+            return squareSize;
+        }
+        return squareSize * size.y();
+    }
+
+    public @NotNull AABB asAABB() {
+        return AABB.of(this.getMax(), this.getMin());
+    }
+
+    public Vector3i getCenter() {
+        Vector3i min = this.getMin();
+        Vector3i max = this.getMax();
+        int offsetX = (max.x() - min.x()) / 2;
+        int offsetY = (max.y() - min.y()) / 2;
+        int offsetZ = (max.z() - min.z()) / 2;
+        return min.add(offsetX, offsetY, offsetZ);
     }
 
     public @NotNull Vector3i getPosition(@NotNull PositionType type) {
@@ -52,20 +86,25 @@ public class BoundedRegion implements Region {
     }
 
     @Override
-    public boolean contains(@NotNull Vector3d vector3d, boolean ignoreY) {
+    public boolean contains(@NotNull Vector3d location, boolean ignoreY) {
         Vector3i max = this.getMax();
         Vector3i min = this.getMin();
-        if (!(min.x() <= vector3d.x() && max.x() >= vector3d.x())) {
+        if (!(min.x() <= location.x() && max.x() >= location.x())) {
             return false;
         }
-        if (!ignoreY && !(min.y() <= vector3d.y() && max.y() >= vector3d.y())) {
+        if (!ignoreY && !(min.y() <= location.y() && max.y() >= location.y())) {
             return false;
         }
-        return min.z() <= vector3d.z() && max.z() >= vector3d.z();
+        return min.z() <= location.z() && max.z() >= location.z();
     }
 
     @Override
-    public Optional<Vector3i> getNearestPosition(@NotNull Vector3i vector3i) {
+    public Collection<? extends Entity> getEntities(@NotNull World<?, ?> world) {
+        return world.entities(AABB.of(this.position1, this.position2));
+    }
+
+    @Override
+    public @NotNull Optional<Vector3i> getNearestPosition(@NotNull Vector3i vector3i) {
         Vector3i min = this.getMin();
         Vector3i max = this.getMax();
         int x = vector3i.x();
@@ -90,6 +129,27 @@ public class BoundedRegion implements Region {
             z = max.z();
         }
         return Optional.of(new Vector3i(x, y, z));
+    }
+
+    @Override
+    public @NotNull Optional<Vector2i> getNearestPosition(@NotNull Vector2i vector) {
+        Vector3i min = this.getMin();
+        Vector3i max = this.getMax();
+        int x = vector.x();
+        int z = vector.y();
+        if (vector.x() < min.x()) {
+            x = min.x();
+        }
+        if (vector.x() > max.x()) {
+            x = max.x();
+        }
+        if (vector.y() < min.z()) {
+            z = min.z();
+        }
+        if (vector.y() > max.z()) {
+            z = max.z();
+        }
+        return Optional.of(new Vector2i(x, z));
     }
 
     @Override
